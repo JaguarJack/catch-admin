@@ -44,6 +44,6 @@ abstract class Base extends Controller
 	 */
 	protected function start()
 	{
-		return (int)$this->limit * (int)$this->page;
+		return (int)$this->limit * ((int)$this->page - 1) + 1;
 	}
 }

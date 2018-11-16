@@ -30,8 +30,14 @@ class Index extends Base
         return $this->fetch();
     }
 
+	/**
+	 * main
+	 *
+	 * @time at 2018年11月16日
+	 * @return mixed|string
+	 */
     public function main()
     {
-    	return "this is main";
+    	return $this->fetch();
     }
 }
