@@ -1,0 +1,12 @@
+{extend name="public:form" /}
+{block name="menu"}角色管理 / 编辑角色{/block}
+{block name='action'}{:url('role/edit')}{/block}
+{block name="form"}
+<div class="form-group">
+    <label class="col-sm-2 control-label">角色名</label>
+    <div class="col-sm-4">
+        <input type="text" class="form-control" name="name" required value="{$role->name}">
+    </div>
+    <input type="hidden" name="id" value="{$role->id}">
+</div>
+{/block}

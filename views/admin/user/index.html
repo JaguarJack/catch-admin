@@ -1,0 +1,52 @@
+{extend name="public:base" /}
+{block name="menu"}用户管理{/block}
+{block name="search"}
+        <div class="form-group">
+            <label for="name" class="sr-only">用户名</label>
+            <input type="text" name="name" placeholder="请输入用户名" id="name" class="form-control" value="{$Request.param.name}">
+        </div>
+        <div class="form-group">
+            <label for="email" class="sr-only">邮箱</label>
+            <input type="text" name="email" placeholder="请输入邮箱" id="email" class="form-control" value="{$Request.param.email}">
+        </div>
+        {:searchButton()}
+{/block}
+{block name="button-create"}
+    {:createButton(url('user/create'), '创建用户')}
+{/block}
+{block name="table-head"}
+    <tr>
+        <th>ID</th>
+        <th>用户名</th>
+        <th>邮箱</th>
+        <th>登录IP</th>
+        <th>登录时间</th>
+        <th>创建时间</th>
+        <th>操作</th>
+    </tr>
+{/block}
+{block name="table-body"}
+    {if condition="!$users->count()"}
+        <tr>
+            <td colspan="7" class="text-center">没有数据</td>
+        </tr>
+    {else/}
+        {foreach $users as $key => $user}
+            <tr>
+                <td>{$start + $key}</td>
+                <td>{$user->name}</td>
+                <td>{$user->email}</td>
+                <td>{$user->login_ip}</td>
+                <td>{$user->login_at}</td>
+                <td>{$user->created_at}</td>
+                <td>
+                    {:editButton(url('user/edit', ['id' => $user->id ]))}
+                    {:deleteButton(url('user/delete'), $user->id)}
+                </td>
+            </tr>
+        {/foreach}
+    {/if}
+{/block}
+{block name="paginate"}
+    {$users->render()|raw}
+{/block}

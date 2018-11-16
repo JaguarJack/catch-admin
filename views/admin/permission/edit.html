@@ -1,0 +1,54 @@
+{extend name="public:form" /}
+{block name="menu"}菜单管理 / 创建菜单{/block}
+{block name='action'}{:url('permission/edit')}{/block}
+{block name="form"}
+<div class="form-group">
+    <label class="col-sm-2 control-label">选择父级菜单</label>
+    <div class="col-sm-4">
+        <select class="form-control m-b" name="pid">
+            <option value="0">--请选择父级菜单--</option>
+            {foreach $permissions as $_permission}
+                <option value="{$_permission->id}" {if condition="$permission->pid eq $_permission->id"}selected{/if}>{:str_repeat('&nbsp;&nbsp;', $_permission->level)} {$_permission->name}</option>
+            {/foreach}
+        </select>
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-sm-2 control-label">菜单名称</label>
+    <div class="col-sm-4">
+        <input type="text" class="form-control" name="name" required value="{$permission->name}">
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-sm-2 control-label">菜单图标</label>
+    <div class="col-sm-4">
+        <input type="text" class="form-control" name="icon" value="{$permission->icon}">
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-sm-2 control-label">模块</label>
+    <div class="col-sm-4">
+        <input type="text" class="form-control" name="module" required value="{$permission->module}">
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-sm-2 control-label">控制器</label>
+    <div class="col-sm-4">
+        <input type="text" class="form-control" name="controller" required value="{$permission->controller}">
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-sm-2 control-label">方法</label>
+    <div class="col-sm-4">
+        <input type="text" class="form-control" name="action" required value="{$permission->action}">
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-sm-2 control-label">展示</label>
+    <div class="col-sm-4 radio i-checks">
+        <label><input type="radio" value="1" name="is_show" {if condition="$permission->is_show eq 1"}checked{/if}> <i></i>是</label>
+        <label><input type="radio" value="2" name="is_show" {if condition="$permission->is_show eq 2"}checked{/if}><i></i>否</label>
+    </div>
+</div>
+<input type="hidden" name="id" value="{$permission->id}">
+{/block}

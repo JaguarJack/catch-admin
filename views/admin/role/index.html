@@ -1,0 +1,36 @@
+{extend name="public:base" /}
+{block name="menu"}角色管理{/block}
+{block name="search"}
+    {:createButton(url('role/create'), '创建角色')}
+{/block}
+{block name="table-head"}
+    <tr>
+        <th>ID</th>
+        <th>角色名</th>
+        <th>创建时间</th>
+        <th>操作</th>
+    </tr>
+{/block}
+{block name="table-body"}
+{if condition="!$roles->count()"}
+    <tr>
+        <td colspan="7" class="text-center">没有数据</td>
+    </tr>
+{else/}
+{foreach $roles as $key => $role}
+    <tr>
+        <td>{$key + 1}</td>
+        <td>{$role->name}</td>
+        <td>{$role->created_at}</td>
+        <td>
+            {:editButton(url('role/edit', ['id' => $role->id ]))}
+            {:deleteButton(url('role/delete'), $role->id)}
+            {:createButton(url('role/givePermissions', ['id' => $role->id ]), '分配权限', false)}
+        </td>
+    </tr>
+{/foreach}
+{/if}
+{/block}
+{block name="paginate"}
+    {$roles->render()|raw}
+{/block}

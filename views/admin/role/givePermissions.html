@@ -1,0 +1,47 @@
+{extend name="public:form" /}
+{block name="menu"}角色管理 / 权限分配{/block}
+{block name="css"}
+    <link rel="stylesheet" href="__PLUGINS__/css/ztree/bootstrapStyle/bootstrapStyle.css" type="text/css">
+{/block}
+{block name="form"}
+    <ul id="tree" class="ztree text-center"></ul>
+{/block}
+{block name="js"}
+    <script type="text/javascript" src="__PLUGINS__/js/ztree/jquery.ztree.core.js"></script>
+    <script type="text/javascript" src="__PLUGINS__/js/ztree/jquery.ztree.excheck.js"></script>
+    <script type="text/javascript" src="__PLUGINS__/js/ztree/jquery.ztree.exedit.js"></script>
+    <script>
+        let setting = {
+            view: {},
+            check: {enable: true},
+            data: {simpleData: {enable: true, pIdKey : "pid",}},
+            callback:{onCheck:onCheck}
+        };
+
+        $(document).ready(function(){
+            $.get('{:url("role/getPermissionsOfRole")}', {role_id:"{$role_id}"},function(response){
+                console.log(response.data)
+                $.fn.zTree.init($("#tree"), setting, response.data);
+            })
+        });
+        let ids = new Array();
+        function onCheck(e,treeId,treeNode){
+            let treeObj=$.fn.zTree.getZTreeObj("tree");
+            nodes = treeObj.getCheckedNodes(true);
+            for(let i=0; i<nodes.length; i++){
+                ids.push(nodes[i].id); //获取选中节点的值
+            }
+        }
+        $(".btn-primary").click(function(){
+            $.post("{:url('role/givePermissions')}", {role_id:"{$role_id}", permissions: ids}, function(response){
+                if (!response.code ) {
+                    warning(response.msg); return false;
+                }
+                success(response.msg)
+                setTimeout(function(){
+                    window.location.href = response.url
+                }, response.wait * 1000);
+            });
+        })
+    </script>
+{/block}

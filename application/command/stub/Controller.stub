@@ -1,0 +1,20 @@
+<?php
+namespace app\$module\controller;
+
+class $controller extends Base
+{
+    public function index()
+    {
+        return $this->fetch();
+    }
+    public function create()
+    {
+        return $this->fetch();
+    }
+    public function edit()
+    {
+        return $this->fetch();
+    }
+    public function delete()
+    {}
+}
