@@ -36,7 +36,7 @@ class User extends Base
 			if ($err = $validate->getErrors($data)) {
 				$this->error($err);
 			}
-			$data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+			$data['password'] = generatePassword($data['password']);
 			if ($userId = $userModel->store($data)) {
 				// 分配角色
 				$this->giveRoles($userModel, $userId, $data);
@@ -63,7 +63,7 @@ class User extends Base
 				$this->error($err);
 			}
 			$this->giveRoles($userModel, $data['id'], $data);
-			$data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+			$data['password'] = generatePassword($data['password']);
 			$userModel->updateBy($data['id'], $data) ? $this->success('修改成功', url('user/index')) : $this->error('修改失败');
 		}
 

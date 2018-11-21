@@ -56,3 +56,12 @@ if (!function_exists('searchButton')) {
 		return sprintf('<button class="btn btn-white" type="submit"><i class="fa fa-search"></i> %s</button>', $name);
 	}
 }
+
+/**
+ * 生成密码
+ */
+if (!function_exists('generatePassword')) {
+	function generatePassword(string  $password, int $algo = PASSWORD_DEFAULT) {
+		return password_hash($password, $algo);
+	}
+}

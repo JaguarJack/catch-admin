@@ -36,7 +36,7 @@ class Users extends Migrator
 		    ->addColumn('login_ip', 'string',['limit' => 50, 'default'=>'','comment'=>'登录IP'])
 		    ->addColumn('created_at', 'timestamp', [ 'comment' => '更新时间'])
 		    ->addColumn('login_at', 'timestamp', [ 'comment' => '最近登录时间'])
-		    ->addIndex(['name'], ['unique' => true])
+		    ->addIndex(['name', 'email'], ['unique' => true])
 		    ->create();
     }
 }
