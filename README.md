@@ -4,3 +4,4 @@
 - composer config -g repo.packagist composer https://packagist.laravel-china.org
 - composer update
 - php think migrate:run
+- php think seeds:run
