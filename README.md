@@ -3,6 +3,7 @@
 # install
 - composer config -g repo.packagist composer https://packagist.laravel-china.org
 - composer update
+- 配置 config/database.php 数据库配置
 - php think migrate:run
 - php think seeds:run
 
