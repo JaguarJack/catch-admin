@@ -1,6 +1,7 @@
 <?php
 namespace app\admin\controller;
 
+use think\Exception;
 use think\permissions\facade\Roles;
 use app\validates\RoleValidate;
 use think\permissions\facade\Permissions;
@@ -47,10 +48,8 @@ class Role extends Base
 		    }
     		Roles::updateBy($data['id'], $data) !== false ? $this->success('编辑成功', url('role/index')) : $this->error('编辑失败');
 	    }
-	    $roleId = $this->request->param('id');
-    	$role = Roles::getRoleBy($roleId);
 
-    	$this->role = $role;
+    	$this->role = Roles::getRoleBy($this->request->param('id'));
         return $this->fetch();
     }
 

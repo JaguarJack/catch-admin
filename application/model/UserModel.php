@@ -4,7 +4,7 @@ namespace app\model;
 
 use think\permissions\traits\hasRoles;
 
-class UserModel extends AbstractBaseModel
+class UserModel extends BaseModel
 {
 	use hasRoles;
 

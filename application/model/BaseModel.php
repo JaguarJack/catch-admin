@@ -9,7 +9,7 @@ namespace app\model;
 
 use think\Model;
 
-abstract class AbstractBaseModel extends Model
+class BaseModel extends Model
 {
 	const LIMIT  = 20;
 
