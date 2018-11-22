@@ -8,7 +8,6 @@
 namespace app\service;
 
 use think\paginator\driver\Bootstrap;
-use think\Collection;
 
 class PaginateService extends Bootstrap
 {
