@@ -5,7 +5,7 @@
  * Date: 2018/11/12 0012
  * Time: 下午 16:31
  */
-namespace app\validates;
+namespace app\admin\validates;;
 
 use think\Validate;
 

@@ -6,7 +6,7 @@
  * Time: 下午 16:38
  */
 
-namespace app\validates;
+namespace app\admin\validates;
 
 class UserValidate extends AbstractValidate
 {

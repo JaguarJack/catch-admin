@@ -1,7 +1,6 @@
 <?php
 namespace app\admin\controller;
 
-use think\Exception;
 use think\permissions\facade\Roles;
 use app\validates\RoleValidate;
 use think\permissions\facade\Permissions;

@@ -18,7 +18,13 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/top-think/framework/zipball/f1d8ee3a91e8f504507edb5dcc49c50c47b4500f",
                 "reference": "f1d8ee3a91e8f504507edb5dcc49c50c47b4500f",
-                "shasum": ""
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://dl.laravel-china.org/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "php": ">=5.6.0",
@@ -69,7 +75,13 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/top-think/think-captcha/zipball/54c8a51552f99ff9ea89ea9c272383a8f738ceee",
                 "reference": "54c8a51552f99ff9ea89ea9c272383a8f738ceee",
-                "shasum": ""
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://dl.laravel-china.org/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "topthink/framework": "5.1.*"
@@ -108,7 +120,13 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/top-think/think-installer/zipball/f5400a12c60e513911aef41fe443fa6920952675",
                 "reference": "f5400a12c60e513911aef41fe443fa6920952675",
-                "shasum": ""
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://dl.laravel-china.org/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "composer-plugin-api": "^1.0"
@@ -149,7 +167,13 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/top-think/think-migration/zipball/70c89850ca29c2eab988c7c3475d1d5331901bb8",
                 "reference": "70c89850ca29c2eab988c7c3475d1d5331901bb8",
-                "shasum": ""
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://dl.laravel-china.org/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "topthink/framework": "5.1.*"
@@ -188,7 +212,13 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/yanwenwu/thinkphp-permission/zipball/670caf6a98a476e769fb24002aeb5feb5f2a6e69",
                 "reference": "670caf6a98a476e769fb24002aeb5feb5f2a6e69",
-                "shasum": ""
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://dl.laravel-china.org/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "topthink/think-migration": "^2.0"

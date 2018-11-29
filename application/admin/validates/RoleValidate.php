@@ -5,7 +5,7 @@
  * Date: 2018/11/14 0014
  * Time: 下午 17:42
  */
-namespace app\validates;
+namespace app\admin\validates;
 
 class RoleValidate extends AbstractValidate
 {

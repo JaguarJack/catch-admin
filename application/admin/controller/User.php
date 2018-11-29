@@ -3,7 +3,7 @@
 namespace app\admin\controller;
 
 use app\model\UserModel;
-use app\validates\UserValidate;
+use app\admin\request\UserRequest;
 use think\permissions\facade\Roles;
 
 class User extends Base
@@ -29,13 +29,10 @@ class User extends Base
 	 * @time at 2018年11月12日
 	 * @return mixed|string
 	 */
-	public function create(UserModel $userModel, UserValidate $validate)
+	public function create(UserModel $userModel, UserRequest $request)
 	{
-		if ($this->request->isPost()) {
-			$data = $this->request->post();
-			if ($err = $validate->getErrors($data)) {
-				$this->error($err);
-			}
+		if ($request->isPost()) {
+			$data = $request->post();
 			$data['password'] = generatePassword($data['password']);
 			if ($userId = $userModel->store($data)) {
 				// 分配角色
@@ -55,13 +52,10 @@ class User extends Base
 	 * @time at 2018年11月12日
 	 * @return mixed|string
 	 */
-	public function edit(UserModel $userModel, UserValidate $validate)
+	public function edit(UserModel $userModel, UserRequest $request)
 	{
-		if ($this->request->isPost()) {
-			$data = $this->request->post();
-			if ($err = $validate->getErrors($data)) {
-				$this->error($err);
-			}
+		if ($request->isPost()) {
+			$data = $request->post();
 			$this->giveRoles($userModel, $data['id'], $data);
 			$data['password'] = generatePassword($data['password']);
 			$userModel->updateBy($data['id'], $data) ? $this->success('修改成功', url('user/index')) : $this->error('修改失败');
