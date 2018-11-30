@@ -2,7 +2,7 @@
 namespace app\admin\controller;
 
 use think\permissions\facade\Roles;
-use app\validates\RoleValidate;
+use app\admin\request\RoleRequest;
 use think\permissions\facade\Permissions;
 use app\service\MenuService;
 
@@ -20,14 +20,10 @@ class Role extends Base
 	 * @time at 2018年11月13日
 	 * @return mixed|string
 	 */
-    public function create(RoleValidate $validate)
+    public function create(RoleRequest $request)
     {
-    	if ($this->request->isPost()) {
-			$data = $this->request->post();
-			if ($err = $validate->getErrors($data)) {
-				$this->error($err);
-			}
-			Roles::store($data) ? $this->success('创建成功', url('role/index')) : $this->error('创建失败');
+    	if ($request->isPost()) {
+			Roles::store($request->post()) ? $this->success('创建成功', url('role/index')) : $this->error('创建失败');
 	    }
         return $this->fetch();
     }
@@ -38,14 +34,10 @@ class Role extends Base
 	 * @time at 2018年11月13日
 	 * @return mixed|string
 	 */
-    public function edit(RoleValidate $validate)
+    public function edit(RoleRequest $request)
     {
     	if ($this->request->isPost()) {
-    		$data = $this->request->post();
-		    if ($err = $validate->getErrors($data)) {
-			    $this->error($err);
-		    }
-    		Roles::updateBy($data['id'], $data) !== false ? $this->success('编辑成功', url('role/index')) : $this->error('编辑失败');
+    		Roles::updateBy($request->post('id'), $request->post()) !== false ? $this->success('编辑成功', url('role/index')) : $this->error('编辑失败');
 	    }
 
     	$this->role = Roles::getRoleBy($this->request->param('id'));

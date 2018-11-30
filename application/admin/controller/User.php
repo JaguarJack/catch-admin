@@ -34,6 +34,7 @@ class User extends Base
 		if ($request->isPost()) {
 			$data = $request->post();
 			$data['password'] = generatePassword($data['password']);
+
 			if ($userId = $userModel->store($data)) {
 				// 分配角色
 				$this->giveRoles($userModel, $userId, $data);

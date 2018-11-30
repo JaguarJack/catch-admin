@@ -3,7 +3,7 @@ namespace app\admin\controller;
 
 use think\Collection;
 use think\permissions\facade\Permissions;
-use app\validates\PermissionValidate;
+use app\admin\request\PermissionRequest;
 use app\service\MenuService;
 
 class Permission extends Base
@@ -20,13 +20,10 @@ class Permission extends Base
 	 * @time at 2018年11月13日
 	 * @return mixed|string
 	 */
-    public function create(PermissionValidate $validate, MenuService $menuService)
+    public function create(PermissionRequest $request, MenuService $menuService)
     {
-    	if ($this->request->isPost()) {
-    		$data = $this->request->post();
-    		if ($err = $validate->getErrors($data)) {
-    			$this->error($err);
-		    }
+    	if ($request->isPost()) {
+    		$data = $request->post();
     		Permissions::store($data) ? $this->success('添加成功', url('permission/index')) : $this->error('添加失败');
 	    }
 
@@ -41,13 +38,10 @@ class Permission extends Base
 	 * @time at 2018年11月13日
 	 * @return mixed|string
 	 */
-    public function edit(PermissionValidate $validate, MenuService $menuService)
+    public function edit(PermissionRequest $request, MenuService $menuService)
     {
-    	if ($this->request->isPost()) {
-    		$data = $this->request->post();
-		    if ($err = $validate->getErrors($data)) {
-			    $this->error($err);
-		    }
+    	if ($request->isPost()) {
+    		$data = $request->post();
     		Permissions::updateBy($data['id'], $data) !== false ? $this->success('编辑成功', url('permission/index')) : $this->error('');
 	    }
     	$permissionId = $this->request->param('id');

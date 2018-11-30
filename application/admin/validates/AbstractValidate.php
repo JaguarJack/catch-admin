@@ -25,4 +25,11 @@ abstract class AbstractValidate extends Validate
 
 		return $this->getError();
 	}
+
+
+	public function __set($name, $value)
+    {
+        // TODO: Implement __set() method.
+        $this->rule[$name] = $value;
+    }
 }
