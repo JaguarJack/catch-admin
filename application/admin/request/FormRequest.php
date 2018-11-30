@@ -6,6 +6,7 @@
  */
 namespace app\admin\request;
 
+use think\exception\HttpException;
 use think\Request;
 
 abstract class FormRequest extends Request
@@ -19,20 +20,7 @@ abstract class FormRequest extends Request
 		parent::__construct();
 
 		if ($this->withServer($_SERVER)->isAjax(true) && $err = $this->validate()) {
-            exit($this->error($err));
+            throw new HttpException(0, $err);
         }
 	}
-
-    protected function error($msg = '', $url = null, $data = '', $wait = 3, array $header = [])
-    {
-
-        return json([
-            'code' => 0,
-            'msg' => $msg,
-            'data' => $data,
-            'url' => $url,
-            'wait' => $wait,
-        ])->send();
-    }
-
 }
