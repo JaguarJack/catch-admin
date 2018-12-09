@@ -1,4 +1,7 @@
 # think-admin
+# ENV
+- php >= 7.1.3
+- mysql >= 5.5
 
 # install
 - composer config -g repo.packagist composer https://packagist.laravel-china.org
