@@ -11,6 +11,8 @@ use app\behavior\LoginRecord;
 
 trait Auth
 {
+	protected $loginUserKey = 'user';
+
 	public function authLogin(Request $request)
 	{
 		$err = $this->validateLogin($request);
@@ -27,7 +29,7 @@ trait Auth
 			$this->error('登录失败');
 		}
 		if (password_verify($request->param('password'), $user->password)) {
-			Session::set('user', $user);
+			Session::set($this->loginUserKey, $user);
 			# 记住登录
 			$this->LoginRemember($user, $request);
 			# 登录记录
@@ -46,7 +48,7 @@ trait Auth
 	public function rememberLogin()
 	{
 		// 如果记住登录
-		if (!Session::get('user') && Cookie::get('remember_token') && $this->checkRememberToken()) {
+		if (!Session::get($this->loginUserKey) && Cookie::get('remember_token') && $this->checkRememberToken()) {
 			return true;
 		}
 
@@ -59,11 +61,18 @@ trait Auth
 	 */
 	public function authLogout()
 	{
-		$user = Session::get('user');
-		$user->remember_token = null;
-		$user->save();
-		Cookie::delete('remember_token');
-		Session::delete('user');
+		$user = Session::get($this->loginUserKey);
+		$this->deleteToken($user);
+		Session::delete($this->loginUserKey);
+	}
+
+	protected function deleteToken($user)
+	{
+		if ($user->remember_token) {
+			$user->remember_token = null;
+			$user->save();
+			Cookie::delete('remember_token');
+		}
 	}
 	/**
 	 * 验证

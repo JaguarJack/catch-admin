@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "topthink/framework",
-            "version": "v5.1.29",
+            "version": "v5.1.30",
             "source": {
                 "type": "git",
                 "url": "https://github.com/top-think/framework.git",
-                "reference": "f1d8ee3a91e8f504507edb5dcc49c50c47b4500f"
+                "reference": "4fefa5ed2f9dc8a15fcf7bb271d0d918fb48dacc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/top-think/framework/zipball/f1d8ee3a91e8f504507edb5dcc49c50c47b4500f",
-                "reference": "f1d8ee3a91e8f504507edb5dcc49c50c47b4500f",
+                "url": "https://api.github.com/repos/top-think/framework/zipball/4fefa5ed2f9dc8a15fcf7bb271d0d918fb48dacc",
+                "reference": "4fefa5ed2f9dc8a15fcf7bb271d0d918fb48dacc",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -61,7 +61,7 @@
                 "orm",
                 "thinkphp"
             ],
-            "time": "2018-11-11T01:17:33+00:00"
+            "time": "2018-11-30T07:46:23+00:00"
         },
         {
             "name": "topthink/think-captcha",
@@ -206,12 +206,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yanwenwu/thinkphp-permission.git",
-                "reference": "670caf6a98a476e769fb24002aeb5feb5f2a6e69"
+                "reference": "c9341e22c73e30c963a3aebc6da842af7ebc3f26"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yanwenwu/thinkphp-permission/zipball/670caf6a98a476e769fb24002aeb5feb5f2a6e69",
-                "reference": "670caf6a98a476e769fb24002aeb5feb5f2a6e69",
+                "url": "https://api.github.com/repos/yanwenwu/thinkphp-permission/zipball/c9341e22c73e30c963a3aebc6da842af7ebc3f26",
+                "reference": "c9341e22c73e30c963a3aebc6da842af7ebc3f26",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -243,7 +243,7 @@
                 }
             ],
             "description": "rbac",
-            "time": "2018-10-10T13:12:58+00:00"
+            "time": "2018-11-30T02:01:37+00:00"
         }
     ],
     "packages-dev": [],

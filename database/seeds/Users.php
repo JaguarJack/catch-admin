@@ -18,6 +18,8 @@ class Users extends Seeder
     		'name' => 'admin',
 		    'email' => 'admin@gmail.com',
 		    'password' => password_hash('admin', PASSWORD_DEFAULT),
+			'created_at' => date('Y-m-d H:i:s'),
+			'login_at' => date('Y-m-d H:i:s'),
 	    ];
 
     	$this->table('users')->insert([$data])->save();

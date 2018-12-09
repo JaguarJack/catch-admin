@@ -24,6 +24,8 @@ class Permissions extends Seeder
 				   'controller' => '',
 				   'action' => '',
 				   'is_show' => 1,
+					'created_at' => date('Y-m-d H:i:s'),
+					'updated_at' => date('Y-m-d H:i:s'),
 	                ],
 
 			  [
@@ -35,6 +37,8 @@ class Permissions extends Seeder
 				    'controller' => 'user',
 				    'action' => 'index',
 				    'is_show' => 1,
+				  'created_at' => date('Y-m-d H:i:s'),
+				  'updated_at' => date('Y-m-d H:i:s'),
 			  ],
 
 			  [
@@ -46,6 +50,8 @@ class Permissions extends Seeder
 				    'controller' => 'role',
 				    'action' => 'index',
 				    'is_show' => 1,
+				  'created_at' => date('Y-m-d H:i:s'),
+				  'updated_at' => date('Y-m-d H:i:s'),
 			  ],
 
 			 [
@@ -57,6 +63,8 @@ class Permissions extends Seeder
 				    'controller' => 'permission',
 				    'action' => 'index',
 				    'is_show' => 1,
+				 'created_at' => date('Y-m-d H:i:s'),
+				 'updated_at' => date('Y-m-d H:i:s'),
 			 ],
 
 			   [
@@ -68,6 +76,8 @@ class Permissions extends Seeder
 				    'controller' => 'user',
 				    'action' => 'create',
 				    'is_show' => 2,
+				   'created_at' => date('Y-m-d H:i:s'),
+				   'updated_at' => date('Y-m-d H:i:s'),
 			   ],
 
 			   [
@@ -79,6 +89,8 @@ class Permissions extends Seeder
 				    'controller' => 'user',
 				    'action' => 'edit',
 				    'is_show' => 2,
+				   'created_at' => date('Y-m-d H:i:s'),
+				   'updated_at' => date('Y-m-d H:i:s'),
 			   ],
 
 			[
@@ -90,6 +102,8 @@ class Permissions extends Seeder
 				    'controller' => 'user',
 				    'action' => 'delete',
 				    'is_show' => 2,
+				'created_at' => date('Y-m-d H:i:s'),
+				'updated_at' => date('Y-m-d H:i:s'),
 			],
 
 		[
@@ -101,6 +115,8 @@ class Permissions extends Seeder
 				    'controller' => 'role',
 				    'action' => 'create',
 				    'is_show' => 2,
+			'created_at' => date('Y-m-d H:i:s'),
+			'updated_at' => date('Y-m-d H:i:s'),
 		],
 
 			   [
@@ -112,6 +128,8 @@ class Permissions extends Seeder
 				    'controller' => 'role',
 				    'action' => 'edit',
 				    'is_show' => 2,
+				   'created_at' => date('Y-m-d H:i:s'),
+				   'updated_at' => date('Y-m-d H:i:s'),
 			   ],
 
 			[
@@ -123,6 +141,8 @@ class Permissions extends Seeder
 				    'controller' => 'role',
 				    'action' => 'delete',
 				    'is_show' => 2,
+				'created_at' => date('Y-m-d H:i:s'),
+				'updated_at' => date('Y-m-d H:i:s'),
 			],
 
 			[
@@ -134,6 +154,8 @@ class Permissions extends Seeder
 				    'controller' => 'role',
 				    'action' => 'getPermissionsOfRole',
 				    'is_show' => 2,
+				'created_at' => date('Y-m-d H:i:s'),
+				'updated_at' => date('Y-m-d H:i:s'),
 			],
 
 			 [
@@ -145,6 +167,8 @@ class Permissions extends Seeder
 				    'controller' => 'role',
 				    'action' => 'givePermissions',
 				    'is_show' => 2,
+				 'created_at' => date('Y-m-d H:i:s'),
+				 'updated_at' => date('Y-m-d H:i:s'),
 			 ],
 
 			 [
@@ -156,6 +180,8 @@ class Permissions extends Seeder
 				    'controller' => 'user',
 				    'action' => 'giveRoles',
 				    'is_show' => 2,
+				 'created_at' => date('Y-m-d H:i:s'),
+				 'updated_at' => date('Y-m-d H:i:s'),
 			 ],
 
 			 [
@@ -167,6 +193,8 @@ class Permissions extends Seeder
 				    'controller' => 'permission',
 				    'action' => 'create',
 				    'is_show' => 2,
+				 'created_at' => date('Y-m-d H:i:s'),
+				 'updated_at' => date('Y-m-d H:i:s'),
 			 ],
 
 			 [
@@ -178,6 +206,8 @@ class Permissions extends Seeder
 				    'controller' => 'permission',
 				    'action' => 'edit',
 				    'is_show' => 2,
+				 'created_at' => date('Y-m-d H:i:s'),
+				 'updated_at' => date('Y-m-d H:i:s'),
 			 ],
 
 			    [
@@ -189,6 +219,8 @@ class Permissions extends Seeder
 				    'controller' => 'permission',
 				    'action' => 'delete',
 				    'is_show' => 2,
+					'created_at' => date('Y-m-d H:i:s'),
+					'updated_at' => date('Y-m-d H:i:s'),
                 ],
 
 	    ];
