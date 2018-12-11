@@ -24,13 +24,15 @@
                 $.fn.zTree.init($("#tree"), setting, response.data);
             })
         });
-        let ids = new Array();
+        let ids;
         function onCheck(e,treeId,treeNode){
+           ids = new Array();
             let treeObj=$.fn.zTree.getZTreeObj("tree");
             nodes = treeObj.getCheckedNodes(true);
             for(let i=0; i<nodes.length; i++){
                 ids.push(nodes[i].id); //获取选中节点的值
             }
+            console.log(ids)
         }
         $(".btn-primary").click(function(){
             $.post("{:url('role/givePermissions')}", {role_id:"{$role_id}", permissions: ids}, function(response){
