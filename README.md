@@ -16,7 +16,12 @@
 - 默认用户名 admin 密码 admin
 # Problem
 > SQLSTATE[42000]: Syntax error or access violation: 1067 Invalid default value for 'updated_at'
+
 设置 sql_mode;
+```
+show variables like 'sql_mode' ; 
+```
+> remove 'NO_ZERO_IN_DATE,NO_ZERO_DATE'
 ```
 SET GLOBAL sql_mode='STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'
 ```
