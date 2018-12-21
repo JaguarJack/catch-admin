@@ -30,5 +30,5 @@ SET GLOBAL sql_mode='STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREA
 # Talking
 - 可以提 ISSUE，请按照 issue 模板提问
 - 欢迎进入 Q 群，可以及时反馈一些问题。
-![输入图片说明](https://images.gitee.com/uploads/images/2018/1219/110300_0257b6c0_810218.jpeg "微信图片_20181219105915.jpg")
+- ![输入图片说明](https://images.gitee.com/uploads/images/2018/1219/110300_0257b6c0_810218.jpeg "微信图片_20181219105915.jpg")
 
