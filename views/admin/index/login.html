@@ -26,10 +26,16 @@
             <div class="form-group">
                 <input type="password" name="password" class="form-control" placeholder="密码" required="">
             </div>
+            <div class="form-group">
+                <input type="text" name="captcha" class="form-control" placeholder="验证码" required style="width: 65%;display: inline-block;float: left;">
+                <div style="display: inline-block;float: left;height: 41px;">
+                    <img src="{:captcha_src()}" alt="captcha" style="height: 80%;" onclick="this.src=this.src + Math.random()"/>
+                </div>
+            </div>
             <button type="submit" class="btn btn-primary block full-width m-b">登 录</button>
-            <p class="text-muted text-center">
+            <!--<p class="text-muted text-center">
                 <a href="login.html#"><small>忘记密码了？</small></a> | <a href="register.html">注册一个新账号</a>
-            </p>
+            </p>-->
         </form>
     </div>
 </div>
