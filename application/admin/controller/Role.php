@@ -86,7 +86,8 @@ class Role extends Base
 				return $item;
 		});
 
-		$this->success('', '', $menuService->sort($permissions));
+		header('content-Type: application/json');
+		exit(json_encode($menuService->sort($permissions)));
 	}
 
 	/**
