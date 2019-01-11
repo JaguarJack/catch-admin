@@ -75,7 +75,7 @@ class Role extends Base
 	public function getPermissionsOfRole(MenuService $menuService)
 	{
 		$field = ['name', 'id', 'pid'];
-		$roleId = $this->request->param('role_id');
+		$roleId = $this->request->post('role_id');
 		$permissions = Permissions::field($field)->all();
 		$roleHasPermissions = Roles::getRoleBy($roleId)->getPermissions(false);
 		$permissions = $permissions->each(function ($item, $key) use ($roleHasPermissions){
@@ -85,7 +85,7 @@ class Role extends Base
 				$item->checked = in_array($item->id, $roleHasPermissions) ? true : false;
 				return $item;
 		});
-
+        
 		header('content-Type: application/json');
 		exit(json_encode($menuService->sort($permissions)));
 	}
