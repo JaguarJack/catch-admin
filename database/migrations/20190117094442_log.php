@@ -37,6 +37,7 @@ class Log extends Migrator
             ->addColumn('controller', 'string',['limit' => 20, 'default'=>'','comment'=>'控制器'])
             ->addColumn('action', 'string',['limit' => 20, 'default'=>'','comment'=>'方法'])
             ->addColumn('option', 'string',['limit' => 50, 'default'=>'','comment'=>'操作'])
+            ->addColumn('method', 'string',['limit' => 15, 'default'=>'','comment'=>'请求方法'])
             ->addColumn('created_at', 'timestamp', [ 'default' => 'CURRENT_TIMESTAMP','comment' => '更新时间'])
             ->create();
     }
