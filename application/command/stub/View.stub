@@ -1,0 +1,12 @@
+{extend name="public:base" /}
+{block name="menu"}{/block}
+{block name="search"}{/block}
+{block name="button-create"}{/block}
+{block name="table-head"}{/block}
+{block name="table-body"}{/block}
+{block name="paginate"}{/block}
+||
+{extend name="public:form" /}
+{block name="menu"}{/block}
+{block name='action'}{/block}
+{block name="form"}{/block}
