@@ -1,7 +1,16 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Administrator
- * Date: 2019/1/17
- * Time: 18:06
- */
+
+namespace app\http\middleware;
+
+use app\service\LogService;
+
+class LogRecord
+{
+
+    public function handle($request, \Closure $next)
+    {
+        (new LogService())->record($request);
+
+        return $next($request);
+    }
+}

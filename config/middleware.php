@@ -17,4 +17,5 @@ return [
      'default_namespace' => 'app\\http\\middleware\\',
 	'auth' =>  \think\permissions\PermissionMiddleware::class,
 	'checkLogin' => app\http\middleware\checkLogin::class,
+    'logRecord'  => app\http\middleware\LogRecord::class,
 ];

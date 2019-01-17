@@ -13,7 +13,7 @@ abstract class Base extends Controller
 
 	protected $page  = 1;
 
-	protected $middleware = ['checkLogin', 'auth'];
+	protected $middleware = ['checkLogin', 'auth', 'logRecord'];
 
 	/**
 	 * 过滤参数
