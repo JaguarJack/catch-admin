@@ -223,7 +223,19 @@ class Permissions extends Seeder
 					'updated_at' => date('Y-m-d H:i:s'),
                 ],
 
-	    ];
+           [
+               'id' => 17,
+               'name' => '日志记录',
+               'icon' => '',
+               'pid' => 1,
+               'module' => 'admin',
+               'controller' => 'Log',
+               'action' => 'index',
+               'is_show' => 1,
+               'created_at' => date('Y-m-d H:i:s'),
+               'updated_at' => date('Y-m-d H:i:s'),
+	    ],
+    ];
 
 			$this->table(config('permissions.table.permission'))->insert($data)->save();
 
