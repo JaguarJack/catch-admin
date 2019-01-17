@@ -1,8 +1,0 @@
-<?php
-
-namespace app\models;
-
-class $modelModel extends AbstractBaseModel
-{
-    protected $name = '$model';
-}
