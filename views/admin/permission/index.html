@@ -1,0 +1,37 @@
+{extend name="public:base" /}
+{block name="menu"}菜单管理{/block}
+{block name="search"}
+{:createButton(url('permission/create'), '创建菜单')}
+{/block}
+{block name="table-head"}
+<tr>
+    <th>菜单名称</th>
+    <th>模块名称</th>
+    <th>路由</th>
+    <th>展示</th>
+    <th>创建时间</th>
+    <th>操作</th>
+</tr>
+{/block}
+{block name="table-body"}
+{if condition="!$permissions->count()"}
+<tr>
+    <td colspan="7" class="text-center">没有数据</td>
+</tr>
+{else/}
+{foreach $permissions as $permission}
+<tr>
+    <td>{:str_repeat('&nbsp;&nbsp;', $permission->level)}{$permission->name}</td>
+    <td>{$permission->module}</td>
+    <td>{$permission->controller}@{$permission->action}</td>
+    <td>{$permission->is_show == 1 ? '是' : '否'}</td>
+    <td>{$permission->created_at}</td>
+    <td>
+        {:editButton(url('permission/edit', ['id' => $permission->id ]))}
+        {:deleteButton(url('permission/delete'), $permission->id)}
+        {:createButton(url('permission/create', ['id' => $permission->id ]), '创建子菜单', false)}
+    </td>
+</tr>
+{/foreach}
+{/if}
+{/block}
