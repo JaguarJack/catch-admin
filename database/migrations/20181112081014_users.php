@@ -34,7 +34,7 @@ class Users extends Migrator
 		    ->addColumn('password', 'string',['limit' => 255, 'default'=>'','comment'=>'密码'])
 		    ->addColumn('remember_token', 'string',['limit' => 255, 'default'=>'','comment'=>'记住token'])
 		    ->addColumn('login_ip', 'string',['limit' => 50, 'default'=>'','comment'=>'登录IP'])
-		    ->addColumn('created_at', 'timestamp', [ 'comment' => '更新时间'])
+		    ->addColumn('created_at', 'timestamp', ['default' => 'CURRENT_TIMESTAMP', 'comment' => '更新时间'])
 		    ->addColumn('login_at', 'timestamp', [ 'comment' => '最近登录时间'])
 		    ->addIndex(['name', 'email'], ['unique' => true])
 		    ->create();
