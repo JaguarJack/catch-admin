@@ -11,17 +11,17 @@
 
 return [
     // 数据库类型
-    'type'            => 'mysql',
+    'type'            => env('db_connection'),
     // 服务器地址
-    'hostname'        => '127.0.0.1',
+    'hostname'        => env('db_host'),
     // 数据库名
-    'database'        => 'cms',
+    'database'        => env('db_database'),
     // 用户名
-    'username'        => 'root',
+    'username'        => env('db_username'),
     // 密码
-    'password'        => 'admin',
+    'password'        => env('db_password'),
     // 端口
-    'hostport'        => '3306',
+    'hostport'        => env('db_port'),
     // 连接dsn
     'dsn'             => '',
     // 数据库连接参数
