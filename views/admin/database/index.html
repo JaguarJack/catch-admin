@@ -30,8 +30,8 @@
     <td>{$table['Comment']}</td>
     <td>{$table['Create_time']}</td>
     <td>
-        <button class="btn btn-info btn-xs" type="button" data="{$table['Name']}" onclick="optimize($(this).attr('data'));">优化</button>
-        <button class="btn btn-primary btn-xs" type="button" data="{:url('database/view', ['table' => $table['Name']])}" onclick="view($(this).attr('data'));">查看</button>
+        <button class="btn btn-info btn-xs" type="button" data="{$table['Name']}" onclick="optimize($(this).attr('data'));"><i class="fa fa-paper-plane-o"></i>优化</button>
+        <button class="btn btn-primary btn-xs" type="button" data="{:url('database/view', ['table' => $table['Name']])}" onclick="view($(this).attr('data'));"><i class="fa fa-eye"></i>查看</button>
     </td>
 </tr>
 {/foreach}
