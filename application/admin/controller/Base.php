@@ -9,7 +9,7 @@ abstract class Base extends Controller
 {
 	use ControllerTrait;
 
-	protected $limit = 20;
+	protected $limit = 10;
 
 	protected $page  = 1;
 
@@ -32,7 +32,6 @@ abstract class Base extends Controller
 				unset($params[$key]);
 			}
 		}
-
 		$this->start = $this->start();
 	}
 

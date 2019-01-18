@@ -1,0 +1,44 @@
+{extend name="public:base" /}
+{block name="menu"}日志列表{/block}
+{block name="search"}
+<div class="form-group">
+    <label for="name" class="sr-only">用户名</label>
+    <input type="text" name="name" placeholder="请输入用户名" id="name" class="form-control" value="{$Request.param.name}">
+</div>
+{:searchButton()}
+{/block}
+{block name="table-head"}
+<tr>
+    <th>ID</th>
+    <th>用户名</th>
+    <th>操作</th>
+    <th>模块</th>
+    <th>控制器</th>
+    <th>方法</th>
+    <th>请求类型</th>
+    <th>时间</th>
+</tr>
+{/block}
+{block name="table-body"}
+{if condition="!$list->count()"}
+<tr>
+    <td colspan="7" class="text-center">没有数据</td>
+</tr>
+{else/}
+{foreach $list as $key => $log}
+<tr>
+    <td>{$start + $key}</td>
+    <td>{$log->user_name}</td>
+    <td>{$log->option}</td>
+    <td>{$log->module}</td>
+    <td>{$log->controller}</td>
+    <td>{$log->action}</td>
+    <td>{$log->method}</td>
+    <td>{$log->created_at}</td>
+</tr>
+{/foreach}
+{/if}
+{/block}
+{block name="paginate"}
+{$list->render()|raw}
+{/block}

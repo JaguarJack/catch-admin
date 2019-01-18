@@ -11,7 +11,7 @@ use think\Model;
 
 class BaseModel extends Model
 {
-	const LIMIT  = 20;
+	const LIMIT  = 10;
 
 	/**
 	 * Store Data
