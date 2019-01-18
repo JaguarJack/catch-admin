@@ -53,14 +53,16 @@
                 {foreach $permissions as $permission}
                     <li>
                         <a href="#">
-                            <i class="fa fa-home"></i>
+                            <i class="{$permission->icon ?? ''}"></i>
                             <span class="nav-label">{$permission->name}</span>
                             <span class="fa arrow"></span>
                         </a>
                         <ul class="nav nav-second-level">
                             {foreach $permission[$permission->id] as $p}
                                 <li>
-                                    <a class="J_menuItem" href="{:url($p->controller . '/' . $p->action)}" data-index="0">{$p->name}</a>
+                                    <a class="J_menuItem" href="{:url($p->controller . '/' . $p->action)}" data-index="0">
+                                        <i class="{$p->icon ?? ''}"></i>{$p->name}
+                                    </a>
                                 </li>
                             {/foreach}
                         </ul>
