@@ -34,14 +34,14 @@ class Rbac extends Migrator
 
     public function up()
 	{
-		$table = $this->table(config('permissions.table.role'), [ 'engine'=>'InnoDB']);
+		$table = $this->table(config('permissions.table.role'), [ 'engine'=>'InnoDB', 'comment' => '角色表']);
 		$table->addColumn('name', 'string',['limit' => 50, 'default'=>'','comment'=>'角色名称'])
 						->addColumn('created_at', 'timestamp', ['default' => 'CURRENT_TIMESTAMP', 'comment' => '创建时间'])
 						->addColumn('updated_at', 'timestamp', [ 'comment' => '更新时间'])
 						->addIndex(['name'], ['unique' => true])
 						->create();
 
-		$table = $this->table(config('permissions.table.permission'), ['engine' => 'InnoDB']);
+		$table = $this->table(config('permissions.table.permission'), ['engine' => 'InnoDB', 'comment' => '权限菜单']);
 		$table->addColumn('name', 'string',['limit' => 50, 'default'=>'','comment'=>'菜单名称'])
 			  ->addColumn('icon', 'string', ['limit' => 50, 'default'=>'', 'comment'=>'菜单图标'])
 			  ->addColumn('pid', 'integer', ['limit' => MysqlAdapter::INT_SMALL, 'comment'=>'父级菜单ID'])
@@ -54,12 +54,12 @@ class Rbac extends Migrator
 			  ->addIndex(['name'], ['unique' => true])
 			  ->create();
 
-		$table = $this->table(config('permissions.table.user_has_roles'), ['engine' => 'InnoDB', 'identity' => true]);
+		$table = $this->table(config('permissions.table.user_has_roles'), ['engine' => 'InnoDB', 'identity' => true, 'comment' => '用户角色关联']);
 		$table->addColumn('uid', 'integer',['limit' => 11, 'comment'=>'用户ID'])
 			  ->addColumn('role_id', 'integer', [ 'comment' => '角色ID'])
 			  ->create();
 
-		$table = $this->table(config('permissions.table.role_has_permissions'), ['engine' => 'InnoDB', 'identity' => true]);
+		$table = $this->table(config('permissions.table.role_has_permissions'), ['engine' => 'InnoDB', 'identity' => true, 'comment' => '角色权限关联']);
 		$table->addColumn('role_id', 'integer',['limit' => 11, 'comment'=>'角色ID'])
 			  ->addColumn('permission_id', 'integer', [ 'comment' => '权限ID'])
 			  ->create();

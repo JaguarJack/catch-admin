@@ -28,7 +28,7 @@ class Users extends Migrator
      */
     public function change()
     {
-	    $table = $this->table('users', ['engine' => 'InnoDB']);
+	    $table = $this->table('users', ['engine' => 'InnoDB', 'comment' => '用户表']);
 	    $table->addColumn('name', 'string',['limit' => 50, 'default'=>'','comment'=>'用户名'])
 		    ->addColumn('email', 'string',['limit' => 255, 'default'=>'','comment'=>'邮箱'])
 		    ->addColumn('password', 'string',['limit' => 255, 'default'=>'','comment'=>'密码'])

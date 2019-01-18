@@ -30,7 +30,7 @@ class Log extends Migrator
     public function change()
     {
 
-        $table = $this->table('option_log', ['engine' => 'InnoDB']);
+        $table = $this->table('option_log', ['engine' => 'InnoDB', 'comment' => '操作日志表']);
         $table->addColumn('user_name', 'string',['limit' => 50, 'default'=>'','comment'=>'用户名'])
             ->addColumn('user_id', 'integer', ['limit' => MysqlAdapter::INT_REGULAR, 'comment' => '用户ID'])
             ->addColumn('module', 'string',['limit' => 20, 'default'=>'','comment'=>'模块'])
