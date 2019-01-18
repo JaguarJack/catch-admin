@@ -24,14 +24,22 @@
     <td>{$table['Name']}</td>
     <td>{$table['Engine']}</td>
     <td>{$table['Collation']}</td>
-    <td>{$table['Index_length']}</td>
-    <td>{$table['Data_length']}</td>
+    {if condition="$table['Index_length'] < 1024 * 1024"}
+        <td>{:round($table['Index_length']/1024, 2)} KB</td>
+    {else/}
+        <td>{round($table['Index_length']/1024/1024, 2)} MB</td>
+    {/if}
+    {if condition="$table['Data_length'] < 1024 * 1024"}
+        <td>{:round($table['Data_length']/1024, 2)} KB</td>
+    {else/}
+        <td>{round($table['Data_length']/1024/1024, 2)} MB</td>
+    {/if}
     <td>{$table['Rows']}</td>
     <td>{$table['Comment']}</td>
     <td>{$table['Create_time']}</td>
     <td>
-        <button class="btn btn-info btn-xs" type="button" data="{$table['Name']}" onclick="optimize($(this).attr('data'));"><i class="fa fa-paper-plane-o"></i>优化</button>
-        <button class="btn btn-primary btn-xs" type="button" data="{:url('database/view', ['table' => $table['Name']])}" onclick="view($(this).attr('data'));"><i class="fa fa-eye"></i>查看</button>
+        <button class="btn btn-info btn-xs" type="button" data="{$table['Name']}" onclick="optimize($(this).attr('data'));"><i class="fa fa-paper-plane-o"></i> 优化</button>
+        <button class="btn btn-primary btn-xs" type="button" data="{:url('database/view', ['table' => $table['Name']])}" onclick="view($(this).attr('data'));"><i class="fa fa-eye"></i> 查看</button>
     </td>
 </tr>
 {/foreach}
