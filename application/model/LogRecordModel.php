@@ -24,13 +24,13 @@ class LogRecordModel extends BaseModel
     public function getAll(array $params, $limit = self::LIMIT)
     {
         if (!count($params)) {
-            return $this->paginate($limit, false, ['query' => request()->param()]);
+            return $this->order('created_at', 'desc')->paginate($limit, false, ['query' => request()->param()]);
         }
 
         if (isset($params['name'])) {
             $list = $this->whereLike('user_name', '%'.$params['name'].'%');
         }
 
-        return $list->paginate($limit, false, ['query' => request()->param()]);
+        return $list->order('created_at', 'desc')->paginate($limit, false, ['query' => request()->param()]);
     }
 }

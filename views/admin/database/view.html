@@ -1,0 +1,30 @@
+{extend name="public:base" /}
+{block name="menu"}数据表结构{/block}
+{block name="table-head"}
+<tr>
+    <th>字段名</th>
+    <th>类型</th>
+    <th>是否为NULL</th>
+    <th>默认值</th>
+    <th>备注</th>
+    <th>权限</th>
+</tr>
+{/block}
+{block name="table-body"}
+{if condition="!count($table)"}
+<tr>
+    <td colspan="7" class="text-center">没有数据</td>
+</tr>
+{else/}
+{foreach $table as $key => $t}
+<tr>
+    <td>{$t['Field']}</td>
+    <td>{$t['Type']}</td>
+    <td>{$t['Null']}</td>
+    <td>{$t['Default']}</td>
+    <td>{$t['Comment']}</td>
+    <td>{$t['Privileges']}</td>
+</tr>
+{/foreach}
+{/if}
+{/block}
