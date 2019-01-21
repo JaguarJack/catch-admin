@@ -16,6 +16,6 @@ return [
     // 默认中间件命名空间
      'default_namespace' => 'app\\http\\middleware\\',
 	'auth' =>  \think\permissions\PermissionMiddleware::class,
-	'checkLogin' => app\http\middleware\checkLogin::class,
+	'checkLogin' => app\http\middleware\CheckLogin::class,
     'logRecord'  => app\http\middleware\LogRecord::class,
 ];

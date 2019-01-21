@@ -2,7 +2,7 @@
 
 namespace app\http\middleware;
 
-class checkLogin
+class CheckLogin
 {
     public function handle($request, \Closure $next)
     {
