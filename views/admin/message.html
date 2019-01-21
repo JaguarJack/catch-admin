@@ -1,10 +1,55 @@
-<!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>跳转提示</title>
+    <link rel="shortcut icon" href="favicon.ico"> <link href="__CSS__/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="__CSS__/font-awesome.css?v=4.4.0" rel="stylesheet">
+
+    <link href="__CSS__/animate.css" rel="stylesheet">
+    <link href="__CSS__/style.css?v=4.1.0" rel="stylesheet">
+
 </head>
-<body>
-$END$
+<body class="gray-bg">
+<div class="ip-attack">
+    <dl>
+        <?php switch ($code) {?>
+        <?php case 1:?>
+        <div class="middle-box text-center  ">
+            <h1>200</h1>
+            <h2 class="font-bold"><?php echo(strip_tags($msg));?></h2>
+            <div class="error-desc">
+                <dt>
+                    页面自动 <a id="href" href="<?php echo($url);?>">跳转</a> 等待时间： <b id="wait"><?php echo($wait);?></b>
+                </dt>
+            </div>
+        </div>
+        <?php break;?>
+        <?php case 0:?>
+        <div class="middle-box text-center  ">
+            <h1>404</h1>
+            <h2 class="font-bold"><?php echo(strip_tags($msg));?></h2>
+            <div class="error-desc">
+                <dt>
+                    页面自动 <a id="href" href="<?php echo($url);?>">跳转</a> 等待时间： <b id="wait"><?php echo($wait);?></b>
+                </dt>
+            </div>
+        </div>
+        <?php break;?>
+        <?php } ?>
+    </dl>
+</div>
+<script type="text/javascript">
+    (function(){
+        var wait = document.getElementById('wait'),
+            href = document.getElementById('href').href;
+        var interval = setInterval(function(){
+            var time = --wait.innerHTML;
+            if(time <= 0) {
+                location.href = href;
+                clearInterval(interval);
+            };
+        }, 1000);
+    })();
+</script>
 </body>
-</html>
