@@ -37,7 +37,7 @@ class Rbac extends Migrator
 		$table = $this->table(config('permissions.table.role'), [ 'engine'=>'InnoDB', 'comment' => '角色表']);
 		$table->addColumn('name', 'string',['limit' => 50, 'default'=>'','comment'=>'角色名称'])
 						->addColumn('created_at', 'timestamp', ['default' => 'CURRENT_TIMESTAMP', 'comment' => '创建时间'])
-						->addColumn('updated_at', 'timestamp', [ 'comment' => '更新时间'])
+						->addColumn('updated_at', 'timestamp', [ 'default' => null,'comment' => '更新时间'])
 						->addIndex(['name'], ['unique' => true])
 						->create();
 
@@ -50,7 +50,7 @@ class Rbac extends Migrator
 			  ->addColumn('action', 'string',['limit' => 50, 'default'=>'1','comment'=>'方法名称'])
 			  ->addColumn('is_show', 'integer',['limit' => MysqlAdapter::INT_TINY, 'default'=> 1,'comment'=>'1 展示 2 隐藏'])
 			  ->addColumn('created_at', 'timestamp', [ 'default' => 'CURRENT_TIMESTAMP','comment' => '创建时间'])
-			  ->addColumn('updated_at', 'timestamp', [ 'comment' => '更新时间'])
+			  ->addColumn('updated_at', 'timestamp', ['default' => null, 'comment' => '更新时间'])
 			  ->addIndex(['name'], ['unique' => true])
 			  ->create();
 
