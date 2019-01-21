@@ -19,7 +19,7 @@
 {else/}
 {foreach $roles as $key => $role}
     <tr>
-        <td>{$start + $key}</td>
+        <td>{$role->id}</td>
         <td>{$role->name}</td>
         <td>{$role->created_at}</td>
         <td>
