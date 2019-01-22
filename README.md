@@ -27,7 +27,10 @@ show variables like 'sql_mode' ;
 SET GLOBAL sql_mode='STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'
 ```
 # Test Address
-[测试地址](http://view.njphper.com) http://view.njphper.com
+[测试地址](http://view.njphper.com)
+- 账号：test
+- 密码: 123456
+
 # Talking
 - 可以提 ISSUE，请按照 issue 模板提问
 - 欢迎进入 Q 群，可以及时反馈一些问题。
