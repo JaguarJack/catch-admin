@@ -27,7 +27,7 @@ show variables like 'sql_mode' ;
 SET GLOBAL sql_mode='STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'
 ```
 # Test Address
-[测试地址](http://view.njphper.com)
+<a href="http://view.njphper.com" target="__BLANK">测试地址</a>
 - 账号：test
 - 密码: 123456
 
