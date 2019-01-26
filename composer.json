@@ -19,11 +19,14 @@
         "php": ">=5.6.0",
         "topthink/framework": "5.1.*",
         "wyw/permission": "dev-master",
-        "topthink/think-captcha": "^2.0"
+        "topthink/think-captcha": "^2.0",
+        "guzzlehttp/guzzle": "~6.0",
+        "ext-json": "*"
     },
     "autoload": {
         "psr-4": {
-            "app\\": "application"
+            "app\\": "application",
+            "thinking\\socialite\\": "extend/socialite/src"
         }
     },
     "extra": {
