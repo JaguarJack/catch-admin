@@ -22,7 +22,7 @@ class AbstractCloud
 
     public function __construct()
     {
-        $this->host  = config('icloud.host');
+        $this->host  = config('cloud.host');
     }
 
 
@@ -57,7 +57,7 @@ class AbstractCloud
         return self::urlSafeBase64Encode(sprintf('%s:%s', $bucket, $resourceName));
     }
 
-    public function __call($name, ...$arguments)
+    public function __call($name, $arguments)
     {
         // TODO: Implement __call() method.
         $client = new Client;

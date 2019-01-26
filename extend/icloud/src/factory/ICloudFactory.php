@@ -38,10 +38,10 @@ class ICloudFactory
      * @param mixed ...$arguments
      * @return mixed
      */
-    public static function __callStatic($name, ...$arguments)
+    public static function __callStatic($name, $arguments)
     {
-        $cloud = !self::$driver ? config('cloud.driver.' . config('cloud.driver.default')) : config('cloud.driver.' . self::$driver);
         // TODO: Implement __callStatic() method.
+        $cloud = !self::$driver ? config('cloud.driver.' . config('cloud.driver.default')) : config('cloud.driver.' . self::$driver);
 
         return (new $cloud)->$name(...$arguments);
     }
