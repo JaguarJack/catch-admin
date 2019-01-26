@@ -26,7 +26,8 @@
     "autoload": {
         "psr-4": {
             "app\\": "application",
-            "thinking\\socialite\\": "extend/socialite/src"
+            "thinking\\socialite\\": "extend/socialite/src",
+            "thinking\\icloud\\": "extend/icloud/src"
         }
     },
     "extra": {
