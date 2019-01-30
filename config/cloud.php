@@ -21,8 +21,8 @@ return [
 
     /* 七牛配置信息 */
     'qiniu'  => [
-        'app_key'    => 'dw1jkmtSNjxyPkMdyBfVeaWzCAOiMSOTk35adV8W',
-        'app_secret' => '_KfsmnV8d-rlYtABD27xF7y-ZNxblvdk9_VVZ67g',
+        'app_key'    => '',
+        'app_secret' => '',
 
         //上传策略字段，上传凭证校验使用
         'policyFields' => [
