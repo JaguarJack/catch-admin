@@ -32,7 +32,7 @@ trait Utility
      */
     public static function getHost(string $host = 'rs', bool $isHttps = false)
     {
-        return $isHttps ? 'https://' : 'http://' . config('icloud.host.'. strtolower($host));
+        return $isHttps ? 'https://' : 'http://' . config('cloud.host.'. strtolower($host));
     }
 
     /**

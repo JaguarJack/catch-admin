@@ -20,9 +20,7 @@ class AuthFactory
     public static function create(string $name, ...$argument)
     {
         $defaultDriver = config('cloud.driver.default');
-
         $auth = config('cloud.driver.' . $defaultDriver . 'Auth');
-
         return $auth::$name(...$argument);
     }
 

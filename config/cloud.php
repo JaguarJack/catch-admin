@@ -14,15 +14,15 @@ return [
         // 又拍驱动
         'uppay' => \thinking\icloud\cloud\UpYunCloud::class,
         // 七牛驱动认证
-        'qinniuAuth' => \thinking\icloud\auth\QiniuAuth::class,
+        'qiniuAuth' => \thinking\icloud\auth\QiNiuAuth::class,
         // 又拍驱动认证
-        'uppay' => \thinking\icloud\auth\UpYunAuth::class,
+        'uppayAuth' => \thinking\icloud\auth\UpYunAuth::class,
     ],
 
     /* 七牛配置信息 */
     'qiniu'  => [
-        'app_key'    => '',
-        'app_secret' => '',
+        'app_key'    => 'dw1jkmtSNjxyPkMdyBfVeaWzCAOiMSOTk35adV8W',
+        'app_secret' => '_KfsmnV8d-rlYtABD27xF7y-ZNxblvdk9_VVZ67g',
 
         //上传策略字段，上传凭证校验使用
         'policyFields' => [
@@ -56,11 +56,14 @@ return [
 
         'buckets'   => [''],
     ],
-
+    'oss' => [
+      'access_key' => '',
+      'access_secret' => '',
+    ],
     //api接口
     'host' => [
         //七牛host
-        'rs'    => 'rs.qiniu.com',
+        'rs'    => 'rs.qbox.me',
         'api'   => 'api.qiniu.com',
         'uc'    => 'uc.qbox.me',
         'rsf'   => 'rsf.qbox.me',

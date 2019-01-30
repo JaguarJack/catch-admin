@@ -7,9 +7,10 @@
  */
 namespace thinking\icloud;
 
-use thinking\icloud\auth\AuthFactory;
-use thinking\icloud\Utility;
+use thinking\icloud\factory\AuthFactory;
+use thinking\icloud\httpclient\Client;
 use thinking\icloud\exception\NotFoundException;
+use thinking\icloud\Utility;
 
 class AbstractCloud
 {
@@ -40,7 +41,6 @@ class AbstractCloud
         if (!array_key_exists($host, $this->host)) {
             throw NotFoundException::NotFoundKey("Host Key '{$host}' Not Found In Config File");
         }
-
         return self::getHost($host, $isHttps);
     }
 
@@ -61,16 +61,14 @@ class AbstractCloud
     {
         // TODO: Implement __call() method.
         $client = new Client;
-        $client->url = $arguments[0];
-        $this->method = $name;
-
+        $client->uri = $arguments[0];
+        $client->method = $name;
         if (isset($arguments[1]['headers']['Authorization'])) {
             $client->params = $arguments[1];
         } else {
             $headers = AuthFactory::authorization($arguments[0], $name);
-            $client->params = array_merge_recursive(['headers' => $headers], $arguments[1]);
+            $client->params = array_merge_recursive(['headers' => $headers], $arguments[1] ?? []);
         }
-
         return $client->send();
     }
 

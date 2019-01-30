@@ -9,7 +9,7 @@ namespace thinking\icloud\auth;
 
 use thinking\icloud\Utility;
 
-final class QiniuAuth
+final class QiNiuAuth
 {
     use Utility;
 
@@ -37,9 +37,8 @@ final class QiniuAuth
      */
     public static function getAccessToken(string $urlString, string $body, string $contentType = '')
     {
-        $appKey = config('cloud.qiniu.appKey');
-        $appSecret = config('cloud.qiniu.appSecret');
-
+        $appKey = config('cloud.qiniu.app_key');
+        $appSecret = config('cloud.qiniu.app_secret');
         $url = parse_url($urlString);
         $data = '';
         if (array_key_exists('path', $url)) {
@@ -76,8 +75,8 @@ final class QiniuAuth
         string $policy = '',
         bool $strictPolicy = true
     ){
-        $appKey = config('cloud.qiniu.appKey');
-        $appSecret = config('cloud.qiniu.appSecret');
+        $appKey = config('cloud.qiniu.app_key');
+        $appSecret = config('cloud.qiniu.app_secret');
 
         $scope = $key ? sprintf('%s:%s', $bucket, $key) : $bucket;
         $deadline = time() + $expires;
@@ -120,8 +119,8 @@ final class QiniuAuth
      */
     public static function dowmloadToken(string $uri, int $expires = 3600)
     {
-        $appSecret = config('cloud.qiniu.appSecret');
-        $appKey    = config('cloud.qiniu.appKey');
+        $appSecret = config('cloud.qiniu.app_secret');
+        $appKey    = config('cloud.qiniu.app_key');
 
         $uri = sprintf('%s?e=%s', $uri, time() + $expires);
 

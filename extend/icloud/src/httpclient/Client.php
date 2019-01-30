@@ -11,7 +11,13 @@ use GuzzleHttp\Client as HttpClient;
 class Client implements \ArrayAccess
 {
     protected $params = [];
+
     protected $client = null;
+
+    protected $method = null;
+
+    protected $uri    = null;
+
     /**
      *  发送数据
      *
