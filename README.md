@@ -70,7 +70,7 @@ SET GLOBAL sql_mode='STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREA
 ```
 # Test Address
 <a href="http://tp5.whwww.net" target="__BLANK">测试地址</a>
-- 账号：test
+- 账号：admin
 - 密码: 123456
 
 # Talking
