@@ -1,0 +1,13 @@
+{
+  "name": "权限管理",
+  "alias": "permissions",
+  "description": "",
+  "keywords": [],
+  "order": 2,
+  "services": [
+    "catchAdmin\\permissions\\PermissionService"
+  ],
+  "aliases": {},
+  "files": [],
+  "requires": []
+}
