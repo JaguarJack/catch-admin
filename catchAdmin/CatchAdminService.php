@@ -2,6 +2,8 @@
 namespace catchAdmin;
 
 use catcher\command\InstallCommand;
+use catcher\command\MigrateRunCommand;
+use catcher\command\ModelGeneratorCommand;
 use catcher\command\ModuleCacheCommand;
 use think\Service;
 
@@ -17,6 +19,8 @@ class CatchAdminService extends Service
         $this->commands([
             InstallCommand::class,
             ModuleCacheCommand::class,
+            MigrateRunCommand::class,
+            ModelGeneratorCommand::class,
         ]);
     }
 }
