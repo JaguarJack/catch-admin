@@ -1,52 +1,41 @@
-ThinkPHP 6.0
-===============
+## CatchAdmin
 
-> 运行环境要求PHP7.1+。
+## 5.1 版本的请使用 tag1.0 版本
+## 新版后台在开发中 请不要使用
+### 环境要求
+- php7.1+ (需以下扩展)
+    - mbstring
+    - json
+    - openssl
+    - xml
+    - pdo
+- nginx
+- mysql
 
-## 主要新特性
+### install
+- curl -sS http://install.phpcomposer.com/installer | php
+- composer config -g repo.packagist composer https://packagist.laravel-china.org
+- composer update
+- php think install:project 
 
-* 采用`PHP7`强类型（严格模式）
-* 支持更多的`PSR`规范
-* 原生多应用支持
-* 更强大和易用的查询
-* 全新的事件系统
-* 模型事件和数据库事件统一纳入事件系统
-* 模板引擎分离出核心
-* 内部功能中间件化
-* SESSION/Cookie机制改进
-* 对Swoole以及协程支持改进
-* 对IDE更加友好
-* 统一和精简大量用法
+### Use
+- 配置虚拟域名 OR 在根目录下执行 php think run
+- yourUrl/login
+- 默认用户名 admin 密码 admin
 
-## 安装
+### Problem
+> SQLSTATE[42000]: Syntax error or access violation: 1067 Invalid default value for 'updated_at'
 
-~~~
-composer create-project topthink/think tp 6.0.*-dev
-~~~
+> 设置 sql_mode;
+```
+show variables like 'sql_mode' ; 
+remove 'NO_ZERO_IN_DATE,NO_ZERO_DATE'
+```
+> SET GLOBAL sql_mode='STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'
 
-如果需要更新框架使用
-~~~
-composer update topthink/framework
-~~~
+### Talking
+- 可以提 ISSUE，请按照 issue 模板提问
+- 欢迎进入 Q 群，可以及时反馈一些问题。
+- ![输入图片说明](https://images.gitee.com/uploads/images/2018/1219/110300_0257b6c0_810218.jpeg "微信图片_20181219105915.jpg")
 
-## 文档
-
-[完全开发手册](https://www.kancloud.cn/manual/thinkphp6_0/content)
-
-## 参与开发
-
-请参阅 [ThinkPHP 核心框架包](https://github.com/top-think/framework)。
-
-## 版权信息
-
-ThinkPHP遵循Apache2开源协议发布，并提供免费使用。
-
-本项目包含的第三方源码和二进制文件之版权信息另行标注。
-
-版权所有Copyright © 2006-2019 by ThinkPHP (http://thinkphp.cn)
-
-All rights reserved。
-
-ThinkPHP® 商标和著作权所有者为上海顶想信息科技有限公司。
-
-更多细节参阅 [LICENSE.txt](LICENSE.txt)
+仅供学习
