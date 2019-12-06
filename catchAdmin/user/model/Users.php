@@ -1,9 +1,9 @@
 <?php
 namespace catchAdmin\user\model;
 
-use catcher\Model;
+use catcher\base\BaseModel;
 
-class Users extends Model
+class Users extends BaseModel
 {
     protected $name = 'users';
     

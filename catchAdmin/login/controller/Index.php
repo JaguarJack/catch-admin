@@ -1,9 +1,9 @@
 <?php
 namespace catchAdmin\login\controller;
 
-use app\BaseController;
 use catchAdmin\login\Auth;
 use catchAdmin\login\request\LoginRequest;
+use catcher\base\BaseController;
 
 class Index extends BaseController
 {
@@ -14,9 +14,9 @@ class Index extends BaseController
      * @throws \Exception
      * @return string
      */
-    public function index()
+    public function index(): string
     {
-        return $this->fetch('login::index');
+        return $this->fetch();
     }
 
     /**

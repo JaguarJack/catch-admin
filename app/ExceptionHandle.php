@@ -1,7 +1,7 @@
 <?php
 namespace app;
 
-use catcher\JsonResponse;
+use catcher\CatchResponse;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\ModelNotFoundException;
 use think\exception\Handle;
@@ -53,7 +53,7 @@ class ExceptionHandle extends Handle
     {
         // 添加自定义异常处理机制
         if ($request->isAjax()) {
-            return JsonResponse::fail($e->getMessage(), $e->getCode());
+            return CatchResponse::fail($e->getMessage(), $e->getCode());
         }
         // 其他错误交给系统处理
         return parent::render($request, $e);

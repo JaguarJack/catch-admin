@@ -1,12 +1,13 @@
 <?php
 namespace catchAdmin\index\controller;
 
-use app\BaseController;
+
+use catcher\base\BaseController;
 
 class Index extends BaseController
 {
     public function index(): string
     {
-        return $this->fetch('index::index');
+        return $this->fetch();
     }
 }

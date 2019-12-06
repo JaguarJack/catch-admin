@@ -11,7 +11,7 @@ return [
         'LogLevel' => [],
         'LogWrite' => [],
         'RouteLoaded' => [
-            \app\event\LoadModuleRoutes::class,
+            catcher\event\LoadModuleRoutes::class,
         ],
     ],
 

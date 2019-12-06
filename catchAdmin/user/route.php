@@ -1,3 +1,3 @@
 <?php
 
-$router->resource('user', '\catchAdmin\user\controller\Index');
+$router->resource('user', '\catchAdmin\user\controller\User');

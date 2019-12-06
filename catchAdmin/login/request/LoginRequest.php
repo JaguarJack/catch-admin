@@ -1,19 +1,23 @@
 <?php
 namespace catchAdmin\login\request;
 
-use app\Request;
-use catchAdmin\login\validate\LoginValidate;
+use catcher\base\BaseRequest;
 
-class LoginRequest extends Request
+class LoginRequest extends BaseRequest
 {
-    /**
-     *
-     * @time 2019年11月27日
-     * @return string
-     */
-    protected function getValidate()
+    protected function rules(): array
     {
-        // TODO: Implement getValidate() method.
-        return new LoginValidate();
+        // TODO: Implement rules() method.
+        return [
+            'name|用户名'    => 'require|max:25',
+            'password|密码'  => 'require',
+            'captcha|验证码' => 'require|captcha'
+        ];
+    }
+
+    protected function message(): array
+    {
+        // TODO: Implement message() method.
+        return [];
     }
 }

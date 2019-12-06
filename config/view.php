@@ -22,4 +22,13 @@ return [
     'taglib_begin'  => '{',
     // 标签库标签结束标记
     'taglib_end'    => '}',
+    // 替换
+    'tpl_replace_string'  =>  [
+        '__CATCH_ADMIN__'=>'/catch-admin',
+        '__CATCH_ADMIN_MODULE__' => '/catch-admin/assets/module',
+        '__CATCH_ADMIN_JS__' => '/catch-admin/assets/js',
+        '__CATCH_ADMIN_CSS__' => '/catch-admin/assets/css',
+        '__CATCH_ADMIN_IMAGES__' => '/catch-admin/assets/images',
+        '__CATCH_ADMIN_LIBS__' => '/catch-admin/assets/libs',
+    ]
 ];

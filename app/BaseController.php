@@ -93,26 +93,4 @@ abstract class BaseController
 
         return $v->failException(true)->check($data);
     }
-
-    /**
-     *
-     * @time 2019年11月28日
-     * @param string $template
-     * @throws \Exception
-     * @return string
-     */
-    protected function fetch($template = ''): string
-    {
-        if (Str::contains($template, '::')) {
-            [$module, $template] = explode('::', $template);
-
-            View::config([
-                'view_path' => CatchAdmin::getViews()[$module]
-            ]);
-
-            return View::fetch($template);
-        }
-
-        return View::fetch($template);
-    }
 }
