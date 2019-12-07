@@ -1,7 +1,7 @@
 <?php
 namespace catcher\base;
 
-use catcher\validates\Uniques;
+use catcher\validates\Sometimes;
 use think\Validate;
 
 abstract class BaseValidate extends Validate
@@ -18,8 +18,12 @@ abstract class BaseValidate extends Validate
 
     abstract protected function getRules(): array ;
 
-
-    private function register()
+    /**
+     *
+     * @time 2019年12月07日
+     * @return void
+     */
+    private function register(): void
     {
         if (!empty($this->newValidates())) {
             foreach ($this->newValidates() as $validate) {
@@ -28,10 +32,15 @@ abstract class BaseValidate extends Validate
         }
     }
 
-
-    private function newValidates()
+    /**
+     *
+     * @time 2019年12月07日
+     * @return array
+     */
+    private function newValidates(): array
     {
         return [
+            new Sometimes(),
         ];
     }
 }

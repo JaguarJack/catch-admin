@@ -11,10 +11,18 @@ abstract class BaseModel extends \think\Model
     use TransTrait;
     use BaseOptionsTrait;
 
-    protected $createTime = 'create_at';
+    protected $createTime = 'created_at';
 
-    protected $updateTime = 'update_at';
+    protected $updateTime = 'updated_at';
 
-    protected $deleteTime = 'delete_at';
+    protected $deleteTime = 'deleted_at';
 
+    protected $autoWriteTimestamp = true;
+
+    protected $limit = 10;
+
+    // 开启
+    public const ENABLE = 1;
+    // 禁用
+    public const DISABLE = 2;
 }

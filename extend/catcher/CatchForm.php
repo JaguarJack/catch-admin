@@ -6,11 +6,12 @@ namespace catcher;
  * @package catcher
  *
  *
- * @method text($column, $label = ''): self
- * @method image($column, $label = ''): self
- * @method radio($column, $label = ''): self
- * @method select($column, $label = ''): self
- * @method textarea($column, $label = ''): self
+ * @method CatchForm text($column, $label = '')
+ * @method CatchForm image($column, $label = '')
+ * @method CatchForm radio($column, $label = '')
+ * @method CatchForm select($column, $label = '')
+ * @method CatchForm textarea($column, $label = '')
+ * @method CatchForm password($column, $label = '')
  *
  */
 class CatchForm
@@ -19,10 +20,48 @@ class CatchForm
 
     private $fields = [];
 
+    protected $action;
+
+    protected $method;
+
+    protected $enctype;
+
+    protected $formId;
+
+    protected $btn;
+
+    public function action($acton)
+    {
+        $this->action = $acton;
+
+        return $this;
+    }
+
+    public function method($method)
+    {
+        $this->method = $method;
+
+        return $this;
+    }
+
+    public function formId($formId)
+    {
+        $this->formId = $formId;
+
+        return $this;
+    }
+
+    public function enctype($enctype ="multipart/form-data")
+    {
+        $this->enctype = $enctype;
+
+        return $this;
+    }
+
     public function id($id)
     {
         $this->fields[$this->name] = array_merge($this->fields[$this->name], [
-            'id' => $id,
+            'id' => sprintf('id="%s"', $id),
         ]);
         return $this;
     }
@@ -57,6 +96,7 @@ class CatchForm
         return $this;
     }
 
+
     public function disabled()
     {
         $this->fields[$this->name] = array_merge($this->fields[$this->name], [
@@ -87,19 +127,28 @@ class CatchForm
 
     public function render()
     {
-        $form = '';
+        $form = sprintf('<form id="%s" lay-filter="%s" class="layui-form model-form">', $this->formId, $this->formId);
+
         foreach ($this->fields as $field) {
             $form .= sprintf($this->baseField(),
                 $field['labelClass'] ?? '',
                 $field['label'],
                 $field['inlineClass'] ?? '',
-                $this->{$field['type'].'Field'}($field));
+                $this->{$field['type'].'Field'}($field)) ;
 
         }
 
-       return $form;
+       return $form . $this->btn. '</form>';
     }
 
+    public function append($append)
+    {
+        $this->fields[$this->name] = array_merge($this->fields[$this->name], [
+            'append' => $append,
+        ]);
+
+        return $this;
+    }
 
     public function __call($method, $arguments)
     {
@@ -111,6 +160,7 @@ class CatchForm
             'name' => $this->name,
             'type' => $method,
             'label' => $label,
+            'inline' => false,
         ];
 
         return $this;
@@ -128,23 +178,62 @@ class CatchForm
     private function baseField()
     {
         return
-        '<div class="layui-inline">
-            <label class="layui-form-label %s">%s: </label>
-            <div class="layui-input-inline %s">
+        '<div class="layui-form-item">
+            <label class="layui-form-label%s">%s: </label>
+            <div class="layui-input-block%s">
                %s 
             </div>
         </div>';
     }
+
+    /**
+     * form btn
+     *
+     * @time 2019年12月06日
+     * @param $filter
+     * @param string $position
+     * @return string
+     */
+    public function formBtn($filter, $position = 'text-right')
+    {
+       $this->btn = sprintf('<div class="layui-form-item %s">
+        <button class="layui-btn layui-btn-primary" type="button" ew-event="closePageDialog">取消</button>
+        <button class="layui-btn" lay-filter="%s" lay-submit>保存</button>
+        </div>', $position, $filter);
+
+       return $this;
+    }
+
+    public function verify($rule, $equalTo = [])
+    {
+        if (empty($equalTo)) {
+            $this->fields[$this->name] = array_merge($this->fields[$this->name], [
+                'verify' => sprintf('lay-verType="tips" lay-verify="%s"', $rule),
+            ]);
+        } else {
+            [$id, $msg] = $equalTo;
+
+            $this->fields[$this->name] = array_merge($this->fields[$this->name], [
+                'verify' => sprintf(' lay-verType="tips" lay-verify="%s" lay-equalTo="#%s"
+                            lay-equalToText="%s" ', $rule, $id, $msg),
+            ]);
+        }
+
+        return $this;
+    }
+
     private function textField($field)
     {
         return
-            sprintf('<input name="%s" class="layui-input %s" value="%s" type="text" %s %s %s>',
+            sprintf('<input name="%s" class="layui-input %s" %s value="%s" type="text" %s %s %s%s>',
                 $field['name'],
-                $field['class'],
+                $field['id'] ?? '',
+                $field['class'] ?? '',
                 $field['default'] ?? '',
                 $field['readonly'] ?? '',
                 $field['placeholder'] ?? '',
-                $field['disabled'] ?? ''
+                $field['disabled'] ?? '',
+                $field['verify'] ?? ''
         );
 
     }
@@ -160,6 +249,16 @@ class CatchForm
        }
 
        return $select . '</select>';
+    }
+
+    private function passwordField($field)
+    {
+        return sprintf('<input name="%s" class="layui-input" %s type="password" %s %s>',
+            $field['name'],
+            $field['id'] ?? '',
+            $field['verify'] ?? '',
+            $field['placeholder'] ?? ''
+        );
     }
 
     private function radioField()

@@ -1,0 +1,23 @@
+<?php
+namespace {NAMESPACE};
+
+use think\Service;
+
+class {CLASS}Service extends Service
+{
+        /**
+         *
+         * @return void
+         */
+        public function boot()
+        {
+            $this->loadRoutesFrom(__DIR__ . DIRECTORY_SEPARATOR . 'route.php');
+
+            $this->loadViewFrom();
+        }
+
+        protected function loadViewFrom(): void
+        {
+            moduleViewPathManager()->set('login', __DIR__ . DIRECTORY_SEPARATOR . 'view' .DIRECTORY_SEPARATOR);
+        }
+}

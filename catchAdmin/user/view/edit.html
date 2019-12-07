@@ -1,10 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+{$form|raw}
+<script>
+    layui.use(['layer', 'form', 'admin', 'formX'], function () {
+        var $ = layui.jquery;
+        var layer = layui.layer;
+        var form = layui.form;
+        var admin = layui.admin;
+        var mUser = admin.getLayerData('#userForm');  // 列表页面传递的数据，#modelUserForm这个只要写弹窗内任意一个元素的id即可
+        // 回显数据
+        form.val('userForm', mUser);
+        var uid = "{$uid}";
+        // 表单提交事件
+        form.on('submit(submitUser)', function (data) {
+            admin.req('/user/' + uid, data.field, function (response) {
+                layer.closeAll('loading');
+                if (response.code == 10000) {
+                    layer.msg(response.msg, {icon: 1});
+                    admin.putLayerData('formOk', true, '#userForm');  // 设置操作成功的标识，#modelUserForm这个只要写弹窗内任意一个元素的id即可
+                    admin.closeDialog('#userForm');  // 关闭页面层弹窗
+                } else {
+                    layer.msg(response.msg, {icon: 2});
+                }
+            }, 'put');
+            return false;
+        });
+    });
+</script>

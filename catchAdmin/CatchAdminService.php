@@ -5,6 +5,8 @@ use catcher\command\InstallCommand;
 use catcher\command\MigrateRunCommand;
 use catcher\command\ModelGeneratorCommand;
 use catcher\command\ModuleCacheCommand;
+use catcher\validates\Sometimes;
+use think\facade\Validate;
 use think\Service;
 
 class CatchAdminService extends Service
@@ -22,5 +24,26 @@ class CatchAdminService extends Service
             MigrateRunCommand::class,
             ModelGeneratorCommand::class,
         ]);
+
+        $this->registerValidates();
+    }
+
+    /**
+     *
+     * @time 2019年12月07日
+     * @return void
+     */
+    protected function registerValidates(): void
+    {
+        $validates = [
+            new Sometimes(),
+        ];
+
+        Validate::maker(function($validate) use ($validates){
+            foreach ($validates as $vali) {
+                $validate->extend($vali->type(), [$vali, 'verify'], $vali->message());
+            }
+        });
+
     }
 }

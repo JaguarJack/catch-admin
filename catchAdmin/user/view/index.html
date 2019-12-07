@@ -3,26 +3,34 @@
 {block name="search"}
 <div class="layui-form toolbar">
     <div class="layui-form-item">
-        {php}echo $form{/php}
-        <div class="layui-inline">
-            <label class="layui-form-label w-auto">账&emsp;号：</label>
-            <div class="layui-input-inline mr0">
-                <input name="username" class="layui-input" type="text" placeholder="输入账号"/>
-            </div>
-        </div>
         <div class="layui-inline">
             <label class="layui-form-label w-auto">用户名：</label>
-            <div class="layui-input-inline mr0">
-                <input name="nickName" class="layui-input" type="text" placeholder="输入用户名"/>
+            <div class="layui-input-inline">
+                <input name="username" class="layui-input" type="text" placeholder="输入用户名"/>
             </div>
         </div>
         <div class="layui-inline">
-            <label class="layui-form-label w-auto">性&emsp;别：</label>
+            <label class="layui-form-label w-auto">邮箱：</label>
             <div class="layui-input-inline mr0">
-                <select name="sex">
-                    <option value="">选择性别</option>
-                    <option value="男">男</option>
-                    <option value="女">女</option>
+                <input name="email" class="layui-input" type="text" placeholder="输入邮箱"/>
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label w-auto">状态：</label>
+            <div class="layui-input-inline mr0">
+                <select name="status">
+                    <option value="">选择状态</option>
+                    <option value="1">正常</option>
+                    <option value="2">禁用</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label w-auto">回收站：</label>
+            <div class="layui-input-inline mr0">
+                <select name="trash">
+                    <option value="">选择</option>
+                    <option value="1">恢复数据</option>
                 </select>
             </div>
         </div>
@@ -36,7 +44,17 @@
 </div>
 {/block}
 {block name="table"}
-    <table class="layui-table" id="tableUser" lay-filter="tableUser"></table>
+<table class="layui-table" id="tableUser" lay-filter="tableUser"></table>
+<!-- 表格操作列 -->
+<script type="text/html" id="tableBarUser">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">修改</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="{{d.deleted_at ? 'recover' : 'del'}}">{{d.deleted_at ? '恢复' : '删除'}}</a>
+</script>
+<!-- 表格状态列 -->
+<script type="text/html" id="tableStateUser">
+    <input type="checkbox" lay-filter="ckStateUser" value="{{d.id}}" lay-skin="switch"
+           lay-text="正常|禁用" {{d.status==1?'checked':''}}/>
+</script>
 {/block}
 {block name="script"}
 <script>
@@ -51,23 +69,30 @@
         // 渲染表格
         var insTb = table.render({
             elem: '#tableUser',
-            url: '../../json/user.json',
+            url: '{:url("users")}',
             page: true,
+            response: {
+                statusCode: 10000,
+            },
             toolbar: true,
             cellMinWidth: 100,
             cols: [[
-                {type: 'numbers', title: '#'},
-                {field: 'username', sort: true, title: '账号'},
-                {field: 'nickName', sort: true, title: '用户名'},
-                {field: 'sex', sort: true, title: '性别'},
+                {type: 'id', title: '#', field: 'id'},
+                {field: 'username', sort: true, title: '用户名'},
+                {field: 'email', sort: true, title: '邮箱'},
+                {field: 'status', sort: true, title: '状态', templet: '#tableStateUser'},
                 {
-                    field: 'createTime', sort: true, templet: function (d) {
-                        return util.toDateString(d.createTime);
+                    field: 'created_at', sort: true, templet: function (d) {
+                        return util.toDateString(d.created_at);
                     }, title: '创建时间'
                 },
-                {field: 'state', sort: true, templet: '#tableStateUser', title: '状态'},
+                {
+                    field: 'updated_at', sort: true, templet: function (d) {
+                        return util.toDateString(d.updated_at);
+                    }, title: '更新时间'
+                },
                 {align: 'center', toolbar: '#tableBarUser', title: '操作', minWidth: 200}
-            ]]
+            ]],
         });
 
         // 添加
@@ -87,39 +112,47 @@
             if (layEvent === 'edit') { // 修改
                 showEditModel(data);
             } else if (layEvent === 'del') { // 删除
-                doDel(data.userId, data.nickName);
+                doDel(data.id, data.username);
             } else if (layEvent === 'reset') { // 重置密码
-                resetPsw(data.userId, data.nickName);
+                resetPsw(data.id, data.username);
+            } else if (layEvent === 'recover') {
+                recover(data.id, data.username);
             }
+
         });
 
+        function recover(uid, username) {
+            console.log(username)
+            layer.confirm('确定要恢复“' + username + '”吗？', {
+                skin: 'layui-layer-admin',
+                shade: .1
+            }, function (i) {
+                layer.close(i);
+                admin.req('/user/recover/'+ uid,{}, function(res){
+                    layer.closeAll('loading');
+                    if (res.code == 10000) {
+                        layer.msg(res.msg, {icon: 1});
+                        insTb.reload({}, 'data');
+                    } else {
+                        layer.msg(res.msg, {icon: 2});
+                    }
+                }, 'put');
+            });
+        }
         // 显示表单弹窗
         function showEditModel(mUser) {
-            admin.open({
-                type: 1,
+            var layIndex = admin.open({
                 title: (mUser ? '修改' : '添加') + '用户',
-                content: $('#modelUser').html(),
+                url: mUser ? '/user/'+mUser.id + '/edit':'/user/create',
+                data: mUser,     // 传递数据到表单页面
+                end: function () {
+                    if (admin.getLayerData(layIndex, 'formOk')) {  // 判断表单操作成功标识
+                        insTb.reload();  // 成功刷新表格
+                    }
+                },
                 success: function (layero, dIndex) {
+                    // 弹窗超出范围不出现滚动条
                     $(layero).children('.layui-layer-content').css('overflow', 'visible');
-                    var url = mUser ? '../../json/ok.json' : '../../json/ok.json';
-                    mUser && (mUser.roleId = mUser.roles[0].roleId);
-                    // 回显数据
-                    form.val('modelUserForm', mUser);
-                    // 表单提交事件
-                    form.on('submit(modelSubmitUser)', function (data) {
-                        layer.load(2);
-                        $.get(url, data.field, function (res) {
-                            layer.closeAll('loading');
-                            if (res.code == 200) {
-                                layer.close(dIndex);
-                                layer.msg(res.msg, {icon: 1});
-                                insTb.reload({}, 'data');
-                            } else {
-                                layer.msg(res.msg, {icon: 2});
-                            }
-                        }, 'json');
-                        return false;
-                    });
                 }
             });
         }
@@ -131,60 +164,31 @@
                 shade: .1
             }, function (i) {
                 layer.close(i);
-                layer.load(2);
-                $.get('../../json/ok.json', {
-                    userId: userId
-                }, function (res) {
+                admin.req('/user/'+ userId,{}, function(res){
                     layer.closeAll('loading');
-                    if (res.code == 200) {
+                    if (res.code == 10000) {
                         layer.msg(res.msg, {icon: 1});
                         insTb.reload({}, 'data');
                     } else {
                         layer.msg(res.msg, {icon: 2});
                     }
-                }, 'json');
+                }, 'delete');
             });
         }
 
         // 修改用户状态
         form.on('switch(ckStateUser)', function (obj) {
-            layer.load(2);
-            $.get('../../json/ok.json', {
-                userId: obj.elem.value,
-                state: obj.elem.checked ? 0 : 1
-            }, function (res) {
+            admin.req('/user/switch/status/'+obj.value,{}, function(res){
                 layer.closeAll('loading');
-                if (res.code == 200) {
+                if (res.code == 10000) {
                     layer.msg(res.msg, {icon: 1});
                 } else {
                     layer.msg(res.msg, {icon: 2});
                     $(obj.elem).prop('checked', !obj.elem.checked);
                     form.render('checkbox');
                 }
-            }, 'json');
+            }, 'put');
         });
-
-        // 重置密码
-        function resetPsw(userId, nickName) {
-            layer.confirm('确定要重置“' + nickName + '”的登录密码吗？', {
-                skin: 'layui-layer-admin',
-                shade: .1
-            }, function (i) {
-                layer.close(i);
-                layer.load(2);
-                $.get('../../json/ok.json', {
-                    userId: userId
-                }, function (res) {
-                    layer.closeAll('loading');
-                    if (res.code == 200) {
-                        layer.msg(res.msg, {icon: 1});
-                    } else {
-                        layer.msg(res.msg, {icon: 2});
-                    }
-                }, 'json');
-            });
-        }
-
     });
 </script>
 {/block}

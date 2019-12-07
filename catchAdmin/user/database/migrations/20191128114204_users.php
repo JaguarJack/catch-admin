@@ -37,8 +37,7 @@ class Users extends Migrator
             ->addColumn('last_login_time', 'integer',array('default'=>0,'comment'=>'最后登录时间', 'signed' => false))
             ->addColumn('created_at', 'integer', array('default'=>0,'comment'=>'创建时间', 'signed' => false ))
             ->addColumn('updated_at', 'integer', array('default'=>0,'comment'=>'更新时间', 'signed' => false))
-            ->addColumn('delete_at', 'integer', array('null'=>true,'comment'=>'删除状态，0未删除 >0 已删除', 'signed' => false))
-            ->addIndex(array('email'), array('unique'  =>  true))
+            ->addColumn('deleted_at', 'integer', array('null'=>true,'comment'=>'删除状态，0未删除 >0 已删除', 'signed' => false))
             ->create();
     }
 }

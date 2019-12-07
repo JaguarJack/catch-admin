@@ -5,7 +5,7 @@ interface  ValidateInterface
 {
     public function type(): string ;
 
-    public function verify($value, $field): bool ;
+    public function verify($value): bool ;
 
     public function message(): string ;
 }

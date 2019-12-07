@@ -1,0 +1,10 @@
+<?php
+
+namespace {NAMESPACE};
+
+use think\Model;
+
+class {CLASS} extends Model
+{
+    protected $fillable = $FILLABLE$;
+}
