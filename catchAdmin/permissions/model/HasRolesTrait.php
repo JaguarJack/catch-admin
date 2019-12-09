@@ -1,7 +1,7 @@
 <?php
 namespace catchAdmin\permissions\model;
 
-trait UserTrait
+trait HasRolesTrait
 {
     /**
      *

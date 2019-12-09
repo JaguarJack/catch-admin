@@ -1,10 +1,13 @@
 <?php
 namespace catchAdmin\user\model;
 
+use catchAdmin\permissions\model\HasRolesTrait;
 use catcher\base\BaseModel;
 
 class Users extends BaseModel
 {
+    use HasRolesTrait;
+
     protected $name = 'users';
 
     protected $field = [
@@ -33,7 +36,15 @@ class Users extends BaseModel
         return password_hash($value, PASSWORD_DEFAULT);
     }
 
-    public function getList($search)
+    /**
+     * 用户列表
+     *
+     * @time 2019年12月08日
+     * @param $search
+     * @throws \think\db\exception\DbException
+     * @return \think\Paginator
+     */
+    public function getList($search): \think\Paginator
     {
         return (($search['trash'] ?? false) ? static::onlyTrashed() : $this)->when($search['username'] ?? false, function ($query) use ($search){
                         return $query->whereLike('username', $search['username']);

@@ -28,7 +28,7 @@ class Permissions extends Migrator
      */
     public function change()
     {
-        $table  =  $this->table('roles',['engine'=>'Innodb', 'comment' => '菜单表', 'signed' => false]);
+        $table  =  $this->table('permissions',['engine'=>'Innodb', 'comment' => '菜单表', 'signed' => false]);
         $table->addColumn('name', 'string',['limit'  =>  15,'default'=>'','comment'=>'菜单名称'])
             ->addColumn('parent_id', 'integer',['default'=>0,'comment'=>'父级ID', 'signed' => false])
             ->addColumn('route', 'string', ['default' => '', 'comment' => '路由', 'limit' => 50])

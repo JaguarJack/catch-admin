@@ -205,7 +205,7 @@ class CatchAdmin
      */
     public static function getRoutes(): string
     {
-        if (file_exists(self::getCacheViewsFile())) {
+        if (file_exists(self::getCacheRoutesFile())) {
             return self::getCacheRoutesFile();
         }
 

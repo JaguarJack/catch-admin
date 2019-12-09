@@ -1,6 +1,7 @@
 <?php
 namespace catcher\command;
 
+use catcher\CatchAdmin;
 use think\console\Command;
 use think\console\Input;
 use think\console\input\Argument;
@@ -97,9 +98,9 @@ class InstallCommand extends Command
      * 安装第一步
      *
      * @time 2019年11月29日
-     * @return bool
+     * @return mixed
      */
-    protected function firstStep(): bool
+    protected function firstStep()
     {
         if (file_exists($this->app->getRootPath() . '.env')) {
             return false;
@@ -140,33 +141,16 @@ class InstallCommand extends Command
      */
     protected function secondStep(): void
     {
-        $modulePaths = glob(root_path('module') . '*');
+        $php = getenv('_');
 
-        $this->checkRootDatabase();
+        $think = root_path() . DIRECTORY_SEPARATOR . 'think';
 
-        foreach ($modulePaths as $path) {
-            if (is_dir($path)) {
-                $moduleDatabasePath = $path . DIRECTORY_SEPARATOR . 'database' . DIRECTORY_SEPARATOR;
-                if (is_dir($moduleDatabasePath)) {
-                    if (is_dir($moduleDatabasePath . 'migrations' . DIRECTORY_SEPARATOR)) {
-                        $migrationFiles = glob($moduleDatabasePath . 'migrations' . DIRECTORY_SEPARATOR . '*.php');
-                        foreach ($migrationFiles as $file) {
-                            copy($file,
-                                root_path('database') . 'migrations'. DIRECTORY_SEPARATOR .
-                                pathinfo($file, PATHINFO_BASENAME));
-                        }
-                    }
+        foreach (CatchAdmin::getModulesDirectory() as $directory) {
+            $moduleInfo = CatchAdmin::getModuleInfo($directory);
 
-                    if (is_dir($moduleDatabasePath . 'seeds' . DIRECTORY_SEPARATOR)) {
-                        $seedFiles = glob($moduleDatabasePath . 'seeds' . DIRECTORY_SEPARATOR . '*.php');
-                        foreach ($seedFiles as $file) {
-                            copy($file,
-                                root_path('database') . 'seeds' . DIRECTORY_SEPARATOR .
-                                pathinfo($file, PATHINFO_BASENAME));
-                        }
-                    }
-                }
-            }
+            $this->output->info(
+                sprintf('module [%s] migrations ', $moduleInfo['alias']) .
+                exec(sprintf('%s %s catch-migrate:run %s', $php, $think, $moduleInfo['alias'])));
         }
     }
 
@@ -190,9 +174,7 @@ class InstallCommand extends Command
     protected function finished(): void
     {
         // todo something
-        if ($this->dataInstall) {
-            rmdir($this->app->getRootPath() . 'database');
-        }
+
     }
 
     /**
@@ -241,23 +223,11 @@ class InstallCommand extends Command
             if ($this->getEnvFile()) {
                 $this->output->info('env file has been generated');
             }
-
             if ((new \mysqli($host, $username, $password, null, $port))->query(sprintf('CREATE DATABASE IF NOT EXISTS %s DEFAULT CHARSET %s COLLATE %s_general_ci;',
                 $database, $charset, $charset))) {
                 $this->output->info(sprintf('🎉 create database %s successfully', $database));
-
-                exec(sprintf('%s %s migrate:run',  getenv('_'), root_path() . DIRECTORY_SEPARATOR . 'think'));
-
-                $this->output->info('🎉 database table install successfully');
-
-                exec(sprintf('%s %s seed:run', getenv('_'),root_path() . DIRECTORY_SEPARATOR . 'think'));
-
-                $this->output->info('🎉 Fill database table successfully ');
             } else {
-                $this->dataInstall = false;
-                $this->output->warning(sprintf('create database %s failed, you should create it by yourself', $database));
-                $this->output->warning('you should use `php think migrate:run` to create tables');
-                $this->output->warning('you should use `php think seed:run` to fill tables data');
+                $this->output->warning(sprintf('create database %s failed，you need create database first by yourself', $database));
             }
     }
 
