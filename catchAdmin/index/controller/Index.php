@@ -10,4 +10,9 @@ class Index extends BaseController
     {
         return $this->fetch();
     }
+
+    public function theme()
+    {
+        return $this->fetch();
+    }
 }
