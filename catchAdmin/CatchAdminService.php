@@ -5,6 +5,7 @@ use catcher\command\InstallCommand;
 use catcher\command\MigrateRunCommand;
 use catcher\command\ModelGeneratorCommand;
 use catcher\command\ModuleCacheCommand;
+use catcher\command\SeedRunCommand;
 use catcher\validates\Sometimes;
 use think\facade\Validate;
 use think\Service;
@@ -23,6 +24,7 @@ class CatchAdminService extends Service
             ModuleCacheCommand::class,
             MigrateRunCommand::class,
             ModelGeneratorCommand::class,
+            SeedRunCommand::class
         ]);
 
         $this->registerValidates();
