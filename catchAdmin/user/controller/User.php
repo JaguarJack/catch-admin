@@ -2,14 +2,16 @@
 namespace catchAdmin\user\controller;
 
 use app\Request;
+use catchAdmin\permissions\model\Roles;
 use catchAdmin\user\model\Users;
 use catchAdmin\user\request\CreateRequest;
 use catchAdmin\user\request\UpdateRequest;
-use catcher\base\BaseController;
+use catcher\base\CatchController;
 use catcher\CatchForm;
 use catcher\CatchResponse;
+use catcher\Tree;
 
-class User extends BaseController
+class User extends CatchController
 {
     protected $user;
 
@@ -49,6 +51,7 @@ class User extends BaseController
         $form->text('email', '邮箱')->verify('email')->placeholder('请输入邮箱');
         $form->password('password', '密码')->id('pwd')->verify('required|psw')->placeholder('请输入密码');
         $form->password('passwordConfirm', '确认密码')->verify('required|equalTo', ['pwd', '两次密码输入不一致'])->placeholder('请再次输入密码');
+        $form->dom('<div id="roles"></div>', '角色');
         $form->formBtn('submitUser');
 
         return $this->fetch([
@@ -64,7 +67,12 @@ class User extends BaseController
      */
     public function save(CreateRequest $request)
     {
-        return CatchResponse::success($this->user->storeBy($request->post()));
+        $uid = $this->user->storeBy($request->post());
+
+        if (!empty($request->param('roleids'))) {
+            $this->user->attach($request->param('roleids'));
+        }
+        return CatchResponse::success();
     }
 
     /**
@@ -88,6 +96,7 @@ class User extends BaseController
         $form->text('email', '邮箱')->verify('email')->default($user->email)->placeholder('请输入邮箱');
         $form->password('password', '密码')->id('pwd')->placeholder('请输入密码');
         $form->password('passwordConfirm', '确认密码')->verify('equalTo', ['pwd', '两次密码输入不一致'])->placeholder('请再次输入密码');
+        $form->dom('<div id="roles"></div>', '角色');
         $form->formBtn('submitUser');
 
         return $this->fetch([
@@ -151,5 +160,30 @@ class User extends BaseController
        }
 
        return CatchResponse::success($this->user->recover($id));
+    }
+
+    /**
+     *
+     * @time 2019年12月11日
+     * @param Request $request
+     * @param Roles $roles
+     * @return \think\response\Json
+     */
+    public function getRoles(Request $request, Roles $roles): \think\response\Json
+    {
+        $roles = Tree::done($roles->getList());
+
+        $roleIds = [];
+        if ($request->param('uid')) {
+            $userHasRoles = $this->user->findBy($request->param('uid'))->getRoles();
+            foreach ($userHasRoles as $role) {
+                $roleIds[] = $role->pivot->role_id;
+            }
+        }
+
+        return CatchResponse::success([
+            'roles' => $roles,
+            'hasRoles' => $roleIds,
+        ]);
     }
 }

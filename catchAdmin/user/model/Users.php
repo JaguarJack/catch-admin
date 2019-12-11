@@ -2,9 +2,9 @@
 namespace catchAdmin\user\model;
 
 use catchAdmin\permissions\model\HasRolesTrait;
-use catcher\base\BaseModel;
+use catcher\base\CatchModel;
 
-class Users extends BaseModel
+class Users extends CatchModel
 {
     use HasRolesTrait;
 
@@ -46,7 +46,9 @@ class Users extends BaseModel
      */
     public function getList($search): \think\Paginator
     {
-        return (($search['trash'] ?? false) ? static::onlyTrashed() : $this)->when($search['username'] ?? false, function ($query) use ($search){
+        return (($search['trash'] ?? false) ? static::onlyTrashed() : $this)
+                    ->field(['id', 'username', 'email', 'status','last_login_time','last_login_ip', 'created_at', 'updated_at'])
+                    ->when($search['username'] ?? false, function ($query) use ($search){
                         return $query->whereLike('username', $search['username']);
                     })
                     ->when($search['email'] ?? false, function ($query) use ($search){
