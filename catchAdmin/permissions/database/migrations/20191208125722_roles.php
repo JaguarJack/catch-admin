@@ -29,7 +29,7 @@ class Roles extends Migrator
     public function change()
     {
         $table  =  $this->table('roles',['engine'=>'Innodb', 'comment' => '角色表', 'signed' => false]);
-        $table->addColumn('name', 'string',['limit'  =>  15,'default'=>'','comment'=>'角色名'])
+        $table->addColumn('role_name', 'string',['limit'  =>  15,'default'=>'','comment'=>'角色名'])
             ->addColumn('parent_id', 'integer',['default'=>0,'comment'=>'父级ID', 'signed' => false])
             ->addColumn('description', 'string',['default'=> '','comment'=>'角色备注'])
             ->addColumn('created_at', 'integer', array('default'=>0,'comment'=>'创建时间', 'signed' => false ))

@@ -17,11 +17,11 @@
 </div>
 {/block}
 {block name="table"}
-<table class="layui-table" id="tableRole"></table>
+<table class="layui-table" id="tablePermission" lay-filter="tablePermission"></table>
 <!-- 表格操作列 -->
 <script type="text/html" id="tableBarAuth">
     <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">修改</a>
-    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="add">新增子角色</a>
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="add">新增子菜单</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 {/block}
@@ -53,22 +53,33 @@
                     }
                 }
             },
-            elem: '#tableRole',
+            elem: '#tablePermission',
             cellMinWidth: 100,
             cols: [
                 {type: 'numbers', title: '#'},
-                {field: 'role_name', title: '角色名称', minWidth: 100},
-                {field: 'description', title: '角色描述'},
+                {field: 'permission_name', title: '菜单名称', minWidth: 200},
+                {field: 'route', title: '菜单路由', templet: function (d) {
+                        return escapeChars(d.route);
+                    }
+                },
+                {field: 'method', title: '请求方法', width: 90},
+                {field: 'permission_mark', title: '权限标识'},
+                {field: 'type', title: '菜单类型', templet: function (d) {
+                        return d.type == 1 ? '<button class="layui-btn layui-btn-primary layui-btn-xs">菜单</button>' :
+                            '<button class="layui-btn layui-btn-primary layui-btn-xs">按钮</button>'
+                    }, width: 90, align: 'center'
+                },
+                {field: 'sort', title: '排序', width:60, align: 'center'},
                 {
                     field: 'created_at', sort: true, templet: function (d) {
                         return util.toDateString(d.created_at);
                     }, title: '创建时间', maxWidth: 100
                 },
-                {templet: '#tableBarAuth', title: '操作', align: 'center', minWidth: 120}
+                {templet: '#tableBarAuth', title: '操作', align: 'center', minWidth: 150}
             ],
             reqData: function(data, callback) {
                 // 在这里写ajax请求，通过callback方法回调数据
-                $.get('{:url("roles")}', function (res) {
+                $.get('{:url("permissions")}', function (res) {
                     callback(res.data);  // 参数是数组类型
                 });
             }
@@ -78,9 +89,17 @@
         $('#btnAddAuth').click(function () {
             showEditModel();
         });
-
+        function escapeChars(str) {
+            str = str.replace(/&/g, '&amp;');
+            str = str.replace(/</g, '&lt;');
+            str = str.replace(/>/g, '&gt;');
+            str = str.replace(/'/g, '&acute;');
+            str = str.replace(/"/g, '&quot;');
+            str = str.replace(/\|/g, '&brvbar;');
+            return str;
+        }
         // 工具条点击事件
-        treeTable.on('tool(tableRole)', function (obj) {
+        treeTable.on('tool(tablePermission)', function (obj) {
             var data = obj.data;
             var layEvent = obj.event;
             if (layEvent === 'edit') { // 修改
@@ -91,15 +110,19 @@
                 showEditModel(data, true);
             }
         });
-
+        treeTable.on('row(tablePermission)', function(obj){
+            console.log(obj.value); //得到修改后的值
+            console.log(obj.field); //当前编辑的字段名
+            console.log(obj.data); //所在行的所有相关数据
+        });
         // 删除
         function doDel(obj) {
-            layer.confirm('确定要删除“' + obj.data.role_name + '”吗？', {
+            layer.confirm('确定要删除“' + obj.data.permission_name + '”吗？', {
                 skin: 'layui-layer-admin',
                 shade: .1
             }, function (index) {
                 layer.close(index);
-                admin.req('/role/'+ obj.data.id, {}, function (response) {
+                admin.req('/permission/'+ obj.data.id, {}, function (response) {
                     if (response.code === 10000) {
                         layer.msg(response.msg, {icon: 1});
                         obj.del()
@@ -112,24 +135,23 @@
 
         // 显示表单弹窗
         // 显示表单弹窗
-        function showEditModel(mRole, addRole = false) {
+        function showEditModel(permission, addPermission= false) {
             var layIndex = admin.open({
-                title: addRole ? '新增子角色' : ((mRole ? '修改' : '添加') + '角色'),
-                url: addRole ? '/role/create' + '?id='+mRole.id : (mRole ? '/role/'+mRole.id + '/edit': '/role/create'),
-                data: addRole ? '' : mRole,     // 传递数据到表单页面
+                title: addPermission ? '新增子菜单' : ((permission ? '修改' : '添加') + '菜单'),
+                url: addPermission ? '/permission/create' + '?id='+permission.id : (permission ? '/permission/'+permission.id + '/edit': '/permission/create'),
+                data: addPermission ? '' : permission,     // 传递数据到表单页面
                 end: function () {
                     if (admin.getLayerData(layIndex, 'formOk')) {  // 判断表单操作成功标识
-                        if (addRole) {
+                        if (addPermission) {
                            treeTb.reload();
                             setTimeout(function () {
-                                treeTb.expand(mRole.id)
+                                treeTb.expand(permission.id)
                             }, 200)
-
                         } else {
-                            if (mRole) {
+                            if (permission) {
                                 treeTb.reload();
                                 setTimeout(function () {
-                                    treeTb.expand(mRole.id)
+                                    treeTb.expand(permission.id)
                                 }, 200)
                             } else {
                                 treeTb.reload();  // 成功刷新表格

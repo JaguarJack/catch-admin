@@ -2,15 +2,15 @@
 namespace catchAdmin\permissions\model;
 
 use catchAdmin\user\model\Users;
-use catcher\base\BaseModel;
+use catcher\base\CatchModel;
 
-class Roles extends BaseModel
+class Roles extends CatchModel
 {
     protected $name = 'roles';
     
     protected $field = [
             'id', // 
-			'name', // 角色名
+			'role_name', // 角色名
 			'parent_id', // 父级ID
 			'description', // 角色备注
 			'created_at', // 创建时间
@@ -19,11 +19,18 @@ class Roles extends BaseModel
 			   
     ];
 
-    public function getList($search)
+    public function getList($search = [])
     {
         return $this->when($search['name'] ?? false, function ($query) use ($search){
-                $query->whereLike('name', $search['name']);
-        })->paginate($search['limit'] ?? $this->limit);
+                    $query->whereLike('name', $search['name']);
+                })
+                ->when($search['id'] ?? false, function ($query) use ($search){
+                    $query->where('parent_id', $search['id'])
+                          ->whereOr('id', $search['id']);
+                })
+                ->order('id', 'desc')
+                ->select()
+                ->toArray();
     }
 
     /**
@@ -43,7 +50,7 @@ class Roles extends BaseModel
      */
     public function permissions(): \think\model\relation\BelongsToMany
     {
-        return $this->belongsToMany(Permissions::class, 'role_has_permissions', 'role_id', 'permission_id');
+        return $this->belongsToMany(Permissions::class, 'role_has_permissions', 'permission_id', 'role_id');
     }
 
     /**
@@ -54,30 +61,37 @@ class Roles extends BaseModel
      */
     public function getRoles($rid)
     {
-        return $this->findBy($rid)->permissions()->get();
+        return $this->permissions()->select();
     }
 
     /**
      *
      * @time 2019年12月08日
-     * @param $rid
      * @param array $roles
      * @return mixed
+     * @throws \think\db\exception\DbException
      */
-    public function attach($rid, array $roles)
+    public function attach(array $roles)
     {
-        return $this->findBy($rid)->permissions()->attach($roles);
+        if (empty($roles)) {
+            return true;
+        }
+
+        return $this->permissions()->attach($roles);
     }
 
     /**
      *
      * @time 2019年12月08日
-     * @param $rid
      * @param array $roles
      * @return mixed
      */
-    public function detach($rid, array $roles)
+    public function detach(array $roles = [])
     {
-        return $this->findBy($rid)->permissions()->detach($roles);
+        if (empty($roles)) {
+            return $this->permissions()->detach();
+        }
+
+        return $this->permissions()->detach($roles);
     }
 }

@@ -29,9 +29,10 @@ class Permissions extends Migrator
     public function change()
     {
         $table  =  $this->table('permissions',['engine'=>'Innodb', 'comment' => '菜单表', 'signed' => false]);
-        $table->addColumn('name', 'string',['limit'  =>  15,'default'=>'','comment'=>'菜单名称'])
+        $table->addColumn('permission_name', 'string',['limit'  =>  15,'default'=>'','comment'=>'菜单名称'])
             ->addColumn('parent_id', 'integer',['default'=>0,'comment'=>'父级ID', 'signed' => false])
             ->addColumn('route', 'string', ['default' => '', 'comment' => '路由', 'limit' => 50])
+            ->addColumn('method', 'string', ['default' => 'get', 'comment' => '路由请求方法', 'limit' => 15])
             ->addColumn('permission_mark', 'string', ['null' => false, 'comment' => '权限标识', 'limit' => 50])
             ->addColumn('type', 'integer',['limit' => \Phinx\Db\Adapter\MysqlAdapter::INT_TINY,'default'=> 1,'comment'=>'1 菜单 2 按钮'])
             ->addColumn('sort', 'integer',['default'=> 0,'comment'=>'排序字段'])

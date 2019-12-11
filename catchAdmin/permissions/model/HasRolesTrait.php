@@ -10,41 +10,42 @@ trait HasRolesTrait
      */
     public function roles()
     {
-        return $this->belongsToMany(Roles::class, 'user_has_roles', 'user_id', 'role_id');
+        return $this->belongsToMany(Roles::class, 'user_has_roles', 'role_id', 'uid');
     }
 
     /**
      *
      * @time 2019年12月08日
-     * @param $uid
      * @return mixed
      */
-    public function getRoles($uid)
+    public function getRoles()
     {
-        return $this->findBy($uid)->roles()->get();
+        return $this->roles()->select();
     }
 
     /**
      *
      * @time 2019年12月08日
-     * @param $uid
      * @param array $roles
      * @return mixed
      */
-    public function attach($uid, array $roles)
+    public function attach(array $roles)
     {
-        return $this->findBy($uid)->roles()->attach($roles);
+        return $this->roles()->attach($roles);
     }
 
     /**
      *
      * @time 2019年12月08日
-     * @param $uid
      * @param array $roles
      * @return mixed
      */
-    public function detach($uid, array $roles)
+    public function detach(array $roles = [])
     {
-        return $this->findBy($uid)->roles()->detach($roles);
+        if (empty($roles)) {
+            return $this->roles()->detach();
+        }
+
+        return $this->roles()->detach($roles);
     }
 }

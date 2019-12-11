@@ -3,61 +3,76 @@
 {block name="search"}
 <div class="layui-form toolbar">
     <div class="layui-form-item">
-        <div class="layui-inline">
-            <label class="layui-form-label w-auto">搜索：</label>
+        <!--<div class="layui-inline">
             <div class="layui-input-inline mr0">
-                <input id="edtSearchAuth" class="layui-input" type="text" placeholder="输入关键字"/>
+                <input id="edtSearchAuth" class="layui-input" type="text" placeholder="输入角色名称"/>
             </div>
         </div>
         <div class="layui-inline">
             <button id="btnSearchAuth" class="layui-btn icon-btn"><i class="layui-icon">&#xe615;</i>搜索
-            </button>
+            </button>-->
             <button id="btnAddAuth" class="layui-btn icon-btn"><i class="layui-icon">&#xe654;</i>添加</button>
-            <button id="btnExpandAuth" class="layui-btn icon-btn">全部展开</button>
-        </div>
-        <div class="layui-inline">
-            <button id="btnFoldAuth" class="layui-btn icon-btn">全部折叠</button>
-        </div>
+        <!--</div>-->
     </div>
 </div>
 {/block}
 {block name="table"}
-<table class="layui-table" id="tableRole" lay-filter="tableAuth"></table>
+<table class="layui-table" id="tableRole"></table>
 <!-- 表格操作列 -->
 <script type="text/html" id="tableBarAuth">
     <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">修改</a>
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="add">新增子角色</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 {/block}
 {block name="script"}
 <script>
-    layui.use(['layer', 'form', 'table', 'admin', 'treetable'], function () {
+    layui.use(['layer', 'form', 'table', 'admin', 'util', 'treeTable'], function () {
         var $ = layui.jquery;
         var layer = layui.layer;
         var form = layui.form;
         var table = layui.table;
+        var util = layui.util;
         var admin = layui.admin;
-        var treetable = layui.treetable;
+        var treeTable = layui.treeTable;
 
-        // 渲染表格
-        function renderTable() {
-            treetable.render({
-                treeColIndex: 1,
-                treeSpid: -1,
-                treeIdName: 'authorityId',
-                treePidName: 'parentId',
-                elem: '#tableRole',
-                url: '{:url("roles")}',
-                cellMinWidth: 100,
-                cols: [[
-                    {type: 'id', title: '#', field: 'id'},
-                    {field: 'name', title: '角色名称', minWidth: 200},
-                    {templet: '#tableBarAuth', title: '操作', align: 'center', minWidth: 120}
-                ]]
-            });
-        }
-
-        renderTable();
+        var treeTb = treeTable.render({
+            tree: {
+                arrowType: 'arrow2',
+                iconIndex: 1,  // 折叠图标显示在第几列
+                idName: 'id',  // 自定义id字段的名称
+                childName: 'children', // 自定义标识是否还有子节点的字段名称
+                pidName: 'parent_id',
+                isPidData: true,
+                getIcon: function(d) {  // 自定义图标
+                    // d是当前行的数据
+                    if (d.children.length) {  // 判断是否有子集
+                        return '<i class="ew-tree-icon ew-tree-icon-folder"></i>';
+                    } else {
+                        return '<i class="ew-tree-icon ew-tree-icon-file"></i>';
+                    }
+                }
+            },
+            elem: '#tableRole',
+            cellMinWidth: 100,
+            cols: [
+                {type: 'numbers', title: '#'},
+                {field: 'role_name', title: '角色名称', minWidth: 100},
+                {field: 'description', title: '角色描述'},
+                {
+                    field: 'created_at', sort: true, templet: function (d) {
+                        return util.toDateString(d.created_at);
+                    }, title: '创建时间', maxWidth: 100
+                },
+                {templet: '#tableBarAuth', title: '操作', align: 'center', minWidth: 120}
+            ],
+            reqData: function(data, callback) {
+                // 在这里写ajax请求，通过callback方法回调数据
+                $.get('{:url("roles")}', function (res) {
+                    callback(res.data);  // 参数是数组类型
+                });
+            }
+        });
 
         // 添加按钮点击事件
         $('#btnAddAuth').click(function () {
@@ -65,48 +80,62 @@
         });
 
         // 工具条点击事件
-        table.on('tool(tableAuth)', function (obj) {
+        treeTable.on('tool(tableRole)', function (obj) {
             var data = obj.data;
             var layEvent = obj.event;
             if (layEvent === 'edit') { // 修改
                 showEditModel(data);
             } else if (layEvent === 'del') { // 删除
-                doDel(data.authorityId, data.authorityName);
+                doDel(obj);
+            } else {
+                showEditModel(data, true);
             }
         });
 
         // 删除
-        function doDel(authorityId, authorityName) {
-            layer.confirm('确定要删除“' + authorityName + '”吗？', {
+        function doDel(obj) {
+            layer.confirm('确定要删除“' + obj.data.role_name + '”吗？', {
                 skin: 'layui-layer-admin',
                 shade: .1
             }, function (index) {
                 layer.close(index);
-                layer.load(2);
-                $.get('../../json/ok.json', {
-                    authorityId: authorityId
-                }, function (res) {
-                    layer.closeAll('loading');
-                    if (res.code == 200) {
-                        layer.msg(res.msg, {icon: 1});
-                        renderTable();
+                admin.req('/role/'+ obj.data.id, {}, function (response) {
+                    if (response.code === 10000) {
+                        layer.msg(response.msg, {icon: 1});
+                        obj.del()
                     } else {
-                        layer.msg(res.msg, {icon: 2});
+                        layer.msg(response.msg, {icon: 2});
                     }
-                }, 'json');
+                }, 'delete');
             });
         }
 
         // 显示表单弹窗
         // 显示表单弹窗
-        function showEditModel(mRole) {
+        function showEditModel(mRole, addRole = false) {
             var layIndex = admin.open({
-                title: (mRole ? '修改' : '添加') + '用户',
-                url: mRole ? '/role/'+mRole.id + '/edit':'/role/create',
-                data: mRole,     // 传递数据到表单页面
+                title: addRole ? '新增子角色' : ((mRole ? '修改' : '添加') + '角色'),
+                url: addRole ? '/role/create' + '?id='+mRole.id : (mRole ? '/role/'+mRole.id + '/edit': '/role/create'),
+                data: addRole ? '' : mRole,     // 传递数据到表单页面
+                area: '800px',
                 end: function () {
                     if (admin.getLayerData(layIndex, 'formOk')) {  // 判断表单操作成功标识
-                        insTb.reload();  // 成功刷新表格
+                        if (addRole) {
+                           treeTb.reload();
+                            setTimeout(function () {
+                                treeTb.expand(mRole.id)
+                            }, 200)
+
+                        } else {
+                            if (mRole) {
+                                treeTb.reload();
+                                setTimeout(function () {
+                                    treeTb.expand(mRole.id)
+                                }, 200)
+                            } else {
+                                treeTb.reload();  // 成功刷新表格
+                            }
+                        }
                     }
                 },
                 success: function (layero, dIndex) {
@@ -145,15 +174,6 @@
                 treetable.expandAll('#tableAuth');
             }
         });
-
-        $('#btnExpandAuth').click(function () {
-            treetable.expandAll('#tableAuth');
-        });
-
-        $('#btnFoldAuth').click(function () {
-            treetable.foldAll('#tableAuth');
-        });
-
     });
 </script>
 {/block}
