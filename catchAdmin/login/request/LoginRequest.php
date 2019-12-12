@@ -9,7 +9,7 @@ class LoginRequest extends CatchRequest
     {
         // TODO: Implement rules() method.
         return [
-            'name|用户名'    => 'require|max:25',
+            'email|用户名'    => 'email',
             'password|密码'  => 'require',
            // 'captcha|验证码' => 'require|captcha'
         ];

@@ -1,10 +1,11 @@
 <?php
 namespace catchAdmin\login\controller;
 
-use catchAdmin\login\Auth;
+use catchAdmin\user\Auth;
 use catchAdmin\login\request\LoginRequest;
 use catcher\base\CatchController;
 use catcher\CatchResponse;
+use think\captcha\Captcha;
 
 class Index extends CatchController
 {
@@ -31,7 +32,7 @@ class Index extends CatchController
      */
     public function login(LoginRequest $request)
     {
-        return (new Auth())->login($request->param()) ?
+        return Auth::login($request->param()) ?
             CatchResponse::success('', '登录成功') : CatchResponse::success('', '登录失败');
     }
 
@@ -43,10 +44,22 @@ class Index extends CatchController
      */
     public function logout(): bool
     {
-        if ((new Auth())->logout()) {
+        if (Auth::logout()) {
             return redirect(url('login'));
         }
 
         return false;
+    }
+
+    /**
+     *
+     * @time 2019年12月12日
+     * @param Captcha $captcha
+     * @param null $config
+     * @return \think\Response
+     */
+    public function captcha(Captcha $captcha, $config = null): \think\Response
+    {
+        return $captcha->create($config);
     }
 }
