@@ -47,10 +47,10 @@ class User extends CatchController
         $form = new CatchForm();
 
         $form->formId('userForm');
-        $form->text('username', '用户名')->verify('required')->placeholder('请输入用户名');
-        $form->text('email', '邮箱')->verify('email')->placeholder('请输入邮箱');
-        $form->password('password', '密码')->id('pwd')->verify('required|psw')->placeholder('请输入密码');
-        $form->password('passwordConfirm', '确认密码')->verify('required|equalTo', ['pwd', '两次密码输入不一致'])->placeholder('请再次输入密码');
+        $form->text('username', '用户名', true)->verify('required')->placeholder('请输入用户名');
+        $form->text('email', '邮箱', true)->verify('email')->placeholder('请输入邮箱');
+        $form->password('password', '密码', true)->id('pwd')->verify('required|psw')->placeholder('请输入密码');
+        $form->password('passwordConfirm', '确认密码', true)->verify('required|equalTo', ['pwd', '两次密码输入不一致'])->placeholder('请再次输入密码');
         $form->dom('<div id="roles"></div>', '角色');
         $form->formBtn('submitUser');
 
@@ -67,11 +67,12 @@ class User extends CatchController
      */
     public function save(CreateRequest $request)
     {
-        $uid = $this->user->storeBy($request->post());
+        $this->user->storeBy($request->post());
 
         if (!empty($request->param('roleids'))) {
             $this->user->attach($request->param('roleids'));
         }
+
         return CatchResponse::success();
     }
 
@@ -92,8 +93,8 @@ class User extends CatchController
         $form = new CatchForm();
 
         $form->formId('userForm');
-        $form->text('username', '用户名')->verify('required')->default($user->username)->placeholder('请输入用户名');
-        $form->text('email', '邮箱')->verify('email')->default($user->email)->placeholder('请输入邮箱');
+        $form->text('username', '用户名', true)->verify('required')->default($user->username)->placeholder('请输入用户名');
+        $form->text('email', '邮箱', true)->verify('email')->default($user->email)->placeholder('请输入邮箱');
         $form->password('password', '密码')->id('pwd')->placeholder('请输入密码');
         $form->password('passwordConfirm', '确认密码')->verify('equalTo', ['pwd', '两次密码输入不一致'])->placeholder('请再次输入密码');
         $form->dom('<div id="roles"></div>', '角色');
@@ -114,7 +115,17 @@ class User extends CatchController
      */
     public function update($id, UpdateRequest $request)
     {
-        return CatchResponse::success($this->user->updateBy($id, $request->post()));
+        $this->user->updateBy($id, $request->post());
+
+        $user = $this->user->findBy($id);
+
+        $user->detach();
+
+        if (!empty($request->param('roleids'))) {
+            $user->attach($request->param('roleids'));
+        }
+
+        return CatchResponse::success();
     }
 
     /**
@@ -125,7 +136,12 @@ class User extends CatchController
      */
     public function delete($id)
     {
-        return CatchResponse::success($this->user->deleteBy($id));
+        // 删除角色
+        $this->user->findBy($id)->detach();
+
+        $this->user->deleteBy($id);
+
+        return CatchResponse::success();
     }
 
     /**
