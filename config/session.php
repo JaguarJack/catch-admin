@@ -13,7 +13,7 @@ return [
     // 存储连接标识 当type使用cache的时候有效
     'store'          => null,
     // 过期时间
-    'expire'         => 1440,
+    'expire'         => 24 * 3600,
     // 前缀
-    'prefix'         => '',
+    'prefix'         => 'catch_admin',
 ];
