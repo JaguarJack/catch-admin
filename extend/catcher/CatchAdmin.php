@@ -131,15 +131,22 @@ class CatchAdmin
      * @time 2019年12月12日
      * @return array
      */
-    public static function getModulesInfo(): array
+    public static function getModulesInfo($select = true): array
     {
         $modules = [];
-        foreach (self::getModulesDirectory() as $module) {
-            $moduleInfo = self::getModuleInfo($module);
-            $modules[] = [
-                'value' => $moduleInfo['alias'],
-                'title' => $moduleInfo['name'],
-            ];
+        if ($select) {
+            foreach (self::getModulesDirectory() as $module) {
+                $moduleInfo = self::getModuleInfo($module);
+                $modules[] = [
+                    'value' => $moduleInfo['alias'],
+                    'title' => $moduleInfo['name'],
+                ];
+            }
+        } else {
+            foreach (self::getModulesDirectory() as $module) {
+                $moduleInfo = self::getModuleInfo($module);
+                $modules[$moduleInfo['alias']] = $moduleInfo['name'];
+            }
         }
 
         return $modules;

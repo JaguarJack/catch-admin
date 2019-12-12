@@ -18,13 +18,11 @@ class CatchResponse
      */
     public static function success($data = [], $msg = 'success', $code = 10000): \think\response\Json
     {
-        if (request()->isAjax()) {
-            return json([
-                'code' => $code,
-                'msg'  => $msg,
-                'data' => $data,
-            ]);
-        }
+        return json([
+            'code' => $code,
+            'msg'  => $msg,
+            'data' => $data,
+        ]);
     }
 
     /**
