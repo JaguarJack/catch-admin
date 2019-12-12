@@ -1,8 +1,8 @@
 <?php
 namespace catchAdmin\login;
 
-use app\exceptions\LoginFailedException;
-use think\Db;
+use catchAdmin\user\model\Users;
+use cather\exceptions\LoginFailedException;
 use think\facade\Session;
 
 class Auth
@@ -27,14 +27,19 @@ class Auth
      */
     public function login($params)
     {
-        $user = Db::table('admin_users')
-                    ->where('name', $params['name'])
-                    // ->where('password', $params['password'])
-                    ->first();
-
-        if (!password_verify($params('password'), $user->password)) {
+        $user = Users::where('username', $params['name'])->find();
+        if (!password_verify($params['password'], $user->password)) {
             throw new LoginFailedException('登陆失败, 请检查用户名和密码');
         }
+
+        if ($user->status == Users::DISABLE) {
+            throw new LoginFailedException('该用户已被禁用');
+        }
+
+        // 记录用户登录
+        $user->last_login_ip = ip2long(request()->ip());
+        $user->last_login_time = time();
+        $user->save();
 
         Session::set($this->loginUser, $user);
 

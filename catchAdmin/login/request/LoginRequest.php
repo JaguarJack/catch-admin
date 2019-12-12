@@ -1,9 +1,9 @@
 <?php
 namespace catchAdmin\login\request;
 
-use catcher\base\BaseRequest;
+use catcher\base\CatchRequest;
 
-class LoginRequest extends BaseRequest
+class LoginRequest extends CatchRequest
 {
     protected function rules(): array
     {
@@ -11,7 +11,7 @@ class LoginRequest extends BaseRequest
         return [
             'name|用户名'    => 'require|max:25',
             'password|密码'  => 'require',
-            'captcha|验证码' => 'require|captcha'
+           // 'captcha|验证码' => 'require|captcha'
         ];
     }
 

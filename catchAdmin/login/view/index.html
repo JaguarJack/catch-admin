@@ -106,7 +106,13 @@
                 type: 'post',
                 data: obj.field,
                 success: function(response) {
-                    layer.msg(response.msg)
+                    layer.msg(response.msg, {
+                        icon: 1,
+                        time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                    }, function(){
+                        //do something
+                        window.location.href = '/';
+                    })
                 }
             });
             return false;

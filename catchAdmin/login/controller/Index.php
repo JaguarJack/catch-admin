@@ -3,9 +3,10 @@ namespace catchAdmin\login\controller;
 
 use catchAdmin\login\Auth;
 use catchAdmin\login\request\LoginRequest;
-use catcher\base\BaseController;
+use catcher\base\CatchController;
+use catcher\CatchResponse;
 
-class Index extends BaseController
+class Index extends CatchController
 {
     /**
      * 登录
@@ -25,11 +26,13 @@ class Index extends BaseController
      * @time 2019年11月28日
      * @param LoginRequest $request
      * @return bool|string
+     * @throws \cather\exceptions\LoginFailedException
      * @throws \app\exceptions\LoginFailedException
      */
     public function login(LoginRequest $request)
     {
-        (new Auth())->login($request->post());
+        return (new Auth())->login($request->param()) ?
+            CatchResponse::success('', '登录成功') : CatchResponse::success('', '登录失败');
     }
 
     /**
