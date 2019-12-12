@@ -6,6 +6,8 @@ use think\facade\View;
 
 abstract class CatchController
 {
+    protected $middleware = ['check_auth'];
+
     /**
      *
      * @time 2019年11月28日

@@ -128,6 +128,25 @@ class CatchAdmin
 
     /**
      *
+     * @time 2019年12月12日
+     * @return array
+     */
+    public static function getModulesInfo(): array
+    {
+        $modules = [];
+        foreach (self::getModulesDirectory() as $module) {
+            $moduleInfo = self::getModuleInfo($module);
+            $modules[] = [
+                'value' => $moduleInfo['alias'],
+                'title' => $moduleInfo['name'],
+            ];
+        }
+
+        return $modules;
+    }
+
+    /**
+     *
      * @time 2019年11月30日
      * @return array
      */

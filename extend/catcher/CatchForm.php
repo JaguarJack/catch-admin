@@ -355,12 +355,12 @@ class CatchForm
      */
     private function selectField($field)
     {
-       $select = sprintf('<select name="%s">', $field['name']);
+       $select = sprintf('<select name="%s" %s>', $field['name'], $field['verify'] ?? '');
 
        $default = $field['default'] ?? '';
 
        foreach ($field['options'] as $key => $option) {
-           $select .= sprintf('<option value="%s"%s>%s</option>', $key, $default == $key ? ' selected' : '',$option);
+           $select .= sprintf('<option value="%s"%s>%s</option>', $option['value'], $default == $key ? ' selected' : '',$option['title']);
        }
 
        return $select . '</select>';
