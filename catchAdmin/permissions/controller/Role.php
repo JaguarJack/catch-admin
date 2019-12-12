@@ -46,7 +46,8 @@ class Roles extends CatchController
         $form->formBtn('submitRole');
 
         return $this->fetch([
-            'form' => $form->render()
+            'form' => $form->render(),
+            'parent_id' => \request()->param('id') ?? 0,
         ]);
     }
 
@@ -95,6 +96,7 @@ class Roles extends CatchController
         return $this->fetch([
             'form' => $form->render(),
             'role_id' => $role->id,
+            'parent_id' => $role->parent_id
         ]);
     }
 
@@ -167,7 +169,17 @@ class Roles extends CatchController
      */
     public function getPermissions(Request $request, \catchAdmin\permissions\model\Permissions $permission): Json
     {
-        $permissions = Tree::done($permission->getList());
+        $parentRoleHasPermissionIds = null;
+        if ($request->param('parent_id')) {
+            $permissions = $this->role->findBy($request->param('parent_id'))->getPermissions();
+            foreach ($permissions as $_permission) {
+                $parentRoleHasPermissionIds[] = $_permission->pivot->permission_id;
+            }
+        }
+
+        $permissions = Tree::done($permission->getList([
+            'permission_ids' => $parentRoleHasPermissionIds
+        ]));
 
         $permissionIds = [];
         if ($request->param('role_id')) {

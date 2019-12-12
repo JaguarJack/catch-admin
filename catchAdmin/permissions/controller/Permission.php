@@ -4,13 +4,14 @@ namespace catchAdmin\permissions\controller;
 
 use app\Request;
 use catcher\base\CatchController;
+use catcher\CatchAdmin;
 use catcher\CatchForm;
 use catcher\CatchResponse;
 use catcher\exceptions\FailedException;
 use catcher\Tree;
 use catchAdmin\permissions\model\Permissions as Permission;
 
-class Permissions extends CatchController
+class Permission extends CatchController
 {
     protected $permissions;
 
@@ -50,10 +51,10 @@ class Permissions extends CatchController
     public function create()
     {
         $form = new CatchForm();
-
         $form->formId('permission');
         $form->text('permission_name', '菜单名称', true)->verify('required')->placeholder('请输入菜单名称');
         $form->hidden('parent_id')->default(\request()->param('id') ?? 0);
+        $form->select('module', '模块', true)->verify('required')->options(CatchAdmin::getModulesInfo());
         $form->text('route', '路由')->placeholder('请输入路由');
         $form->radio('method', '请求方法', true)->default(Permission::GET)->options([
             ['value' => Permission::GET, 'title' => 'get'],
@@ -104,8 +105,9 @@ class Permissions extends CatchController
              ->verify('required')
              ->placeholder('请输入菜单名称');
         $form->hidden('parent_id')->default($permission->parent_id);
+        $form->select('module', '模块', true)->default($permission->module)->options(CatchAdmin::getModulesInfo());
         $form->text('route', '路由')->default($permission->route)->placeholder('请输入路由');
-        $form->radio('method', '请求方法', true)->default($permission->method)->options([
+        $form->radio('method', '请求方法', true)->verify('required')->default($permission->method)->options([
             ['value' => Permission::GET, 'title' => 'get'],
             ['value' => Permission::POST, 'title' => 'post'],
             ['value' => Permission::PUT, 'title' => 'put'],
