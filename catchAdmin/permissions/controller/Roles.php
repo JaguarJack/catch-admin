@@ -7,6 +7,7 @@ use catcher\CatchForm;
 use catcher\CatchResponse;
 use catcher\exceptions\FailedException;
 use catcher\Tree;
+use think\response\Json;
 
 class Roles extends CatchController
 {
@@ -53,13 +54,18 @@ class Roles extends CatchController
      *
      * @time 2019年12月11日
      * @param Request $request
-     * @return \think\response\Json
+     * @return Json
+     * @throws \think\db\exception\DbException
      */
     public function save(Request $request)
     {
+        $this->role->storeBy($request->param());
+
+        if (!empty($request->param('permissionids'))) {
+            $this->role->attach($request->param('permissionids'));
+        }
         // 添加角色
-        dd($request->param('roleids'));
-        return CatchResponse::success($this->role->storeBy($request->param()));
+        return CatchResponse::success();
     }
 
     public function read($id)
@@ -83,6 +89,7 @@ class Roles extends CatchController
         $form->hidden('parent_id')->default($role->parent_id);
         $form->text('role_name', '角色名称', true)->default($role->name)->verify('required')->placeholder('请输入角色名称');
         $form->textarea('description', '角色描述')->default($role->description)->placeholder('请输入角色描述');
+        $form->dom('<div id="permissions"></div>', '权限');
         $form->formBtn('submitRole');
 
         return $this->fetch([
@@ -96,11 +103,22 @@ class Roles extends CatchController
      * @time 2019年12月11日
      * @param $id
      * @param Request $request
-     * @return \think\response\Json
+     * @return Json
+     * @throws \think\db\exception\DbException
      */
     public function update($id, Request $request)
     {
-        return CatchResponse::success($this->role->updateBy($id, $request->param()));
+        $this->role->updateBy($id, $request->param());
+
+        $role = $this->role->findBy($id);
+
+        $role->detach();
+
+        if (!empty($request->param('permissionids'))) {
+            $role->attach($request->param('permissionids'));
+        }
+
+        return CatchResponse::success();
     }
 
     /**
@@ -111,26 +129,57 @@ class Roles extends CatchController
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\DbException
      * @throws \think\db\exception\ModelNotFoundException
-     * @return \think\response\Json
+     * @return Json
      */
     public function delete($id)
     {
         if ($this->role->where('parent_id', $id)->find()) {
             throw new FailedException('存在子角色，无法删除');
         }
-
+        $role = $this->role->findBy($id);
         // 删除权限
-        return CatchResponse::success($this->role->deleteBy($id));
+        $role->detach();
+        // 删除用户关联
+        $role->users()->detach();
+        // 删除
+        $this->role->deleteBy($id);
+
+        return CatchResponse::success();
     }
 
     /**
      *
      * @time 2019年12月11日
      * @param Request $request
-     * @return \think\response\Json
+     * @return Json
      */
     public function list(Request $request)
     {
         return CatchResponse::success(Tree::done($this->role->getList($request->param())));
+    }
+
+    /**
+     *
+     * @time 2019年12月11日
+     * @param Request $request
+     * @param \catchAdmin\permissions\model\Permissions $permission
+     * @return Json
+     */
+    public function getPermissions(Request $request, \catchAdmin\permissions\model\Permissions $permission): Json
+    {
+        $permissions = Tree::done($permission->getList());
+
+        $permissionIds = [];
+        if ($request->param('role_id')) {
+            $roleHasPermissions = $this->role->findBy($request->param('role_id'))->getPermissions();
+            foreach ($roleHasPermissions as $_permission) {
+                $permissionIds[] = $_permission->pivot->permission_id;
+            }
+        }
+
+        return CatchResponse::success([
+            'permissions' => $permissions,
+            'hasPermissions' => $permissionIds,
+        ]);
     }
 }

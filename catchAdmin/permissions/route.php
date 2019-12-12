@@ -3,6 +3,7 @@
 $router->resource('role', '\catchAdmin\permissions\controller\Roles');
 // 角色列表
 $router->get('roles', '\catchAdmin\permissions\controller\Roles/list');
+$router->get('/role/get/permissions', '\catchAdmin\permissions\controller\Roles/getPermissions');
 
 // 权限
 $router->resource('permission', '\catchAdmin\permissions\controller\Permissions');

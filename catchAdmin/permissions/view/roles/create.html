@@ -23,9 +23,9 @@
             }, 'post');
             return false;
         });
-        admin.req('{:url("permissions")}',{}, function (response) {
-            var inst1 = authtree.render('#permissions', response.data,{
-                inputname: 'authids[]',
+        admin.req('{:url("/role/get/permissions")}',{}, function (response) {
+            authtree.render('#permissions', response.data.permissions,{
+                inputname: 'permissionids[]',
                 layfilter: 'lay-check-auth',
                 autowidth: true,
                 nameKey: 'permission_name',

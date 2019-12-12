@@ -155,6 +155,8 @@ class Permissions extends CatchController
             throw new FailedException('存在子菜单，无法删除');
         }
 
+        $this->permissions->findBy($id)->roles()->detach();
+
         return CatchResponse::success($this->permissions->deleteBy($id));
     }
 }

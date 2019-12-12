@@ -31,6 +31,10 @@ trait HasRolesTrait
      */
     public function attach(array $roles)
     {
+        if (empty($roles)) {
+            return true;
+        }
+
         return $this->roles()->attach($roles);
     }
 

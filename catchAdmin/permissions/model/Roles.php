@@ -40,7 +40,7 @@ class Roles extends CatchModel
      */
     public function users(): \think\model\relation\BelongsToMany
     {
-        return $this->belongsToMany(Users::class, 'user_has_roles');
+        return $this->belongsToMany(Users::class, 'user_has_roles', 'uid', 'role_id');
     }
 
     /**
@@ -56,10 +56,9 @@ class Roles extends CatchModel
     /**
      *
      * @time 2019年12月08日
-     * @param $rid
      * @return mixed
      */
-    public function getRoles($rid)
+    public function getPermissions()
     {
         return $this->permissions()->select();
     }

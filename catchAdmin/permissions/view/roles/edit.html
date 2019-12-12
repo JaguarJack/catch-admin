@@ -1,13 +1,29 @@
 {$form|raw}
 <script>
-    layui.use(['layer', 'form', 'admin', 'formX'], function () {
+    layui.use(['layer', 'form', 'admin', 'formX', 'authtree'], function () {
         var $ = layui.jquery;
         var layer = layui.layer;
         var form = layui.form;
         var admin = layui.admin;
         var mUser = admin.getLayerData('#role');  // 列表页面传递的数据，#modelUserForm这个只要写弹窗内任意一个元素的id即可
+        var authtree = layui.authtree;
+
         // 回显数据
         form.val('role', mUser);
+        admin.req('{:url("/role/get/permissions")}',{role_id:"{$role_id}"}, function (response) {
+            console.log(response.data)
+            authtree.render('#permissions', response.data.permissions,{
+                inputname: 'permissionids[]',
+                layfilter: 'lay-check-auth',
+                autowidth: true,
+                nameKey: 'permission_name',
+                valueKey: 'id',
+                childKey: 'children',
+                collapseLeafNode: true,
+                theme: 'auth-skin-default',
+                checkedKey: response.data.hasPermissions
+            });
+        })
         // 表单提交事件
         form.on('submit(submitRole)', function (data) {
             admin.req('role/'+ "{$role_id}", data.field, function (response) {

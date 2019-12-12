@@ -117,7 +117,7 @@
                 title: addRole ? '新增子角色' : ((mRole ? '修改' : '添加') + '角色'),
                 url: addRole ? '/role/create' + '?id='+mRole.id : (mRole ? '/role/'+mRole.id + '/edit': '/role/create'),
                 data: addRole ? '' : mRole,     // 传递数据到表单页面
-                area: '800px',
+                area: '700px',
                 end: function () {
                     if (admin.getLayerData(layIndex, 'formOk')) {  // 判断表单操作成功标识
                         if (addRole) {

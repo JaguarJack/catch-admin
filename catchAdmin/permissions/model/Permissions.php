@@ -30,7 +30,7 @@ class Permissions extends CatchModel
     public const PUT = 'put';
     public const DELETE = 'delete';
 
-    public function getList($search)
+    public function getList($search = [])
     {
         return $this->when($search['name'] ?? false, function ($query) use ($search){
                 $query->whereLike('name', $search['name']);
@@ -47,6 +47,6 @@ class Permissions extends CatchModel
 
     public function roles(): \think\model\relation\BelongsToMany
     {
-        return $this->belongsToMany(Roles::class, 'role_has_permissions');
+        return $this->belongsToMany(Roles::class, 'role_has_permissions', 'role_id', 'permission_id');
     }
 }
