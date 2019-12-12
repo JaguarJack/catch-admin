@@ -3,6 +3,7 @@ namespace catchAdmin\permissions;
 
 use app\Request;
 use catchAdmin\permissions\model\Permissions;
+use catcher\CatchAdmin;
 use catcher\exceptions\PermissionForbiddenException;
 use think\helper\Str;
 
@@ -25,7 +26,8 @@ class PermissionsMiddleware
             throw new PermissionForbiddenException('Login is invalid', 10006);
         }
        // toad
-        if (($permission = $this->getPermission($request->rule()->getName())) && in_array($permission->id, $request->user()->getPermissionsBy())) {
+        if (($permission = $this->getPermission($request))
+            && in_array($permission->id, $request->user()->getPermissionsBy())) {
               throw new PermissionForbiddenException();
         }
 
@@ -35,17 +37,15 @@ class PermissionsMiddleware
     /**
      *
      * @time 2019年12月12日
-     * @param $rule
+     * @param $request
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\DbException
      * @throws \think\db\exception\ModelNotFoundException
      * @return array|bool|\think\Model|null
      */
-    protected function getPermission($rule)
+    protected function getPermission(Request $request)
     {
-        if (!$rule) {
-            return false;
-        }
+        $rule = $request->rule()->getName();
 
         [$controller, $action] = explode(Str::contains($rule, '@') ? '@' : '/', $rule);
 
@@ -57,18 +57,21 @@ class PermissionsMiddleware
 
         $module = array_pop($controller);
 
-        $ignore = config('catch.ignore');
-
-        if (in_array($module, $ignore['module'])) {
-            return false;
-        }
-
         $permissionMark = sprintf('%s:%s:%s', $module, $controllerName, $action);
 
-        if (in_array($permissionMark, $ignore['route'])) {
-            return false;
+        $permission = Permissions::where('permission_mark', $permissionMark)->find();
+
+
+        $params['uid'] = $request->user()->id;
+        $params['module'] = $rule ? CatchAdmin::getModulesInfo(false)[$module] : '首页';
+        $params['method'] = $request->method();
+        $params['operate'] = sprintf('%s/%s', $controllerName, $action);
+        event('operateLog', $params);
+
+        if (!$permission) {
+            return  false;
         }
 
-        return Permissions::where('permission_mark', $permissionMark)->find();
+        return  $permission;
     }
 }
