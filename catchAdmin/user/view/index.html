@@ -122,7 +122,6 @@
         });
 
         function recover(uid, username) {
-            console.log(username)
             layer.confirm('确定要恢复“' + username + '”吗？', {
                 skin: 'layui-layer-admin',
                 shade: .1
@@ -145,6 +144,7 @@
                 title: (mUser ? '修改' : '添加') + '用户',
                 url: mUser ? '/user/'+mUser.id + '/edit':'/user/create',
                 data: mUser,     // 传递数据到表单页面
+                area: '500px',
                 end: function () {
                     if (admin.getLayerData(layIndex, 'formOk')) {  // 判断表单操作成功标识
                         insTb.reload();  // 成功刷新表格

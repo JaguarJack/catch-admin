@@ -1,21 +1,14 @@
 <?php
-namespace catchAdmin\login;
+namespace catchAdmin\user;
 
 use catchAdmin\user\model\Users;
-use cather\exceptions\LoginFailedException;
+use catcher\exceptions\FailedException;
+use catcher\exceptions\LoginFailedException;
 use think\facade\Session;
 
 class Auth
 {
-    protected $loginUser = 'admin_user';
-
-    /**
-     * Auth constructor.
-     */
-    public function __construct()
-    {
-        $this->loginUser = md5($this->loginUser);
-    }
+    protected const USER_KEY = 'admin_user';
 
     /**
      * 登陆
@@ -25,9 +18,14 @@ class Auth
      * @throws LoginFailedException
      * @return bool
      */
-    public function login($params)
+    public static function login($params)
     {
-        $user = Users::where('username', $params['name'])->find();
+        $user = Users::where('email', $params['email'])->find();
+
+        if (!$user) {
+            throw new LoginFailedException('登陆失败, 请检查用户名和密码');
+        }
+
         if (!password_verify($params['password'], $user->password)) {
             throw new LoginFailedException('登陆失败, 请检查用户名和密码');
         }
@@ -41,7 +39,7 @@ class Auth
         $user->last_login_time = time();
         $user->save();
 
-        Session::set($this->loginUser, $user);
+        Session::set(self::getLoginUserKey(), $user);
 
         return true;
     }
@@ -52,10 +50,20 @@ class Auth
      * @time 2019年11月28日
      * @return bool
      */
-    public function logout()
+    public static function logout(): bool
     {
-        Session::delete($this->loginUser);
+        Session::delete(self::getLoginUserKey());
 
         return true;
+    }
+
+    public static function user()
+    {
+        return Session::get(self::getLoginUserKey(), null);
+    }
+
+    protected static function getLoginUserKey(): string
+    {
+        return md5(self::USER_KEY);
     }
 }

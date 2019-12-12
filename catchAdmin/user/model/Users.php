@@ -58,4 +58,26 @@ class Users extends CatchModel
                         return $query->where('status', $search['status']);
                     })->paginate($search['limit'] ?? $this->limit);
     }
+
+    /**
+     * 获取权限
+     *
+     * @time 2019年12月12日
+     * @param $uid
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @return array
+     */
+    public function getPermissionsBy($uid = 0): array
+    {
+        $roles = $uid ? $this->findBy($uid)->getRoles() : $this->getRoles();
+
+        $permissionIds = [];
+        foreach ($roles as $role) {
+            $permissionIds = array_merge($permissionIds, $role->getPermissions()->column('id'));
+        }
+
+        return array_unique($permissionIds);
+    }
 }
