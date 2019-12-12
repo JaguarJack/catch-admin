@@ -66,17 +66,19 @@ class Roles extends CatchModel
     /**
      *
      * @time 2019年12月08日
-     * @param array $roles
+     * @param array $permissions
      * @return mixed
      * @throws \think\db\exception\DbException
      */
-    public function attach(array $roles)
+    public function attach(array $permissions)
     {
-        if (empty($roles)) {
+        if (empty($permissions)) {
             return true;
         }
 
-        return $this->permissions()->attach($roles);
+        sort($permissions);
+
+        return $this->permissions()->attach($permissions);
     }
 
     /**

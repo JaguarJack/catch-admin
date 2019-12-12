@@ -9,13 +9,13 @@ use catcher\CatchForm;
 use catcher\CatchResponse;
 use catcher\exceptions\FailedException;
 use catcher\Tree;
-use catchAdmin\permissions\model\Permissions as Permission;
+use catchAdmin\permissions\model\Permissions as Permissions;
 
 class Permission extends CatchController
 {
     protected $permissions;
 
-    public function __construct(Permission $permissions)
+    public function __construct(Permissions $permissions)
     {
         $this->permissions = $permissions;
     }
@@ -57,15 +57,15 @@ class Permission extends CatchController
         $form->select('module', '模块', true)->verify('required')->options(CatchAdmin::getModulesInfo());
         $form->text('route', '路由')->placeholder('请输入路由');
         $form->radio('method', '请求方法', true)->default(Permission::GET)->options([
-            ['value' => Permission::GET, 'title' => 'get'],
-            ['value' => Permission::POST, 'title' => 'post'],
-            ['value' => Permission::PUT, 'title' => 'put'],
-            ['value' => Permission::DELETE, 'title' => 'delete'],
+            ['value' => Permissions::GET, 'title' => 'get'],
+            ['value' => Permissions::POST, 'title' => 'post'],
+            ['value' => Permissions::PUT, 'title' => 'put'],
+            ['value' => Permissions::DELETE, 'title' => 'delete'],
         ]);
         $form->text('permission_mark', '权限标识', true)->verify('required')->placeholder('请输入权限标识controller:action');
         $form->radio('type', '类型', true)->default(Permission::BTN_TYPE)->options([
-            ['value' => Permission::MENU_TYPE, 'title' => '菜单'],
-            ['value' => Permission::BTN_TYPE, 'title' => '按钮'],
+            ['value' => Permissions::MENU_TYPE, 'title' => '菜单'],
+            ['value' => Permissions::BTN_TYPE, 'title' => '按钮'],
         ]);
         $form->text('sort', '排序')->verify('numberX')->default(1)->placeholder('倒叙排序');
         $form->formBtn('submitPermission');
@@ -108,17 +108,17 @@ class Permission extends CatchController
         $form->select('module', '模块', true)->default($permission->module)->options(CatchAdmin::getModulesInfo());
         $form->text('route', '路由')->default($permission->route)->placeholder('请输入路由');
         $form->radio('method', '请求方法', true)->verify('required')->default($permission->method)->options([
-            ['value' => Permission::GET, 'title' => 'get'],
-            ['value' => Permission::POST, 'title' => 'post'],
-            ['value' => Permission::PUT, 'title' => 'put'],
-            ['value' => Permission::DELETE, 'title' => 'delete'],
+            ['value' => Permissions::GET, 'title' => 'get'],
+            ['value' => Permissions::POST, 'title' => 'post'],
+            ['value' => Permissions::PUT, 'title' => 'put'],
+            ['value' => Permissions::DELETE, 'title' => 'delete'],
         ]);
         $form->text('permission_mark', '权限标识', true)
              ->default($permission->permission_mark)
              ->verify('required')->placeholder('请输入权限标识controller:action');
         $form->radio('type', '类型', true)->default($permission->type)->options([
-            ['value' => Permission::MENU_TYPE, 'title' => '菜单'],
-            ['value' => Permission::BTN_TYPE, 'title' => '按钮'],
+            ['value' => Permissions::MENU_TYPE, 'title' => '菜单'],
+            ['value' => Permissions::BTN_TYPE, 'title' => '按钮'],
         ]);
         $form->text('sort', '排序')->verify('numberX')->default($permission->sort)->placeholder('倒叙排序');
         $form->formBtn('submitPermission');

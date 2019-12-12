@@ -11,6 +11,7 @@ class Permissions extends CatchModel
             'id', // 
 			'permission_name', // 菜单名称
 			'parent_id', // 父级ID
+            'module', // 模块
 			'route', // 路由
             'method', // 请求方法
 			'permission_mark', // 权限标识
@@ -38,6 +39,9 @@ class Permissions extends CatchModel
             ->when($search['id'] ?? false, function ($query) use ($search){
                 $query->where('parent_id', $search['id'])
                     ->whereOr('id', $search['id']);
+            })
+            ->when($search['permission_ids'] ?? false, function ($query) use ($search){
+                $query->whereIn('id', $search['permission_ids']);
             })
             ->order('sort', 'desc')
             ->order('id', 'desc')

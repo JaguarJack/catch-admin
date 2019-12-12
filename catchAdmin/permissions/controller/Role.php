@@ -9,7 +9,7 @@ use catcher\exceptions\FailedException;
 use catcher\Tree;
 use think\response\Json;
 
-class Roles extends CatchController
+class Role extends CatchController
 {
     protected $role;
 

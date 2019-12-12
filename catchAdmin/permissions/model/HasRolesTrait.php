@@ -35,6 +35,8 @@ trait HasRolesTrait
             return true;
         }
 
+        sort($roles);
+
         return $this->roles()->attach($roles);
     }
 
