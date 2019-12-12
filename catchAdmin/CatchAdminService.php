@@ -1,6 +1,7 @@
 <?php
 namespace catchAdmin;
 
+use catchAdmin\permissions\PermissionsMiddleware;
 use catcher\command\InstallCommand;
 use catcher\command\MigrateRunCommand;
 use catcher\command\ModelGeneratorCommand;
@@ -28,6 +29,7 @@ class CatchAdminService extends Service
         ]);
 
         $this->registerValidates();
+        $this->registerMiddleWares();
     }
 
     /**
@@ -46,6 +48,17 @@ class CatchAdminService extends Service
                 $validate->extend($vali->type(), [$vali, 'verify'], $vali->message());
             }
         });
+    }
 
+    /**
+     *
+     * @time 2019年12月12日
+     * @return void
+     */
+    protected function registerMiddleWares(): void
+    {
+        $this->app->middleware->import([
+            'check_auth' => PermissionsMiddleware::class
+        ], 'route');
     }
 }
