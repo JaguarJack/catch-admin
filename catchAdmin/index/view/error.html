@@ -15,19 +15,12 @@
 </head>
 <body>
 
-<!-- 加载动画 -->
-<div class="page-loading">
-    <div class="ball-loader">
-        <span></span><span></span><span></span><span></span>
-    </div>
-</div>
-
 <!-- 正文开始 -->
 <div class="error-page">
     <img class="error-page-img" src="__CATCH_ADMIN_IMAGES__/ic_403.png">
     <div class="error-page-info">
         <h1>403</h1>
-        <div class="error-page-info-desc">抱歉，你无权访问此页面</div>
+        <div class="error-page-info-desc">{$msg}</div>
         <div>
             <button ew-href="/" class="layui-btn">返回首页</button>
         </div>
@@ -37,12 +30,5 @@
 <!-- js部分 -->
 <script type="text/javascript" src="__CATCH_ADMIN_LIBS__/layui/layui.js"></script>
 <script type="text/javascript" src="__CATCH_ADMIN_JS__/common.js?v=315"></script>
-<script>
-    layui.use(['admin'], function () {
-        var $ = layui.jquery;
-        var admin = layui.admin;
-
-    });
-</script>
 </body>
 </html>
