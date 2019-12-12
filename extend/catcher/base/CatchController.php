@@ -4,7 +4,7 @@ namespace catcher\base;
 use catcher\CatchAdmin;
 use think\facade\View;
 
-abstract class BaseController
+abstract class CatchController
 {
     /**
      *

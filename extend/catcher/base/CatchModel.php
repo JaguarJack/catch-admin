@@ -5,7 +5,7 @@ use catcher\traits\db\BaseOptionsTrait;
 use catcher\traits\db\TransTrait;
 use think\model\concern\SoftDelete;
 
-abstract class BaseModel extends \think\Model
+abstract class CatchModel extends \think\Model
 {
     use SoftDelete;
     use TransTrait;

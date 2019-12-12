@@ -5,7 +5,7 @@ use app\Request;
 use catcher\exceptions\ValidateFailedException;
 use think\Validate;
 
-abstract class BaseRequest extends Request
+abstract class CatchRequest extends Request
 {
     /**
      * Request constructor.

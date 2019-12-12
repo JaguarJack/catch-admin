@@ -1,1 +1,22 @@
 <?php
+namespace catcher;
+
+class Tree
+{
+    public static function done(array $items, $pid = 0, $pidField = 'parent_id', $children = 'children')
+    {
+        $tree = [];
+
+        foreach ($items as $key => $item) {
+            if ($item[$pidField] == $pid) {
+                $child = self::done($items, $item['id'], $pidField);
+                $item[$children] = count($child) ? $child : [];
+                $tree[] = $item;
+            }
+        }
+
+        return $tree;
+    }
+
+
+}

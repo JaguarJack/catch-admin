@@ -4,7 +4,7 @@ namespace catcher\base;
 use catcher\validates\Sometimes;
 use think\Validate;
 
-abstract class BaseValidate extends Validate
+abstract class CatchValidate extends Validate
 {
     public function __construct()
     {
