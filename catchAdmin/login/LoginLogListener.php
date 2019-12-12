@@ -4,35 +4,31 @@ namespace catchAdmin\login;
 use catchAdmin\user\model\Users;
 use think\facade\Db;
 
-class LoginEvent
+class LoginLogListener
 {
-    protected $params;
-
-    public function __construct(array $params)
+    public function handle($params)
     {
-
-        $this->params = $params;
-    }
-
-    public function handle()
-    {
-        dd('ad');
         $agent = request()->header('user-agent');
 
-        $username = Users::where('email', $this->params['email'])->value('username');
+        $username = Users::where('email', $params['email'])->value('username');
 
         Db::name('login_log')->insert([
-            'login_name' => $username ? : $this->params['email'],
-            'login_ip'   => ip2long(request()->ip()),
+            'login_name' => $username ? : $params['email'],
+            'login_ip'   => request()->ip(),
             'browser'    => $this->getBrowser($agent),
             'os'         => $this->getOs($agent),
             'login_at'   => time(),
-            'status'     => $this->params['success'] ? 1 : 2,
+            'status'     => $params['success'] ? 1 : 2,
         ]);
     }
 
-
-    private function getOs($agent)
+    /**
+     *
+     * @time 2019年12月12日
+     * @param $agent
+     * @return string
+     */
+    private function getOs($agent): string
     {
         if (false !== stripos($agent, 'win') && preg_match('/nt 6.1/i', $agent)) {
             return 'Windows 7';
@@ -56,7 +52,13 @@ class LoginEvent
         return '未知';
     }
 
-    private function getBrowser($agent)
+    /**
+     *
+     * @time 2019年12月12日
+     * @param $agent
+     * @return string
+     */
+    private function getBrowser($agent): string
     {
         if (false !== stripos($agent, "MSIE")) {
             return 'MSIE';

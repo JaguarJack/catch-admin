@@ -1,11 +1,16 @@
 <?php
 namespace catchAdmin\login\controller;
 
+use catchAdmin\login\LoginEvent;
+use catchAdmin\login\LoginLogListener;
 use catchAdmin\user\Auth;
 use catchAdmin\login\request\LoginRequest;
+use catchAdmin\user\model\Users;
 use catcher\base\CatchController;
 use catcher\CatchResponse;
 use think\captcha\Captcha;
+use think\Event;
+use think\facade\Db;
 
 class Index extends CatchController
 {
@@ -27,13 +32,21 @@ class Index extends CatchController
      * @time 2019年11月28日
      * @param LoginRequest $request
      * @return bool|string
+     * @throws \catcher\exceptions\LoginFailedException
      * @throws \cather\exceptions\LoginFailedException
      * @throws \app\exceptions\LoginFailedException
      */
     public function login(LoginRequest $request)
     {
-        return Auth::login($request->param()) ?
-            CatchResponse::success('', '登录成功') : CatchResponse::success('', '登录失败');
+        $params = $request->param();
+        $isSucceed = Auth::login($params);
+        // 登录事件
+        $params['success'] = $isSucceed;
+        event('log', $params);
+
+        return $isSucceed ? CatchResponse::success('', '登录成功') :
+
+            CatchResponse::success('', '登录失败');
     }
 
     /**
