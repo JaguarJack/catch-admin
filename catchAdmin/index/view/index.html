@@ -77,7 +77,16 @@
                             <a><i class="layui-icon layui-icon-home"></i>&emsp;<cite>{$menu['permission_name']}</cite></a>
                             <dl class="layui-nav-child">
                             {foreach $menu['children'] as $m}
-                                <dd><a lay-href="{:url($m['route'])}">{$m['permission_name']}</a></dd>
+                                {if (!empty($m['children']))}
+                                    <a><i class="layui-icon layui-icon-home"></i>&emsp;<cite>{$menu['permission_name']}</cite></a>
+                                    <dl class="layui-nav-child">
+                                    {foreach $m['children'] as $_m}
+                                        <dd><a lay-href="{:url($_m['route'])}">{$_m['permission_name']}</a></dd>
+                                    {/foreach}
+                                    </dl>
+                                {else/}
+                                    <dd><a lay-href="{:url($m['route'])}">{$m['permission_name']}</a></dd>
+                                {/if}
                             {/foreach}
                             </dl>
                         {else/}
