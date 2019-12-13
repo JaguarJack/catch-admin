@@ -39,7 +39,7 @@ class Permissions extends Migrator
             ->addColumn('sort', 'integer',['default'=> 0,'comment'=>'排序字段'])
             ->addColumn('created_at', 'integer', array('default'=>0,'comment'=>'创建时间', 'signed' => false ))
             ->addColumn('updated_at', 'integer', array('default'=>0,'comment'=>'更新时间', 'signed' => false))
-            ->addColumn('deleted_at', 'integer', array('null'=>true,'comment'=>'删除状态，null 未删除 timestamp 已删除', 'signed' => false))
+            ->addColumn('deleted_at', 'integer', array('default'=>0,'comment'=>'删除状态，null 未删除 timestamp 已删除', 'signed' => false))
             ->create();
 
     }

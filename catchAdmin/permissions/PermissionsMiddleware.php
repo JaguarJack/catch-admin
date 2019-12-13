@@ -27,7 +27,7 @@ class PermissionsMiddleware
         }
        // toad
         if (($permission = $this->getPermission($request))
-            && in_array($permission->id, $request->user()->getPermissionsBy())) {
+            && !in_array($permission->id, $request->user()->getPermissionsBy())) {
               throw new PermissionForbiddenException();
         }
 
@@ -57,20 +57,17 @@ class PermissionsMiddleware
 
         $module = array_pop($controller);
 
-        $permissionMark = sprintf('%s:%s:%s', $module, $controllerName, $action);
-
-        $permission = Permissions::where('permission_mark', $permissionMark)->find();
-
-
-        $params['uid'] = $request->user()->id;
-        $params['module'] = $rule ? CatchAdmin::getModulesInfo(false)[$module] : '首页';
-        $params['method'] = $request->method();
-        $params['operate'] = sprintf('%s/%s', $controllerName, $action);
-        event('operateLog', $params);
+        $permissionMark = sprintf('%s:%s', $controllerName, $action);
+        $permission = Permissions::where('module', $module)->where('permission_mark', $permissionMark)->find();
 
         if (!$permission) {
             return  false;
         }
+
+        event('operateLog', [
+            'request' => $request,
+            'permission' => $permission,
+        ]);
 
         return  $permission;
     }
