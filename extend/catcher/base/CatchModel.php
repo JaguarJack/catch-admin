@@ -17,6 +17,8 @@ abstract class CatchModel extends \think\Model
 
     protected $deleteTime = 'deleted_at';
 
+    protected $defaultSoftDelete = 0;
+
     protected $autoWriteTimestamp = true;
 
     protected $limit = 10;

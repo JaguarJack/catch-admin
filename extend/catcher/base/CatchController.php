@@ -8,6 +8,8 @@ abstract class CatchController
 {
     protected $middleware = ['check_auth'];
 
+    protected $data = [];
+
     /**
      *
      * @time 2019年11月28日
@@ -25,6 +27,10 @@ abstract class CatchController
         View::config([
             'view_path' => CatchAdmin::getViews()[$this->getModule($end['class'])]
         ]);
+
+        if (!empty($this->data)) {
+            $data = array_merge($this->data, $data);
+        }
 
         return View::fetch($template ?  : $this->getTemp($end['class'], $end['function']), $data);
 
@@ -61,5 +67,28 @@ abstract class CatchController
     protected function getModule($class)
     {
         return explode('\\', $class)[1];
+    }
+
+    /**
+     *
+     * @time 2019年12月13日
+     * @param $name
+     * @param $value
+     * @return void
+     */
+    public function __set($name, $value)
+    {
+        // TODO: Implement __set() method.
+        $this->data[$name] = $value;
+    }
+
+    public function __get($name)
+    {
+        // TODO: Implement __get() method.
+    }
+
+    public function __isset($name)
+    {
+        // TODO: Implement __isset() method.
     }
 }

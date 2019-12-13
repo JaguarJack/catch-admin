@@ -51,6 +51,23 @@ class CatchAdmin
     }
 
     /**
+     * 备份地址
+     *
+     * @time 2019年12月13日
+     * @return string
+     */
+    public static function backupDirectory(): string
+    {
+        $directory = root_path('database/backup');
+
+        if (!is_dir($directory) && !mkdir($directory, 0777, true) && !is_dir($directory)) {
+            throw new \RuntimeException(sprintf('Directory "%s" was not created', $directory));
+        }
+
+        return $directory;
+    }
+
+    /**
      *
      * @time 2019年12月03日
      * @param $module

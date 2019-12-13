@@ -5,7 +5,7 @@ use app\Request;
 use catcher\exceptions\ValidateFailedException;
 use think\Validate;
 
-abstract class CatchRequest extends Request
+class CatchRequest extends Request
 {
     /**
      * Request constructor.
@@ -35,8 +35,4 @@ abstract class CatchRequest extends Request
 
         return true;
     }
-
-    abstract protected function rules(): array;
-
-    abstract protected function message(): array;
 }
