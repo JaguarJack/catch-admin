@@ -1,8 +1,8 @@
 <?php
 // 事件定义文件
+
 return [
-    'bind'      => [
-    ],
+    'bind'      => [],
 
     'listen'    => [
         'AppInit'  => [],
@@ -10,9 +10,7 @@ return [
         'HttpEnd'  => [],
         'LogLevel' => [],
         'LogWrite' => [],
-        'RouteLoaded' => [
-            catcher\event\LoadModuleRoutes::class,
-        ],
+        'RouteLoaded' => [],
     ],
 
     'subscribe' => [
