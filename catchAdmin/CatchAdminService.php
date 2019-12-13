@@ -6,11 +6,13 @@ use catchAdmin\permissions\OperateLogListener;
 use catchAdmin\permissions\PermissionsMiddleware;
 use catchAdmin\system\event\LoginLogEvent;
 use catchAdmin\system\event\OperateLogEvent;
+use catcher\command\BackupCommand;
 use catcher\command\InstallCommand;
 use catcher\command\MigrateRunCommand;
 use catcher\command\ModelGeneratorCommand;
 use catcher\command\ModuleCacheCommand;
 use catcher\command\SeedRunCommand;
+use catcher\event\LoadModuleRoutes;
 use catcher\validates\Sometimes;
 use think\facade\Validate;
 use think\Service;
@@ -24,20 +26,30 @@ class CatchAdminService extends Service
      */
     public function boot()
     {
-        $this->commands([
-            InstallCommand::class,
-            ModuleCacheCommand::class,
-            MigrateRunCommand::class,
-            ModelGeneratorCommand::class,
-            SeedRunCommand::class
-        ]);
 
+        $this->registerCommands();
         $this->registerValidates();
         $this->registerMiddleWares();
         $this->registerEvents();
         $this->registerListeners();
     }
 
+    /**
+     *
+     * @time 2019年12月13日
+     * @return void
+     */
+    protected function registerCommands(): void
+    {
+        $this->commands([
+            InstallCommand::class,
+            ModuleCacheCommand::class,
+            MigrateRunCommand::class,
+            ModelGeneratorCommand::class,
+            SeedRunCommand::class,
+            BackupCommand::class,
+        ]);
+    }
     /**
      *
      * @time 2019年12月07日
@@ -98,6 +110,9 @@ class CatchAdminService extends Service
             'operateLog' => [
                 OperateLogListener::class,
             ],
+            'RouteLoaded' => [
+                LoadModuleRoutes::class
+            ]
         ]);
     }
 
