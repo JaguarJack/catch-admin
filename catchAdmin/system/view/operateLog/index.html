@@ -36,15 +36,16 @@
             // toolbar: true,
             cellMinWidth: 100,
             cols: [[
-                {type: 'id', title: '#', field: 'id'},
-                {field: 'module', sort: true, title: '模块'},
-                {field: 'ip', sort: true, title: 'IP'},
-                {field: 'operate', sort: true, title: 'operate'},
-                {field: 'creator', sort: true, title: '操作者'},
-                {field: 'method', sort: true, title: '请求方法'},
-                {field: 'created_at', sort: true, title: '创建时间', templet: function (d) {
-                        return d.status === 1 ? '成功' : '失败'
-                    }
+                {type: 'id', title: '序号', field: 'id'},
+                {field: 'module',  title: '模块'},
+                {field: 'ip',  title: 'IP'},
+                {field: 'operate', title: 'operate'},
+                {field: 'creator', title: '操作者'},
+                {field: 'method',  title: '请求方法'},
+                {
+                    field: 'created_at', sort: true, templet: function (d) {
+                        return util.toDateString(d.created_at);
+                    }, title: '创建时间'
                 },
             ]],
         });

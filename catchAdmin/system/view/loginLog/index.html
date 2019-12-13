@@ -3,16 +3,17 @@
 {block name="search"}
 <div class="layui-form toolbar">
     <div class="layui-form-item">
-        <!--<div class="layui-inline">
+        <div class="layui-inline">
             <div class="layui-input-inline mr0">
                 <input id="edtSearchAuth" class="layui-input" type="text" placeholder="输入角色名称"/>
             </div>
         </div>
         <div class="layui-inline">
             <button id="btnSearchAuth" class="layui-btn icon-btn"><i class="layui-icon">&#xe615;</i>搜索
-            </button>-->
-        <button id="btnAddAuth" class="layui-btn icon-btn"><i class="layui-icon">&#xe654;</i>添加</button>
-        <!--</div>-->
+            </button>
+        <button id="btnAddAuth" class="layui-btn icon-btn"><i class="layui-icon">&#xe640;
+        </i>清空</button>
+        </div>
     </div>
 </div>
 {/block}
@@ -36,17 +37,19 @@
             // toolbar: true,
             cellMinWidth: 100,
             cols: [[
-                {type: 'id', title: '#', field: 'id'},
-                {field: 'login_name', sort: true, title: '登录名'},
-                {field: 'login_ip', sort: true, title: '登录IP'},
-                {field: 'browser', sort: true, title: '浏览器'},
-                {field: 'os', sort: true, title: '操作系统'},
-                {field: 'status', sort: true, title: '状态', templet: function (d) {
-                        return d.status === 1 ? '成功' : '失败'
+                {type: 'id', title: '序号', field: 'id'},
+                {field: 'login_name',  title: '登录名'},
+                {field: 'login_ip', title: '登录IP'},
+                {field: 'browser',  title: '浏览器'},
+                {field: 'os',  title: '操作系统'},
+                {field: 'status',  title: '状态', templet: function (d) {
+                        return d.status === 1 ?
+                            '<button class="layui-btn layui-btn-xs">成功</button>' :
+                            '<button class="layui-btn layui-btn-xs  layui-btn-danger">失败</button>'
                     }
                 },
                 {
-                    field: 'login_at', sort: true, templet: function (d) {
+                    field: 'login_at', templet: function (d) {
                         return util.toDateString(d.login_at);
                     }, title: '登录时间'
                 },
