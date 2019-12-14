@@ -3,7 +3,6 @@ namespace catchAdmin\permissions;
 
 use app\Request;
 use catchAdmin\permissions\model\Permissions;
-use catcher\CatchAdmin;
 use catcher\exceptions\PermissionForbiddenException;
 use think\helper\Str;
 
@@ -22,6 +21,10 @@ class PermissionsMiddleware
      */
     public function handle(Request $request, \Closure $next)
     {
+        if (!$request->user()) {
+            throw new PermissionForbiddenException('Login is invalid', 10006);
+        }
+
        // toad
         if (($permission = $this->getPermission($request))
             && !in_array($permission->id, $request->user()->getPermissionsBy())) {
@@ -54,11 +57,6 @@ class PermissionsMiddleware
         array_pop($controller);
 
         $module = array_pop($controller);
-        if ($module != 'login') {
-            if (!$request->user()) {
-                throw new PermissionForbiddenException('Login is invalid', 10006);
-            }
-        }
         $permissionMark = sprintf('%s:%s', $controllerName, $action);
         $permission = Permissions::where('module', $module)->where('permission_mark', $permissionMark)->find();
 
