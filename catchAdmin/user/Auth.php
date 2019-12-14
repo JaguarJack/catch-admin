@@ -35,7 +35,7 @@ class Auth
         }
 
         // 记录用户登录
-        $user->last_login_ip = ip2long(request()->ip());
+        $user->last_login_ip = request()->ip();
         $user->last_login_time = time();
         $user->save();
 
