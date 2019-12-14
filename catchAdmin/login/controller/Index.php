@@ -1,16 +1,11 @@
 <?php
 namespace catchAdmin\login\controller;
 
-use catchAdmin\login\LoginEvent;
-use catchAdmin\login\LoginLogListener;
 use catchAdmin\user\Auth;
 use catchAdmin\login\request\LoginRequest;
-use catchAdmin\user\model\Users;
 use catcher\base\CatchController;
 use catcher\CatchResponse;
 use think\captcha\Captcha;
-use think\Event;
-use think\facade\Db;
 
 class Index extends CatchController
 {
