@@ -58,7 +58,7 @@ class CatchAdmin
      */
     public static function backupDirectory(): string
     {
-        $directory = root_path('database/backup');
+        $directory = self::cacheDirectory();
 
         if (!is_dir($directory) && !mkdir($directory, 0777, true) && !is_dir($directory)) {
             throw new \RuntimeException(sprintf('Directory "%s" was not created', $directory));
