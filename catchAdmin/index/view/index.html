@@ -49,14 +49,14 @@
                 </a>
                 <dl class="layui-nav-child">
                     <dd lay-unselect>
-                        <a ew-href="page/template/user-info.html">个人中心</a>
+                        <a ew-href="javascript:;">个人中心</a>
                     </dd>
                     <dd lay-unselect>
                         <a ew-event="psw">修改密码</a>
                     </dd>
                     <hr>
                     <dd lay-unselect>
-                        <a ew-event="logout" data-url="{:url('logout')}">退出</a>
+                        <a ew-event="logouts" data-url="{:url('logout')}">退出</a>
                     </dd>
                 </dl>
             </li>
@@ -127,7 +127,9 @@
             menuPath: '{:url("dashboard")}',
             menuName: '<i class="layui-icon layui-icon-home"></i>'
         });
-
+        window.logouts= function(){
+            layer.msg('弹窗被成功打开了');
+        };
     });
 </script>
 </body>
