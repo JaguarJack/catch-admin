@@ -48,15 +48,16 @@ class Index extends CatchController
      * 登出
      *
      * @time 2019年11月28日
-     * @return bool
+     * @return \think\response\Json
+     * @throws \Exception
      */
-    public function logout(): bool
+    public function logout(): \think\response\Json
     {
         if (Auth::logout()) {
-            return redirect(url('login'));
+            return CatchResponse::success();
         }
 
-        return false;
+        return CatchResponse::fail('登出失败');
     }
 
     /**
