@@ -56,7 +56,7 @@
                     </dd>
                     <hr>-->
                     <dd lay-unselect>
-                        <a ew-event="logouts" data-url="{:url('logout')}">退出</a>
+                        <a id="logout">退出</a>
                     </dd>
                 </dl>
             </li>
@@ -118,19 +118,25 @@
 <script type="text/javascript" src="__CATCH_ADMIN_LIBS__/layui/layui.js"></script>
 <script type="text/javascript" src="__CATCH_ADMIN_JS__/common.js?v=315"></script>
 <script>
-    layui.use(['index'], function () {
+    layui.use(['index', 'admin'], function () {
         var $ = layui.jquery;
         var index = layui.index;
+        var admin = layui.admin;
 
         // 默认加载主页
         index.loadHome({
             menuPath: '{:url("dashboard")}',
             menuName: '<i class="layui-icon layui-icon-home"></i>'
         });
-        window.logouts= function(){
-            layer.msg('弹窗被成功打开了');
-        };
+        $(document).on('click','#logout',function(){
+            admin.req('{:url("logout")}', {}, function (response) {
+                if (response.code === 10000) {
+                    window.location.href = "{:url('login')}";
+                }
+            }, 'post')
+        });
     });
+
 </script>
 </body>
 </html>
