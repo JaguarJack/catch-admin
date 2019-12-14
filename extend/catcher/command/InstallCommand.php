@@ -13,7 +13,7 @@ use think\facade\Db;
 class InstallCommand extends Command
 {
 
-    protected $dataInstall = true;
+    protected $databaseLink = [];
 
     protected function configure()
     {
@@ -129,6 +129,8 @@ class InstallCommand extends Command
                 }
             }
 
+            $this->databaseLink = [$host, $database, $username, $password, $port, $charset, $prefix];
+
             $this->generateEnvFile($host, $database, $username, $password, $port, $charset, $prefix);
         }
     }
@@ -141,16 +143,28 @@ class InstallCommand extends Command
      */
     protected function secondStep(): void
     {
-        $php = getenv('_');
+        $connections = \config('database.connections');
 
-        $think = root_path() . DIRECTORY_SEPARATOR . 'think';
+        [
+            $connections['mysql']['hostname'],
+            $connections['mysql']['database'],
+            $connections['mysql']['username'],
+            $connections['mysql']['password'],
+            $connections['mysql']['hostport'],
+            $connections['mysql']['charset'],
+            $connections['mysql']['prefix'],
+        ] = $this->databaseLink;
+
+        \config([
+            'connections' => $connections,
+        ],'database');
 
         foreach (CatchAdmin::getModulesDirectory() as $directory) {
             $moduleInfo = CatchAdmin::getModuleInfo($directory);
-
-            $this->output->info(
-                sprintf('module [%s] migrations ', $moduleInfo['alias']) .
-                exec(sprintf('%s %s catch-migrate:run %s', $php, $think, $moduleInfo['alias'])));
+            if (is_dir(CatchAdmin::moduleMigrationsDirectory($moduleInfo['alias']))) {
+                $output = Console::call('catch-migrate:run', [$moduleInfo['alias']]);
+                $this->output->info(sprintf('module [%s] migrations %s', $moduleInfo['alias'], $output->fetch()));
+            }
         }
     }
 
@@ -192,6 +206,7 @@ class InstallCommand extends Command
      */
     protected function generateEnvFile($host, $database, $username, $password, $port, $charset, $prefix): void
     {
+        try {
             $env = \parse_ini_file(root_path() . '.example.env', true);
 
             $env['DATABASE']['HOSTNAME'] = $host;
@@ -218,7 +233,6 @@ class InstallCommand extends Command
                 }
             }
 
-            file_put_contents(root_path() . '.env', $dotEnv);
 
             if ($this->getEnvFile()) {
                 $this->output->info('env file has been generated');
@@ -229,6 +243,12 @@ class InstallCommand extends Command
             } else {
                 $this->output->warning(sprintf('create database %s failed，you need create database first by yourself', $database));
             }
+        } catch (\Exception $e) {
+            $this->output->error($e->getMessage());
+            exit(0);
+        }
+
+        file_put_contents(root_path() . '.env', $dotEnv);
     }
 
     /**

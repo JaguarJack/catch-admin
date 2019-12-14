@@ -157,7 +157,9 @@ class BackupCommand extends Command
             \PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => false
         ];
 
-        \config($connections,'database');
+        \config([
+            'connections' => $connections,
+        ],'database.connections');
 
     }
 
