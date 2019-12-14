@@ -6,7 +6,7 @@ layui.config({
     base: getProjectUrl() + 'assets/module/'
 }).extend({
     formSelects: 'formSelects/formSelects-v4',
-    treetable: 'treetable-lay/treetable',
+    treeTable: 'treetable-lay/treeTable',
     dropdown: 'dropdown/dropdown',
     notice: 'notice/notice',
     step: 'step-lay/step',
@@ -21,7 +21,8 @@ layui.config({
     Drag: 'Drag/Drag',
     CKEDITOR: 'ckeditor/ckeditor',
     Split: 'Split/Split',
-    cascader: 'cascader/cascader'
+    cascader: 'cascader/cascader',
+    authtree: 'authtree/authtree',
 }).use(['layer', 'admin'], function () {
     var $ = layui.jquery;
     var layer = layui.layer;

@@ -85,7 +85,7 @@ layui.define(['jquery', 'form'], function (exports) {
             opt.checkSkin = opt.checkSkin ? opt.checkSkin : 'primary';
             // 主题定制
             opt.theme = opt.theme ? opt.theme : '';
-            opt.themePath = opt.themePath ? opt.themePath : 'layui_exts/tree_themes/';
+            opt.themePath = opt.themePath ? opt.themePath : 'catch-admin/assets/module/authtree/tree_themes/';
             // 展开、折叠节点的前显字符配置
             opt.openIconContent = opt.openIconContent ? opt.openIconContent : '&#xe625;';
             this.openIconContent = opt.openIconContent;
