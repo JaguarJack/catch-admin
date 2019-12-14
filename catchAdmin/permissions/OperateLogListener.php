@@ -13,9 +13,10 @@ class OperateLogListener
         $request = $params['request'];
         $permission = $params['permission'];
 
+        $parentPermission = Permissions::where('id', $permission->parent_id)->value('permission_name');
         Db::name('operate_log')->insert([
             'creator_id' => $request->user()->id,
-            'module'     => Permissions::where('id', $permission->parent_id)->value('permission_name'),
+            'module'     => $parentPermission ? : '',
             'method'     => $request->method(),
             'operate'    => $permission->permission_name,
             'route'      => $permission->route,
