@@ -42,8 +42,7 @@ EOT
         $start = microtime(true);
         $this->seed($seed);
         $end = microtime(true);
-
-        $output->writeln(CatchAdmin::moduleSeedsDirectory($this->module));
+        $this->seeds = null;
         $output->writeln('<comment>All Done. Took ' . sprintf('%.4fs', $end - $start) . '</comment>');
 
     }

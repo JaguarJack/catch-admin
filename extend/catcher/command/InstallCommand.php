@@ -165,6 +165,9 @@ class InstallCommand extends Command
                 if (is_dir(CatchAdmin::moduleMigrationsDirectory($moduleInfo['alias']))) {
                     $output = Console::call('catch-migrate:run', [$moduleInfo['alias']]);
                     $this->output->info(sprintf('module [%s] migrations %s', $moduleInfo['alias'], $output->fetch()));
+
+                    $seedOut = Console::call('catch-seed:run', [$moduleInfo['alias']]);
+                    $this->output->info(sprintf('module [%s] seeds %s', $moduleInfo['alias'], $seedOut->fetch()));
                 }
             }
         }
