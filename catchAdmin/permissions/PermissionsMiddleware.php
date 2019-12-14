@@ -22,9 +22,6 @@ class PermissionsMiddleware
      */
     public function handle(Request $request, \Closure $next)
     {
-        if (!$request->user()) {
-            throw new PermissionForbiddenException('Login is invalid', 10006);
-        }
        // toad
         if (($permission = $this->getPermission($request))
             && !in_array($permission->id, $request->user()->getPermissionsBy())) {
@@ -38,10 +35,11 @@ class PermissionsMiddleware
      *
      * @time 2019年12月12日
      * @param $request
-     * @throws \think\db\exception\DataNotFoundException
+     * @return array|bool|\think\Model|null
      * @throws \think\db\exception\DbException
      * @throws \think\db\exception\ModelNotFoundException
-     * @return array|bool|\think\Model|null
+     * @throws PermissionForbiddenException
+     * @throws \think\db\exception\DataNotFoundException
      */
     protected function getPermission(Request $request)
     {
@@ -56,7 +54,11 @@ class PermissionsMiddleware
         array_pop($controller);
 
         $module = array_pop($controller);
-
+        if ($module != 'login') {
+            if (!$request->user()) {
+                throw new PermissionForbiddenException('Login is invalid', 10006);
+            }
+        }
         $permissionMark = sprintf('%s:%s', $controllerName, $action);
         $permission = Permissions::where('module', $module)->where('permission_mark', $permissionMark)->find();
 
