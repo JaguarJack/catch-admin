@@ -280,8 +280,11 @@ class CatchAdmin
     {
         $routeFiles = [];
         foreach (self::getModulesDirectory() as $module) {
-            if (file_exists($module . 'route.php')) {
-                $routeFiles[] = $module . 'route.php';
+            $moduleInfo = self::getModuleInfo($module);
+            if (!in_array($moduleInfo['alias'], ['login'])) {
+                if (file_exists($module . 'route.php')) {
+                    $routeFiles[] = $module . 'route.php';
+                }
             }
         }
         $routes = '';
