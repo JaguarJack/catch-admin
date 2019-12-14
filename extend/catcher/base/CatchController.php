@@ -6,8 +6,6 @@ use think\facade\View;
 
 abstract class CatchController
 {
-    protected $middleware = ['check_auth'];
-
     protected $data = [];
 
     /**
