@@ -2,7 +2,7 @@
 
 use think\migration\Seeder;
 
-class Users extends Seeder
+class UsersSeed extends Seeder
 {
     /**
      * Run Method.
