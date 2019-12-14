@@ -16,7 +16,7 @@
 - curl -sS http://install.phpcomposer.com/installer | php
 - composer config -g repo.packagist composer https://packagist.laravel-china.org
 - composer update
-- php think install:project 
+- php think catch:install 
 
 ### Use
 - 配置虚拟域名 OR 在根目录下执行 php think run
