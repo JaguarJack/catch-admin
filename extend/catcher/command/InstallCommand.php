@@ -17,7 +17,7 @@ class InstallCommand extends Command
 
     protected function configure()
     {
-        $this->setName('install:project')
+        $this->setName('catch:install')
             // ->addArgument('module', Argument::REQUIRED, 'module name')
             ->setDescription('install project');
     }
@@ -143,27 +143,29 @@ class InstallCommand extends Command
      */
     protected function secondStep(): void
     {
-        $connections = \config('database.connections');
+        if (file_exists(root_path() . '.env')) {
+            $connections = \config('database.connections');
 
-        [
-            $connections['mysql']['hostname'],
-            $connections['mysql']['database'],
-            $connections['mysql']['username'],
-            $connections['mysql']['password'],
-            $connections['mysql']['hostport'],
-            $connections['mysql']['charset'],
-            $connections['mysql']['prefix'],
-        ] = $this->databaseLink;
+            [
+                $connections['mysql']['hostname'],
+                $connections['mysql']['database'],
+                $connections['mysql']['username'],
+                $connections['mysql']['password'],
+                $connections['mysql']['hostport'],
+                $connections['mysql']['charset'],
+                $connections['mysql']['prefix'],
+            ] = $this->databaseLink;
 
-        \config([
-            'connections' => $connections,
-        ],'database');
+            \config([
+                'connections' => $connections,
+            ], 'database');
 
-        foreach (CatchAdmin::getModulesDirectory() as $directory) {
-            $moduleInfo = CatchAdmin::getModuleInfo($directory);
-            if (is_dir(CatchAdmin::moduleMigrationsDirectory($moduleInfo['alias']))) {
-                $output = Console::call('catch-migrate:run', [$moduleInfo['alias']]);
-                $this->output->info(sprintf('module [%s] migrations %s', $moduleInfo['alias'], $output->fetch()));
+            foreach (CatchAdmin::getModulesDirectory() as $directory) {
+                $moduleInfo = CatchAdmin::getModuleInfo($directory);
+                if (is_dir(CatchAdmin::moduleMigrationsDirectory($moduleInfo['alias']))) {
+                    $output = Console::call('catch-migrate:run', [$moduleInfo['alias']]);
+                    $this->output->info(sprintf('module [%s] migrations %s', $moduleInfo['alias'], $output->fetch()));
+                }
             }
         }
     }
