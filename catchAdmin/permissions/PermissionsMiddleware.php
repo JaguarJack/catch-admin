@@ -47,6 +47,10 @@ class PermissionsMiddleware
     protected function getPermission(Request $request)
     {
         $rule = $request->rule()->getName();
+        // 不再权限范围内的 直接返回
+        if ($rule) {
+            return false;
+        }
 
         [$controller, $action] = explode(Str::contains($rule, '@') ? '@' : '/', $rule);
 
