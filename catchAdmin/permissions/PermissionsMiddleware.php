@@ -48,7 +48,7 @@ class PermissionsMiddleware
     {
         $rule = $request->rule()->getName();
         // 不再权限范围内的 直接返回
-        if ($rule) {
+        if (!$rule) {
             return false;
         }
 
