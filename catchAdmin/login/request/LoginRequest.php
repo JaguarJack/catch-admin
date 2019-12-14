@@ -11,7 +11,7 @@ class LoginRequest extends CatchRequest
         return [
             'email|用户名'    => 'email',
             'password|密码'  => 'require',
-           // 'captcha|验证码' => 'require|captcha'
+            'captcha|验证码' => 'require|captcha'
         ];
     }
 
