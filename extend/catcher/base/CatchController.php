@@ -49,7 +49,7 @@ abstract class CatchController
 
         $class = explode('\\', $class);
 
-        $className = strtolower(end($class));
+        $className = lcfirst(end($class));
 
         if (is_dir($viewPath . $className)) {
             return sprintf('%s/%s', $className, $func);
