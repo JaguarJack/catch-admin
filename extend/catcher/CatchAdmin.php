@@ -249,7 +249,7 @@ class CatchAdmin
     public static function getRoutes()
     {
         if (file_exists(self::getCacheRoutesFile())) {
-            return self::getCacheRoutesFile();
+            return [self::getCacheRoutesFile()];
         }
 
         return self::getModuleRoutes();
