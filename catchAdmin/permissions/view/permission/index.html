@@ -20,9 +20,9 @@
 <table class="layui-table" id="tablePermission" lay-filter="tablePermission"></table>
 <!-- 表格操作列 -->
 <script type="text/html" id="tableBarAuth">
-    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">修改</a>
-    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="add">新增子菜单</a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    {:editButton()}
+    {:addButton('新增子菜单')}
+    {:deleteButton()}
 </script>
 {/block}
 {block name="script"}

@@ -1,6 +1,7 @@
 <?php
 namespace catchAdmin\login\controller;
 
+use app\exceptions\LoginFailedException;
 use catchAdmin\user\Auth;
 use catchAdmin\login\request\LoginRequest;
 use catcher\base\CatchController;
@@ -29,7 +30,7 @@ class Index extends CatchController
      * @return bool|string
      * @throws \catcher\exceptions\LoginFailedException
      * @throws \cather\exceptions\LoginFailedException
-     * @throws \app\exceptions\LoginFailedException
+     * @throws LoginFailedException
      */
     public function login(LoginRequest $request)
     {
@@ -37,7 +38,7 @@ class Index extends CatchController
         $isSucceed = Auth::login($params);
         // 登录事件
         $params['success'] = $isSucceed;
-        event('log', $params);
+        event('loginLog', $params);
 
         return $isSucceed ? CatchResponse::success('', '登录成功') :
 

@@ -1,8 +1,8 @@
 <?php
 namespace catchAdmin\user;
 
+use catchAdmin\permissions\model\Permissions;
 use catchAdmin\user\model\Users;
-use catcher\exceptions\FailedException;
 use catcher\exceptions\LoginFailedException;
 use think\facade\Session;
 
@@ -15,8 +15,11 @@ class Auth
      *
      * @time 2019年11月28日
      * @param $params
-     * @throws LoginFailedException
      * @return bool
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws LoginFailedException
      */
     public static function login($params)
     {
@@ -57,13 +60,40 @@ class Auth
         return true;
     }
 
+    /**
+     *
+     * @time 2019年12月15日
+     * @return mixed
+     */
     public static function user()
     {
         return Session::get(self::getLoginUserKey(), null);
     }
 
+    /**
+     *
+     * @time 2019年12月15日
+     * @return string
+     */
     protected static function getLoginUserKey(): string
     {
         return md5(self::USER_KEY);
+    }
+
+    /**
+     *
+     * @time 2019年12月15日
+     * @param $mark
+     * @param $module
+     * @return bool
+     */
+    public static function hasPermissions($mark, $module): bool
+    {
+        $permissionIds = self::user()->get->getPermissionsBy();
+
+        $permissionId = Permissions::where('module', $module)
+                            ->where('permission_mark', $mark)->value('id');
+
+        return in_array($permissionId, $permissionIds);
     }
 }

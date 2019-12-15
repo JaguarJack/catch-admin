@@ -17,7 +17,7 @@ function deleteButton($name = '删除', $event = 'del')
 function addButton($name = '新增', $event = 'add')
 {
     return sprintf(
-        '<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="%s">%s</a>',
+        '<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="%s">%s</a>',
         $event, $name);
 }
 

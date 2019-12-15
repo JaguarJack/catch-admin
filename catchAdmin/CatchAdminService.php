@@ -6,6 +6,7 @@ use catchAdmin\permissions\OperateLogListener;
 use catchAdmin\permissions\PermissionsMiddleware;
 use catchAdmin\system\event\LoginLogEvent;
 use catchAdmin\system\event\OperateLogEvent;
+use catchAdmin\user\Auth;
 use catcher\command\BackupCommand;
 use catcher\command\InstallCommand;
 use catcher\command\MigrateRunCommand;
@@ -26,12 +27,12 @@ class CatchAdminService extends Service
      */
     public function boot()
     {
-
         $this->registerCommands();
         $this->registerValidates();
         $this->registerMiddleWares();
         $this->registerEvents();
         $this->registerListeners();
+        $this->registerClassAlias();
     }
 
     /**
@@ -114,6 +115,12 @@ class CatchAdminService extends Service
                 LoadModuleRoutes::class
             ]
         ]);
+    }
+
+
+    public function registerClassAlias()
+    {
+        class_alias(Auth::class, 'Auth');
     }
 
 }

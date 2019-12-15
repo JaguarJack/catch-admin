@@ -47,7 +47,7 @@
 <table class="layui-table" id="tableUser" lay-filter="tableUser"></table>
 <!-- 表格操作列 -->
 <script type="text/html" id="tableBarUser">
-    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">修改</a>
+    {:editButton()}
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="{{d.deleted_at ? 'recover' : 'del'}}">{{d.deleted_at ? '恢复' : '删除'}}</a>
 </script>
 <!-- 表格状态列 -->
