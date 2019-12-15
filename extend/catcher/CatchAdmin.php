@@ -244,17 +244,15 @@ class CatchAdmin
     /**
      *
      * @time 2019年11月30日
-     * @return string
+     * @return mixed
      */
-    public static function getRoutes(): string
+    public static function getRoutes()
     {
         if (file_exists(self::getCacheRoutesFile())) {
             return self::getCacheRoutesFile();
         }
 
-        self::cacheRoutes();
-
-        return self::getCacheRoutesFile();
+        return self::getModuleRoutes();
     }
 
     /**
@@ -273,22 +271,32 @@ class CatchAdmin
 
     /**
      *
+     * @time 2019年12月15日
+     * @return array
+     */
+    public static function getModuleRoutes(): array
+    {
+        $routeFiles = [];
+        foreach (self::getModulesDirectory() as $module) {
+            $moduleInfo = self::getModuleInfo($module);
+            if (!in_array($moduleInfo['alias'], ['login']) && file_exists($module . 'route.php')) {
+                $routeFiles[] = $module . 'route.php';
+            }
+        }
+
+        return $routeFiles;
+
+    }
+    /**
+     *
      * @time 2019年11月30日
      * @return false|int
      */
     public static function cacheRoutes()
     {
-        $routeFiles = [];
-        foreach (self::getModulesDirectory() as $module) {
-            $moduleInfo = self::getModuleInfo($module);
-            if (!in_array($moduleInfo['alias'], ['login'])) {
-                if (file_exists($module . 'route.php')) {
-                    $routeFiles[] = $module . 'route.php';
-                }
-            }
-        }
         $routes = '';
-        foreach ($routeFiles as $route) {
+
+        foreach (self::getModuleRoutes() as $route) {
             $routes .= trim(str_replace('<?php', '',  file_get_contents($route))) . PHP_EOL;
         }
 

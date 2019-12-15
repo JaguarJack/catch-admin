@@ -25,13 +25,15 @@ class LoadModuleRoutes
         });
     }
 
-    protected function getRoutes()
+    /**
+     *
+     * @time 2019年12月15日
+     * @return array
+     */
+    protected function getRoutes(): array
     {
-        return [
-            CatchAdmin::directory() . 'login' . DIRECTORY_SEPARATOR . 'route.php',
-            CatchAdmin::getRoutes(),
-        ];
+        $routes = CatchAdmin::getRoutes();
+        $routes[] = CatchAdmin::directory() . 'login' . DIRECTORY_SEPARATOR . 'route.php';
+        return $routes;
     }
-
-
 }
