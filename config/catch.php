@@ -12,6 +12,8 @@ return [
         ],
     ],
 
+    'domain' => 'catch',
+
     // 错误提示
     'error' => root_path('catchAdmin/index/view/')  . 'error.html',
 ];
