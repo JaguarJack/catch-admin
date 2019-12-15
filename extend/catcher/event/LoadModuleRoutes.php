@@ -19,15 +19,18 @@ class LoadModuleRoutes
         $router = app(Route::class);
 
         $domain = config('catch.domain');
+
+        $routes = $this->getRoutes();
+
         if ($domain) {
-            $router->domain($domain, function () use ($router) {
-                foreach ($this->getRoutes() as $route) {
+            $router->domain($domain, function () use ($router, $routes) {
+                foreach ($routes as $route) {
                     include $route;
                 }
             });
         } else {
-            $router->group(function () use ($router) {
-                foreach ($this->getRoutes() as $route) {
+            $router->group(function () use ($router, $routes) {
+                foreach ($routes as $route) {
                     include $route;
                 }
             });
@@ -42,7 +45,7 @@ class LoadModuleRoutes
     protected function getRoutes(): array
     {
         $routes = CatchAdmin::getRoutes();
-        $routes[] = CatchAdmin::directory() . 'login' . DIRECTORY_SEPARATOR . 'route.php';
+        array_push($routes, CatchAdmin::directory() . 'login' . DIRECTORY_SEPARATOR . 'route.php');
         return $routes;
     }
 }
