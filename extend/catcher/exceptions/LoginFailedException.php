@@ -1,7 +1,7 @@
 <?php
 namespace catcher\exceptions;
 
-class LoginFailedException extends \Exception
+class LoginFailedException extends CatchException
 {
     protected $code = 10010;
 }

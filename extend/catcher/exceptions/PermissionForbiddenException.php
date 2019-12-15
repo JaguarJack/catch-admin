@@ -1,7 +1,7 @@
 <?php
 namespace catcher\exceptions;
 
-class PermissionForbiddenException extends \Exception
+class PermissionForbiddenException extends CatchException
 {
     protected $code = 10005;
 
