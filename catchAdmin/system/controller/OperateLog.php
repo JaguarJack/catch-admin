@@ -22,4 +22,9 @@ class OperateLog extends CatchController
                 ->paginate(10)
         );
     }
+
+    public function empty()
+    {
+        return CatchResponse::success(Db::name('operate_log')->delete(true), '清空成功');
+    }
 }

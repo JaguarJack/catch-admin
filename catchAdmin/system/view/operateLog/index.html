@@ -11,7 +11,7 @@
         <div class="layui-inline">
             <button id="btnSearchAuth" class="layui-btn icon-btn"><i class="layui-icon">&#xe615;</i>搜索
             </button>-->
-        <button id="btnAddAuth" class="layui-btn icon-btn"><i class="layui-icon">&#xe654;</i>添加</button>
+        <button id="empty" class="layui-btn icon-btn"><i class="layui-icon">&#xe640;</i>清空</button>
         <!--</div>-->
     </div>
 </div>
@@ -21,12 +21,13 @@
 {/block}
 {block name="script"}
 <script>
-    layui.use(['layer', 'form', 'table', 'util',], function () {
+    layui.use(['layer', 'form', 'table', 'util', 'admin'], function () {
         var $ = layui.jquery;
         var table = layui.table;
         var util = layui.util;
+        var admin = layui.admin;
 
-        table.render({
+        var t = table.render({
             elem: '#log',
             url: '{:url("log/operate")}',
             page: true,
@@ -49,6 +50,14 @@
                 },
             ]],
         });
+        $('#empty').click(function () {
+            layer.confirm('确定清空日志吗?', function () {
+                admin.req("{:url('operateLog/empty')}", {}, function (response) {
+                    layer.msg(response.msg, {icon:1});
+                    t.reload();
+                }, 'delete')
+            })
+        })
     });
 </script>
 {/block}

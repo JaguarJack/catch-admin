@@ -16,4 +16,9 @@ class LoginLog extends CatchController
     {
         return CatchResponse::paginate(Db::name('login_log')->paginate(10));
     }
+
+    public function empty()
+    {
+        return CatchResponse::success(Db::name('login_log')->delete(true), '清空成功');
+    }
 }
