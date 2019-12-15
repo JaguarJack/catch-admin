@@ -18,11 +18,20 @@ class LoadModuleRoutes
     {
         $router = app(Route::class);
 
-        $router->group(function () use ($router) {
-            foreach ($this->getRoutes() as $route) {
-                include $route;
-            }
-        });
+        $domain = config('catch.domain');
+        if ($domain) {
+            $router->domain($domain, function () use ($router) {
+                foreach ($this->getRoutes() as $route) {
+                    include $route;
+                }
+            });
+        } else {
+            $router->group(function () use ($router) {
+                foreach ($this->getRoutes() as $route) {
+                    include $route;
+                }
+            });
+        }
     }
 
     /**
