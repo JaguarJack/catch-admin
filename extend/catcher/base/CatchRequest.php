@@ -2,6 +2,7 @@
 namespace catcher\base;
 
 use app\Request;
+use catcher\exceptions\FailedException;
 use catcher\exceptions\ValidateFailedException;
 use think\Validate;
 
@@ -27,10 +28,14 @@ class CatchRequest extends Request
      */
     protected function validate()
     {
-        $validate = new Validate();
+        try {
+            $validate = new Validate();
 
-        if (!$validate->check(request()->param(), $this->rules())) {
-            throw new ValidateFailedException($validate->getError());
+            if (!$validate->check(request()->param(), $this->rules())) {
+                throw new FailedException($validate->getError());
+            }
+        } catch (\Exception $e) {
+            throw new ValidateFailedException($e->getMessage());
         }
 
         return true;
