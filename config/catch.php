@@ -4,7 +4,7 @@ return [
      * set domain if you need
      *
      */
-    'domain' => 'catch',
+    'domain' => '',
 
     /**
      * set error page
