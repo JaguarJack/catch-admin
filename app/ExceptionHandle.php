@@ -2,6 +2,7 @@
 namespace app;
 
 use catcher\CatchResponse;
+use catcher\exceptions\CatchException;
 use catcher\exceptions\FailedException;
 use catcher\exceptions\LoginFailedException;
 use catcher\exceptions\PermissionForbiddenException;
@@ -31,12 +32,6 @@ class ExceptionHandle extends Handle
         ValidateException::class,
     ];
 
-    protected $catchExceptions = [
-      FailedException::class,
-      LoginFailedException::class,
-      ValidateException::class,
-      PermissionForbiddenException::class,
-    ];
     /**
      * 记录异常信息（包括日志或者其它方式记录）
      *
@@ -61,11 +56,10 @@ class ExceptionHandle extends Handle
      */
     public function render($request, Throwable $e): Response
     {
-        if (in_array(get_class($e), $this->catchExceptions)) {
-            return CatchResponse::fail($e->getMessage(), $e->getCode());
-        }
-
+       // if ($e instanceof CatchException){
+        return CatchResponse::fail($e->getMessage(), $e->getCode());
+       // }
         // 其他错误交给系统处理
-        return parent::render($request, $e);
+        //return parent::render($request, $e);
     }
 }
