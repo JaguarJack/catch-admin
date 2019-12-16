@@ -29,11 +29,13 @@ layui.config({
     var admin = layui.admin;
 
     admin.ajaxSuccessBefore = function (res, requestUrl) {
-        if(res.code !== 10000){
-            layer.msg(res.msg, {icon: 2});
-            return false;  // 返回false阻止代码执行
+        if (typeof(res) != 'string') {
+                if (res.code !== 10000) {
+                    layer.msg(res.msg, {icon: 2});
+                    return false;  // 返回false阻止代码执行
+                }
+                return true;
         }
-        return true;
     };
 
     // 移除loading动画
