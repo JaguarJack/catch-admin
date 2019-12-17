@@ -61,6 +61,6 @@ class CatchResponse
             ]);
         }
 
-        return Response::create(config('catch.error'), 'view', $code)->assign(['msg' => $msg]);
+        return Response::create(config('catch.error'), 'view', $code)->assign(['msg' => $msg, 'code' => $code]);
     }
 }
