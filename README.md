@@ -21,7 +21,7 @@
 ### Use
 - 配置虚拟域名 OR 在根目录下执行 php think run
 - yourUrl/login
-- 默认用户名 admin 密码 admin
+- 默认用户名 admin@gmail.com 密码 admin
 
 ### Problem
 > SQLSTATE[42000]: Syntax error or access violation: 1067 Invalid default value for 'updated_at'
