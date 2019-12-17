@@ -8,6 +8,10 @@ abstract class CatchController
 {
     protected $data = [];
 
+    public function __construct()
+    {
+        $this->loadConfig();
+    }
     /**
      *
      * @time 2019年11月28日
@@ -21,14 +25,15 @@ abstract class CatchController
         $stack = \debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT, 2);
 
         $end = end($stack);
-
         View::config([
-            'view_path' => CatchAdmin::getViews()[$this->getModule($end['class'])]
+            'view_path' => CatchAdmin::getViews()[$this->getModule($end['class'])],
         ]);
 
         if (!empty($this->data)) {
             $data = array_merge($this->data, $data);
         }
+
+        $data['layout'] = root_path('view') . 'layout.html';
 
         return View::fetch($template ?  : $this->getTemp($end['class'], $end['function']), $data);
 
@@ -65,6 +70,23 @@ abstract class CatchController
     protected function getModule($class)
     {
         return explode('\\', $class)[1];
+    }
+
+    /**
+     *
+     *
+     * @time 2019年12月15日
+     * @return void
+     */
+    protected function loadConfig()
+    {
+        $module = explode('\\', get_class($this))[1];
+
+        $moduleConfig = CatchAdmin::moduleDirectory($module) . 'config.php';
+
+        if (file_exists(CatchAdmin::moduleDirectory($module) . 'config.php')) {
+            app()->config->load($moduleConfig);
+        }
     }
 
     /**
