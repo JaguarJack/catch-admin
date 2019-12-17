@@ -22,7 +22,11 @@
         <h1>403</h1>
         <div class="error-page-info-desc">{$msg}</div>
         <div>
-            <button ew-href="/" class="layui-btn">返回首页</button>
+            {if ($code == 10006)}
+                <a href="{:url('login')}" class="layui-btn">返回登录</a>
+            {else/}
+                <button onclick="history(-1)" class="layui-btn">返回上一页</button>
+            {/if}
         </div>
     </div>
 </div>
