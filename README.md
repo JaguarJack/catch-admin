@@ -14,7 +14,7 @@
 
 ### install
 - curl -sS http://install.phpcomposer.com/installer | php
-- composer config -g repo.packagist composer https://packagist.laravel-china.org
+- composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/
 - composer update
 - php think catch:install 
 
