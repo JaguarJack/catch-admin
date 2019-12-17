@@ -18,15 +18,14 @@ class CatchAdmin
     }
 
     /**
+     * 创建目录
      *
-     * @time 2019年12月04日
-     * @param $module
+     * @time 2019年12月16日
+     * @param string $directory
      * @return string
      */
-    public static function moduleDirectory($module): string
+    public static function makeDirectory(string $directory): string
     {
-        $directory =  self::directory() . $module . DIRECTORY_SEPARATOR;
-
         if (!is_dir($directory) && !mkdir($directory, 0777, true) && !is_dir($directory)) {
             throw new \RuntimeException(sprintf('Directory "%s" was not created', $directory));
         }
@@ -36,18 +35,23 @@ class CatchAdmin
 
     /**
      *
+     * @time 2019年12月04日
+     * @param $module
+     * @return string
+     */
+    public static function moduleDirectory($module): string
+    {
+        return self::makeDirectory(self::directory() . $module . DIRECTORY_SEPARATOR);
+    }
+
+    /**
+     *
      * @time 2019年11月30日
      * @return string
      */
     public static function cacheDirectory(): string
     {
-        $directory =  app()->getRuntimePath() . self::NAME . DIRECTORY_SEPARATOR;
-
-        if (!is_dir($directory) && !mkdir($directory, 0777, true) && !is_dir($directory)) {
-            throw new \RuntimeException(sprintf('Directory "%s" was not created', $directory));
-        }
-
-        return $directory;
+        return self::makeDirectory(app()->getRuntimePath() . self::NAME . DIRECTORY_SEPARATOR);
     }
 
     /**
@@ -58,13 +62,7 @@ class CatchAdmin
      */
     public static function backupDirectory(): string
     {
-        $directory = self::cacheDirectory() . 'backup' .DIRECTORY_SEPARATOR;
-
-        if (!is_dir($directory) && !mkdir($directory, 0777, true) && !is_dir($directory)) {
-            throw new \RuntimeException(sprintf('Directory "%s" was not created', $directory));
-        }
-
-        return $directory;
+        return self::makeDirectory(self::cacheDirectory() . 'backup' .DIRECTORY_SEPARATOR);
     }
 
     /**
@@ -98,13 +96,7 @@ class CatchAdmin
      */
     public static function getModuleViewPath($module): string
     {
-        $directory =  self::directory() . $module . DIRECTORY_SEPARATOR . 'view' . DIRECTORY_SEPARATOR;
-
-        if (!is_dir($directory) && !mkdir($directory, 0777, true) && !is_dir($directory)) {
-            throw new \RuntimeException(sprintf('Directory "%s" was not created', $directory));
-        }
-
-        return $directory;
+        return self::makeDirectory(self::directory() . $module . DIRECTORY_SEPARATOR . 'view' . DIRECTORY_SEPARATOR);
     }
 
     /**
@@ -115,13 +107,7 @@ class CatchAdmin
      */
     public static function getModuleModelDirectory($module): string
     {
-        $directory =  self::directory() . $module . DIRECTORY_SEPARATOR . 'model' . DIRECTORY_SEPARATOR;
-
-        if (!is_dir($directory) && !mkdir($directory, 0777, true) && !is_dir($directory)) {
-            throw new \RuntimeException(sprintf('Directory "%s" was not created', $directory));
-        }
-
-        return $directory;
+        return self::makeDirectory(self::directory() . $module . DIRECTORY_SEPARATOR . 'model' . DIRECTORY_SEPARATOR);
     }
     /**
      *
