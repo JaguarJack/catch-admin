@@ -8,6 +8,7 @@ use catchAdmin\system\event\LoginLogEvent;
 use catchAdmin\system\event\OperateLogEvent;
 use catchAdmin\user\Auth;
 use catcher\command\BackupCommand;
+use catcher\command\CompressPackageCommand;
 use catcher\command\InstallCommand;
 use catcher\command\MigrateRunCommand;
 use catcher\command\ModelGeneratorCommand;
@@ -32,7 +33,6 @@ class CatchAdminService extends Service
         $this->registerMiddleWares();
         $this->registerEvents();
         $this->registerListeners();
-        $this->registerClassAlias();
     }
 
     /**
@@ -49,6 +49,7 @@ class CatchAdminService extends Service
             ModelGeneratorCommand::class,
             SeedRunCommand::class,
             BackupCommand::class,
+            CompressPackageCommand::class
         ]);
     }
     /**
@@ -92,8 +93,6 @@ class CatchAdminService extends Service
             'loginLog' => LoginLogEvent::class,
             'operateLog' => OperateLogEvent::class,
         ]);
-
-
     }
 
     /**
@@ -116,11 +115,4 @@ class CatchAdminService extends Service
             ]
         ]);
     }
-
-
-    public function registerClassAlias()
-    {
-        class_alias(Auth::class, 'Auth');
-    }
-
 }
