@@ -9,6 +9,7 @@ use catchAdmin\system\event\OperateLogEvent;
 use catchAdmin\user\Auth;
 use catcher\command\BackupCommand;
 use catcher\command\CompressPackageCommand;
+use catcher\command\CreateModuleCommand;
 use catcher\command\InstallCommand;
 use catcher\command\MigrateRunCommand;
 use catcher\command\ModelGeneratorCommand;
@@ -49,7 +50,8 @@ class CatchAdminService extends Service
             ModelGeneratorCommand::class,
             SeedRunCommand::class,
             BackupCommand::class,
-            CompressPackageCommand::class
+            CompressPackageCommand::class,
+            CreateModuleCommand::class,
         ]);
     }
     /**
