@@ -1,0 +1,15 @@
+<?php
+namespace {NAMESPACE};
+
+use think\Service;
+
+class {CLASS}Service extends Service
+{
+        /**
+         *
+         * @return void
+         */
+        public function boot()
+        {
+        }
+}

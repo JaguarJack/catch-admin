@@ -1,0 +1,13 @@
+{
+    "name": "",
+    "alias": "{MODULE}",
+    "description": "",
+    "keywords": [],
+    "order": 0,
+    "services": [
+        "{SERVICE}"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}
