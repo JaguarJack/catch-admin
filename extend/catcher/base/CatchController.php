@@ -25,18 +25,39 @@ abstract class CatchController
         $stack = \debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT, 2);
 
         $end = end($stack);
-        View::config([
-            'view_path' => CatchAdmin::getViews()[$this->getModule($end['class'])],
-        ]);
 
-        if (!empty($this->data)) {
-            $data = array_merge($this->data, $data);
-        }
+        View::config($this->getViewPath($end['class']));
 
-        $data['layout'] = root_path('view') . 'layout.html';
+        $this->setLayout();
 
-        return View::fetch($template ?  : $this->getTemp($end['class'], $end['function']), $data);
+        $template = $template ?  : $this->getTemp($end['class'], $end['function']);
 
+        return View::fetch($template, array_merge($this->data, $data));
+
+    }
+
+    /**
+     *
+     *
+     * @time 2019年12月17日
+     * @param $module
+     * @return array
+     */
+    protected function getViewPath($module): array
+    {
+       return [
+           'view_path' => CatchAdmin::getViews()[$this->getModule($module)],
+       ];
+    }
+
+    /**
+     *
+     * @time 2019年12月17日
+     * @return void
+     */
+    protected function setLayout(): void
+    {
+        $this->data['layout'] = root_path('view') . 'layout.html';
     }
 
     /**
@@ -46,7 +67,7 @@ abstract class CatchController
      * @param $func
      * @return string
      */
-    protected function getTemp($class, $func)
+    protected function getTemp($class, $func): string
     {
         $viewPath = CatchAdmin::getModuleViewPath($this->getModule($class));
 
