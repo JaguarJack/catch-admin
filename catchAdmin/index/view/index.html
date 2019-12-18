@@ -78,7 +78,7 @@
                             <dl class="layui-nav-child">
                             {foreach $menu['children'] as $m}
                                 {if (!empty($m['children']))}
-                                    <a><i class="layui-icon layui-icon-home"></i>&emsp;<cite>{$menu['permission_name']}</cite></a>
+                                    <a><i class="layui-icon layui-icon-home"></i>&emsp;<cite>{$m['permission_name']}</cite></a>
                                     <dl class="layui-nav-child">
                                     {foreach $m['children'] as $_m}
                                         <dd><a lay-href="{:url($_m['route'])}">{$_m['permission_name']}</a></dd>
