@@ -1,18 +1,18 @@
 <?php
 namespace {NAMESPACE};
 
-use app\BaseController;
+use catcher\base\CatchController;
 
-class {CLASS} extends BaseController
+class {CLASS} extends CatchController
 {
     public function index()
     {
-        return $this->fetch('{MODULE}::index');
+        return $this->fetch();
     }
 
     public function create()
     {
-        return $this->fetch('{MODULE}::create');
+        return $this->fetch();
     }
 
     public function save()
@@ -23,7 +23,7 @@ class {CLASS} extends BaseController
 
     public function edit()
     {
-        return $this->fetch('{MODULE}::edit');
+        return $this->fetch();
     }
 
     public function update()
