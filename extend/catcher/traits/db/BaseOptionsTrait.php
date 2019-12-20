@@ -12,13 +12,7 @@ trait BaseOptionsTrait
      */
     public function storeBy(array $data)
     {
-        foreach ($data as $field => $value) {
-            if (in_array($field, $this->field)) {
-                $this->{$field} = $value;
-            }
-        }
-
-        if ($this->save()) {
+        if ($this->allowField($this->field)->save($data)) {
             return $this->{$this->getPk()};
         }
 
@@ -34,15 +28,9 @@ trait BaseOptionsTrait
      */
     public function updateBy($id, $data)
     {
-        $model = $this->findBy($id);
-        foreach ($data as $field => $value) {
-            if (in_array($field, $this->field)) {
-                $model->{$field} = $value;
-            }
-        }
 
-        if ($model->save()) {
-            return $model->id;
+        if (static::update($data, [$this->getPk() => $id], $this->field)) {
+            return true;
         }
 
         return false;

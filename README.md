@@ -14,14 +14,14 @@
 
 ### install
 - curl -sS http://install.phpcomposer.com/installer | php
-- composer config -g repo.packagist composer https://packagist.laravel-china.org
+- composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/
 - composer update
-- php think install:project 
+- php think catch:install 
 
 ### Use
 - 配置虚拟域名 OR 在根目录下执行 php think run
 - yourUrl/login
-- 默认用户名 admin 密码 admin
+- 默认用户名 admin@gmail.com 密码 admin
 
 ### Problem
 > SQLSTATE[42000]: Syntax error or access violation: 1067 Invalid default value for 'updated_at'
@@ -39,3 +39,9 @@ remove 'NO_ZERO_IN_DATE,NO_ZERO_DATE'
 - ![输入图片说明](https://images.gitee.com/uploads/images/2018/1219/110300_0257b6c0_810218.jpeg "微信图片_20181219105915.jpg")
 
 仅供学习
+
+## 体验地址
+
+[体验地址](http://catch.njphper.com/login)
+- 账号: test@catch.com 
+- 密码: 123456

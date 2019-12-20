@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div style="padding: 10px">
+<table class="layui-table">
+    <thead>
+    <tr>
+        <th>字段</th>
+        <th>类型</th>
+        <th>字符集</th>
+        <th>Null</th>
+        <th>索引</th>
+        <th>默认值</th>
+        <th>权限</th>
+        <th>注释</th>
+    </tr>
+    </thead>
+    <tbody>
+    {foreach $table as $field}
+    <tr>
+        <td>{$field['Field']}</td>
+        <td>{$field['Type']}</td>
+        <td>{$field['Collation']}</td>
+        <td>{$field['Null']}</td>
+        <td>{$field['Key']}</td>
+        <td>{$field['Default']}</td>
+        <td>{$field['Privileges']}</td>
+        <td>{$field['Comment']}</td>
+    </tr>
+    {/foreach}
+    </tbody>
+</table>
+</div>
+</body>
+</html>

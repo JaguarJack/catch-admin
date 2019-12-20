@@ -1,0 +1,63 @@
+{extend name="$layout"}
+{block name="title"}操作日志{/block}
+{block name="search"}
+<div class="layui-form toolbar">
+    <div class="layui-form-item">
+        <!--<div class="layui-inline">
+            <div class="layui-input-inline mr0">
+                <input id="edtSearchAuth" class="layui-input" type="text" placeholder="输入角色名称"/>
+            </div>
+        </div>
+        <div class="layui-inline">
+            <button id="btnSearchAuth" class="layui-btn icon-btn"><i class="layui-icon">&#xe615;</i>搜索
+            </button>-->
+        <button id="empty" class="layui-btn icon-btn"><i class="layui-icon">&#xe640;</i>清空</button>
+        <!--</div>-->
+    </div>
+</div>
+{/block}
+{block name="table"}
+<table class="layui-table" id="log"></table>
+{/block}
+{block name="script"}
+<script>
+    layui.use(['layer', 'form', 'table', 'util', 'admin'], function () {
+        var $ = layui.jquery;
+        var table = layui.table;
+        var util = layui.util;
+        var admin = layui.admin;
+
+        var t = table.render({
+            elem: '#log',
+            url: '{:url("log/operate")}',
+            page: true,
+            response: {
+                statusCode: 10000,
+            },
+            // toolbar: true,
+            cellMinWidth: 100,
+            cols: [[
+                {type: 'id', title: '序号', field: 'id'},
+                {field: 'module',  title: '模块'},
+                {field: 'ip',  title: 'IP'},
+                {field: 'operate', title: 'operate'},
+                {field: 'creator', title: '操作者'},
+                {field: 'method',  title: '请求方法'},
+                {
+                    field: 'created_at', sort: true, templet: function (d) {
+                        return util.toDateString(d.created_at);
+                    }, title: '创建时间'
+                },
+            ]],
+        });
+        $('#empty').click(function () {
+            layer.confirm('确定清空日志吗?', function () {
+                admin.req("{:url('operateLog/empty')}", {}, function (response) {
+                    layer.msg(response.msg, {icon:1});
+                    t.reload();
+                }, 'delete')
+            })
+        })
+    });
+</script>
+{/block}

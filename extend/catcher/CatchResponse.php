@@ -1,7 +1,9 @@
 <?php
 namespace catcher;
 
+use think\facade\View;
 use think\Paginator;
+use think\Response;
 
 class CatchResponse
 {
@@ -47,13 +49,18 @@ class CatchResponse
      * @time 2019年12月02日
      * @param string $msg
      * @param int $code
-     * @return \think\response\Json
+     * @return mixed
+     * @throws \Exception
      */
-    public static function fail($msg = '', $code = 10001): \think\response\Json
+    public static function fail($msg = '', $code = 10001)
     {
-        return json([
-            'code' => $code,
-            'msg'  => $msg,
-        ]);
+        if (request()->isAjax()) {
+            return json([
+                'code' => $code,
+                'msg'  => $msg,
+            ]);
+        }
+
+        return Response::create(config('catch.error'), 'view', $code)->assign(['msg' => $msg, 'code' => $code]);
     }
 }

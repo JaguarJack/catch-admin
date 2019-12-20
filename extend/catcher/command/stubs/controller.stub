@@ -1,0 +1,35 @@
+<?php
+namespace {NAMESPACE};
+
+use catcher\base\CatchController;
+
+class {CLASS} extends CatchController
+{
+    public function index()
+    {
+        return $this->fetch();
+    }
+
+    public function create()
+    {
+        return $this->fetch();
+    }
+
+    public function save()
+    {}
+
+    public function read()
+    {}
+
+    public function edit()
+    {
+        return $this->fetch();
+    }
+
+    public function update()
+    {}
+
+    public function delete()
+    {}
+
+}

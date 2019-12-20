@@ -46,6 +46,8 @@ EOT
         }
         $end = microtime(true);
 
+        // 重置 migrations 在循环冲无法重复使用
+        $this->migrations = null;
         $output->writeln('');
         $output->writeln('<comment>All Done. Took ' . sprintf('%.4fs', $end - $start) . '</comment>');
     }

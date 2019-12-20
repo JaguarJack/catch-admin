@@ -1,0 +1,22 @@
+{$form|raw}
+<script>
+    layui.use(['layer', 'form', 'admin', 'formX'], function () {
+        var $ = layui.jquery;
+        var layer = layui.layer;
+        var form = layui.form;
+        var admin = layui.admin;
+        var mUser = admin.getLayerData('#permission');  // 列表页面传递的数据，#modelUserForm这个只要写弹窗内任意一个元素的id即可
+        form.render();
+        // 回显数据
+        form.val('role', mUser);
+        // 表单提交事件
+        form.on('submit(submitPermission)', function (data) {
+            admin.req('{:url("permission")}', data.field, function (response) {
+                    layer.msg(response.msg, {icon: 1});
+                    admin.putLayerData('formOk', true, '#permission');  // 设置操作成功的标识，#modelUserForm这个只要写弹窗内任意一个元素的id即可
+                    admin.closeDialog('#permission');  // 关闭页面层弹窗
+            }, 'post');
+            return false;
+        });
+    });
+</script>

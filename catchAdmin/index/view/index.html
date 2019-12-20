@@ -30,33 +30,33 @@
             </li>
         </ul>
         <ul class="layui-nav layui-layout-right">
+            <!--  <li class="layui-nav-item" lay-unselect>
+                 <a ew-event="message" title="消息">
+                     <i class="layui-icon layui-icon-notice"></i>
+                     <span class="layui-badge-dot"></span>
+                 </a>
+             </li>
             <li class="layui-nav-item" lay-unselect>
-                <a ew-event="message" title="消息">
-                    <i class="layui-icon layui-icon-notice"></i>
-                    <span class="layui-badge-dot"></span><!--小红点-->
-                </a>
-            </li>
-            <li class="layui-nav-item" lay-unselect>
-                <a ew-event="note" title="便签"><i class="layui-icon layui-icon-note"></i></a>
-            </li>
+                 <a ew-event="note" title="便签"><i class="layui-icon layui-icon-note"></i></a>
+             </li>-->
             <li class="layui-nav-item layui-hide-xs" lay-unselect>
                 <a ew-event="fullScreen" title="全屏"><i class="layui-icon layui-icon-screen-full"></i></a>
             </li>
             <li class="layui-nav-item" lay-unselect>
                 <a>
                     <img src="__CATCH_ADMIN_IMAGES__/head.png" class="layui-nav-img">
-                    <cite>管理员</cite>
+                    <cite>{$username}</cite>
                 </a>
                 <dl class="layui-nav-child">
-                    <dd lay-unselect>
-                        <a ew-href="page/template/user-info.html">个人中心</a>
+                    <!--<dd lay-unselect>
+                        <a ew-href="javascript:;">个人中心</a>
                     </dd>
                     <dd lay-unselect>
                         <a ew-event="psw">修改密码</a>
                     </dd>
-                    <hr>
+                    <hr>-->
                     <dd lay-unselect>
-                        <a ew-event="logout" data-url="page/template/login.html">退出</a>
+                        <a id="logout">退出</a>
                     </dd>
                 </dl>
             </li>
@@ -71,147 +71,29 @@
         <div class="layui-side-scroll">
             <ul class="layui-nav layui-nav-tree arrow2" lay-filter="admin-side-nav" lay-accordion="true"
                 style="margin-top: 15px;">
-                <li class="layui-nav-item">
-                    <a><i class="layui-icon layui-icon-home"></i>&emsp;<cite>Dashboard</cite></a>
-                    <dl class="layui-nav-child">
-                        <dd><a lay-href="page/console/console.html">控制台</a></dd>
-                        <dd><a lay-href="page/console/introduction.html">介绍页</a></dd>
-                        <dd><a lay-href="page/console/dashboard.html">分析页</a></dd>
-                        <dd><a lay-href="page/console/welcome.html">欢迎页</a></dd>
-                    </dl>
-                </li>
-                <li class="layui-nav-item">
-                    <a><i class="layui-icon layui-icon-set"></i>&emsp;<cite>权限管理</cite></a>
-                    <dl class="layui-nav-child">
-                        <dd><a lay-href="{:url('user')}">用户管理</a></dd>
-                        <dd><a lay-href="page/system/role.html">角色管理</a></dd>
-                        <dd><a lay-href="page/system/authorities.html">菜单管理</a></dd>
-                        <dd><a lay-href="page/system/loginRecord.html">登录日志</a></dd>
-                    </dl>
-                </li>
-                <li class="layui-nav-item">
-                    <a><i class="layui-icon layui-icon-template"></i>&emsp;<cite>模板页面</cite></a>
-                    <dl class="layui-nav-child">
-                        <dd>
-                            <a>表单页</a>
+                {foreach $menus as $key => $menu }
+                    <li class="layui-nav-item">
+                        {if (!empty($menu['children']))}
+                            <a><i class="layui-icon layui-icon-home"></i>&emsp;<cite>{$menu['permission_name']}</cite></a>
                             <dl class="layui-nav-child">
-                                <dd><a lay-href="page/template/form/form-basic.html">基础表单</a></dd>
-                                <dd><a lay-href="page/template/form/form-advance.html">复杂表单</a></dd>
-                                <dd><a lay-href="page/template/form/form-step.html">分步表单</a></dd>
-                            </dl>
-                        </dd>
-                        <dd>
-                            <a>表格页</a>
-                            <dl class="layui-nav-child">
-                                <dd><a lay-href="page/template/table/table-basic.html">数据表格</a></dd>
-                                <dd><a lay-href="page/template/table/table-advance.html">复杂查询</a></dd>
-                                <dd><a lay-href="page/template/table/table-ltrt.html">左树右表</a></dd>
-                                <dd><a lay-href="page/template/table/table-img.html">表格缩略图</a></dd>
-                            </dl>
-                        </dd>
-                        <dd>
-                            <a>错误页</a>
-                            <dl class="layui-nav-child">
-                                <dd><a lay-href="page/template/error/error-500.html">500</a></dd>
-                                <dd><a lay-href="page/template/error/error-404.html">404</a></dd>
-                                <dd><a lay-href="page/template/error/error-403.html">403</a></dd>
-                            </dl>
-                        </dd>
-                        <dd><a lay-href="page/template/user-info.html">个人中心</a></dd>
-                        <dd><a lay-href="page/template/empty.html">空白页面</a></dd>
-                        <dd><a href="page/template/login.html" target="_blank">登录页面</a></dd>
-                    </dl>
-                </li>
-                <li class="layui-nav-item">
-                    <a><i class="layui-icon layui-icon-component"></i>&emsp;<cite>扩展组件</cite></a>
-                    <dl class="layui-nav-child">
-                        <dd>
-                            <a>常用组件</a>
-                            <dl class="layui-nav-child">
-                                <dd><a lay-href="page/plugin/basic/dialog.html">弹出层</a></dd>
-                                <dd><a lay-href="page/plugin/basic/dropdown.html">下拉菜单</a></dd>
-                                <dd><a lay-href="page/plugin/basic/cascader.html">级联选择器</a></dd>
-                                <dd><a lay-href="page/plugin/basic/notice.html">消息通知</a></dd>
-                                <dd><a lay-href="page/plugin/basic/tips.html">文字提示</a></dd>
-                                <dd><a lay-href="page/plugin/basic/tagsInput.html">标签输入</a></dd>
-                                <dd><a lay-href="page/plugin/basic/split.html">分割面板</a></dd>
-                                <dd><a lay-href="page/plugin/basic/circleProgress.html">圆形进度条</a></dd>
-                            </dl>
-                        </dd>
-                        <dd>
-                            <a>进阶组件</a>
-                            <dl class="layui-nav-child">
-                                <dd><a lay-href="page/plugin/advance/tableX.html">表格扩展</a></dd>
-                                <dd><a lay-href="page/plugin/advance/formX.html">表单扩展</a></dd>
-                                <dd><a lay-href="page/plugin/advance/dataGrid.html">数据列表</a></dd>
-                                <dd><a lay-href="page/plugin/advance/printer.html">打印插件</a></dd>
-                                <dd><a lay-href="page/plugin/advance/ckeditor.html">富文本编辑</a></dd>
-                                <dd><a lay-href="page/plugin/advance/player.html">视频播放器</a></dd>
-                                <dd><a lay-href="page/plugin/advance/introJs.html">引导插件</a></dd>
-                            </dl>
-                        </dd>
-                        <dd>
-                            <a>工具组件</a>
-                            <dl class="layui-nav-child">
-                                <dd><a lay-href="page/plugin/util/contextMenu.html">ContextMenu</a></dd>
-                                <dd><a lay-href="page/plugin/util/mousewheel.html">MouseWheel</a></dd>
-                                <dd><a lay-href="page/plugin/util/other.html">其他</a></dd>
-                            </dl>
-                        </dd>
-                        <dd><a lay-href="page/plugin/more.html">更多扩展</a></dd>
-                    </dl>
-                </li>
-                <li class="layui-nav-item">
-                    <a><i class="layui-icon layui-icon-app"></i>&emsp;<cite>经典实例</cite></a>
-                    <dl class="layui-nav-child">
-                        <dd><a lay-href="page/example/dialog.html">弹窗实例</a></dd>
-                        <dd><a lay-href="page/example/syxm.html">经典实例2</a></dd>
-                        <dd><a lay-href="page/example/form.html">表单实例</a></dd>
-                        <dd><a lay-href="page/example/file.html">文件管理</a></dd>
-                        <dd><a lay-href="page/example/table-crud.html">表格CRUD</a></dd>
-                        <dd><a href="page/example/side-more.html" target="_blank">多系统模式</a></dd>
-                        <dd><a href="page/example/side-ajax.html" target="_blank">Ajax侧边栏</a></dd>
-                    </dl>
-                </li>
-                <li class="layui-nav-item">
-                    <a><i class="layui-icon layui-icon-release"></i>&emsp;<cite>LayUI组件</cite></a>
-                    <dl class="layui-nav-child">
-                        <dd><a lay-href="https://www.layui.com/demo/button.html">组件演示</a></dd>
-                        <dd><a lay-href="https://www.layui.com/doc/element/button.html#use">layui文档</a></dd>
-                        <dd><a lay-href="https://layer.layui.com/">layer弹窗组件</a></dd>
-                        <dd><a lay-href="https://www.layui.com/laydate/">laydate日期组件</a></dd>
-                    </dl>
-                </li>
-                <li class="layui-nav-item">
-                    <a><i class="layui-icon layui-icon-unlink"></i>&emsp;<cite>多级菜单</cite></a>
-                    <dl class="layui-nav-child">
-                        <dd><a>二级菜单</a></dd>
-                        <dd>
-                            <a>二级菜单</a>
-                            <dl class="layui-nav-child">
-                                <dd><a>三级菜单</a></dd>
-                                <dd>
-                                    <a>三级菜单</a>
+                            {foreach $menu['children'] as $m}
+                                {if (!empty($m['children']))}
+                                    <a><i class="layui-icon layui-icon-home"></i>&emsp;<cite>{$m['permission_name']}</cite></a>
                                     <dl class="layui-nav-child">
-                                        <dd><a>四级菜单</a></dd>
-                                        <dd>
-                                            <a>四级菜单</a>
-                                            <dl class="layui-nav-child">
-                                                <dd><a>五级菜单</a></dd>
-                                                <dd>
-                                                    <a lay-href="https://baidu.com">百度一下</a>
-                                                </dd>
-                                            </dl>
-                                        </dd>
+                                    {foreach $m['children'] as $_m}
+                                        <dd><a lay-href="{:url($_m['route'])}">{$_m['permission_name']}</a></dd>
+                                    {/foreach}
                                     </dl>
-                                </dd>
+                                {else/}
+                                    <dd><a lay-href="{:url($m['route'])}">{$m['permission_name']}</a></dd>
+                                {/if}
+                            {/foreach}
                             </dl>
-                        </dd>
-                    </dl>
-                </li>
-                <li class="layui-nav-item">
-                    <a lay-href="//baidu.com"><i class="layui-icon layui-icon-unlink"></i>&emsp;<cite>一级菜单</cite></a>
-                </li>
+                        {else/}
+                        <a lay-href="{:url($menu['route'])}"><i class="layui-icon layui-icon-unlink"></i>&emsp;<cite>{$menu['permission_name']}</cite></a>
+                        {/if}
+                    </li>
+                {/foreach}
             </ul>
         </div>
     </div>
@@ -220,7 +102,7 @@
     <div class="layui-body"></div>
     <!-- 底部 -->
     <div class="layui-footer">
-        copyright 2017 ~ © {:date('Y', time())} <a href="http://easyweb.vip" target="_blank">catchadmin.com</a> all rights reserved.
+        copyright 2017 ~ © {:date('Y', time())} <a href="https://catchadmin.com" target="_blank">catchadmin.com</a> all rights reserved.
         <span class="pull-right">Version 2.0</span>
     </div>
 </div>
@@ -236,17 +118,25 @@
 <script type="text/javascript" src="__CATCH_ADMIN_LIBS__/layui/layui.js"></script>
 <script type="text/javascript" src="__CATCH_ADMIN_JS__/common.js?v=315"></script>
 <script>
-    layui.use(['index'], function () {
+    layui.use(['index', 'admin'], function () {
         var $ = layui.jquery;
         var index = layui.index;
+        var admin = layui.admin;
 
         // 默认加载主页
         index.loadHome({
-            menuPath: 'page/console/console.html',
+            menuPath: '{:url("dashboard")}',
             menuName: '<i class="layui-icon layui-icon-home"></i>'
         });
-
+        $(document).on('click','#logout',function(){
+            admin.req('{:url("logout")}', {}, function (response) {
+                if (response.code === 10000) {
+                    window.location.href = "{:url('login')}";
+                }
+            }, 'post')
+        });
     });
+
 </script>
 </body>
 </html>

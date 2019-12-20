@@ -1,0 +1,14 @@
+<?php
+namespace {NAMESPACE};
+
+use catcher\base\CatchRequest;
+
+class {CLASS}Request extends CatchRequest
+{
+   public function rule()
+   {
+        return [
+            // rule
+        ];
+   }
+}

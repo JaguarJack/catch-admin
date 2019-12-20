@@ -1,4 +1,4 @@
-{extend name="../../../view/layout"}
+{extend name="$layout"}
 {block name="title"}用户管理{/block}
 {block name="search"}
 <div class="layui-form toolbar">
@@ -47,7 +47,7 @@
 <table class="layui-table" id="tableUser" lay-filter="tableUser"></table>
 <!-- 表格操作列 -->
 <script type="text/html" id="tableBarUser">
-    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">修改</a>
+    {:editButton()}
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="{{d.deleted_at ? 'recover' : 'del'}}">{{d.deleted_at ? '恢复' : '删除'}}</a>
 </script>
 <!-- 表格状态列 -->
@@ -122,7 +122,6 @@
         });
 
         function recover(uid, username) {
-            console.log(username)
             layer.confirm('确定要恢复“' + username + '”吗？', {
                 skin: 'layui-layer-admin',
                 shade: .1
@@ -145,6 +144,7 @@
                 title: (mUser ? '修改' : '添加') + '用户',
                 url: mUser ? '/user/'+mUser.id + '/edit':'/user/create',
                 data: mUser,     // 传递数据到表单页面
+                area: '500px',
                 end: function () {
                     if (admin.getLayerData(layIndex, 'formOk')) {  // 判断表单操作成功标识
                         insTb.reload();  // 成功刷新表格

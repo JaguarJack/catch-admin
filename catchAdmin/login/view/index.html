@@ -27,7 +27,7 @@
 <body>
 <div class="login-wrapper">
     <div class="login-header">
-        <img src="/static/assets/images/logo.png"> EasyWeb后台开发框架
+        <img src="__CATCH_ADMIN_IMAGES__/logo.png"> CatchAdmin 后台管理系统
     </div>
     <div class="login-body">
         <div class="layui-card">
@@ -38,8 +38,8 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label"><i class="layui-icon layui-icon-username"></i></label>
                     <div class="layui-input-block">
-                        <input name="name" type="text" placeholder="账号" class="layui-input"
-                               lay-verType="tips" lay-verify="required" required/>
+                        <input name="email" type="text" placeholder="邮箱" class="layui-input"
+                               lay-verType="tips" lay-verify="required|email" required/>
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -58,7 +58,7 @@
                                        autocomplete="off" lay-verType="tips" lay-verify="required" required/>
                             </div>
                             <div class="layui-col-xs5" style="padding-left: 6px;">
-                                <img src="{:captcha_src()}" alt="captcha" class="captcha" onclick="this.src = this.src + '?t=' + (new Date).getTime();"/>
+                                <img src="{:url('catch/captcha')}" alt="captcha" class="captcha" onclick="this.src = this.src + '?t=' + (new Date).getTime();"/>
                             </div>
                         </div>
                     </div>
@@ -81,7 +81,7 @@
     </div>
 
     <div class="login-footer">
-        <p>© 2015 ~ {:date('Y', time())} @Lawyer 版权所有</p>
+        <p>© 2015 ~ {:date('Y', time())} @catchAdmin 版权所有</p>
         <!--<p>
             <span><a href="https://easyweb.vip" target="_blank">获取授权</a></span>
             <span><a href="https://easyweb.vip/doc/" target="_blank">开发文档</a></span>
@@ -106,7 +106,20 @@
                 type: 'post',
                 data: obj.field,
                 success: function(response) {
-                    layer.msg(response.msg)
+                    if (response.code === 10000) {
+                        layer.msg(response.msg, {
+                            icon: 1,
+                            time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                        }, function () {
+                            //do something
+                            window.location.href = '/';
+                        })
+                    } else {
+                        layer.msg(response.msg, {
+                            icon: 2,
+                            time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                        })
+                    }
                 }
             });
             return false;

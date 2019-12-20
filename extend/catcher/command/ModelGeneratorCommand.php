@@ -80,9 +80,9 @@ class ModelGeneratorCommand extends Command
 <?php
 namespace catchAdmin\{Module}\model;
 
-use cather\Model;
+use cather\base\BaseModel;
 
-class {Class} extends Model
+class {Class} extends BaseModel
 {
     protected \$name = '{Name}';
     

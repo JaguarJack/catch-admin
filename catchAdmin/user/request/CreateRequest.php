@@ -2,9 +2,9 @@
 namespace catchAdmin\user\request;
 
 use catchAdmin\user\model\Users;
-use catcher\base\BaseRequest;
+use catcher\base\CatchRequest;
 
-class CreateRequest extends BaseRequest
+class CreateRequest extends CatchRequest
 {
 
     protected function rules(): array

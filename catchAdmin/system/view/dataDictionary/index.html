@@ -1,0 +1,113 @@
+{extend name="$layout"}
+{block name="title"}登录日志{/block}
+{block name="search"}
+<div class="layui-form toolbar">
+    <div class="layui-form-item">
+        <!--<div class="layui-inline">
+            <div class="layui-input-inline mr0">
+                <input id="edtSearchAuth" class="layui-input" type="text" placeholder="输入角色名称"/>
+            </div>
+        </div>
+        <div class="layui-inline">
+            <button id="btnSearchAuth" class="layui-btn icon-btn"><i class="layui-icon">&#xe615;</i>搜索
+            </button>-->
+        <button id="optimize" class="layui-btn icon-btn"><i class="layui-icon">&#xe631;</i>优化</button>
+        <button id="backup" class="layui-btn layui-btn-normal icon-btn"><i class="layui-icon">&#xe620;</i>备份</button>
+        <!--</div>-->
+    </div>
+</div>
+{/block}
+{block name="table"}
+<table class="layui-table" id="database" lay-filter="database"></table>
+<!-- 表格操作列 -->cl
+<script type="text/html" id="operate">
+   {:editButton('查看', 'view')}
+</script>
+{/block}
+{block name="script"}
+<script>
+    layui.use(['layer', 'table', 'util', 'admin'], function () {
+        var $ = layui.jquery;
+        var table = layui.table;
+        var admin = layui.admin;
+
+        table.render({
+            elem: '#database',
+            url: '{:url("tables")}',
+            page: true,
+            response: {
+                statusCode: 10000,
+            },
+            // toolbar: true,
+            cellMinWidth: 100,
+            cols: [[
+                {type: 'checkbox'},
+                {field: 'Name',  title: '表名'},
+                {field: 'Engine',  title: '表引擎'},
+                {field: 'Collation',  title: '数据集'},
+                {field: 'Rows',title: '数据行数'},
+                {field: 'Index_length',  title: '索引大小', templet: function (d) {
+                        if (d.Index_length < (1024 * 1024)) {
+                            return Math.round(d.Index_length / 1024) + 'KB'
+                        } else {
+                            return Math.round(d.Index_length/(1024 * 1024)) + 'MB'
+                        }
+                    }
+                },
+                {field: 'Data_length',  title: '数据大小', templet: function (d) {
+                        if (d.Data_length < (1024 * 1024)) {
+                            return Math.round(d.Data_length / 1024) + 'KB'
+                        } else {
+                            return Math.round(d.Data_length/(1024 * 1024)) + 'MB'
+                        }
+                    }
+                },
+                {field: 'Create_time',  title: '创建时间'},
+                {field: 'Comment',  title: '表注释'},
+                {align: 'center', toolbar: '#operate', title: '操作'}
+            ]],
+        });
+
+        // 工具条点击事件
+        table.on('tool(database)', function (obj) {
+            if (obj.event === 'view') { // 查看
+                admin.open({
+                    title: '查看表结构',
+                    url: '/table/view/'+obj.data.Name,
+                    area: '900px',
+                });
+            }
+        });
+
+        $('#optimize').click(function () {
+            var checkRows = table.checkStatus('database');
+            if (checkRows.data.length == 0) {
+                layer.msg('选择需要优化的表', {icon: 2});
+            } else {
+                var name = [];
+                checkRows.data.map(function(item,index){
+                    name.push(item.Name)
+                });
+                admin.req("{:url('table/optimize')}", {data:name},function (response) {
+                    layer.msg(response.msg, {icon: 1})
+                }, 'post')
+            }
+        })
+
+        $('#backup').click(function () {
+            var checkRows = table.checkStatus('database');
+            if (checkRows.data.length == 0) {
+                layer.msg('选择需要备份的表', {icon: 2});
+            } else {
+                var name = [];
+                checkRows.data.map(function(item,index){
+                    name.push(item.Name)
+                });
+                admin.req("{:url('table/backup')}", {data:name},function (response) {
+                    layer.msg(response.msg, {icon: response.code === 10000 ? 1 : 2})
+                }, 'post')
+            }
+        })
+    });
+</script>
+{/block}

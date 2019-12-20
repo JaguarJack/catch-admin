@@ -1,11 +1,14 @@
 <?php
 namespace catchAdmin\login\controller;
 
-use catchAdmin\login\Auth;
+use app\exceptions\LoginFailedException;
+use catchAdmin\user\Auth;
 use catchAdmin\login\request\LoginRequest;
-use catcher\base\BaseController;
+use catcher\base\CatchController;
+use catcher\CatchResponse;
+use think\captcha\Captcha;
 
-class Index extends BaseController
+class Index extends CatchController
 {
     /**
      * 登录
@@ -25,25 +28,48 @@ class Index extends BaseController
      * @time 2019年11月28日
      * @param LoginRequest $request
      * @return bool|string
-     * @throws \app\exceptions\LoginFailedException
+     * @throws \catcher\exceptions\LoginFailedException
+     * @throws \cather\exceptions\LoginFailedException
+     * @throws LoginFailedException
      */
     public function login(LoginRequest $request)
     {
-        (new Auth())->login($request->post());
+        $params = $request->param();
+        $isSucceed = Auth::login($params);
+        // 登录事件
+        $params['success'] = $isSucceed;
+        event('loginLog', $params);
+
+        return $isSucceed ? CatchResponse::success('', '登录成功') :
+
+            CatchResponse::success('', '登录失败');
     }
 
     /**
      * 登出
      *
      * @time 2019年11月28日
-     * @return bool
+     * @return \think\response\Json
+     * @throws \Exception
      */
-    public function logout(): bool
+    public function logout(): \think\response\Json
     {
-        if ((new Auth())->logout()) {
-            return redirect(url('login'));
+        if (Auth::logout()) {
+            return CatchResponse::success();
         }
 
-        return false;
+        return CatchResponse::fail('登出失败');
+    }
+
+    /**
+     *
+     * @time 2019年12月12日
+     * @param Captcha $captcha
+     * @param null $config
+     * @return \think\Response
+     */
+    public function captcha(Captcha $captcha, $config = null): \think\Response
+    {
+        return $captcha->create($config);
     }
 }

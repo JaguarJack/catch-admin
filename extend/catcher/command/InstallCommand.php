@@ -1,6 +1,7 @@
 <?php
 namespace catcher\command;
 
+use catcher\CatchAdmin;
 use think\console\Command;
 use think\console\Input;
 use think\console\input\Argument;
@@ -12,11 +13,11 @@ use think\facade\Db;
 class InstallCommand extends Command
 {
 
-    protected $dataInstall = true;
+    protected $databaseLink = [];
 
     protected function configure()
     {
-        $this->setName('install:project')
+        $this->setName('catch:install')
             // ->addArgument('module', Argument::REQUIRED, 'module name')
             ->setDescription('install project');
     }
@@ -128,6 +129,8 @@ class InstallCommand extends Command
                 }
             }
 
+            $this->databaseLink = [$host, $database, $username, $password, $port, $charset, $prefix];
+
             $this->generateEnvFile($host, $database, $username, $password, $port, $charset, $prefix);
         }
     }
@@ -140,31 +143,31 @@ class InstallCommand extends Command
      */
     protected function secondStep(): void
     {
-        $modulePaths = glob(root_path('module') . '*');
+        if (file_exists(root_path() . '.env')) {
+            $connections = \config('database.connections');
 
-        $this->checkRootDatabase();
+            [
+                $connections['mysql']['hostname'],
+                $connections['mysql']['database'],
+                $connections['mysql']['username'],
+                $connections['mysql']['password'],
+                $connections['mysql']['hostport'],
+                $connections['mysql']['charset'],
+                $connections['mysql']['prefix'],
+            ] = $this->databaseLink;
 
-        foreach ($modulePaths as $path) {
-            if (is_dir($path)) {
-                $moduleDatabasePath = $path . DIRECTORY_SEPARATOR . 'database' . DIRECTORY_SEPARATOR;
-                if (is_dir($moduleDatabasePath)) {
-                    if (is_dir($moduleDatabasePath . 'migrations' . DIRECTORY_SEPARATOR)) {
-                        $migrationFiles = glob($moduleDatabasePath . 'migrations' . DIRECTORY_SEPARATOR . '*.php');
-                        foreach ($migrationFiles as $file) {
-                            copy($file,
-                                root_path('database') . 'migrations'. DIRECTORY_SEPARATOR .
-                                pathinfo($file, PATHINFO_BASENAME));
-                        }
-                    }
+            \config([
+                'connections' => $connections,
+            ], 'database');
 
-                    if (is_dir($moduleDatabasePath . 'seeds' . DIRECTORY_SEPARATOR)) {
-                        $seedFiles = glob($moduleDatabasePath . 'seeds' . DIRECTORY_SEPARATOR . '*.php');
-                        foreach ($seedFiles as $file) {
-                            copy($file,
-                                root_path('database') . 'seeds' . DIRECTORY_SEPARATOR .
-                                pathinfo($file, PATHINFO_BASENAME));
-                        }
-                    }
+            foreach (CatchAdmin::getModulesDirectory() as $directory) {
+                $moduleInfo = CatchAdmin::getModuleInfo($directory);
+                if (is_dir(CatchAdmin::moduleMigrationsDirectory($moduleInfo['alias']))) {
+                    $output = Console::call('catch-migrate:run', [$moduleInfo['alias']]);
+                    $this->output->info(sprintf('module [%s] migrations %s', $moduleInfo['alias'], $output->fetch()));
+
+                    $seedOut = Console::call('catch-seed:run', [$moduleInfo['alias']]);
+                    $this->output->info(sprintf('module [%s] seeds %s', $moduleInfo['alias'], $seedOut->fetch()));
                 }
             }
         }
@@ -190,9 +193,7 @@ class InstallCommand extends Command
     protected function finished(): void
     {
         // todo something
-        if ($this->dataInstall) {
-            rmdir($this->app->getRootPath() . 'database');
-        }
+
     }
 
     /**
@@ -210,6 +211,7 @@ class InstallCommand extends Command
      */
     protected function generateEnvFile($host, $database, $username, $password, $port, $charset, $prefix): void
     {
+        try {
             $env = \parse_ini_file(root_path() . '.example.env', true);
 
             $env['DATABASE']['HOSTNAME'] = $host;
@@ -236,29 +238,22 @@ class InstallCommand extends Command
                 }
             }
 
-            file_put_contents(root_path() . '.env', $dotEnv);
 
             if ($this->getEnvFile()) {
                 $this->output->info('env file has been generated');
             }
-
             if ((new \mysqli($host, $username, $password, null, $port))->query(sprintf('CREATE DATABASE IF NOT EXISTS %s DEFAULT CHARSET %s COLLATE %s_general_ci;',
                 $database, $charset, $charset))) {
                 $this->output->info(sprintf('🎉 create database %s successfully', $database));
-
-                exec(sprintf('%s %s migrate:run',  getenv('_'), root_path() . DIRECTORY_SEPARATOR . 'think'));
-
-                $this->output->info('🎉 database table install successfully');
-
-                exec(sprintf('%s %s seed:run', getenv('_'),root_path() . DIRECTORY_SEPARATOR . 'think'));
-
-                $this->output->info('🎉 Fill database table successfully ');
             } else {
-                $this->dataInstall = false;
-                $this->output->warning(sprintf('create database %s failed, you should create it by yourself', $database));
-                $this->output->warning('you should use `php think migrate:run` to create tables');
-                $this->output->warning('you should use `php think seed:run` to fill tables data');
+                $this->output->warning(sprintf('create database %s failed，you need create database first by yourself', $database));
             }
+        } catch (\Exception $e) {
+            $this->output->error($e->getMessage());
+            exit(0);
+        }
+
+        file_put_contents(root_path() . '.env', $dotEnv);
     }
 
     /**
@@ -321,8 +316,9 @@ class InstallCommand extends Command
 | / /__/ /_/ / /_/ /__/ / / /  / ___ / /_/ / / / / / / / / / / |
 | \___/\__,_/\__/\___/_/ /_/  /_/  |_\__,_/_/ /_/ /_/_/_/ /_/  |
 |                                                              |   
- \ __ __ __ __ _ __ _ __ enjoy it ! _ __ __ __ __ __ __ ___ _ @ 2017 ～ %s 
-                                                       
+ \ __ __ __ __ _ __ _ __ enjoy it ! _ __ __ __ __ __ __ ___ _ @ 2017 ～ %s
+ 账号: admin@gmail.com
+ 密码: admin                                               
 ', $year));
 
     }

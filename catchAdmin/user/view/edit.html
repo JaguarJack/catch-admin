@@ -1,25 +1,38 @@
 {$form|raw}
 <script>
-    layui.use(['layer', 'form', 'admin', 'formX'], function () {
+    layui.use(['layer', 'form', 'admin', 'formX', 'authtree'], function () {
         var $ = layui.jquery;
         var layer = layui.layer;
         var form = layui.form;
         var admin = layui.admin;
+        var authtree = layui.authtree;
         var mUser = admin.getLayerData('#userForm');  // 列表页面传递的数据，#modelUserForm这个只要写弹窗内任意一个元素的id即可
         // 回显数据
         form.val('userForm', mUser);
         var uid = "{$uid}";
+        admin.req('{:url("/user/get/roles")}',{uid:uid}, function (response) {
+            authtree.render('#roles', response.data.roles, {
+                inputname: 'roleids[]',
+                primaryKey: 'id',
+                parentKey: 'parent_id',
+                layfilter: 'lay-check-auth',
+                autowidth: true,
+                nameKey: 'role_name',
+                valueKey: 'id',
+                childKey: 'children',
+                collapseLeafNode: true,
+                theme: 'auth-skin-default',
+                checkedKey: response.data.hasRoles,
+                autochecked: false,
+                autoclose: false,
+            });
+        });
         // 表单提交事件
         form.on('submit(submitUser)', function (data) {
             admin.req('/user/' + uid, data.field, function (response) {
-                layer.closeAll('loading');
-                if (response.code == 10000) {
                     layer.msg(response.msg, {icon: 1});
                     admin.putLayerData('formOk', true, '#userForm');  // 设置操作成功的标识，#modelUserForm这个只要写弹窗内任意一个元素的id即可
                     admin.closeDialog('#userForm');  // 关闭页面层弹窗
-                } else {
-                    layer.msg(response.msg, {icon: 2});
-                }
             }, 'put');
             return false;
         });

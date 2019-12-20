@@ -18,15 +18,14 @@ class CatchAdmin
     }
 
     /**
+     * 创建目录
      *
-     * @time 2019年12月04日
-     * @param $module
+     * @time 2019年12月16日
+     * @param string $directory
      * @return string
      */
-    public static function moduleDirectory($module): string
+    public static function makeDirectory(string $directory): string
     {
-        $directory =  self::directory() . $module . DIRECTORY_SEPARATOR;
-
         if (!is_dir($directory) && !mkdir($directory, 0777, true) && !is_dir($directory)) {
             throw new \RuntimeException(sprintf('Directory "%s" was not created', $directory));
         }
@@ -36,18 +35,34 @@ class CatchAdmin
 
     /**
      *
+     * @time 2019年12月04日
+     * @param $module
+     * @return string
+     */
+    public static function moduleDirectory($module): string
+    {
+        return self::makeDirectory(self::directory() . $module . DIRECTORY_SEPARATOR);
+    }
+
+    /**
+     *
      * @time 2019年11月30日
      * @return string
      */
     public static function cacheDirectory(): string
     {
-        $directory =  app()->getRuntimePath() . self::NAME . DIRECTORY_SEPARATOR;
+        return self::makeDirectory(app()->getRuntimePath() . self::NAME . DIRECTORY_SEPARATOR);
+    }
 
-        if (!is_dir($directory) && !mkdir($directory, 0777, true) && !is_dir($directory)) {
-            throw new \RuntimeException(sprintf('Directory "%s" was not created', $directory));
-        }
-
-        return $directory;
+    /**
+     * 备份地址
+     *
+     * @time 2019年12月13日
+     * @return string
+     */
+    public static function backupDirectory(): string
+    {
+        return self::makeDirectory(self::cacheDirectory() . 'backup' .DIRECTORY_SEPARATOR);
     }
 
     /**
@@ -81,13 +96,7 @@ class CatchAdmin
      */
     public static function getModuleViewPath($module): string
     {
-        $directory =  self::directory() . $module . DIRECTORY_SEPARATOR . 'view' . DIRECTORY_SEPARATOR;
-
-        if (!is_dir($directory) && !mkdir($directory, 0777, true) && !is_dir($directory)) {
-            throw new \RuntimeException(sprintf('Directory "%s" was not created', $directory));
-        }
-
-        return $directory;
+        return self::makeDirectory(self::directory() . $module . DIRECTORY_SEPARATOR . 'view' . DIRECTORY_SEPARATOR);
     }
 
     /**
@@ -98,13 +107,7 @@ class CatchAdmin
      */
     public static function getModuleModelDirectory($module): string
     {
-        $directory =  self::directory() . $module . DIRECTORY_SEPARATOR . 'model' . DIRECTORY_SEPARATOR;
-
-        if (!is_dir($directory) && !mkdir($directory, 0777, true) && !is_dir($directory)) {
-            throw new \RuntimeException(sprintf('Directory "%s" was not created', $directory));
-        }
-
-        return $directory;
+        return self::makeDirectory(self::directory() . $module . DIRECTORY_SEPARATOR . 'model' . DIRECTORY_SEPARATOR);
     }
     /**
      *
@@ -121,6 +124,32 @@ class CatchAdmin
             }
 
             $module .= DIRECTORY_SEPARATOR;
+        }
+
+        return $modules;
+    }
+
+    /**
+     *
+     * @time 2019年12月12日
+     * @return array
+     */
+    public static function getModulesInfo($select = true): array
+    {
+        $modules = [];
+        if ($select) {
+            foreach (self::getModulesDirectory() as $module) {
+                $moduleInfo = self::getModuleInfo($module);
+                $modules[] = [
+                    'value' => $moduleInfo['alias'],
+                    'title' => $moduleInfo['name'],
+                ];
+            }
+        } else {
+            foreach (self::getModulesDirectory() as $module) {
+                $moduleInfo = self::getModuleInfo($module);
+                $modules[$moduleInfo['alias']] = $moduleInfo['name'];
+            }
         }
 
         return $modules;
@@ -201,17 +230,15 @@ class CatchAdmin
     /**
      *
      * @time 2019年11月30日
-     * @return string
+     * @return mixed
      */
-    public static function getRoutes(): string
+    public static function getRoutes()
     {
-        if (file_exists(self::getCacheViewsFile())) {
-            return self::getCacheRoutesFile();
+        if (file_exists(self::getCacheRoutesFile())) {
+            return [self::getCacheRoutesFile()];
         }
 
-        self::cacheRoutes();
-
-        return self::getCacheRoutesFile();
+        return self::getModuleRoutes();
     }
 
     /**
@@ -230,19 +257,32 @@ class CatchAdmin
 
     /**
      *
+     * @time 2019年12月15日
+     * @return array
+     */
+    public static function getModuleRoutes(): array
+    {
+        $routeFiles = [];
+        foreach (self::getModulesDirectory() as $module) {
+            $moduleInfo = self::getModuleInfo($module);
+            if (!in_array($moduleInfo['alias'], ['login']) && file_exists($module . 'route.php')) {
+                $routeFiles[] = $module . 'route.php';
+            }
+        }
+
+        return $routeFiles;
+
+    }
+    /**
+     *
      * @time 2019年11月30日
      * @return false|int
      */
     public static function cacheRoutes()
     {
-        $routeFiles = [];
-        foreach (self::getModulesDirectory() as $module) {
-            if (file_exists($module . 'route.php')) {
-                $routeFiles[] = $module . 'route.php';
-            }
-        }
         $routes = '';
-        foreach ($routeFiles as $route) {
+
+        foreach (self::getModuleRoutes() as $route) {
             $routes .= trim(str_replace('<?php', '',  file_get_contents($route))) . PHP_EOL;
         }
 
