@@ -8,6 +8,7 @@ use catchAdmin\user\request\UpdateRequest;
 use catcher\base\BaseController;
 use catcher\CatchForm;
 use catcher\CatchResponse;
+use think\response\Json;
 
 class User extends BaseController
 {
@@ -60,7 +61,7 @@ class User extends BaseController
      *
      * @param CreateRequest $request
      * @time 2019年12月06日
-     * @return \think\response\Json
+     * @return Json
      */
     public function save(CreateRequest $request)
     {
@@ -71,13 +72,18 @@ class User extends BaseController
      *
      * @time 2019年12月04日
      * @param $id
-     * @return \think\response\Json
+     * @return Json
      */
     public function read($id)
     {
         return CatchResponse::success($this->user->findBy($id));
     }
 
+    /**
+     * @param $id
+     * @return string
+     * @throws \Exception
+     */
     public function edit($id)
     {
         $user = $this->user->findBy($id, ['id','username', 'email']);
@@ -101,7 +107,7 @@ class User extends BaseController
      * @time 2019年12月04日
      * @param $id
      * @param UpdateRequest $request
-     * @return \think\response\Json
+     * @return Json
      */
     public function update($id, UpdateRequest $request)
     {
@@ -112,7 +118,7 @@ class User extends BaseController
      *
      * @time 2019年12月04日
      * @param $id
-     * @return \think\response\Json
+     * @return Json
      */
     public function delete($id)
     {
@@ -123,9 +129,9 @@ class User extends BaseController
      *
      * @time 2019年12月07日
      * @param $id
-     * @return \think\response\Json
+     * @return Json
      */
-    public function switchStatus($id): \think\response\Json
+    public function switchStatus($id): Json
     {
         $user = $this->user->findBy($id);
         return CatchResponse::success($this->user->updateBy($id, [
@@ -137,12 +143,12 @@ class User extends BaseController
      *
      * @time 2019年12月07日
      * @param $id
-     * @return \think\response\Json
+     * @return Json
      * @throws \think\db\exception\DbException
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\db\exception\DataNotFoundException
      */
-    public function recover($id): \think\response\Json
+    public function recover($id): Json
     {
        $trashedUser = $this->user->findBy($id, ['*'], true);
 

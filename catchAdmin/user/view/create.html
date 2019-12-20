@@ -14,7 +14,7 @@ form.on('submit(submitUser)', function (data) {
     var url = mUser ? '{:url("user")}' : '{:url("user")}';
     $.post(url, data.field, function (response) {
         layer.closeAll('loading');
-        if (response.code == 10000) {
+        if (response.code === 10000) {
             layer.msg(response.msg, {icon: 1});
             admin.putLayerData('formOk', true, '#userForm');  // 设置操作成功的标识，#modelUserForm这个只要写弹窗内任意一个元素的id即可
             admin.closeDialog('#userForm');  // 关闭页面层弹窗

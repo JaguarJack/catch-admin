@@ -97,9 +97,9 @@ class InstallCommand extends Command
      * 安装第一步
      *
      * @time 2019年11月29日
-     * @return bool
+     * @return mixed
      */
-    protected function firstStep(): bool
+    protected function firstStep()
     {
         if (file_exists($this->app->getRootPath() . '.env')) {
             return false;
