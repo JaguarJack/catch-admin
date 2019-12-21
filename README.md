@@ -42,6 +42,6 @@ remove 'NO_ZERO_IN_DATE,NO_ZERO_DATE'
 
 ## 体验地址
 
-[体验地址](http://catch.njphper.com/login)
+[体验地址](http://demo.catchadmin.com/login)
 - 账号: test@catch.com 
 - 密码: 123456
