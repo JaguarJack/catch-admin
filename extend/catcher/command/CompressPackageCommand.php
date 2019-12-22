@@ -49,7 +49,7 @@ class CompressPackageCommand extends Command
     protected function zip($package): void
     {
         if (!is_dir(CatchAdmin::directory() . $package)) {
-            $package =  $this->output->ask($this->input, sprintf('Can not find [%s] in catchAdmin directory, you should input package again', $package));
+            $package =  $this->output->ask($this->input, sprintf('Can not find [%s] in catch directory, you should input package again', $package));
         }
 
         if (!is_dir(CatchAdmin::directory() . $package)) {

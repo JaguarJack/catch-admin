@@ -9,5 +9,5 @@ return [
     /**
      * set error page
      */
-    'error' => root_path('catchAdmin/index/view/')  . 'error.html',
+    'error' => root_path('catch/index/view/')  . 'error.html',
 ];

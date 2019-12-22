@@ -1,7 +1,9 @@
 <?php
 namespace catcher\exceptions;
 
+use catcher\Code;
+
 class FailedException extends CatchException
 {
-    protected $code = 10010;
+    protected $code = Code::FAILED;
 }

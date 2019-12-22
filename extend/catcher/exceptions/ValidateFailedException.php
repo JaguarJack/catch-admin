@@ -1,7 +1,9 @@
 <?php
 namespace catcher\exceptions;
 
+use catcher\Code;
+
 class ValidateFailedException extends CatchException
 {
-    protected $code = 10001;
+    protected $code = Code::VALIDATE_FAILED;
 }

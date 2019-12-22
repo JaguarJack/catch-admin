@@ -3,6 +3,7 @@ declare (strict_types = 1);
 
 namespace catcher\event;
 
+use catchAdmin\user\AuthTokenMiddleware;
 use catcher\CatchAdmin;
 use think\Route;
 
@@ -27,14 +28,17 @@ class LoadModuleRoutes
                 foreach ($routes as $route) {
                     include $route;
                 }
-            });
+            })->middleware([AuthTokenMiddleware::class]);
         } else {
             $router->group(function () use ($router, $routes) {
                 foreach ($routes as $route) {
                     include $route;
                 }
-            });
+            })->middleware([AuthTokenMiddleware::class]);
         }
+
+        // 单独加载登录
+        include CatchAdmin::moduleDirectory('login') . 'route.php';
     }
 
     /**
@@ -45,7 +49,7 @@ class LoadModuleRoutes
     protected function getRoutes(): array
     {
         $routes = CatchAdmin::getRoutes();
-        array_push($routes, CatchAdmin::directory() . 'login' . DIRECTORY_SEPARATOR . 'route.php');
+
         return $routes;
     }
 }

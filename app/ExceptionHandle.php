@@ -56,10 +56,7 @@ class ExceptionHandle extends Handle
      */
     public function render($request, Throwable $e): Response
     {
-       // if ($e instanceof CatchException){
-        return CatchResponse::fail($e->getMessage(), $e->getCode());
-       // }
         // 其他错误交给系统处理
-        //return parent::render($request, $e);
+        return parent::render($request, $e);
     }
 }

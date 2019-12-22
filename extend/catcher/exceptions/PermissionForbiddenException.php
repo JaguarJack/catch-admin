@@ -1,9 +1,11 @@
 <?php
 namespace catcher\exceptions;
 
+use catcher\Code;
+
 class PermissionForbiddenException extends CatchException
 {
-    protected $code = 10005;
+    protected $code = Code::PERMISSION_FORBIDDEN;
 
     protected $message = 'permission forbidden';
 }

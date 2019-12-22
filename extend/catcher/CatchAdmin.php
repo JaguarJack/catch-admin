@@ -5,7 +5,7 @@ use think\helper\Arr;
 
 class CatchAdmin
 {
-    public const NAME = 'catchAdmin';
+    public const NAME = 'catch';
 
     /**
      *

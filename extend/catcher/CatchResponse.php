@@ -16,7 +16,7 @@ class CatchResponse
      * @param int $code
      * @return \think\response\Json
      */
-    public static function success($data = [], $msg = 'success', $code = 10000): \think\response\Json
+    public static function success($data = [], $msg = 'success', $code = Code::SUCCESS): \think\response\Json
     {
         return json([
             'code' => $code,
@@ -39,6 +39,7 @@ class CatchResponse
             'msg'   => 'success',
             'count' => $list->total(),
             'current' => $list->currentPage(),
+            'limit'  => $list->listRows(),
             'data'    => $list->getCollection(),
         ]);
     }

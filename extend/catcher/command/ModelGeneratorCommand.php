@@ -78,7 +78,7 @@ class ModelGeneratorCommand extends Command
     {
         return <<<EOT
 <?php
-namespace catchAdmin\{Module}\model;
+namespace catch\{Module}\model;
 
 use cather\base\BaseModel;
 
