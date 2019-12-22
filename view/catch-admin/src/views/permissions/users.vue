@@ -69,14 +69,14 @@
       </span>
     </s-table>
     <create-form ref="createModal" @ok="handleOk" />
-    <step-by-step-modal ref="modal" @ok="handleOk"/>
+    <edit-user ref="modal" @ok="handleOk"/>
   </a-card>
 </template>
 
 <script>
 import moment from 'moment'
 import { STable, Ellipsis } from '@/components'
-import StepByStepModal from './modules/StepByStepModal'
+import EditUser from './modules/EditUser'
 import CreateForm from './modules/CreateForm'
 import { getRoleList, getUserList } from '@/api/manage'
 import { switchStatus } from '@/api/user'
@@ -106,7 +106,7 @@ export default {
     STable,
     Ellipsis,
     CreateForm,
-    StepByStepModal
+    EditUser
   },
   data () {
     return {
@@ -157,7 +157,6 @@ export default {
       ],
       // 加载数据方法 必须为 Promise 对象
       loadData: parameter => {
-        console.log('loadData.parameter', parameter)
         return getUserList(Object.assign(parameter, this.queryParam))
           .then(res => {
             return res
@@ -215,7 +214,6 @@ export default {
       }
     },
     renderStatus (value, row, index) {
-      console.log(row)
       return value === 1 ? <a-switch checkedChildren="正常" unCheckedChildren="禁用" defaultChecked onClick={this.handleSwitch} />
         : <a-switch checkedChildren="正常" id={row.id} unCheckedChildren="禁用" onClick={this.handleSwitch}/>
     },

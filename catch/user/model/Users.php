@@ -49,13 +49,13 @@ class Users extends CatchModel
         return (($search['trash'] ?? false) ? static::onlyTrashed() : $this)
                     ->field(['id', 'username', 'email', 'status','last_login_time','last_login_ip', 'created_at', 'updated_at'])
                     ->when($search['username'] ?? false, function ($query) use ($search){
-                        return $query->whereLike('username', $search['username']);
+                        $query->whereLike('username', '%' . $search['username'] . '%');
                     })
                     ->when($search['email'] ?? false, function ($query) use ($search){
-                        return $query->whereLike('email', $search['email']);
+                        $query->whereLike('email', '%' . $search['email'] . '%');
                     })
                     ->when($search['status'] ?? false, function ($query) use ($search){
-                        return $query->where('status', $search['status']);
+                        $query->where('status', $search['status']);
                     })->paginate($search['limit'] ?? $this->limit);
     }
 

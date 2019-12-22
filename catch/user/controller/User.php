@@ -8,7 +8,6 @@ use catchAdmin\user\model\Users;
 use catchAdmin\user\request\CreateRequest;
 use catchAdmin\user\request\UpdateRequest;
 use catcher\base\CatchController;
-use catcher\CatchForm;
 use catcher\CatchResponse;
 use catcher\Tree;
 
@@ -45,21 +44,7 @@ class User extends CatchController
      * @return string
      */
     public function create()
-    {
-        $form = new CatchForm();
-
-        $form->formId('userForm');
-        $form->text('username', '用户名', true)->verify('required')->placeholder('请输入用户名');
-        $form->text('email', '邮箱', true)->verify('email')->placeholder('请输入邮箱');
-        $form->password('password', '密码', true)->id('pwd')->verify('required|psw')->placeholder('请输入密码');
-        $form->password('passwordConfirm', '确认密码', true)->verify('required|equalTo', ['pwd', '两次密码输入不一致'])->placeholder('请再次输入密码');
-        $form->dom('<div id="roles"></div>', '角色');
-        $form->formBtn('submitUser');
-
-        return $this->fetch([
-            'form' => $form->render(),
-        ]);
-    }
+    {}
 
     /**
      *
@@ -94,25 +79,7 @@ class User extends CatchController
      * @return string
      * @throws \Exception
      */
-    public function edit($id)
-    {
-        $user = $this->user->findBy($id, ['id','username', 'email']);
-        $form = new CatchForm();
-
-        $form->formId('userForm');
-        $form->text('username', '用户名', true)->verify('required')->default($user->username)->placeholder('请输入用户名');
-        $form->text('email', '邮箱', true)->verify('email')->default($user->email)->placeholder('请输入邮箱');
-        $form->password('password', '密码')->id('pwd')->placeholder('请输入密码');
-        $form->password('passwordConfirm', '确认密码')->verify('equalTo', ['pwd', '两次密码输入不一致'])->placeholder('请再次输入密码');
-        $form->dom('<div id="roles"></div>', '角色');
-        $form->formBtn('submitUser');
-
-        return $this->fetch([
-            'form' => $form->render(),
-            'uid'  => $user->id,
-        ]);
-    }
-
+    public function edit($id){}
     /**
      *
      * @time 2019年12月04日

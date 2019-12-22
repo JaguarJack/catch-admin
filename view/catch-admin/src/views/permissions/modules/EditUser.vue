@@ -1,6 +1,6 @@
 <template>
   <a-modal
-    title="新建用户"
+    title="编辑用户"
     :width="640"
     :visible="visible"
     :confirmLoading="confirmLoading"
@@ -29,14 +29,14 @@
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
         >
-          <a-input type="password" v-decorator="['password', {rules: [{required: true, min: 5, message: '请输入密码'}]}]" />
+          <a-input type="password"/>
         </a-form-item>
         <a-form-item
           label="确认密码"
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
         >
-          <a-input type="password" v-decorator="['passwordConfirm', {rules: [{required: true, min: 5, message: '请确认密码'}]}]" />
+          <a-input type="password"/>
         </a-form-item>
       </a-form>
     </a-spin>
@@ -44,10 +44,12 @@
 </template>
 
 <script>
+import pick from 'lodash.pick'
 import { validEmail } from '@/utils/validate'
-import { store } from '@/api/user'
+import { update } from '@/api/user'
 
 export default {
+  name: 'EditUser',
   data () {
     return {
       labelCol: {
@@ -60,13 +62,16 @@ export default {
       },
       visible: false,
       confirmLoading: false,
-
+      mdl: {},
       form: this.$form.createForm(this)
     }
   },
   methods: {
-    add () {
+    edit (record) {
+      console.log(record)
       this.visible = true
+      const { form: { setFieldsValue } } = this
+      setFieldsValue(pick({ username: '123' }))
     },
     handleEmail (rule, value, callback) {
       if (!validEmail(value)) {
@@ -76,17 +81,16 @@ export default {
     },
     handleSubmit () {
       const { form: { validateFields } } = this
-      this.confirmLoading = true
       validateFields((errors, values) => {
         if (!errors) {
-          store(values).then((res) => {
+          this.confirmLoading = true
+          update(values).then((res) => {
             this.$notification['success']({
               message: res.data.message,
               duration: 4
             })
             this.confirmLoading = false
-            this.form.resetFields()
-            this.handleOk()
+            this.destroy()
             this.handleCancel()
           })
             .catch(err => this.failed(err))
@@ -101,6 +105,8 @@ export default {
       this.confirmLoading = false
     },
     handleCancel () {
+      console.log(12312)
+      // clear form & currentStep
       this.visible = false
     }
   }
