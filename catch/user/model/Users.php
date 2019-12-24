@@ -56,7 +56,9 @@ class Users extends CatchModel
                     })
                     ->when($search['status'] ?? false, function ($query) use ($search){
                         $query->where('status', $search['status']);
-                    })->paginate($search['limit'] ?? $this->limit);
+                    })
+                    ->order('id', 'desc')
+                    ->paginate($search['limit'] ?? $this->limit);
     }
 
     /**

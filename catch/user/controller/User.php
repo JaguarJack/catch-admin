@@ -50,7 +50,7 @@ class User extends CatchController
      *
      * @param CreateRequest $request
      * @time 2019年12月06日
-     * @return Json
+     * @return \think\response\Json
      */
     public function save(CreateRequest $request)
     {
@@ -60,14 +60,14 @@ class User extends CatchController
             $this->user->attach($request->param('roleids'));
         }
 
-        return CatchResponse::success();
+        return CatchResponse::success('', '添加成功');
     }
 
     /**
      *
      * @time 2019年12月04日
      * @param $id
-     * @return Json
+     * @return \think\response\Json
      */
     public function read($id)
     {
@@ -85,7 +85,7 @@ class User extends CatchController
      * @time 2019年12月04日
      * @param $id
      * @param UpdateRequest $request
-     * @return Json
+     * @return \think\response\Json
      */
     public function update($id, UpdateRequest $request)
     {
@@ -106,7 +106,7 @@ class User extends CatchController
      *
      * @time 2019年12月04日
      * @param $id
-     * @return Json
+     * @return \think\response\Json
      */
     public function delete($id)
     {
@@ -122,9 +122,9 @@ class User extends CatchController
      *
      * @time 2019年12月07日
      * @param $id
-     * @return Json
+     * @return \think\response\Json
      */
-    public function switchStatus($id): Json
+    public function switchStatus($id): \think\response\Json
     {
         $user = $this->user->findBy($id);
         return CatchResponse::success($this->user->updateBy($id, [
@@ -136,12 +136,12 @@ class User extends CatchController
      *
      * @time 2019年12月07日
      * @param $id
-     * @return Json
+     * @return \think\response\Json
      * @throws \think\db\exception\DbException
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\db\exception\DataNotFoundException
      */
-    public function recover($id): Json
+    public function recover($id): \think\response\Json
     {
        $trashedUser = $this->user->findBy($id, ['*'], true);
 
