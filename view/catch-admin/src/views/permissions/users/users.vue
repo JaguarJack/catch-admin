@@ -16,7 +16,7 @@
             </a-select>
           </a-col>
           <a-col :md="4" :sm="24">
-            <span class="table-page-search-submitButtons" :style="advanced && { float: 'right', overflow: 'hidden' } || {} ">
+            <span class="table-page-search-submitButtons">
               <a-button type="primary" @click="$refs.table.refresh(true)">查询</a-button>
               <a-button style="margin-left: 8px" @click="() => queryParam = {}">重置</a-button>
             </span>
@@ -26,13 +26,12 @@
     </div>
 
     <div class="table-operator">
-      <a-button type="primary" icon="plus" @click="$refs.createModal.add()">新建</a-button>
-      <a-button type="dashed" @click="tableOption">{{ optionAlertShow && '关闭' || '开启' }} alert</a-button>
+      <a-button type="primary" icon="plus" @click="$refs.userModal.add()">新建</a-button>
       <a-dropdown v-action:edit v-if="selectedRowKeys.length > 0">
         <a-menu slot="overlay">
-          <a-menu-item key="1"><a-icon type="delete" />删除</a-menu-item>
+          <a-menu-item @click="multiDel()"><a-icon type="delete"/>删除</a-menu-item>
           <!-- lock | unlock -->
-          <a-menu-item key="2"><a-icon type="lock" />禁用</a-menu-item>
+          <a-menu-item @click="multiAble()"><a-icon type="lock"/>启用/禁用</a-menu-item>
         </a-menu>
         <a-button style="margin-left: 8px">
           批量操作 <a-icon type="down" />
@@ -43,87 +42,47 @@
     <s-table
       ref="table"
       size="default"
-      rowKey="key"
+      rowKey="id"
+      :bordered="true"
       :columns="columns"
       :data="loadData"
       :alert="options.alert"
       :rowSelection="options.rowSelection"
       showPagination="auto"
     >
-      <span slot="serial" slot-scope="text, record, index">
-        {{ index + 1 }}
-      </span>
-      <span slot="status" slot-scope="text">
-        <a-badge :status="text | statusTypeFilter" :text="text | statusFilter" />
-      </span>
-      <span slot="description" slot-scope="text">
-        <ellipsis :length="4" tooltip>{{ text }}</ellipsis>
-      </span>
-
       <span slot="action" slot-scope="text, record">
         <template>
           <a @click="handleEdit(record)">编辑</a>
           <a-divider type="vertical" />
-          <a @click="handleSub(record)">删除</a>
+          <a @click="handleDel(record)">删除</a>
         </template>
       </span>
     </s-table>
-    <create-form ref="createModal" @ok="handleOk" />
-    <edit-user ref="modal" @ok="handleOk"/>
+    <create-user ref="userModal" @ok="handleOk" />
   </a-card>
 </template>
 
 <script>
 import moment from 'moment'
-import { STable, Ellipsis } from '@/components'
-import EditUser from './modules/EditUser'
-import CreateForm from './modules/CreateForm'
-import { getRoleList, getUserList } from '@/api/manage'
-import { switchStatus } from '@/api/user'
-
-const statusMap = {
-  0: {
-    status: 'default',
-    text: '关闭'
-  },
-  1: {
-    status: 'processing',
-    text: '运行中'
-  },
-  2: {
-    status: 'success',
-    text: '已上线'
-  },
-  3: {
-    status: 'error',
-    text: '异常'
-  }
-}
+import { STable } from '@/components'
+import CreateUser from './form/create'
+import { swtichStatus, del, getUserList } from '@/api/user'
 
 export default {
-  name: 'TableList',
+  name: 'Users',
   components: {
     STable,
-    Ellipsis,
-    CreateForm,
-    EditUser
+    CreateUser
   },
   data () {
     return {
-      mdl: {},
-      // 高级搜索 展开/关闭
-      advanced: false,
       // 查询参数
       queryParam: {},
       // 表头
       columns: [
         {
-          title: '#',
-          scopedSlots: { customRender: 'serial' }
-        },
-        {
           title: '用户ID',
-          dataIndex: 'id'
+          key: 'id'
         },
         {
           title: '用户名',
@@ -164,82 +123,81 @@ export default {
       },
       selectedRowKeys: [],
       selectedRows: [],
-
       // custom table alert & rowSelection
       options: {
-        alert: { show: true, clear: () => { this.selectedRowKeys = [] } },
+        alert: { show: false, clear: () => { this.selectedRowKeys = [] } },
         rowSelection: {
           selectedRowKeys: this.selectedRowKeys,
           onChange: this.onSelectChange
         }
-      },
-      optionAlertShow: false
-    }
-  },
-  filters: {
-    statusFilter (type) {
-      return statusMap[type].text
-    },
-    statusTypeFilter (type) {
-      return statusMap[type].status
+      }
     }
   },
   created () {
-    this.tableOption()
-    getRoleList({ t: new Date() })
+    // this.tableOption()
   },
   methods: {
-    tableOption () {
-      if (!this.optionAlertShow) {
-        this.options = {
-          alert: { show: true, clear: () => { this.selectedRowKeys = [] } },
-          rowSelection: {
-            selectedRowKeys: this.selectedRowKeys,
-            onChange: this.onSelectChange,
-            getCheckboxProps: record => ({
-              props: {
-                disabled: record.no === 'No 2', // Column configuration not to be checked
-                name: record.no
-              }
-            })
-          }
-        }
-        this.optionAlertShow = true
-      } else {
-        this.options = {
-          alert: false,
-          rowSelection: null
-        }
-        this.optionAlertShow = false
-      }
-    },
     renderStatus (value, row, index) {
-      return value === 1 ? <a-switch checkedChildren="正常" unCheckedChildren="禁用" defaultChecked onClick={this.handleSwitch} />
-        : <a-switch checkedChildren="正常" id={row.id} unCheckedChildren="禁用" onClick={this.handleSwitch}/>
+      return value === 1 ? <a-button type="normal" size="small">正常</a-button> : <a-button type="danger" size="small">禁用</a-button>
     },
     handleEdit (record) {
-      this.$refs.modal.edit(record)
+      this.$refs.userModal.edit(record)
     },
-    handleSwitch (checked, event) {
-      console.log(event)
-      switchStatus()
-    },
-    handleSub (record) {
-      if (record.status !== 0) {
-        this.$message.info(`${record.no} 订阅成功`)
-      } else {
-        this.$message.error(`${record.no} 订阅失败，规则已关闭`)
-      }
+    handleDel (record) {
+      this.$confirm({
+        title: '确定删除' + record.username + '吗?',
+        okText: '确定',
+        okType: 'danger',
+        cancelText: '取消',
+        onOk: () => {
+          del(record.id).then((res) => {
+            this.$notification['success']({
+              message: res.message,
+              duration: 4
+            })
+            this.handleOk()
+          })
+        },
+        onCancel () {}
+      })
     },
     handleOk () {
-      this.$refs.table.refresh()
+      this.$refs.table.refresh(true)
+    },
+    multiDel () {
+      this.$confirm({
+        title: '确定批量删除吗?',
+        okText: '确定',
+        okType: 'danger',
+        cancelText: '取消',
+        onOk: () => {
+          del(this.selectedRowKeys.join(',')).then((res) => {
+            this.$notification['success']({
+              message: res.message,
+              duration: 4
+            })
+            this.selectedRowKeys = []
+            this.handleOk()
+          })
+        },
+        onCancel () {}
+      })
+    },
+    multiAble () {
+      swtichStatus(this.selectedRowKeys.join(',')).then((res) => {
+        this.$notification['success']({
+          message: res.message,
+          duration: 4
+        })
+        console.log(this.selectedRowKeys)
+        // this.options.rowSelection
+        this.onSelectChange([], [])
+        this.handleOk()
+      })
     },
     onSelectChange (selectedRowKeys, selectedRows) {
       this.selectedRowKeys = selectedRowKeys
       this.selectedRows = selectedRows
-    },
-    toggleAdvanced () {
-      this.advanced = !this.advanced
     },
     resetSearchForm () {
       this.queryParam = {

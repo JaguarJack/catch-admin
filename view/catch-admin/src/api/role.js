@@ -1,13 +1,13 @@
 /**
- * 用户管理模块
+ * 角色管理模块
  *
  */
 
 import { axios } from '@/utils/request'
 
-export function getUserList (parameter) {
+export function getRoleList (parameter) {
   return axios({
-    url: '/users',
+    url: '/roles',
     method: 'get',
     params: parameter
   })
@@ -15,7 +15,7 @@ export function getUserList (parameter) {
 
 export function store (parameter) {
   return axios({
-    url: '/users',
+    url: '/roles',
     method: 'post',
     data: parameter
   })
@@ -23,14 +23,14 @@ export function store (parameter) {
 
 export function read (id) {
   return axios({
-    url: '/users/' + id,
+    url: '/roles/' + id,
     method: 'get'
   })
 }
 
 export function update (id, parameter) {
   return axios({
-    url: '/users/' + id,
+    url: '/roles/' + id,
     method: 'put',
     data: parameter
   })
@@ -38,14 +38,7 @@ export function update (id, parameter) {
 
 export function del (id) {
   return axios({
-    url: '/users/' + id,
+    url: '/roles/' + id,
     method: 'delete'
-  })
-}
-
-export function swtichStatus (id) {
-  return axios({
-    url: '/users/switch/status/' + id,
-    method: 'put'
   })
 }

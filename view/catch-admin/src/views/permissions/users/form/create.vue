@@ -45,7 +45,8 @@
 
 <script>
 import { validEmail } from '@/utils/validate'
-import { store } from '@/api/user'
+import { store, update } from '@/api/user'
+import pick from 'lodash.pick'
 
 export default {
   data () {
@@ -60,13 +61,19 @@ export default {
       },
       visible: false,
       confirmLoading: false,
-
+      id: null,
       form: this.$form.createForm(this)
     }
   },
   methods: {
     add () {
       this.visible = true
+    },
+    edit (record) {
+      this.visible = true
+      const { form: { setFieldsValue } } = this
+      this.id = record.id
+      setFieldsValue(pick(record, ['username', 'email']))
     },
     handleEmail (rule, value, callback) {
       if (!validEmail(value)) {
@@ -77,31 +84,46 @@ export default {
     handleSubmit () {
       const { form: { validateFields } } = this
       this.confirmLoading = true
-      validateFields((errors, values) => {
-        if (!errors) {
-          store(values).then((res) => {
-            this.$notification['success']({
-              message: res.data.message,
-              duration: 4
-            })
-            this.confirmLoading = false
-            this.form.resetFields()
-            this.handleOk()
-            this.handleCancel()
-          })
-            .catch(err => this.failed(err))
-        }
-      })
+      if (this.id) {
+        validateFields(['username', 'email'], (errors, values) => {
+          if (!errors) {
+            update(this.id, values).then((res) => {
+              this.refresh(res.message)
+            }).catch(err => this.failed(err))
+          }
+        })
+      } else {
+        validateFields((errors, values) => {
+          if (!errors) {
+            store(values).then((res) => {
+              this.refresh(res.message)
+            }).catch(err => this.failed(err))
+          }
+        })
+      }
     },
     failed (errors) {
       this.$notification['error']({
         message: errors.message,
         duration: 4
       })
-      this.confirmLoading = false
+      this.handleCancel()
     },
-    handleCancel () {
+    handleCancel (message) {
+      this.id = null
       this.visible = false
+      this.confirmLoading = false
+      this.form.resetFields()
+    },
+    refresh (message) {
+      this.$notification['success']({
+        message: message,
+        duration: 4
+      })
+      this.visible = false
+      this.form.resetFields()
+      this.id = null
+      this.$parent.$parent.handleOk()
     }
   }
 }

@@ -85,8 +85,15 @@ export const asyncRouterMap = [
             path: '/permissions/users',
             name: 'users',
             hideChildrenInMenu: true, // 强制显示 MenuItem 而不是 SubMenu
-            component: () => import('@/views/permissions/users'),
+            component: () => import('@/views/permissions/users/users'),
             meta: { title: '用户管理', keepAlive: true, permission: [ 'permission' ] }
+          },
+          {
+            path: '/permissions/roles',
+            name: 'roles',
+            hideChildrenInMenu: true, // 强制显示 MenuItem 而不是 SubMenu
+            component: () => import('@/views/permissions/roles/roles'),
+            meta: { title: '角色管理', keepAlive: true, permission: [ 'permission' ] }
           }
         ]
       },
