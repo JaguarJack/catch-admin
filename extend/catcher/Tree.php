@@ -10,7 +10,9 @@ class Tree
         foreach ($items as $key => $item) {
             if ($item[$pidField] == $pid) {
                 $child = self::done($items, $item['id'], $pidField);
-                $item[$children] = count($child) ? $child : [];
+                if (count($child)) {
+                  $item[$children] =  $child;
+                }
                 $tree[] = $item;
             }
         }

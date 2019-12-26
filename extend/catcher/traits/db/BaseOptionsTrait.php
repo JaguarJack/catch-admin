@@ -50,6 +50,7 @@ trait BaseOptionsTrait
             return static::onlyTrashed()->find($id);
         }
 
+
         return static::where($this->getPk(), $id)->field($field)->find();
     }
 
