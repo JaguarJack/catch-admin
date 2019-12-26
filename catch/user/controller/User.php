@@ -10,6 +10,7 @@ use catchAdmin\user\request\UpdateRequest;
 use catcher\base\CatchController;
 use catcher\CatchResponse;
 use catcher\Tree;
+use catcher\Utils;
 
 class User extends CatchController
 {
@@ -110,10 +111,14 @@ class User extends CatchController
      */
     public function delete($id)
     {
-        // 删除角色
-        $this->user->findBy($id)->detach();
+        $ids = Utils::stringToArrayBy($id);
 
-        $this->user->deleteBy($id);
+        foreach ($ids as $_id) {
+          // 删除角色
+          $this->user->findBy($_id)->detach();
+
+          $this->user->deleteBy($_id);
+        }
 
         return CatchResponse::success();
     }
@@ -126,10 +131,18 @@ class User extends CatchController
      */
     public function switchStatus($id): \think\response\Json
     {
-        $user = $this->user->findBy($id);
-        return CatchResponse::success($this->user->updateBy($id, [
+        $ids = Utils::stringToArrayBy($id);
+
+        foreach ($ids as $_id) {
+
+          $user = $this->user->findBy($_id);
+
+          $this->user->updateBy($_id, [
             'status' => $user->status == Users::ENABLE ? Users::DISABLE : Users::ENABLE,
-        ]));
+          ]);
+        }
+
+        return CatchResponse::success([], '操作成功');
     }
 
     /**

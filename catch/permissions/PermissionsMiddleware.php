@@ -3,6 +3,7 @@ namespace catchAdmin\permissions;
 
 use app\Request;
 use catchAdmin\permissions\model\Permissions;
+use catcher\Code;
 use catcher\exceptions\PermissionForbiddenException;
 use think\helper\Str;
 
@@ -34,7 +35,7 @@ class PermissionsMiddleware
         }
 
         if (!$request->user()) {
-            throw new PermissionForbiddenException('Login is invalid', 10006);
+            throw new PermissionForbiddenException('Login is invalid', Code::LOST_LOGIN);
         }
 
        // toad

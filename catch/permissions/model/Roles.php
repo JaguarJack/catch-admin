@@ -21,8 +21,8 @@ class Roles extends CatchModel
 
     public function getList($search = [])
     {
-        return $this->when($search['name'] ?? false, function ($query) use ($search){
-                    $query->whereLike('name', $search['name']);
+        return $this->when($search['role_name'] ?? false, function ($query) use ($search){
+                    $query->whereLike('role_name', $search['role_name']);
                 })
                 ->when($search['id'] ?? false, function ($query) use ($search){
                     $query->where('parent_id', $search['id'])

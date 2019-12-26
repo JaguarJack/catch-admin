@@ -18,15 +18,15 @@ class Role extends CatchController
         $this->role = $role;
     }
 
-    /**
-     *
-     * @time 2019年12月09日
-     * @throws \Exception
-     * @return string
-     */
-    public function index()
+  /**
+   *
+   * @time 2019年12月09日
+   * @param Request $request
+   * @return string
+   */
+    public function index(Request $request)
     {
-        return $this->fetch();
+      return CatchResponse::success(Tree::done($this->role->getList($request->param())));
     }
 
     /**
@@ -36,20 +36,7 @@ class Role extends CatchController
      * @return string
      */
     public function create()
-    {
-        $form = new CatchForm();
-        $form->formId('role');
-        $form->text('role_name', '角色名称', true)->verify('required')->placeholder('请输入角色名称');
-        $form->hidden('parent_id')->default(\request()->param('id') ?? 0);
-        $form->textarea('description', '角色描述')->placeholder('请输入角色描述');
-        $form->dom('<div id="permissions"></div>', '权限');
-        $form->formBtn('submitRole');
-
-        return $this->fetch([
-            'form' => $form->render(),
-            'parent_id' => \request()->param('id') ?? 0,
-        ]);
-    }
+    {}
 
     /**
      *
@@ -147,17 +134,6 @@ class Role extends CatchController
         $this->role->deleteBy($id);
 
         return CatchResponse::success();
-    }
-
-    /**
-     *
-     * @time 2019年12月11日
-     * @param Request $request
-     * @return Json
-     */
-    public function list(Request $request)
-    {
-        return CatchResponse::success(Tree::done($this->role->getList($request->param())));
     }
 
     /**

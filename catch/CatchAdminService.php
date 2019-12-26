@@ -80,7 +80,7 @@ class CatchAdminService extends Service
     protected function registerMiddleWares(): void
     {
         $this->app->middleware->import([
-            'catch_check_permission' => PermissionsMiddleware::class,
+           // 'catch_check_permission' => PermissionsMiddleware::class,
         ], 'route');
     }
 
