@@ -18,7 +18,7 @@
           <a-col :md="4" :sm="24">
             <span class="table-page-search-submitButtons">
               <a-button type="primary" @click="$refs.table.refresh(true)">查询</a-button>
-              <a-button style="margin-left: 8px" @click="() => queryParam = {}">重置</a-button>
+              <a-button style="margin-left: 8px" @click="resetSearchForm()">重置</a-button>
             </span>
           </a-col>
         </a-row>
@@ -63,7 +63,6 @@
 </template>
 
 <script>
-import moment from 'moment'
 import { STable } from '@/components'
 import CreateUser from './form/create'
 import { swtichStatus, del, getUserList } from '@/api/user'
@@ -80,10 +79,6 @@ export default {
       queryParam: {},
       // 表头
       columns: [
-        {
-          title: '用户ID',
-          key: 'id'
-        },
         {
           title: '用户名',
           dataIndex: 'username'
@@ -189,8 +184,6 @@ export default {
           message: res.message,
           duration: 4
         })
-        console.log(this.selectedRowKeys)
-        // this.options.rowSelection
         this.onSelectChange([], [])
         this.handleOk()
       })
@@ -200,9 +193,8 @@ export default {
       this.selectedRows = selectedRows
     },
     resetSearchForm () {
-      this.queryParam = {
-        date: moment(new Date())
-      }
+      this.queryParam = {}
+      this.handleOk()
     }
   }
 }

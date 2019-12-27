@@ -50,7 +50,7 @@ import CreateRole from './form/create'
 import { getRoleList, del } from '@/api/role'
 
 export default {
-  name: 'Users',
+  name: 'Roles',
   components: {
     STable,
     CreateRole

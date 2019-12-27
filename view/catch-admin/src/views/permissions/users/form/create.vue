@@ -15,28 +15,47 @@
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
         >
-          <a-input v-decorator="['username', {rules: [{required: true, min: 3, message: '请输入至少3个字符！'}]}]" />
+          <a-input allowClear v-decorator="['username', {rules: [{required: true, min: 3, message: '请输入至少3个字符！'}]}]" />
         </a-form-item>
         <a-form-item
           label="邮箱"
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
         >
-          <a-input v-decorator="['email', {rules: [{ validator: handleEmail }]}]" />
+          <a-input allowClear v-decorator="['email', {rules: [{ required: true, validator: handleEmail }]}]" />
         </a-form-item>
         <a-form-item
           label="密码"
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
         >
-          <a-input type="password" v-decorator="['password', {rules: [{required: true, min: 5, message: '请输入密码'}]}]" />
+          <a-input allowClear allotype="password" v-decorator="['password', {rules: [{required: required, min: 5, message: '请输入密码'}]}]" />
         </a-form-item>
         <a-form-item
           label="确认密码"
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
         >
-          <a-input type="password" v-decorator="['passwordConfirm', {rules: [{required: true, min: 5, message: '请确认密码'}]}]" />
+          <a-input allowClear type="password" v-decorator="['passwordConfirm', {rules: [{required: required, min: 5, message: '请确认密码'}]}]" />
+        </a-form-item>
+        <a-form-item
+          label="选择角色"
+          :labelCol="labelCol"
+          :wrapperCol="wrapperCol"
+        >
+          <a-tree-select
+            style="width: 320px"
+            :dropdownStyle="{ maxHeight: '400px', overflow: 'auto' }"
+            :treeData="roles"
+            placeholder="请选择角色"
+            allowClear
+            treeCheckable
+            treeDefaultExpandAll
+            @change="onChange"
+            :showCheckedStrategy="SHOW_PARENT"
+            v-decorator="['roles', {initialValue: roleids},{rules: [{required: true, message: '请选择角色'}]}]"
+          >
+          </a-tree-select>
         </a-form-item>
       </a-form>
     </a-spin>
@@ -45,9 +64,11 @@
 
 <script>
 import { validEmail } from '@/utils/validate'
-import { store, update } from '@/api/user'
+import { store, update, read } from '@/api/user'
+import { getRoleList } from '@/api/role'
 import pick from 'lodash.pick'
-
+import { TreeSelect } from 'ant-design-vue'
+const SHOW_PARENT = TreeSelect.SHOW_PARENT
 export default {
   data () {
     return {
@@ -62,17 +83,27 @@ export default {
       visible: false,
       confirmLoading: false,
       id: null,
-      form: this.$form.createForm(this)
+      form: this.$form.createForm(this),
+      roles: [],
+      defaultRoles: [],
+      roleids: [],
+      SHOW_PARENT,
+      required: true
     }
   },
   methods: {
     add () {
       this.visible = true
+      this.getRoles()
     },
     edit (record) {
       this.visible = true
-      const { form: { setFieldsValue } } = this
+      this.required = false
       this.id = record.id
+      this.getRoles()
+      this.getUser(this.id)
+      console.log(this.defaultRoles)
+      const { form: { setFieldsValue } } = this
       setFieldsValue(pick(record, ['username', 'email']))
     },
     handleEmail (rule, value, callback) {
@@ -81,12 +112,40 @@ export default {
       }
       callback()
     },
+    // 获取角色
+    getRoles () {
+      getRoleList().then(res => {
+        this.roles = this.resetRoles(res.data)
+      })
+    },
+    // 获取用户角色
+    getUser (id) {
+      read(id).then(res => {
+        const roles = res.data.roles
+        roles.map(item => {
+          this.roleids.push(item.id)
+          this.defaultRoles.push(item.role_name)
+        })
+      })
+    },
+    // 重组树结构
+    resetRoles (roles) {
+      roles.map(item => {
+        item.title = item.role_name
+        item.value = item.id
+        if (item.children) {
+          this.resetRoles(item.children)
+        }
+      })
+      return roles
+    },
     handleSubmit () {
       const { form: { validateFields } } = this
-      this.confirmLoading = true
       if (this.id) {
-        validateFields(['username', 'email'], (errors, values) => {
+        validateFields(['username', 'email', 'roles'], (errors, values) => {
           if (!errors) {
+            this.confirmLoading = true
+            values['roles'] = this.roleids
             update(this.id, values).then((res) => {
               this.refresh(res.message)
             }).catch(err => this.failed(err))
@@ -95,6 +154,7 @@ export default {
       } else {
         validateFields((errors, values) => {
           if (!errors) {
+            this.confirmLoading = true
             store(values).then((res) => {
               this.refresh(res.message)
             }).catch(err => this.failed(err))
@@ -109,21 +169,26 @@ export default {
       })
       this.handleCancel()
     },
-    handleCancel (message) {
+    handleCancel () {
       this.id = null
       this.visible = false
+      this.required = true
       this.confirmLoading = false
       this.form.resetFields()
+      this.roleids = []
+      this.defaultRoles = []
+      this.roles = []
     },
     refresh (message) {
       this.$notification['success']({
         message: message,
         duration: 4
       })
-      this.visible = false
-      this.form.resetFields()
-      this.id = null
+      this.handleCancel()
       this.$parent.$parent.handleOk()
+    },
+    onChange (value, node, extra) {
+      this.roleids = value
     }
   }
 }

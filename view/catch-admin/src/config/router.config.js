@@ -94,6 +94,50 @@ export const asyncRouterMap = [
             hideChildrenInMenu: true, // 强制显示 MenuItem 而不是 SubMenu
             component: () => import('@/views/permissions/roles/roles'),
             meta: { title: '角色管理', keepAlive: true, permission: [ 'permission' ] }
+          },
+          {
+            path: '/permissions/rules',
+            name: 'rules',
+            hideChildrenInMenu: true, // 强制显示 MenuItem 而不是 SubMenu
+            component: () => import('@/views/permissions/rules/rules'),
+            meta: { title: '菜单管理', keepAlive: true, permission: [ 'permission' ] }
+          }
+        ]
+      },
+      {
+        path: '/system',
+        name: 'system',
+        component: PageView,
+        redirect: '/system',
+        meta: { title: '系统管理', icon: 'table', system: [ 'system' ] },
+        children: [
+          {
+            path: '/system/database',
+            name: 'database',
+            hideChildrenInMenu: true, // 强制显示 MenuItem 而不是 SubMenu
+            component: () => import('@/views/system/database/index'),
+            meta: { title: '数据字典', keepAlive: true, system: [ 'system' ] }
+          },
+          {
+            path: '/system/log',
+            name: 'log',
+            meta: { title: '日志管理', keepAlive: true, permission: [ 'permission' ] },
+            children: [
+              {
+                path: '/system/log/login',
+                name: 'loginLog',
+                hideChildrenInMenu: true, // 强制显示 MenuItem 而不是 SubMenu
+                component: () => import('@/views/system/log/login'),
+                meta: { title: '登录日志', keepAlive: true, system: [ 'system' ] }
+              },
+              {
+                path: '/system/log/operate',
+                name: 'operateLog',
+                hideChildrenInMenu: true, // 强制显示 MenuItem 而不是 SubMenu
+                component: () => import('@/views/system/log/operate'),
+                meta: { title: '操作日志', keepAlive: true, system: [ 'system' ] }
+              }
+            ]
           }
         ]
       },
