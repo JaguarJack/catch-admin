@@ -52,7 +52,7 @@ class BackupCommand extends Command
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\db\exception\DataNotFoundException
      */
-    public function generator($tables, $path)
+    public function generator($tables, $path): void
     {
         foreach ($tables as $table) {
             $this->table = $table;
@@ -168,7 +168,9 @@ class BackupCommand extends Command
         if (extension_loaded('zip')) {
             $files = glob(CatchAdmin::backupDirectory() . '*.sql');
             $zip = new \ZipArchive();
-            $zip->open(root_path('database/') . 'backup.zip', \ZipArchive::CREATE);
+            $backupPath = runtime_path('database/');
+            CatchAdmin::makeDirectory($backupPath);
+            $zip->open($backupPath . 'backup.zip', \ZipArchive::CREATE);
             $zip->addEmptyDir('backup');
             foreach ($files as $file) {
                 $zip->addFile($file, 'backup/'. basename($file));
