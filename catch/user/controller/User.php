@@ -57,9 +57,7 @@ class User extends CatchController
     {
         $this->user->storeBy($request->post());
 
-        if (!empty($request->param('roleids'))) {
-            $this->user->attach($request->param('roleids'));
-        }
+        $this->user->attach($request->param('roles'));
 
         return CatchResponse::success('', '添加成功');
     }
@@ -72,7 +70,9 @@ class User extends CatchController
      */
     public function read($id)
     {
-        return CatchResponse::success($this->user->findBy($id));
+        $user = $this->user->findBy($id);
+        $user->roles = $user->getRoles();
+        return CatchResponse::success($user);
     }
 
     /**
@@ -96,8 +96,8 @@ class User extends CatchController
 
         $user->detach();
 
-        if (!empty($request->param('roleids'))) {
-            $user->attach($request->param('roleids'));
+        if (!empty($request->param('roles'))) {
+            $user->attach($request->param('roles'));
         }
 
         return CatchResponse::success();

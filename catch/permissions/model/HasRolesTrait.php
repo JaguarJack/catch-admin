@@ -13,11 +13,12 @@ trait HasRolesTrait
         return $this->belongsToMany(Roles::class, 'user_has_roles', 'role_id', 'uid');
     }
 
-    /**
-     *
-     * @time 2019年12月08日
-     * @return mixed
-     */
+  /**
+   *
+   * @time 2019年12月08日
+   * @param array $fields
+   * @return mixed
+   */
     public function getRoles()
     {
         return $this->roles()->select();

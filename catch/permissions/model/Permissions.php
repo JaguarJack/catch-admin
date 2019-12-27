@@ -40,8 +40,15 @@ class Permissions extends CatchModel
                 $query->where('parent_id', $search['id'])
                     ->whereOr('id', $search['id']);
             })
-            ->when($search['permission_ids'] ?? false, function ($query) use ($search){
-                $query->whereIn('id', $search['permission_ids']);
+            ->when($search['role_id'] ?? false, function ($query) use ($search){
+                $permissionIds = [];
+                $permissions = Roles::where('id', $search['role_id'])->find()->getPermissions();
+                foreach ($permissions as $_permission) {
+                  $permissionIds[] = $_permission->pivot->permission_id;
+                }
+                if(!empty($permissionIds)) {
+                  $query->whereIn('id', $permissionIds);
+                }
             })
             ->order('sort', 'desc')
             ->order('id', 'desc')

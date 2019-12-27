@@ -49,8 +49,8 @@ class Role extends CatchController
     {
         $this->role->storeBy($request->param());
 
-        if (!empty($request->param('permissionids'))) {
-            $this->role->attach($request->param('permissionids'));
+        if (!empty($request->param('permissions'))) {
+            $this->role->attach($request->param('permissions'));
         }
         // 添加角色
         return CatchResponse::success();
@@ -58,7 +58,9 @@ class Role extends CatchController
 
     public function read($id)
     {
-
+      $role = $this->role->findBy($id);
+      $role->permissions = $role->getPermissions();
+      return CatchResponse::success($role);
     }
 
     /**
@@ -69,23 +71,7 @@ class Role extends CatchController
      * @return string
      */
     public function edit($id)
-    {
-        $role = $this->role->findBy($id);
-
-        $form = new CatchForm();
-        $form->formId('role');
-        $form->hidden('parent_id')->default($role->parent_id);
-        $form->text('role_name', '角色名称', true)->default($role->name)->verify('required')->placeholder('请输入角色名称');
-        $form->textarea('description', '角色描述')->default($role->description)->placeholder('请输入角色描述');
-        $form->dom('<div id="permissions"></div>', '权限');
-        $form->formBtn('submitRole');
-
-        return $this->fetch([
-            'form' => $form->render(),
-            'role_id' => $role->id,
-            'parent_id' => $role->parent_id
-        ]);
-    }
+    {}
 
     /**
      *
@@ -103,8 +89,8 @@ class Role extends CatchController
 
         $role->detach();
 
-        if (!empty($request->param('permissionids'))) {
-            $role->attach($request->param('permissionids'));
+        if (!empty($request->param('permissions'))) {
+            $role->attach($request->param('permissions'));
         }
 
         return CatchResponse::success();
