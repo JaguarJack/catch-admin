@@ -14,17 +14,6 @@ class DataDictionary extends CatchController
     /**
      *
      * @time 2019年12月13日
-     * @throws \Exception
-     * @return string
-     */
-    public function index(): string
-    {
-        return $this->fetch();
-    }
-
-    /**
-     *
-     * @time 2019年12月13日
      * @param Request $request
      * @return \think\response\Json
      */
@@ -64,18 +53,22 @@ class DataDictionary extends CatchController
         return CatchResponse::paginate(Paginator::make(!$searchMode ? $tables : $searchTables, $request->get('limit') ?? 10, $request->get('page') ?? 1, $searchMode ? count($searchTables)  : count($tables), false, []));
     }
 
-    /**
-     *
-     * @time 2019年12月13日
-     * @param $table
-     * @throws \Exception
-     * @return string
-     */
-    public function view($table): string
+  /**
+   *
+   * @time 2019年12月13日
+   * @param $table
+   * @return \think\response\Json
+   * @throws \Exception
+   */
+    public function view($table): \think\response\Json
     {
-        $this->table = Db::query('show full columns from ' . $table);
+        $fields = Db::query('show full columns from ' . $table);
 
-        return $this->fetch();
+        array_walk($fields, function (&$item){
+            $item = array_change_key_case($item);
+        });
+
+        return CatchResponse::success($fields);
     }
 
     /**
