@@ -15,7 +15,25 @@
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
         >
-          <a-input v-decorator="['permission_name', {rules: [{required: true, min: 2, message: '请输入至少3个字符！'}]}]" />
+          <a-input allowClear v-decorator="['permission_name', {rules: [{required: true, min: 2, message: '请输入至少3个字符！'}]}]" />
+        </a-form-item>
+        <a-form-item
+          label="菜单图标"
+          type="text"
+          :labelCol="labelCol"
+          :wrapperCol="wrapperCol"
+        >
+          <a-select
+            showSearch
+            placeholder="选择图标"
+            optionFilterProp="children"
+            style="width: 320px"
+            v-decorator="['icon']"
+          >
+            <a-select-option v-for="(icon, key) in icons" :key="`${key}-${icon}`" :value="icon">
+              {{ icon }} <a-icon :type="icon" :style="{ fontSize: '16px' }" />
+            </a-select-option>
+          </a-select>
         </a-form-item>
         <a-form-item
           label="菜单路由"
@@ -23,15 +41,16 @@
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
         >
-          <a-input v-decorator="['route', {rules: [{required: true, min: 2, message: '请输入至少3个字符！'}]}]" />
+          <a-input allowClear v-decorator="['route', {rules: [{required: true, min: 2, message: '请输入至少3个字符！'}]}]" />
         </a-form-item>
         <a-form-item
           label="菜单标识"
           type="text"
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
+          :filterOption="filterOption"
         >
-          <a-input v-decorator="['permission_mark',{rules: [{required: true, min: 2, message: '请输入至少3个字符！'}]}]" />
+          <a-input allowClear v-decorator="['permission_mark',{rules: [{required: true, min: 2, message: '请输入至少3个字符！'}]}]" />
         </a-form-item>
         <a-form-item
           :label-col="labelCol"
@@ -39,17 +58,17 @@
           label="请求方法"
         >
           <a-select v-decorator="['method',{initialValue:methodValue},{rules: [{required: true}]}]">
-            <a-select-option value="GET">
-              GET
+            <a-select-option value="get">
+              get
             </a-select-option>
-            <a-select-option value="POST">
-              POST
+            <a-select-option value="post">
+              post
             </a-select-option>
-            <a-select-option value="PUT">
-              PUT
+            <a-select-option value="put">
+              put
             </a-select-option>
-            <a-select-option value="DELETE">
-              DELETE
+            <a-select-option value="delete">
+              delete
             </a-select-option>
           </a-select>
         </a-form-item>
@@ -78,6 +97,7 @@
 <script>
 import { store, update } from '@/api/permission'
 import pick from 'lodash.pick'
+import icons from './icons'
 
 export default {
   data () {
@@ -98,7 +118,8 @@ export default {
       methodValue: 'GET',
       typeValue: '2',
       form: this.$form.createForm(this),
-      sort: 1
+      sort: 1,
+      icons
     }
   },
   methods: {
@@ -111,7 +132,7 @@ export default {
       this.title = '编辑菜单'
       const { form: { setFieldsValue } } = this
       this.id = record.id
-      setFieldsValue(pick(record, ['permission_name', 'route', 'permission_mark', 'method', 'type', 'sort']))
+      setFieldsValue(pick(record, ['permission_name', 'route', 'permission_mark', 'method', 'type', 'sort', 'icon']))
       this.methodValue = record.method
       this.typeValue = record.type
       this.sort = record.sort
@@ -124,10 +145,10 @@ export default {
     },
     handleSubmit () {
       const { form: { validateFields } } = this
-      this.confirmLoading = true
       if (this.id) {
         validateFields((errors, values) => {
           if (!errors) {
+            this.confirmLoading = true
             update(this.id, values).then((res) => {
               this.refresh(res.message)
             }).catch(err => this.failed(err))
@@ -136,6 +157,7 @@ export default {
       } else {
         validateFields((errors, values) => {
           if (!errors) {
+            this.confirmLoading = true
             if (this.parent_id > 0) {
               values['parent_id'] = this.parent_id
             }
@@ -162,6 +184,11 @@ export default {
       this.typeValue = '2'
       this.sort = 1
       this.form.resetFields()
+    },
+    filterOption (input, option) {
+      return (
+        option.componentOptions.children[0].text.toLowerCase().indexOf(input.toLowerCase()) >= 0
+      )
     },
     refresh (message) {
       this.$notification['success']({
