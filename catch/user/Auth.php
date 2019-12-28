@@ -81,11 +81,9 @@ class Auth
 
         $roles = $user->getRoles();
 
-        foreach ($roles as &$role) {
-            $role['permissions'] = Roles::where('id', $role['id'])->find()->getPermissions([
-                'type' => Permissions::MENU_TYPE
-            ], ['permission_name', 'route']);
-        }
+        $user->permissions = Permissions::whereIn('id', $user->getPermissionsBy())
+                                  ->field(['permission_name as title', 'route', 'icon'])
+                                  ->select();
 
         $user->roles = $roles;
 
