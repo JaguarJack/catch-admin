@@ -82,7 +82,9 @@ export default {
       this.id = record.id
       this.getRolePermissions(this.id)
       this.getPermissions(record.parent_id > 0 ? { role_id: record.parent_id } : {})
-      setFieldsValue(pick(record, ['role_name', 'description', 'permissions']))
+      this.$nextTick(() => {
+        setFieldsValue(pick(record, ['role_name', 'description', 'permissions']))
+      })
     },
     addSon (record) {
       this.visible = true

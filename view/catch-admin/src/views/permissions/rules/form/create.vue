@@ -132,7 +132,9 @@ export default {
       this.title = '编辑菜单'
       const { form: { setFieldsValue } } = this
       this.id = record.id
-      setFieldsValue(pick(record, ['permission_name', 'route', 'permission_mark', 'method', 'type', 'sort', 'icon']))
+      this.$nextTick(() => {
+        setFieldsValue(pick(record, ['permission_name', 'route', 'permission_mark', 'method', 'type', 'sort', 'icon']))
+      })
       this.methodValue = record.method
       this.typeValue = record.type
       this.sort = record.sort

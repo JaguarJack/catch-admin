@@ -104,7 +104,9 @@ export default {
       this.getUser(this.id)
       console.log(this.defaultRoles)
       const { form: { setFieldsValue } } = this
-      setFieldsValue(pick(record, ['username', 'email']))
+      this.$nextTick(() => {
+        setFieldsValue(pick(record, ['username', 'email']))
+      })
     },
     handleEmail (rule, value, callback) {
       if (!validEmail(value)) {
