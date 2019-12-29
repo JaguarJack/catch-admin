@@ -32,6 +32,7 @@ class Permissions extends Migrator
         $table->addColumn('permission_name', 'string',['limit'  =>  15,'default'=>'','comment'=>'菜单名称'])
             ->addColumn('parent_id', 'integer',['default'=>0,'comment'=>'父级ID', 'signed' => false])
             ->addColumn('route', 'string', ['default' => '', 'comment' => '路由', 'limit' => 50])
+            ->addColumn('icon', 'string', ['default' => '', 'comment' => '菜单图标', 'limit' => 50])
             ->addColumn('module', 'string', ['default' => '', 'comment' => '模块', 'limit' => 20])
             ->addColumn('method', 'string', ['default' => 'get', 'comment' => '路由请求方法', 'limit' => 15])
             ->addColumn('permission_mark', 'string', ['null' => false, 'comment' => '权限标识', 'limit' => 50])

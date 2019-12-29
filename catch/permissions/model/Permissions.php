@@ -34,8 +34,8 @@ class Permissions extends CatchModel
 
     public function getList($search = [])
     {
-        return $this->when($search['name'] ?? false, function ($query) use ($search){
-                $query->whereLike('name', $search['name']);
+        return $this->when($search['permission_name'] ?? false, function ($query) use ($search){
+                $query->whereLike('permission_name', '%'.$search['permission_name'].'%');
             })
             ->when($search['id'] ?? false, function ($query) use ($search){
                 $query->where('parent_id', $search['id'])
