@@ -4,21 +4,21 @@
       <a-form layout="inline">
         <a-row :gutter="48">
           <a-col :md="4" :sm="24">
-            <a-input v-model="queryParam.username" placeholder="请输入用户名"/>
+            <a-input allowClear v-model="queryParam.username" placeholder="请输入用户名"/>
           </a-col>
           <a-col :md="4" :sm="24">
-            <a-input v-model="queryParam.email" placeholder="请输入邮箱"/>
+            <a-input allowClear v-model="queryParam.email" placeholder="请输入邮箱"/>
           </a-col>
           <a-col :md="4" :sm="24">
-            <a-select v-model="queryParam.status" placeholder="请选择状态" default-value="0">
+            <a-select allowClear v-model="queryParam.status" placeholder="请选择状态" default-value="0">
               <a-select-option value="1">正常</a-select-option>
               <a-select-option value="2">禁用</a-select-option>
             </a-select>
           </a-col>
           <a-col :md="4" :sm="24">
             <span class="table-page-search-submitButtons">
-              <a-button type="primary" @click="$refs.table.refresh(true)">查询</a-button>
-              <a-button style="margin-left: 8px" @click="resetSearchForm()">重置</a-button>
+              <a-button icon="search" type="primary" @click="$refs.table.refresh(true)">查询</a-button>
+              <a-button icon="sync" style="margin-left: 8px" @click="resetSearchForm()">重置</a-button>
             </span>
           </a-col>
         </a-row>
@@ -117,10 +117,9 @@ export default {
           })
       },
       selectedRowKeys: [],
-      selectedRows: [],
       // custom table alert & rowSelection
       options: {
-        alert: { show: false, clear: () => { this.selectedRowKeys = [] } },
+        alert: { show: true, clear: () => { this.selectedRowKeys = [] } },
         rowSelection: {
           selectedRowKeys: this.selectedRowKeys,
           onChange: this.onSelectChange
@@ -190,7 +189,6 @@ export default {
     },
     onSelectChange (selectedRowKeys, selectedRows) {
       this.selectedRowKeys = selectedRowKeys
-      this.selectedRows = selectedRows
     },
     resetSearchForm () {
       this.queryParam = {}

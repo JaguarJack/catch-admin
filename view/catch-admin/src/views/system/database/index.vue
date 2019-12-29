@@ -14,8 +14,8 @@
           </a-col>
           <a-col :md="4" :sm="24">
             <span class="table-page-search-submitButtons">
-              <a-button type="primary" @click="$refs.table.refresh(true)">查询</a-button>
-              <a-button style="margin-left: 8px" @click="resetSearchForm()">重置</a-button>
+              <a-button icon="search" type="primary" @click="$refs.table.refresh(true)">查询</a-button>
+              <a-button icon="sync" style="margin-left: 8px" @click="resetSearchForm()">重置</a-button>
             </span>
           </a-col>
         </a-row>
@@ -23,8 +23,8 @@
     </div>
 
     <div class="table-operator" v-if="selectTables.length > 0">
-      <a-button type="primary" icon="plus" @click="optimizeTables()">优化</a-button>
-      <a-button type="primary" icon="plus" @click="backupTables">备份</a-button>
+      <a-button type="primary" icon="safety" @click="optimizeTables()">优化</a-button>
+      <a-button type="primary" icon="database" @click="backupTables">备份</a-button>
     </div>
 
     <s-table
@@ -119,9 +119,9 @@ export default {
       selectTables: [],
       // custom table alert & rowSelection
       options: {
-        alert: { show: false, clear: () => { this.selectedRowKeys = [] } },
+        alert: { show: false, clear: () => { this.selectTables = [] } },
         rowSelection: {
-          selectedRowKeys: this.selectedRowKeys,
+          selectedRowKeys: this.selectTables,
           onChange: this.onSelectChange
         }
       }
@@ -135,6 +135,7 @@ export default {
           duration: 4
         })
         this.selectTables = []
+        this.selectedRowKeys = []
       })
     },
     backupTables () {
@@ -144,6 +145,7 @@ export default {
           duration: 4
         })
         this.selectTables = []
+        this.selectedRowKeys = []
       })
     },
     handleOk () {

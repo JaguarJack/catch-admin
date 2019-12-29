@@ -4,12 +4,12 @@
       <a-form layout="inline">
         <a-row :gutter="48">
           <a-col :md="4" :sm="24">
-            <a-input v-model="queryParam.permission_name" placeholder="请输入菜单名名称"/>
+            <a-input allowClear v-model="queryParam.permission_name" placeholder="请输入菜单名名称"/>
           </a-col>
           <a-col :md="4" :sm="24">
             <span class="table-page-search-submitButtons">
-              <a-button type="primary" @click="$refs.table.refresh(true)">查询</a-button>
-              <a-button style="margin-left: 8px" @click="() => queryParam = {}">重置</a-button>
+              <a-button icon="search" type="primary" @click="$refs.table.refresh(true)">查询</a-button>
+              <a-button icon="sync" style="margin-left: 8px" @click="resetSearchForm()">重置</a-button>
             </span>
           </a-col>
         </a-row>
@@ -33,9 +33,13 @@
         <template>
           <a @click="handleEdit(record)">编辑</a>
           <a-divider type="vertical" />
-          <a @click="handleAddSon(record)">新增子菜单</a>
-          <a-divider type="vertical" />
-          <a @click="handleDel(record)">删除</a>
+          <a-dropdown>
+            <a-menu slot="overlay">
+              <a-menu-item><a @click="handleAddSon(record)">新增子菜单</a></a-menu-item>
+              <a-menu-item><a @click="handleDel(record)">删除</a></a-menu-item>
+            </a-menu>
+            <a>更多<a-icon type="down"/></a>
+          </a-dropdown>
         </template>
       </span>
     </s-table>
@@ -44,7 +48,6 @@
 </template>
 
 <script>
-import moment from 'moment'
 import { STable } from '@/components'
 import CreatePermission from './form/create'
 import { getPermissionList, del } from '@/api/permission'
@@ -144,9 +147,8 @@ export default {
       this.handleCancel()
     },
     resetSearchForm () {
-      this.queryParam = {
-        date: moment(new Date())
-      }
+      this.queryParam = {}
+      this.handleOk()
     },
     renderType (value, row, index) {
       return value === 1 ? <a-button type="normal" size="small">菜单</a-button> : <a-button type="danger" size="small">按钮</a-button>
