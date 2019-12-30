@@ -13,11 +13,11 @@ return [
     // 是否开启路由延迟解析
     'url_lazy_route'        => true,
     // 是否强制使用路由
-    'url_route_must'        => false,
+    'url_route_must'        => true,
     // 合并路由规则
     'route_rule_merge'      => false,
     // 路由是否完全匹配
-    'route_complete_match'  => false,
+    'route_complete_match'  => true,
     // 访问控制器层名称
     'controller_layer'      => 'controller',
     // 空控制器名
@@ -25,7 +25,7 @@ return [
     // 是否使用控制器后缀
     'controller_suffix'     => false,
     // 默认的路由变量规则
-    'default_route_pattern' => '[\w\.]+',
+    'default_route_pattern' => '[\w\.\,\-]+',
     // 是否开启请求缓存 true自动缓存 支持设置请求缓存规则
     'request_cache'         => false,
     // 请求缓存有效期
