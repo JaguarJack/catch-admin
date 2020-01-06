@@ -10,7 +10,7 @@ abstract class CatchException extends HttpException
 
     public function __construct(string $message = '', int $code = 0, Exception $previous = null, array $headers = [], $statusCode = 0)
     {
-        parent::__construct($statusCode, $message, $previous, $headers, $code);
+        parent::__construct($statusCode, $message ? : $this->getMessage(), $previous, $headers, $code);
     }
 
     public function getStatusCode()
