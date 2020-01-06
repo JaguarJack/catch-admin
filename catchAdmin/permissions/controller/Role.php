@@ -88,7 +88,7 @@ class Role extends CatchController
         $form = new CatchForm();
         $form->formId('role');
         $form->hidden('parent_id')->default($role->parent_id);
-        $form->text('role_name', '角色名称', true)->default($role->name)->verify('required')->placeholder('请输入角色名称');
+        $form->text('role_name', '角色名称', true)->default($role->role_name)->verify('required')->placeholder('请输入角色名称');
         $form->textarea('description', '角色描述')->default($role->description)->placeholder('请输入角色描述');
         $form->dom('<div id="permissions"></div>', '权限');
         $form->formBtn('submitRole');
