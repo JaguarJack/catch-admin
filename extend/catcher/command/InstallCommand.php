@@ -193,7 +193,8 @@ class InstallCommand extends Command
     protected function finished(): void
     {
         // todo something
-
+      // create jwt 
+      Console::call('jwt:create');
     }
 
     /**
