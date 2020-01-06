@@ -1,11 +1,9 @@
 /.idea
 /.vscode
 /vendor
-/database
 
 *.log
 .env
-
 # view
 /view/catch-admin/.DS_Store
 /view/catch-admin/node_modules
