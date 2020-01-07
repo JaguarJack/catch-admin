@@ -35,7 +35,7 @@ class Index extends CatchController
     public function login(LoginRequest $request, CatchAuth $auth)
     {
         $params = $request->param();
-
+     
         $token = $auth->attempt($params);
 
         $user = $auth->user();

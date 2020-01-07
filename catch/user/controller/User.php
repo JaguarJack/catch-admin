@@ -47,6 +47,7 @@ class User extends CatchController
    */
     public function info(CatchAuth $auth)
     {
+
         $user = $auth->user();
 
         $roles = $user->getRoles();

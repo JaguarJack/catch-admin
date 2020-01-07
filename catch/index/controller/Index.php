@@ -4,6 +4,7 @@ namespace catchAdmin\index\controller;
 use catchAdmin\permissions\model\Permissions;
 use catchAdmin\user\Auth;
 use catcher\base\CatchController;
+use catcher\CatchAuth;
 use catcher\Tree;
 use think\facade\Db;
 
@@ -19,7 +20,9 @@ class Index extends CatchController
      */
     public function index(): string
     {
-        $permissionIds = Auth::user()->getPermissionsBy();
+        $user = (new CatchAuth())->user();
+
+        $permissionIds = $user->getPermissionsBy();
 
         $menus = Permissions::whereIn('id', $permissionIds)
                     ->where('type', Permissions::MENU_TYPE)
@@ -28,7 +31,7 @@ class Index extends CatchController
 
         return $this->fetch([
             'menus' => Tree::done($menus),
-            'username' => Auth::user()->username,
+            'username' => $user->username,
         ]);
     }
 
