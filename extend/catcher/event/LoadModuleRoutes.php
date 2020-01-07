@@ -21,7 +21,7 @@ class LoadModuleRoutes
 
         $domain = config('catch.domain');
 
-        $routes = $this->getRoutes();
+        $routes = CatchAdmin::getRoutes();
 
         if ($domain) {
             $router->domain($domain, function () use ($router, $routes) {
@@ -39,17 +39,5 @@ class LoadModuleRoutes
 
         // 单独加载登录
         include CatchAdmin::moduleDirectory('login') . 'route.php';
-    }
-
-    /**
-     *
-     * @time 2019年12月15日
-     * @return array
-     */
-    protected function getRoutes(): array
-    {
-        $routes = CatchAdmin::getRoutes();
-
-        return $routes;
     }
 }

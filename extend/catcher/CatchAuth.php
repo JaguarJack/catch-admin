@@ -38,6 +38,12 @@ class CatchAuth
        return $this;
     }
 
+  /**
+   *
+   * @time 2020年01月07日
+   * @param $condition
+   * @return mixed
+   */
     public function attempt($condition)
     {
         $user = $this->authenticate($condition);
@@ -53,13 +59,17 @@ class CatchAuth
         return $this->{$this->getDriver()}($user);
     }
 
-
+  /**
+   *
+   * @time 2020年01月07日
+   * @return mixed
+   */
     public function user()
     {
         switch ($this->getDriver()) {
           case 'jwt':
             $model = app($this->getProvider()['model']);
-            return $model->where($model->getPk(), JWTAuth::auth()['id'])->find();
+            return $model->where($model->getPk(), JWTAuth::auth()[$this->jwtKey()])->find();
           case 'session':
             return Session::get($this->sessionUserKey(), null);
           default:
@@ -67,40 +77,88 @@ class CatchAuth
         }
     }
 
+  /**
+   *
+   * @time 2020年01月07日
+   * @return void
+   */
     public function logout()
     {
-      
+
     }
 
+  /**
+   *
+   * @time 2020年01月07日
+   * @param $user
+   * @return string
+   */
     protected function jwt($user)
     {
-        return JWTAuth::builder(['id' => $user->id]);
+        $token = JWTAuth::builder([$this->jwtKey() => $user->id]);
+
+        JWTAuth::setToken($token);
+
+        return $token;
     }
 
-
+  /**
+   *
+   * @time 2020年01月07日
+   * @param $user
+   * @return void
+   */
     protected function session($user)
     {
         Session::set($this->sessionUserKey(), $user);
     }
 
-
+  /**
+   *
+   * @time 2020年01月07日
+   * @return string
+   */
     protected function sessionUserKey()
     {
       return $this->guard . '_user';
     }
 
+  /**
+   *
+   * @time 2020年01月07日
+   * @return string
+   */
+    protected function jwtKey()
+    {
+      return $this->guard . '_id';
+    }
+
+  /**
+   *
+   * @time 2020年01月07日
+   * @return mixed
+   */
     protected function getDriver()
     {
       return $this->auth['guards'][$this->guard]['driver'];
     }
 
-
+  /**
+   *
+   * @time 2020年01月07日
+   * @return mixed
+   */
     protected function getProvider()
     {
         return $this->auth['providers'][$this->auth['guards'][$this->guard]['provider']];
     }
 
-
+  /**
+   *
+   * @time 2020年01月07日
+   * @param $condition
+   * @return mixed
+   */
     protected function authenticate($condition)
     {
         $provider = $this->getProvider();
