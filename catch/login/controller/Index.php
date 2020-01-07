@@ -12,18 +12,6 @@ use think\captcha\Captcha;
 
 class Index extends CatchController
 {
-    /**
-     * 登录
-     *
-     * @time 2019年11月30日
-     * @throws \Exception
-     * @return string
-     */
-    public function index(): string
-    {
-        return $this->fetch();
-    }
-
   /**
    * 登陆
    *
@@ -35,7 +23,7 @@ class Index extends CatchController
     public function login(LoginRequest $request, CatchAuth $auth)
     {
         $params = $request->param();
-     
+
         $token = $auth->attempt($params);
 
         $user = $auth->user();
@@ -73,17 +61,5 @@ class Index extends CatchController
         }
 
         return CatchResponse::fail('登出失败');
-    }
-
-    /**
-     *
-     * @time 2019年12月12日
-     * @param Captcha $captcha
-     * @param null $config
-     * @return \think\Response
-     */
-    public function captcha(Captcha $captcha, $config = null): \think\Response
-    {
-        return $captcha->create($config);
     }
 }
