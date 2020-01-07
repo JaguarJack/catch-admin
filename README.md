@@ -1,7 +1,7 @@
 ## CatchAdmin
 - 该项目采用前后端分离，所以 PHP 作为 API 开发，vue 作为后台开发，两个项目是分开的，单独部署。
 ## 这是 vue 分支 开发中
-- [vue 项目地址](https://gitee.com/catchamin/catch-admin-vue)
+- [vue 项目地址](https://github.com/yanwenwu/catch-admin-vue)
 
 ### 环境要求
 - php7.1+ (需以下扩展)
