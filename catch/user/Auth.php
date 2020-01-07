@@ -35,14 +35,7 @@ class Auth
             throw new LoginFailedException('登陆失败, 请检查用户名和密码');
         }
 
-        if ($user->status == Users::DISABLE) {
-            throw new LoginFailedException('该用户已被禁用');
-        }
 
-        // 记录用户登录
-        $user->last_login_ip = request()->ip();
-        $user->last_login_time = time();
-        $user->save();
 
         // Session::set(self::getLoginUserKey(), $user);
 

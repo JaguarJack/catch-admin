@@ -19,5 +19,6 @@ class LoginRequest extends CatchRequest
     {
         // TODO: Implement message() method.
         return [];
+
     }
 }

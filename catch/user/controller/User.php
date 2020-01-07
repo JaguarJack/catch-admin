@@ -2,12 +2,14 @@
 namespace catchAdmin\user\controller;
 
 use app\Request;
+use catchAdmin\permissions\model\Permissions;
 use catchAdmin\permissions\model\Roles;
 use catchAdmin\user\Auth;
 use catchAdmin\user\model\Users;
 use catchAdmin\user\request\CreateRequest;
 use catchAdmin\user\request\UpdateRequest;
 use catcher\base\CatchController;
+use catcher\CatchAuth;
 use catcher\CatchResponse;
 use catcher\Tree;
 use catcher\Utils;
@@ -33,9 +35,29 @@ class User extends CatchController
         return CatchResponse::paginate($this->user->getList($request->param()));
     }
 
-    public function info()
+  /**
+   * 获取用户信息
+   *
+   * @time 2020年01月07日
+   * @param CatchAuth $auth
+   * @throws \think\db\exception\DataNotFoundException
+   * @throws \think\db\exception\DbException
+   * @throws \think\db\exception\ModelNotFoundException
+   * @return \think\response\Json
+   */
+    public function info(CatchAuth $auth)
     {
-        return CatchResponse::success(Auth::getUserInfo());
+        $user = $auth->user();
+
+        $roles = $user->getRoles();
+
+        $user->permissions = Permissions::whereIn('id', $user->getPermissionsBy())
+                                        ->field(['permission_name as title', 'route', 'icon'])
+                                        ->select();
+
+        $user->roles = $roles;
+
+        return CatchResponse::success($user);
     }
 
     /**
