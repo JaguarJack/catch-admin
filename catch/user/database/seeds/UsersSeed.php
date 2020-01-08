@@ -17,7 +17,8 @@ class UsersSeed extends Seeder
         return \catchAdmin\user\model\Users::create([
             'username' => 'admin',
             'password' => 'admin',
-            'email'  => 'admin@gmail.com',
+            'email'    => 'admin@gmail.com',
+            'creator_id' => 1,
         ]);
     }
 }
