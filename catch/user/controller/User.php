@@ -1,10 +1,9 @@
 <?php
 namespace catchAdmin\user\controller;
 
-use app\Request;
+use catcher\base\CatchRequest as Request;
 use catchAdmin\permissions\model\Permissions;
 use catchAdmin\permissions\model\Roles;
-use catchAdmin\user\Auth;
 use catchAdmin\user\model\Users;
 use catchAdmin\user\request\CreateRequest;
 use catchAdmin\user\request\UpdateRequest;
@@ -79,7 +78,7 @@ class User extends CatchController
     public function save(CreateRequest $request)
     {
         $this->user->storeBy($request->post());
-
+     
         $this->user->attach($request->param('roles'));
 
         return CatchResponse::success('', '添加成功');
