@@ -23,6 +23,7 @@ class PermissionSeed extends Seeder
         \catchAdmin\permissions\model\Roles::create([
             'role_name' => '超级管理员',
             'description' => 'super user',
+            'creator_id' => 1,
         ]);
 
         \think\facade\Db::name('user_has_roles')->insert([
@@ -208,6 +209,7 @@ class PermissionSeed extends Seeder
                     'method' => 'get',
                     'permission_mark' => 'index:dashboard',
                     'type' => 1,
+                    'creator_id' => 1,
                     'sort' => 10000,
                 ),
             1 =>
@@ -220,6 +222,7 @@ class PermissionSeed extends Seeder
                     'method' => 'get',
                     'permission_mark' => 'index:theme',
                     'type' => 2,
+                    'creator_id' => 1,
                     'sort' => 0,
                 ),
             2 =>
@@ -232,6 +235,7 @@ class PermissionSeed extends Seeder
                     'method' => 'get',
                     'permission_mark' => 'user:index',
                     'type' => 1,
+                    'creator_id' => 1,
                     'sort' => 9999,
                 ),
             3 =>
@@ -244,6 +248,7 @@ class PermissionSeed extends Seeder
                     'method' => 'get',
                     'permission_mark' => 'user:create',
                     'type' => 2,
+                    'creator_id' => 1,
                     'sort' => 0,
                 ),
             4 =>
@@ -256,6 +261,7 @@ class PermissionSeed extends Seeder
                     'method' => 'post',
                     'permission_mark' => 'user:save',
                     'type' => 2,
+                    'creator_id' => 1,
                     'sort' => 0,
                 ),
             5 =>
@@ -268,6 +274,7 @@ class PermissionSeed extends Seeder
                     'method' => 'get',
                     'permission_mark' => 'user:edit',
                     'type' => 2,
+                    'creator_id' => 1,
                     'sort' => 0,
                 ),
             6 =>
@@ -280,6 +287,7 @@ class PermissionSeed extends Seeder
                     'method' => 'put',
                     'permission_mark' => 'user:update',
                     'type' => 2,
+                    'creator_id' => 1,
                     'sort' => 0,
                 ),
             7 =>
@@ -292,6 +300,7 @@ class PermissionSeed extends Seeder
                     'method' => 'delete',
                     'permission_mark' => 'user:delete',
                     'type' => 2,
+                    'creator_id' => 1,
                     'sort' => 0,
                 ),
             8 =>
@@ -304,6 +313,7 @@ class PermissionSeed extends Seeder
                     'method' => 'get',
                     'permission_mark' => 'user:list',
                     'type' => 2,
+                    'creator_id' => 1,
                     'sort' => 0,
                 ),
             9 =>
@@ -316,6 +326,7 @@ class PermissionSeed extends Seeder
                     'method' => 'put',
                     'permission_mark' => 'user:switchStatus',
                     'type' => 2,
+                    'creator_id' => 1,
                     'sort' => 0,
                 ),
             10 =>
@@ -328,6 +339,7 @@ class PermissionSeed extends Seeder
                     'method' => 'put',
                     'permission_mark' => 'user:recover',
                     'type' => 2,
+                    'creator_id' => 1,
                     'sort' => 0,
                 ),
             11 =>
@@ -340,6 +352,7 @@ class PermissionSeed extends Seeder
                     'method' => 'get',
                     'permission_mark' => 'role:index',
                     'type' => 1,
+                    'creator_id' => 1,
                     'sort' => 1000,
                 ),
             12 =>
@@ -352,6 +365,7 @@ class PermissionSeed extends Seeder
                     'method' => 'get',
                     'permission_mark' => '@:@',
                     'type' => 1,
+                    'creator_id' => 1,
                     'sort' => 1,
                 ),
             13 =>
@@ -364,6 +378,7 @@ class PermissionSeed extends Seeder
                     'method' => 'get',
                     'permission_mark' => 'permission:index',
                     'type' => 1,
+                    'creator_id' => 1,
                     'sort' => 1,
                 ),
             14 =>
@@ -376,6 +391,7 @@ class PermissionSeed extends Seeder
                     'method' => 'get',
                     'permission_mark' => 'role:create',
                     'type' => 2,
+                    'creator_id' => 1,
                     'sort' => 1,
                 ),
             15 =>
@@ -388,6 +404,7 @@ class PermissionSeed extends Seeder
                     'method' => 'post',
                     'permission_mark' => 'role:save',
                     'type' => 2,
+                    'creator_id' => 1,
                     'sort' => 1,
                 ),
             16 =>
@@ -400,6 +417,7 @@ class PermissionSeed extends Seeder
                     'method' => 'get',
                     'permission_mark' => 'role:edit',
                     'type' => 2,
+                    'creator_id' => 1,
                     'sort' => 1,
                 ),
             17 =>
@@ -412,6 +430,7 @@ class PermissionSeed extends Seeder
                     'method' => 'put',
                     'permission_mark' => 'role:update',
                     'type' => 2,
+                    'creator_id' => 1,
                     'sort' => 1,
                 ),
             18 =>
@@ -424,6 +443,7 @@ class PermissionSeed extends Seeder
                     'method' => 'delete',
                     'permission_mark' => 'role:delete',
                     'type' => 2,
+                    'creator_id' => 1,
                     'sort' => 1,
                 ),
             19 =>
@@ -436,6 +456,7 @@ class PermissionSeed extends Seeder
                     'method' => 'get',
                     'permission_mark' => 'role:list',
                     'type' => 2,
+                    'creator_id' => 1,
                     'sort' => 1,
                 ),
             20 =>
@@ -448,6 +469,7 @@ class PermissionSeed extends Seeder
                     'method' => 'get',
                     'permission_mark' => 'role:getPermissions',
                     'type' => 2,
+                    'creator_id' => 1,
                     'sort' => 1,
                 ),
             21 =>
@@ -460,6 +482,7 @@ class PermissionSeed extends Seeder
                     'method' => 'delete',
                     'permission_mark' => 'permissions:delete',
                     'type' => 2,
+                    'creator_id' => 1,
                     'sort' => 1,
                 ),
             22 =>
@@ -472,6 +495,7 @@ class PermissionSeed extends Seeder
                     'method' => 'put',
                     'permission_mark' => 'permission:update',
                     'type' => 2,
+                    'creator_id' => 1,
                     'sort' => 1,
                 ),
             23 =>
@@ -484,6 +508,7 @@ class PermissionSeed extends Seeder
                     'method' => 'get',
                     'permission_mark' => 'permission:edit',
                     'type' => 2,
+                    'creator_id' => 1,
                     'sort' => 1,
                 ),
             24 =>
@@ -496,6 +521,7 @@ class PermissionSeed extends Seeder
                     'method' => 'get',
                     'permission_mark' => 'permission:create',
                     'type' => 2,
+                    'creator_id' => 1,
                     'sort' => 1,
                 ),
             25 =>
@@ -508,6 +534,7 @@ class PermissionSeed extends Seeder
                     'method' => 'post',
                     'permission_mark' => 'permission',
                     'type' => 2,
+                    'creator_id' => 1,
                     'sort' => 1,
 
                 ),
@@ -521,6 +548,7 @@ class PermissionSeed extends Seeder
                     'method' => 'get',
                     'permission_mark' => 'permission:list',
                     'type' => 2,
+                    'creator_id' => 1,
                     'sort' => 1,
                 ),
             27 =>
@@ -533,6 +561,7 @@ class PermissionSeed extends Seeder
                     'method' => 'get',
                     'permission_mark' => 's:s',
                     'type' => 1,
+                    'creator_id' => 1,
                     'sort' => 1,
                 ),
             28 =>
@@ -545,6 +574,7 @@ class PermissionSeed extends Seeder
                     'method' => 'get',
                     'permission_mark' => 'log:log',
                     'type' => 1,
+                    'creator_id' => 1,
                     'sort' => 1,
                 ),
             29 =>
@@ -557,6 +587,7 @@ class PermissionSeed extends Seeder
                     'method' => 'get',
                     'permission_mark' => 'operateLog:index',
                     'type' => 1,
+                    'creator_id' => 1,
                     'sort' => 1,
                 ),
             30 =>
@@ -569,6 +600,7 @@ class PermissionSeed extends Seeder
                     'method' => 'get',
                     'permission_mark' => 'loginLog:index',
                     'type' => 1,
+                    'creator_id' => 1,
                     'sort' => 1,
                 ),
             31 =>
@@ -581,6 +613,7 @@ class PermissionSeed extends Seeder
                     'method' => 'get',
                     'permission_mark' => 'datadictory:index',
                     'type' => 1,
+                    'creator_id' => 1,
                     'sort' => 1,
                 ),
             32 =>
@@ -593,6 +626,7 @@ class PermissionSeed extends Seeder
                     'method' => 'get',
                     'permission_mark' => 'datadictionary:view',
                     'type' => 2,
+                    'creator_id' => 1,
                     'sort' => 1,
                 ),
         ) as $permission) {
