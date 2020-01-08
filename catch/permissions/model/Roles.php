@@ -12,6 +12,7 @@ class Roles extends CatchModel
             'id', // 
 			'role_name', // 角色名
 			'parent_id', // 父级ID
+      'creator_id',
 			'description', // 角色备注
 			'created_at', // 创建时间
 			'updated_at', // 更新时间

@@ -34,6 +34,7 @@ class Permissions extends Migrator
             ->addColumn('route', 'string', ['default' => '', 'comment' => '路由', 'limit' => 50])
             ->addColumn('icon', 'string', ['default' => '', 'comment' => '菜单图标', 'limit' => 50])
             ->addColumn('module', 'string', ['default' => '', 'comment' => '模块', 'limit' => 20])
+            ->addColumn('creator_id', 'integer',['default' => 0, 'comment'=>'创建人ID'])
             ->addColumn('method', 'string', ['default' => 'get', 'comment' => '路由请求方法', 'limit' => 15])
             ->addColumn('permission_mark', 'string', ['null' => false, 'comment' => '权限标识', 'limit' => 50])
             ->addColumn('type', 'integer',['limit' => \Phinx\Db\Adapter\MysqlAdapter::INT_TINY,'default'=> 1,'comment'=>'1 菜单 2 按钮'])

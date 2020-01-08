@@ -12,6 +12,7 @@ class Permissions extends CatchModel
 			'permission_name', // 菜单名称
 			'parent_id', // 父级ID
       'icon',
+      'creator_id',
       'module', // 模块
 			'route', // 路由
       'method', // 请求方法
