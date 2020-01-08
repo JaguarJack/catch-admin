@@ -48,7 +48,7 @@ class CatchRequest extends Request
                 $validate->extend($rule->type(), [$rule, 'verify'], $rule->message());
               }
             }
-            
+
             /**
             // 场景设置验证
             if (property_exists($this, 'scene') && !empty($this->scene)) {
@@ -80,6 +80,12 @@ class CatchRequest extends Request
             if (!$validate->check(request()->param(), $this->rules())) {
                 throw new FailedException($validate->getError());
             }
+
+            // 每次请求都需要设置创建人
+            $this->param = array_merge($this->param, [
+              'creator_id' => $this->user()->id,
+            ]);
+
         } catch (\Exception $e) {
             throw new ValidateFailedException($e->getMessage());
         }
