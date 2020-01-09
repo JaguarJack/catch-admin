@@ -78,7 +78,7 @@ class User extends CatchController
     public function save(CreateRequest $request)
     {
         $this->user->storeBy($request->post());
-     
+
         $this->user->attach($request->param('roles'));
 
         return CatchResponse::success('', '添加成功');
