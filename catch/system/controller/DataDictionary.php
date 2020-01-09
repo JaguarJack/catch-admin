@@ -1,7 +1,7 @@
 <?php
 namespace catchAdmin\system\controller;
 
-use app\Request;
+use catcher\base\CatchRequest as Request;
 use catcher\base\CatchController;
 use catcher\CatchResponse;
 use catcher\exceptions\FailedException;
