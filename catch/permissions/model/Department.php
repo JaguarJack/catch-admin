@@ -20,6 +20,23 @@ class Department extends CatchModel
 			'created_at', // 创建时间
 			'updated_at', // 更新时间
 			'deleted_at', // 删除状态，null 未删除 timestamp 已删除
-			   
-    ];  
+    ];
+
+  /**
+   * 列表数据
+   *
+   * @time 2020年01月09日
+   * @param $params
+   * @throws \think\db\exception\DbException
+   */
+    public function getList($params)
+    {
+        return $this->when($params['department_name'] ?? false, function ($query) use ($params){
+                          $query->whereLike('department_name', '%' . $params['department_name'] . '%');
+                      })
+                    ->when($params['status'] ?? false, function ($query) use ($params){
+                          $query->where('status', $params['status']);
+                    })
+                    ->select()->toArray();
+    }
 }
