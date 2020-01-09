@@ -3,6 +3,10 @@
 ## 这是 vue 分支 开发中
 - [vue 项目地址](https://github.com/yanwenwu/catch-admin-vue)
 
+## 项目地址
+- [github地址](https://github.com/yanwenwu/catch-admin)
+- [gitee地址](https://gitee.com/jaguarjack/catchAdmin)
+
 ### 环境要求
 - php7.1+ (需以下扩展)
     - mbstring
