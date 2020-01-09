@@ -15,6 +15,7 @@ use catcher\command\MigrateRunCommand;
 use catcher\command\ModelGeneratorCommand;
 use catcher\command\ModuleCacheCommand;
 use catcher\command\SeedRunCommand;
+use catcher\event\AddCreatorId;
 use catcher\event\LoadModuleRoutes;
 use catcher\validates\Sometimes;
 use think\facade\Validate;
@@ -114,7 +115,7 @@ class CatchAdminService extends Service
             ],
             'RouteLoaded' => [
                 LoadModuleRoutes::class
-            ]
+            ],
         ]);
     }
 }
