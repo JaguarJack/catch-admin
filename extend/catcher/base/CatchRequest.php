@@ -2,15 +2,16 @@
 namespace catcher\base;
 
 use app\Request;
-use catcher\CatchAuth;
 use catcher\exceptions\FailedException;
 use catcher\exceptions\ValidateFailedException;
 use think\Validate;
 
 class CatchRequest extends Request
 {
-    protected $auth;
-
+  /**
+   * @var bool
+   */
+    protected $needCreatorId = true;
     /**
      *  批量验证
      *
@@ -90,24 +91,10 @@ class CatchRequest extends Request
         }
 
         // 设置默认参数
-        $this->param['creator_id'] = $this->user()->id;
+        if ($this->needCreatorId) {
+          $this->param['creator_id'] = $this->user()->id;
+        }
 
         return true;
-    }
-
-
-  /**
-   * login user
-   *
-   * @time 2020年01月09日
-   * @return mixed
-   */
-    public function user()
-    {
-      if (!$this->auth) {
-        $this->auth = new CatchAuth;
-      }
-
-      return $this->auth->user();
     }
 }
