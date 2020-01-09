@@ -7,10 +7,10 @@ use think\facade\View;
 
 abstract class CatchController
 {
-    public function __construct()
+    /**public function __construct()
     {
         $this->loadConfig();
-    }
+    }*/
 
 
     /**
@@ -19,7 +19,7 @@ abstract class CatchController
      * @time 2019年12月15日
      * @return void
      */
-    protected function loadConfig()
+    protected function loadConfig(): void
     {
         $module = explode('\\', get_class($this))[1];
 

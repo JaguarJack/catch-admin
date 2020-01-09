@@ -78,11 +78,11 @@ class ModelGeneratorCommand extends Command
     {
         return <<<EOT
 <?php
-namespace catch\{Module}\model;
+namespace catchAdmin\{Module}\model;
 
-use cather\base\BaseModel;
+use catcher\base\CatchModel;
 
-class {Class} extends BaseModel
+class {Class} extends CatchModel
 {
     protected \$name = '{Name}';
     
