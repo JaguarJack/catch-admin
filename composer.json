@@ -29,9 +29,6 @@
         "topthink/think-trace":"^1.0"
     },
     "autoload": {
-        "files": [
-          "catch/helper.php"
-        ],
         "psr-4": {
             "app\\": "app",
             "catchAdmin\\": "catch",
