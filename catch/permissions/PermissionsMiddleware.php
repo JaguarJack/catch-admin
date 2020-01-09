@@ -1,7 +1,7 @@
 <?php
 namespace catchAdmin\permissions;
 
-use app\Request;
+use catcher\base\CatchRequest as Request;
 use catchAdmin\permissions\model\Permissions;
 use catcher\Code;
 use catcher\exceptions\PermissionForbiddenException;

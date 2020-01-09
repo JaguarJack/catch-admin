@@ -2,10 +2,8 @@
 namespace catchAdmin\permissions\controller;
 
 
-use app\Request;
+use catcher\base\CatchRequest as Request;
 use catcher\base\CatchController;
-use catcher\CatchAdmin;
-use catcher\CatchForm;
 use catcher\CatchResponse;
 use catcher\exceptions\FailedException;
 use catcher\Tree;
