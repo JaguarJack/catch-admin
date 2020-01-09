@@ -5,6 +5,8 @@ use catcher\base\CatchRequest;
 
 class LoginRequest extends CatchRequest
 {
+    protected $needCreatorId = false;
+
     protected function rules(): array
     {
         // TODO: Implement rules() method.
