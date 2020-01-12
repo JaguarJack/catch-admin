@@ -28,7 +28,7 @@ class Department extends Migrator
      */
     public function change()
     {
-      $table  =  $this->table('department',['engine'=>'Innodb', 'comment' => '部门表', 'signed' => false]);
+      $table  =  $this->table('departments',['engine'=>'Innodb', 'comment' => '部门表', 'signed' => false]);
       $table->addColumn('department_name', 'string',['limit'  =>  15,'default'=>'','comment'=>'部门名称'])
         ->addColumn('parent_id', 'integer',['default'=>0,'comment'=>'父级ID', 'signed' => false])
         ->addColumn('principal', 'string', ['default' => '', 'comment' => '负责人', 'limit' => 20])

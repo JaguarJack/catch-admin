@@ -5,7 +5,7 @@ use catcher\base\CatchModel;
 
 class Job extends CatchModel
 {
-    protected $name = 'job';
+    protected $name = 'jobs';
     
     protected $field = [
             'id', // 

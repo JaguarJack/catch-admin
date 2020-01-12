@@ -63,4 +63,17 @@ class Job extends CatchController
   {
     return CatchResponse::success($this->job->deleteBy($id));
   }
+
+/**
+ * 获取所有
+ *
+ * @return \think\response\Json
+ * @throws \think\db\exception\DataNotFoundException
+ * @throws \think\db\exception\DbException
+ * @throws \think\db\exception\ModelNotFoundException
+ */
+  public function getAll()
+  {
+      return CatchResponse::success($this->job->field(['id', 'job_name'])->select());
+  }
 }

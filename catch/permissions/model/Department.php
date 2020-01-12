@@ -5,7 +5,7 @@ use catcher\base\CatchModel;
 
 class Department extends CatchModel
 {
-    protected $name = 'department';
+    protected $name = 'departments';
     
     protected $field = [
             'id', // 
@@ -31,7 +31,12 @@ class Department extends CatchModel
    */
     public function getList($params)
     {
-        return $this->when($params['department_name'] ?? false, function ($query) use ($params){
+        return $this->field([
+                        'id',
+                        'department_name as title', 'parent_id', 'principal', 'mobile', 'email', 'creator_id', 'status', 'sort',
+                        'created_at', 'updated_at'
+                    ])
+                    ->when($params['department_name'] ?? false, function ($query) use ($params){
                           $query->whereLike('department_name', '%' . $params['department_name'] . '%');
                       })
                     ->when($params['status'] ?? false, function ($query) use ($params){

@@ -28,7 +28,7 @@ class Job extends Migrator
      */
     public function change()
     {
-      $table  =  $this->table('job',['engine'=>'Innodb', 'comment' => '岗位表', 'signed' => false]);
+      $table  =  $this->table('jobs',['engine'=>'Innodb', 'comment' => '岗位表', 'signed' => false]);
       $table->addColumn('job_name', 'string',['limit'  =>  15,'default'=>'','comment'=>'岗位名称'])
         ->addColumn('coding', 'string', ['default' => '', 'comment' => '编码', 'limit' => 50])
         ->addColumn('creator_id', 'integer',['default' => 0, 'comment'=>'创建人ID'])

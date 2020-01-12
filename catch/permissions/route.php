@@ -9,3 +9,5 @@ $router->resource('permissions', '\catchAdmin\permissions\controller\Permission'
 $router->resource('departments', '\catchAdmin\permissions\controller\Department');
 // 岗位
 $router->resource('jobs', '\catchAdmin\permissions\controller\Job');
+
+$router->get('jobs/all', '\catchAdmin\permissions\controller\Job@getAll');

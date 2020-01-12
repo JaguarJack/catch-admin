@@ -81,6 +81,8 @@ class User extends CatchController
 
         $this->user->attach($request->param('roles'));
 
+        $this->user->attachJobs($request->param('jobs'));
+
         return CatchResponse::success('', '添加成功');
     }
 
@@ -94,6 +96,7 @@ class User extends CatchController
     {
         $user = $this->user->findBy($id);
         $user->roles = $user->getRoles();
+        $user->jobs  = $user->getJobs();
         return CatchResponse::success($user);
     }
 
@@ -117,11 +120,14 @@ class User extends CatchController
         $user = $this->user->findBy($id);
 
         $user->detach();
+        $user->detachJobs();
 
         if (!empty($request->param('roles'))) {
             $user->attach($request->param('roles'));
         }
-
+        if (!empty($request->param('jobs'))) {
+            $user->attachJobs($request->param('jobs'));
+        }
         return CatchResponse::success();
     }
 
@@ -136,8 +142,11 @@ class User extends CatchController
         $ids = Utils::stringToArrayBy($id);
 
         foreach ($ids as $_id) {
+          $user = $this->user->findBy($_id);
           // 删除角色
-          $this->user->findBy($_id)->detach();
+          $user->detach();
+          // 删除岗位
+          $user->detachJobs();
 
           $this->user->deleteBy($_id);
         }
