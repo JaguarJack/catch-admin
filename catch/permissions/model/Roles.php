@@ -6,13 +6,16 @@ use catcher\base\CatchModel;
 
 class Roles extends CatchModel
 {
+    use HasDepartmentsTrait;
+
     protected $name = 'roles';
     
     protected $field = [
             'id', // 
 			'role_name', // 角色名
 			'parent_id', // 父级ID
-      'creator_id',
+            'creator_id',
+            'data_range',
 			'description', // 角色备注
 			'created_at', // 创建时间
 			'updated_at', // 更新时间

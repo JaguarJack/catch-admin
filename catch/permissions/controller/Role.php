@@ -51,6 +51,9 @@ class Role extends CatchController
         if (!empty($request->param('permissions'))) {
             $this->role->attach($request->param('permissions'));
         }
+        if (!empty($request->param('departments'))) {
+            $this->role->attachDepartments($request->param('departments'));
+        }
         // 添加角色
         return CatchResponse::success();
     }
@@ -59,6 +62,7 @@ class Role extends CatchController
     {
       $role = $this->role->findBy($id);
       $role->permissions = $role->getPermissions();
+      $role->departments = $role->getDepartments();
       return CatchResponse::success($role);
     }
 
@@ -91,7 +95,10 @@ class Role extends CatchController
         if (!empty($request->param('permissions'))) {
             $role->attach($request->param('permissions'));
         }
-
+        if (!empty($request->param('departments'))) {
+            $role->detachDepartments();
+            $role->attach($request->param('departments'));
+        }
         return CatchResponse::success();
     }
 
@@ -113,6 +120,8 @@ class Role extends CatchController
         $role = $this->role->findBy($id);
         // 删除权限
         $role->detach();
+        // 删除部门关联
+        $role->detachDepartments();
         // 删除用户关联
         $role->users()->detach();
         // 删除
