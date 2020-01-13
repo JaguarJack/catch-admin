@@ -21,4 +21,34 @@ class Utils
 
         return [$string];
     }
+
+  /**
+   * 搜索参数
+   *
+   * @time 2020年01月13日
+   * @param array $params
+   * @param array $range
+   * @return array
+   */
+    public static function filterSearchParams(array $params, array $range = []): array
+    {
+        $search = [];
+
+        // $range = array_merge(['created_at' => ['start_at', 'end_at']], $range);
+
+        if (!empty($range)) {
+          foreach ($range as $field => $rangeField) {
+            if (count($rangeField) === 1) {
+              $search[$field] = [$params[$rangeField[0]]];
+              unset($params[$rangeField[0]]);
+            } else {
+              $search[$field] = [$params[$rangeField[0]], $params[$rangeField[1]]];
+              unset($params[$rangeField[0]], $params[$rangeField[1]]);
+            }
+          }
+        }
+
+        return array_merge($search, $params);
+
+    }
 }
