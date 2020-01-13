@@ -6,6 +6,7 @@ use catchAdmin\permissions\OperateLogListener;
 use catchAdmin\permissions\PermissionsMiddleware;
 use catchAdmin\system\event\LoginLogEvent;
 use catchAdmin\system\event\OperateLogEvent;
+use catcher\CatchQuery;
 use catcher\command\BackupCommand;
 use catcher\command\CompressPackageCommand;
 use catcher\command\CreateModuleCommand;
@@ -33,6 +34,7 @@ class CatchAdminService extends Service
         $this->registerMiddleWares();
         $this->registerEvents();
         $this->registerListeners();
+        $this->registerQuery();
     }
 
     /**
@@ -115,5 +117,16 @@ class CatchAdminService extends Service
                 LoadModuleRoutes::class
             ],
         ]);
+    }
+
+    protected function registerQuery()
+    {
+        $connections = $this->app->config->get('database.connections');
+
+        $connections['mysql']['query'] = CatchQuery::class;
+
+        $this->app->config->set([
+          'connections' => $connections
+        ], 'database');
     }
 }
