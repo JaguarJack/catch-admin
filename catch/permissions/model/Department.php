@@ -1,10 +1,13 @@
 <?php
 namespace catchAdmin\permissions\model;
 
+use catchAdmin\permissions\model\search\DepartmentSearch;
 use catcher\base\CatchModel;
 
 class Department extends CatchModel
 {
+    use DepartmentSearch;
+
     protected $name = 'departments';
     
     protected $field = [
@@ -29,19 +32,14 @@ class Department extends CatchModel
    * @param $params
    * @throws \think\db\exception\DbException
    */
-    public function getList($params)
+    public function getList(): array
     {
         return $this->field([
                         'id',
                         'department_name as title', 'parent_id', 'principal', 'mobile', 'email', 'creator_id', 'status', 'sort',
                         'created_at', 'updated_at'
                     ])
-                    ->when($params['department_name'] ?? false, function ($query) use ($params){
-                          $query->whereLike('department_name', '%' . $params['department_name'] . '%');
-                      })
-                    ->when($params['status'] ?? false, function ($query) use ($params){
-                          $query->where('status', $params['status']);
-                    })
+                    ->catchSearch()
                     ->select()->toArray();
     }
 }

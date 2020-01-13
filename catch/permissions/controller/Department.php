@@ -24,9 +24,9 @@ class Department extends CatchController
    * @return \think\response\Json
    * @throws \think\db\exception\DbException
    */
-    public function index(CatchRequest $request): \think\response\Json
+    public function index(): \think\response\Json
     {
-        return CatchResponse::success(Tree::done($this->department->getList($request->param())));
+        return CatchResponse::success(Tree::done($this->department->getList()));
     }
 
   /**

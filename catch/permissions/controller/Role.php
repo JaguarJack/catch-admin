@@ -23,9 +23,9 @@ class Role extends CatchController
    * @param Request $request
    * @return string
    */
-    public function index(Request $request)
+    public function index()
     {
-      return CatchResponse::success(Tree::done($this->role->getList($request->param())));
+      return CatchResponse::success(Tree::done($this->role->getList()));
     }
 
     /**

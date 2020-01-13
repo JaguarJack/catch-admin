@@ -24,9 +24,9 @@ class Permission extends CatchController
      * @param Request $request
      * @return \think\response\Json
      */
-    public function index(Request $request)
+    public function index()
     {
-        return CatchResponse::success(Tree::done($this->permissions->getList($request->param())));
+        return CatchResponse::success(Tree::done($this->permissions->getList()));
     }
 
     /**

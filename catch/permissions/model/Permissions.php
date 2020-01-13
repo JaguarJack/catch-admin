@@ -1,10 +1,13 @@
 <?php
 namespace catchAdmin\permissions\model;
 
+use catchAdmin\permissions\model\search\PermissionsSearch;
 use catcher\base\CatchModel;
 
 class Permissions extends CatchModel
 {
+    use PermissionsSearch;
+
     protected $name = 'permissions';
     
     protected $field = [
@@ -33,29 +36,13 @@ class Permissions extends CatchModel
     public const PUT = 'put';
     public const DELETE = 'delete';
 
-    public function getList($search = [])
+    public function getList()
     {
-        return $this->when($search['permission_name'] ?? false, function ($query) use ($search){
-                $query->whereLike('permission_name', '%'.$search['permission_name'].'%');
-            })
-            ->when($search['id'] ?? false, function ($query) use ($search){
-                $query->where('parent_id', $search['id'])
-                    ->whereOr('id', $search['id']);
-            })
-            ->when($search['role_id'] ?? false, function ($query) use ($search){
-                $permissionIds = [];
-                $permissions = Roles::where('id', $search['role_id'])->find()->getPermissions();
-                foreach ($permissions as $_permission) {
-                  $permissionIds[] = $_permission->pivot->permission_id;
-                }
-                if(!empty($permissionIds)) {
-                  $query->whereIn('id', $permissionIds);
-                }
-            })
-            ->order('sort', 'desc')
-            ->order('id', 'desc')
-            ->select()
-            ->toArray();
+        return $this->catchSearch()
+                    ->order('sort', 'desc')
+                    ->order('id', 'desc')
+                    ->select()
+                    ->toArray();
     }
 
     public function roles(): \think\model\relation\BelongsToMany

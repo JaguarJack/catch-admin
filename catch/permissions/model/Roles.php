@@ -1,12 +1,14 @@
 <?php
 namespace catchAdmin\permissions\model;
 
+use catchAdmin\permissions\model\search\RolesSearch;
 use catchAdmin\user\model\Users;
 use catcher\base\CatchModel;
 
 class Roles extends CatchModel
 {
     use HasDepartmentsTrait;
+    use RolesSearch;
 
     protected $name = 'roles';
     
@@ -23,18 +25,12 @@ class Roles extends CatchModel
 			   
     ];
 
-    public function getList($search = [])
+    public function getList()
     {
-        return $this->when($search['role_name'] ?? false, function ($query) use ($search){
-                    $query->whereLike('role_name', $search['role_name']);
-                })
-                ->when($search['id'] ?? false, function ($query) use ($search){
-                    $query->where('parent_id', $search['id'])
-                          ->whereOr('id', $search['id']);
-                })
-                ->order('id', 'desc')
-                ->select()
-                ->toArray();
+        return $this->catchSearch()
+                    ->order('id', 'desc')
+                    ->select()
+                    ->toArray();
     }
 
     /**

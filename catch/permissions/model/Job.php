@@ -28,17 +28,9 @@ class Job extends CatchModel
    * @throws \think\db\exception\DbException
    * @return \think\Paginator
    */
-    public function getList($params)
+    public function getList()
     {
-        return $this->when($params['job_name'] ?? false, function ($query) use ($params){
-                   $query->whereLike('job_name', '%' . $params['job_name'] . '%');
-               })
-               ->when($params['status'] ?? false, function ($query) use ($params){
-                  $query->where('status', $params['status']);
-               })
-               ->when($params['coding'] ?? false, function ($query) use ($params){
-                  $query->whereLike('coding', '%' . $params['coding'] . '%');
-               })
-               ->paginate($parmas['limit'] ?? $this->limit);
+        return $this->catchSearch()
+                    ->paginate($parmas['limit'] ?? $this->limit);
     }
 }

@@ -22,9 +22,9 @@ class Job extends CatchController
    * @param CatchRequest $request
    * @return \think\response\Json
    */
-  public function index(CatchRequest $request): \think\response\Json
+  public function index(): \think\response\Json
   {
-    return CatchResponse::paginate($this->job->getList($request->param()));
+    return CatchResponse::paginate($this->job->getList());
   }
 
   /**
