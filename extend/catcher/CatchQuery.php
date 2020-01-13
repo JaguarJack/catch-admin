@@ -87,12 +87,14 @@ class CatchQuery extends Query
         $field = array_merge((array) $this->options['field'], $field);
       }
 
+      $this->options['field'] = array_unique($field);
+
       if ($needAlias) {
         $alias = $this->getAlias();
 
         $this->options['field'] = array_map(function ($field) use ($alias) {
           return $alias . '.' . $field;
-        }, array_unique($field));
+        }, $this->options['field']);
       }
 
       return $this;
@@ -144,5 +146,19 @@ class CatchQuery extends Query
         }
 
         return parent::whereLike($this->getAlias() . '.' . $field, $condition, $logic);
+    }
+
+  /**
+   * 额外的字段
+   *
+   * @time 2020年01月13日
+   * @param array $fields
+   * @return CatchQuery
+   */
+    public function addFields(array $fields): CatchQuery
+    {
+        $this->options['field'] = array_merge($this->options['field'], $fields);
+
+        return $this;
     }
 }
