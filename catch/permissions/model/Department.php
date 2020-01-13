@@ -30,15 +30,13 @@ class Department extends CatchModel
    *
    * @time 2020年01月09日
    * @param $params
+   * @return array
    * @throws \think\db\exception\DbException
    */
     public function getList(): array
     {
-        return $this->field([
-                        'id',
-                        'department_name as title', 'parent_id', 'principal', 'mobile', 'email', 'creator_id', 'status', 'sort',
-                        'created_at', 'updated_at'
-                    ])
+        return $this->withoutField(['department_name'])
+                    ->addFields(['department_name as title'])
                     ->catchSearch()
                     ->select()->toArray();
     }
