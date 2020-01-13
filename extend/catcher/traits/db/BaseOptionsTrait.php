@@ -75,4 +75,27 @@ trait BaseOptionsTrait
     {
         return static::onlyTrashed()->find($id)->restore();
     }
+
+  /**
+   * 获取删除字段
+   *
+   * @time 2020年01月13日
+   * @return mixed
+   */
+    public function getDeleteAtField()
+    {
+      return $this->deleteTime;
+    }
+
+  /**
+   * 别名
+   *
+   * @time 2020年01月13日
+   * @param $field
+   * @return string
+   */
+    public function aliasField($field): string
+    {
+        return sprintf('%s.%s', $this->getTable(), $field);
+    }
 }
