@@ -82,18 +82,4 @@ class Users extends CatchModel
 
         return array_unique($permissionIds);
     }
-
-  /**
-   * 获取部门下的用户
-   *
-   * @time 2020年01月14日
-   * @param $deptIds
-   * @return mixed
-   */
-    public static function getUserIdsByDepartmentIds($deptIds)
-    {
-        $ids = parent::whereIn('id', $deptIds)->value('id');
-        
-        return $ids ? $ids->toArray() : [];
-    }
 }

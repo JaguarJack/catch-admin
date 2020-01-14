@@ -54,7 +54,8 @@ class User extends CatchController
 
         $user->roles = $roles;
 
-        dd(Roles::getDepartmentUserIdsBy($roles));
+        // 用户数据权限
+        // $user->data_range = Roles::getDepartmentUserIdsBy($roles);
 
         return CatchResponse::success($user);
     }
