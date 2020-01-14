@@ -62,9 +62,9 @@ class CatchAdminService extends Service
      */
     protected function registerValidates(): void
     {
-        Validate::maker(function($validate) {
-            $validates = config('catch.validates');
+        $validates = config('catch.validates');
 
+        Validate::maker(function($validate) use ($validates) {
             foreach ($validates as $vali) {
                 $vali = app()->make($vali);
                 $validate->extend($vali->type(), [$vali, 'verify'], $vali->message());
