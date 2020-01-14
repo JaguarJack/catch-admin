@@ -97,7 +97,7 @@ class Role extends CatchController
         }
         if (!empty($request->param('departments'))) {
             $role->detachDepartments();
-            $role->attach($request->param('departments'));
+            $role->attachDepartments($request->param('departments'));
         }
         return CatchResponse::success();
     }
