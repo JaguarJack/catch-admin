@@ -49,4 +49,20 @@ class Permissions extends CatchModel
     {
         return $this->belongsToMany(Roles::class, 'role_has_permissions', 'role_id', 'permission_id');
     }
+
+  /**
+   * 获取当前用户权限
+   *
+   * @time 2020年01月14日
+   * @throws \think\db\exception\DataNotFoundException
+   * @throws \think\db\exception\DbException
+   * @throws \think\db\exception\ModelNotFoundException
+   * @return \think\Collection
+   */
+    public static function getCurrentUserPermissions(): \think\Collection
+    {
+        return parent::whereIn('id', request()->user()->getPermissionsBy())
+                      ->field(['permission_name as title', 'route', 'icon'])
+                      ->select();
+    }
 }

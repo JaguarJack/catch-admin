@@ -8,16 +8,24 @@ use catcher\base\CatchModel;
 class Roles extends CatchModel
 {
     use HasDepartmentsTrait;
+    use HasPermissionsTrait;
     use RolesSearch;
 
     protected $name = 'roles';
-    
+
+    public const ALL_DATA = 1; // 全部数据
+    public const SELF_CHOOSE = 2; // 自定义数据
+    public const SELF_DATA = 3; // 本人数据
+    public const DEPARTMENT_DATA = 4; // 部门数据
+    public const DEPARTMENT_DOWN_DATA = 5; // 部门及以下数据
+
+
     protected $field = [
             'id', // 
 			'role_name', // 角色名
 			'parent_id', // 父级ID
-            'creator_id',
-            'data_range',
+      'creator_id', // 创建者
+      'data_range', // 数据范围
 			'description', // 角色备注
 			'created_at', // 创建时间
 			'updated_at', // 更新时间
@@ -43,65 +51,41 @@ class Roles extends CatchModel
         return $this->belongsToMany(Users::class, 'user_has_roles', 'uid', 'role_id');
     }
 
-    /**
-     *
-     * @time 2019年12月09日
-     * @return \think\model\relation\BelongsToMany
-     */
-    public function permissions(): \think\model\relation\BelongsToMany
-    {
-        return $this->belongsToMany(Permissions::class, 'role_has_permissions', 'permission_id', 'role_id');
-    }
 
-    /**
-     *
-     * @time 2019年12月08日
-     * @param array $condition
-     * @param array $field
-     * @return mixed
-     */
-    public function getPermissions($condition = [], $field = [])
+    public static function getDepartmentUserIdsBy($roles)
     {
-        return $this->permissions()
-                    ->when(!empty($field), function ($query) use ($field){
-                        $query->field($field);
-                    })
-                    ->when(!empty($condition), function ($query) use ($condition){
-                        $query->where($condition);
-                    })
-                    ->select();
-    }
+        $uids = [];
 
-    /**
-     *
-     * @time 2019年12月08日
-     * @param array $permissions
-     * @return mixed
-     * @throws \think\db\exception\DbException
-     */
-    public function attach(array $permissions)
-    {
-        if (empty($permissions)) {
-            return true;
+        $isAll = false;
+
+        $user = request()->user();
+
+        foreach ($roles as $role) {
+            switch ($role->data_range) {
+              case self::ALL_DATA:
+                    $isAll = true;
+                    break;
+              case self::SELF_CHOOSE:
+                    $departmentIds = array_merge(array_column($role->getDepartments()->toArray(), 'id'));
+                    $uids = array_merge($uids, Users::getUserIdsByDepartmentIds($departmentIds));
+                    break;
+              case self::SELF_DATA:
+                    $uids[] = $user->id;
+                    break;
+              case self::DEPARTMENT_DOWN_DATA:
+              case self::DEPARTMENT_DATA:
+                    $uids = array_merge($uids, Users::getUserIdsByDepartmentIds([$user->department_id]));
+                    break;
+              default:
+                    break;
+            }
+
+            // 如果有全部数据 直接跳出
+            if ($isAll) {
+              break;
+            }
         }
 
-        sort($permissions);
-
-        return $this->permissions()->attach($permissions);
-    }
-
-    /**
-     *
-     * @time 2019年12月08日
-     * @param array $roles
-     * @return mixed
-     */
-    public function detach(array $roles = [])
-    {
-        if (empty($roles)) {
-            return $this->permissions()->detach();
-        }
-
-        return $this->permissions()->detach($roles);
+        return $uids;
     }
 }
