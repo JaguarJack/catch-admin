@@ -33,4 +33,8 @@ return [
         ],
       ],
   ],
+
+  'validates' => [
+    \catcher\validates\Sometimes::class,
+  ],
 ];
