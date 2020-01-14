@@ -46,16 +46,15 @@ class User extends CatchController
    */
     public function info(CatchAuth $auth)
     {
-
         $user = $auth->user();
 
         $roles = $user->getRoles();
 
-        $user->permissions = Permissions::whereIn('id', $user->getPermissionsBy())
-                                        ->field(['permission_name as title', 'route', 'icon'])
-                                        ->select();
+        $user->permissions = Permissions::getCurrentUserPermissions();
 
         $user->roles = $roles;
+
+        dd(Roles::getDepartmentUserIdsBy($roles));
 
         return CatchResponse::success($user);
     }
