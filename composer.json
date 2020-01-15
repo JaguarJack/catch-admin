@@ -1,18 +1,19 @@
 {
-    "name": "topthink/think",
-    "description": "the new thinkphp framework",
+    "name": "jaguarjack/catchadmin",
+    "description": "the api framework base on thinkphp, help you to create admin management soon",
     "type": "project",
     "keywords": [
         "framework",
-        "thinkphp",
+        "catchadmin",
+        "api",
         "ORM"
     ],
-    "homepage": "http://thinkphp.cn/",
+    "homepage": "http://doc.catchadmin.com",
     "license": "Apache-2.0",
     "authors": [
         {
-            "name": "liu21st",
-            "email": "liu21st@gmail.com"
+            "name": "jaguarjack",
+            "email": "njphper@gmail.com"
         }
     ],
     "require": {
@@ -31,8 +32,7 @@
     "autoload": {
         "psr-4": {
             "app\\": "app",
-            "catchAdmin\\": "catch",
-            "jaguarjack\\think\\module\\": "extend/think-module/src"
+            "catchAdmin\\": "catch"
         },
         "psr-0": {
             "": "extend/"
