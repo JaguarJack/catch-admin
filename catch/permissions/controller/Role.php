@@ -32,15 +32,6 @@ class Role extends CatchController
     /**
      *
      * @time 2019年12月11日
-     * @throws \Exception
-     * @return string
-     */
-    public function create()
-    {}
-
-    /**
-     *
-     * @time 2019年12月11日
      * @param Request $request
      * @return Json
      * @throws \think\db\exception\DbException
@@ -147,7 +138,7 @@ class Role extends CatchController
                 $permissionIds[] = $_permission->pivot->permission_id;
             }
         }
-        
+
         return CatchResponse::success([
             'permissions' => $permissions,
             'hasPermissions' => $permissionIds,

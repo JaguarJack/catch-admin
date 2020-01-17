@@ -47,7 +47,7 @@ class Permission extends CatchController
         $parentId = $params['parent_id'] ?? 0;
         if ($parentId) {
             $parent = $this->permissions->findBy($parentId);
-            $params['module'] = $parent['module'];
+            $params['module'] = $parent->module;
         }
 
         return CatchResponse::success($this->permissions->storeBy($request->param()));
