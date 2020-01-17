@@ -54,14 +54,15 @@ class Permissions extends CatchModel
    * 获取当前用户权限
    *
    * @time 2020年01月14日
-   * @throws \think\db\exception\DataNotFoundException
+   * @param array $permissionIds
+   * @return \think\Collection
    * @throws \think\db\exception\DbException
    * @throws \think\db\exception\ModelNotFoundException
-   * @return \think\Collection
+   * @throws \think\db\exception\DataNotFoundException
    */
-    public static function getCurrentUserPermissions(): \think\Collection
+    public static function getCurrentUserPermissions(array $permissionIds): \think\Collection
     {
-        return parent::whereIn('id', request()->user()->getPermissionsBy())
+        return parent::whereIn('id', $permissionIds)
                       ->field(['permission_name as title', 'route', 'icon'])
                       ->select();
     }

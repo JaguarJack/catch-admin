@@ -3,8 +3,10 @@ namespace catchAdmin\permissions;
 
 use app\Request;
 use catchAdmin\permissions\model\Permissions;
+use catcher\CatchCacheKeys;
 use catcher\Code;
 use catcher\exceptions\PermissionForbiddenException;
+use think\facade\Cache;
 use think\helper\Str;
 
 class PermissionsMiddleware
@@ -22,7 +24,7 @@ class PermissionsMiddleware
      */
     public function handle(Request $request, \Closure $next)
     {
-        $rule = $rule = $request->rule()->getName();
+        $rule = $request->rule()->getName();
 
         if (!$rule) {
             return $next($request);
@@ -34,15 +36,22 @@ class PermissionsMiddleware
             return $next($request);
         }
 
-        if (!$request->user()) {
+        $user = $request->user();
+        if (!$user) {
             throw new PermissionForbiddenException('Login is invalid', Code::LOST_LOGIN);
         }
 
-       // toad
-        if (($permission = $this->getPermission($module, $controller, $action, $request))
-            && !in_array($permission->id, $request->user()->getPermissionsBy())) {
-              throw new PermissionForbiddenException();
+        // toad
+        $permission = $this->getPermission($module, $controller, $action);
+        if (!$permission || !in_array($permission->id, Cache::get(CatchCacheKeys::USER_PERMISSIONS . $user->id))) {
+          throw new PermissionForbiddenException();
         }
+
+        // 操作日志
+        event('operateLog', [
+          'request' => $request,
+          'permission' => $permission,
+        ]);
 
         return $next($request);
     }
@@ -75,19 +84,11 @@ class PermissionsMiddleware
      * @throws \think\db\exception\ModelNotFoundException
      * @return array|bool|\think\Model|null
      */
-    protected function getPermission($module, $controllerName, $action, $request)
+    protected function getPermission($module, $controllerName, $action)
     {
         $permissionMark = sprintf('%s:%s', $controllerName, $action);
+
         $permission = Permissions::where('module', $module)->where('permission_mark', $permissionMark)->find();
-
-        if (!$permission) {
-            return  false;
-        }
-
-        event('operateLog', [
-            'request' => $request,
-            'permission' => $permission,
-        ]);
 
         return $permission;
     }
