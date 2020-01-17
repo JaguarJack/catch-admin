@@ -6,12 +6,16 @@ return [
      */
     'domain' => '',
 
-    /**
-     * set error page
-     */
-    'error' => root_path('catch/index/view/')  . 'error.html',
+  /**
+   * 权限不验证 get 请求
+   *
+   */
+    'is_allow_get' => true,
 
-
+  /**
+   * auth 认证
+   *
+   */
   'auth' => [
       // 默认
       'default' => [
@@ -34,6 +38,10 @@ return [
       ],
   ],
 
+  /**
+   * 自定义验证规则
+   *
+   */
   'validates' => [
     \catcher\validates\Sometimes::class,
   ],
