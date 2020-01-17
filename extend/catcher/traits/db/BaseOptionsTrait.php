@@ -19,17 +19,18 @@ trait BaseOptionsTrait
         return false;
     }
 
-    /**
-     *
-     * @time 2019年12月03日
-     * @param $id
-     * @param $data
-     * @return bool
-     */
-    public function updateBy($id, $data)
+  /**
+   *
+   * @time 2019年12月03日
+   * @param $id
+   * @param $data
+   * @param string $field
+   * @return bool
+   */
+    public function updateBy($id, $data, $field = ''): bool
     {
 
-        if (static::update($data, [$this->getPk() => $id], $this->field)) {
+        if (static::update($data, [$field ? : $this->getPk() => $id], $this->field)) {
             return true;
         }
 
