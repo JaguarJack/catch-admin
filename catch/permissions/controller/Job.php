@@ -21,6 +21,7 @@ class Job extends CatchController
    * @time 2020年01月09日
    * @param CatchRequest $request
    * @return \think\response\Json
+   * @throws \think\db\exception\DbException
    */
   public function index(): \think\response\Json
   {

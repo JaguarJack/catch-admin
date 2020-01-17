@@ -24,6 +24,10 @@ class PermissionsMiddleware
      */
     public function handle(Request $request, \Closure $next)
     {
+        if ($request->isGet() && config('catch.is_allow_get')) {
+          return $next($request);
+        }
+
         $rule = $request->rule()->getName();
 
         if (!$rule) {

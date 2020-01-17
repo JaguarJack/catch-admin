@@ -1,6 +1,7 @@
 <?php
 namespace catchAdmin\permissions\controller;
 
+use catchAdmin\permissions\model\Permissions;
 use catcher\base\CatchRequest as Request;
 use catcher\base\CatchController;
 use catcher\CatchResponse;
@@ -70,21 +71,11 @@ class Role extends CatchController
      *
      * @time 2019年12月11日
      * @param $id
-     * @throws \Exception
-     * @return string
-     */
-    public function edit($id)
-    {}
-
-    /**
-     *
-     * @time 2019年12月11日
-     * @param $id
      * @param Request $request
      * @return Json
      * @throws \think\db\exception\DbException
      */
-    public function update($id, Request $request)
+    public function update($id, Request $request): Json
     {
         $this->role->updateBy($id, $request->param());
 
@@ -112,7 +103,7 @@ class Role extends CatchController
      * @throws \think\db\exception\ModelNotFoundException
      * @return Json
      */
-    public function delete($id)
+    public function delete($id): Json
     {
         if ($this->role->where('parent_id', $id)->find()) {
             throw new FailedException('存在子角色，无法删除');
@@ -139,7 +130,7 @@ class Role extends CatchController
      */
     public function getPermissions(Request $request, \catchAdmin\permissions\model\Permissions $permission): Json
     {
-        $parentRoleHasPermissionIds = null;
+        $parentRoleHasPermissionIds = [];
         if ($request->param('parent_id')) {
             $permissions = $this->role->findBy($request->param('parent_id'))->getPermissions();
             foreach ($permissions as $_permission) {
@@ -147,9 +138,7 @@ class Role extends CatchController
             }
         }
 
-        $permissions = Tree::done($permission->getList([
-            'permission_ids' => $parentRoleHasPermissionIds
-        ]));
+        $permissions = Tree::done(Permissions::whereIn('id', $parentRoleHasPermissionIds)->select()->toArray());
 
         $permissionIds = [];
         if ($request->param('role_id')) {
@@ -158,7 +147,7 @@ class Role extends CatchController
                 $permissionIds[] = $_permission->pivot->permission_id;
             }
         }
-
+        
         return CatchResponse::success([
             'permissions' => $permissions,
             'hasPermissions' => $permissionIds,

@@ -7,7 +7,8 @@ use catcher\base\CatchController;
 use catcher\CatchResponse;
 use catcher\exceptions\FailedException;
 use catcher\Tree;
-use catchAdmin\permissions\model\Permissions as Permissions;
+use catchAdmin\permissions\model\Permissions;
+use think\response\Json;
 
 class Permission extends CatchController
 {
@@ -22,55 +23,54 @@ class Permission extends CatchController
      *
      * @time 2019年12月11日
      * @param Request $request
-     * @return \think\response\Json
+     * @return Json
      */
-    public function index()
+    public function index(): Json
     {
         return CatchResponse::success(Tree::done($this->permissions->getList()));
     }
 
-    /**
-     *
-     * @time 2019年12月11日
-     * @throws \Exception
-     * @return string
-     */
-    public function create()
-    {}
-
-    /**
-     *
-     * @time 2019年12月11日
-     * @param Request $request
-     * @return \think\response\Json
-     */
-    public function save(Request $request)
+  /**
+   *
+   * @time 2019年12月11日
+   * @param Request $request
+   * @return Json
+   * @throws \think\db\exception\DbException
+   * @throws \think\db\exception\ModelNotFoundException
+   * @throws \think\db\exception\DataNotFoundException
+   */
+    public function save(Request $request): Json
     {
+        $params = $request->param();
+
+        // 如果是子分类 自动写入父类模块
+        $parentId = $params['parent_id'] ?? 0;
+        if ($parentId) {
+            $parent = $this->permissions->findBy($parentId);
+            $params['module'] = $parent['module'];
+        }
+
         return CatchResponse::success($this->permissions->storeBy($request->param()));
     }
 
-    public function read()
-    {}
-
-    /**
-     *
-     * @time 2019年12月11日
-     * @param $id
-     * @throws \Exception
-     * @return string
-     */
-    public function edit($id)
-    {}
-
     /**
      *
      * @time 2019年12月11日
      * @param $id
      * @param Request $request
-     * @return \think\response\Json
+     * @return Json
      */
-    public function update($id, Request $request)
+    public function update($id, Request $request): Json
     {
+        $permission = $this->permissions->findBy($id);
+
+        // 如果是父分类需要更新所有子分类的模块
+        if (!$permission->parent_id) {
+            $this->permissions->updateBy($permission->parent_id, [
+              'module' => $permission->module,
+            ], 'parent_id');
+        }
+
         return CatchResponse::success($this->permissions->updateBy($id, $request->param()));
     }
 
@@ -82,9 +82,9 @@ class Permission extends CatchController
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\DbException
      * @throws \think\db\exception\ModelNotFoundException
-     * @return \think\response\Json
+     * @return Json
      */
-    public function delete($id)
+    public function delete($id): Json
     {
         if ($this->permissions->where('parent_id', $id)->find()) {
             throw new FailedException('存在子菜单，无法删除');
