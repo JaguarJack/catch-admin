@@ -9,9 +9,11 @@ use catchAdmin\user\request\CreateRequest;
 use catchAdmin\user\request\UpdateRequest;
 use catcher\base\CatchController;
 use catcher\CatchAuth;
+use catcher\CatchCacheKeys;
 use catcher\CatchResponse;
 use catcher\Tree;
 use catcher\Utils;
+use think\facade\Cache;
 
 class User extends CatchController
 {
@@ -50,7 +52,11 @@ class User extends CatchController
 
         $roles = $user->getRoles();
 
-        $user->permissions = Permissions::getCurrentUserPermissions();
+        $permissionIds = $user->getPermissionsBy();
+        // 缓存用户权限
+        Cache::set(CatchCacheKeys::USER_PERMISSIONS . $user->id, $permissionIds);
+
+        $user->permissions = Permissions::getCurrentUserPermissions($permissionIds);
 
         $user->roles = $roles;
 
