@@ -36,8 +36,8 @@ class CatchResponse
   public static function paginate(Paginator $list)
   {
     return json([
-      'code'    => 10000,
-      'msg'     => 'success',
+      'code'    => Code::SUCCESS,
+      'message' => 'success',
       'count'   => $list->total(),
       'current' => $list->currentPage(),
       'limit'   => $list->listRows(),
@@ -53,11 +53,11 @@ class CatchResponse
    * @param int $code
    * @return Json
    */
-  public static function fail($msg = '', $code = 10001): Json
+  public static function fail($msg = '', $code = Code::FAILED): Json
   {
     return json([
-      'code' => $code,
-      'msg'  => $msg,
+        'code' => $code,
+        'message'  => $msg,
     ]);
   }
 }
