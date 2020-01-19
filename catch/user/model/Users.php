@@ -5,7 +5,6 @@ use catchAdmin\permissions\model\Department;
 use catchAdmin\permissions\model\HasJobsTrait;
 use catchAdmin\permissions\model\HasRolesTrait;
 use catcher\base\CatchModel;
-use catcher\Utils;
 
 class Users extends CatchModel
 {
@@ -53,9 +52,8 @@ class Users extends CatchModel
      */
     public function getList($search): \think\Paginator
     {
-        return (($search['trash'] ?? false) ? static::onlyTrashed() : $this)
-                    ->withoutField(['updated_at'], true)
-                    ->catchSearch() 
+        return $this->withoutField(['updated_at'], true)
+                    ->catchSearch()
                     ->catchLeftJoin(Department::class, 'id', 'department_id', ['department_name'])
                     ->order('users.id', 'desc')
                     ->paginate($search['limit'] ?? $this->limit);

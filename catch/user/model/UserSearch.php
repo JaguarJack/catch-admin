@@ -10,11 +10,11 @@ trait UserSearch
 
     public function searchEmailAttr($query, $value, $data)
     {
-        return $query->whereLike($this->aliasField('email'), $value);
+        return $query->whereLike('email', $value);
     }
 
     public function searchStatusAttr($query, $value, $data)
     {
-      return $query->where($this->aliasField('status'), $value);
+        return $query->where($this->aliasField('status'), $value);
     }
 }
