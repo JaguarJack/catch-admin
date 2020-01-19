@@ -35,3 +35,12 @@
 [体验地址](http://vue.catchadmin.com)
 - 账号: test@catch.com 
 - 密码: 123456
+
+[catchadmin 文档地址](http://doc.catchadmin.com)
+
+[catchadmin 接口文档地址](http://apidoc.catchadmin.com)
+- 账号：test@catch.com
+- 密码：123456
+请大家不要随意添加数据，因为没有意义，只看 `catchadmin` 的文档就可以了。
+如果有太多脏数据的话，我会关闭该账号。
+
