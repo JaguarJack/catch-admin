@@ -9,7 +9,6 @@ $router->get('operateLog/index', '\catchAdmin\system\controller\OperateLog@index
 $router->delete('operateLog/empty', '\catchAdmin\system\controller\OperateLog@empty');
 
 // 数据字典
-$router->get('data/dictionary', '\catchAdmin\system\controller\DataDictionary@index');
 $router->get('tables', '\catchAdmin\system\controller\DataDictionary@tables');
 $router->get('table/view/<table>', '\catchAdmin\system\controller\DataDictionary@view');
 $router->post('table/optimize', '\catchAdmin\system\controller\DataDictionary@optimize');
