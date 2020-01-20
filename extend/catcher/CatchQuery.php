@@ -132,7 +132,7 @@ class CatchQuery extends Query
    * @param string $logic
    * @return Query
    */
-    public function whereLike(string $field, $condition, $option = 'both', string $logic = 'AND'): Query
+    public function whereLike(string $field, $condition, string $logic = 'AND', $option = 'both'): Query
     {
         switch ($option) {
           case 'both':
