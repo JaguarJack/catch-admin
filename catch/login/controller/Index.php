@@ -47,16 +47,16 @@ class Index extends CatchController
         ], '登录成功') : CatchResponse::success('', '登录失败');
     }
 
-    /**
-     * 登出
-     *
-     * @time 2019年11月28日
-     * @return \think\response\Json
-     * @throws \Exception
-     */
-    public function logout(): \think\response\Json
+  /**
+   * 登出
+   *
+   * @time 2019年11月28日
+   * @param CatchAuth $auth
+   * @return \think\response\Json
+   */
+    public function logout(CatchAuth $auth): \think\response\Json
     {
-        if (Auth::logout()) {
+        if ($auth->logout()) {
             return CatchResponse::success();
         }
 
