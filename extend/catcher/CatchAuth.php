@@ -80,11 +80,19 @@ class CatchAuth
   /**
    *
    * @time 2020年01月07日
-   * @return void
+   * @return mixed
    */
     public function logout()
     {
-
+      switch ($this->getDriver()) {
+        case 'jwt':
+            return true;
+        case 'session':
+          Session::delete($this->sessionUserKey());
+          return true;
+        default:
+          throw new FailedException('user not found');
+      }
     }
 
   /**
