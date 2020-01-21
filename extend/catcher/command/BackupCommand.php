@@ -21,7 +21,7 @@ class BackupCommand extends Command
         // 指令配置
         $this->setName('backup:data')
             ->addArgument('tables', Argument::REQUIRED, 'backup tables')
-            ->addOption('zip', 'z',Option::VALUE_REQUIRED, 'is need zip')
+            ->addOption('zip', '-z',Option::VALUE_NONE, 'is need zip')
             ->setDescription('backup data you need');
     }
 
@@ -29,7 +29,7 @@ class BackupCommand extends Command
     {
         $tables = $this->input->getArgument('tables');
 
-        $isZip = $this->input->getOption('zip') ?? true;
+        $isZip = $this->input->getOption('zip');
 
         $this->generator(explode(',', $tables), CatchAdmin::backupDirectory());
 

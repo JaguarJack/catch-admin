@@ -96,7 +96,7 @@ class DataDictionary extends CatchController
     public function backup(): \think\response\Json
     {
         try {
-            Console::call('backup:data', [trim(implode(',', \request()->post('data')), ',')]);
+            Console::call('backup:data', [trim(implode(',', \request()->post('data')), ','), '-z']);
         }catch (\Exception $e) {
             throw new FailedException($e->getMessage());
         }
