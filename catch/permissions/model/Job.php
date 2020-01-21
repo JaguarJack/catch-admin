@@ -31,6 +31,6 @@ class Job extends CatchModel
     public function getList()
     {
         return $this->catchSearch()
-                    ->paginate($parmas['limit'] ?? $this->limit);
+                    ->paginate();
     }
 }
