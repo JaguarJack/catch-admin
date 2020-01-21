@@ -11,6 +11,8 @@ use catcher\command\BackupCommand;
 use catcher\command\CompressPackageCommand;
 use catcher\command\CreateModuleCommand;
 use catcher\command\InstallCommand;
+use catcher\command\MigrateCreateCommand;
+use catcher\command\MigrateRollbackCommand;
 use catcher\command\MigrateRunCommand;
 use catcher\command\ModelGeneratorCommand;
 use catcher\command\ModuleCacheCommand;
@@ -53,6 +55,8 @@ class CatchAdminService extends Service
             BackupCommand::class,
             CompressPackageCommand::class,
             CreateModuleCommand::class,
+            MigrateRollbackCommand::class,
+            MigrateCreateCommand::class,
         ]);
     }
     /**
