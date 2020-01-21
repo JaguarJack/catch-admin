@@ -56,7 +56,7 @@ class Users extends CatchModel
                     ->catchSearch()
                     ->catchLeftJoin(Department::class, 'id', 'department_id', ['department_name'])
                     ->order('users.id', 'desc')
-                    ->paginate($search['limit'] ?? $this->limit);
+                    ->paginate($search['limit'] ?? parent::LIMIT);
     }
 
     /**
