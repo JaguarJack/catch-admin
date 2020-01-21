@@ -69,16 +69,16 @@
         },
         {
             "name": "league/flysystem",
-            "version": "1.0.61",
+            "version": "1.0.63",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "4fb13c01784a6c9f165a351e996871488ca2d8c9"
+                "reference": "8132daec326565036bc8e8d1876f77ec183a7bd6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/4fb13c01784a6c9f165a351e996871488ca2d8c9",
-                "reference": "4fb13c01784a6c9f165a351e996871488ca2d8c9",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/8132daec326565036bc8e8d1876f77ec183a7bd6",
+                "reference": "8132daec326565036bc8e8d1876f77ec183a7bd6",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -155,7 +155,7 @@
                 "sftp",
                 "storage"
             ],
-            "time": "2019-12-08T21:46:50+00:00"
+            "time": "2020-01-04T16:30:31+00:00"
         },
         {
             "name": "league/flysystem-cached-adapter",
@@ -719,16 +719,16 @@
         },
         {
             "name": "topthink/think-orm",
-            "version": "v2.0.28",
+            "version": "v2.0.31",
             "source": {
                 "type": "git",
                 "url": "https://github.com/top-think/think-orm.git",
-                "reference": "ff5f112f5559497222f2716385b5a709ab82741b"
+                "reference": "d6965dfae21f150e29cc899ab6f9b1bd2c0f2ee4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/top-think/think-orm/zipball/ff5f112f5559497222f2716385b5a709ab82741b",
-                "reference": "ff5f112f5559497222f2716385b5a709ab82741b",
+                "url": "https://api.github.com/repos/top-think/think-orm/zipball/d6965dfae21f150e29cc899ab6f9b1bd2c0f2ee4",
+                "reference": "d6965dfae21f150e29cc899ab6f9b1bd2c0f2ee4",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -766,7 +766,7 @@
                 "database",
                 "orm"
             ],
-            "time": "2019-11-17T07:53:45+00:00"
+            "time": "2020-01-07T10:05:10+00:00"
         }
     ],
     "packages-dev": [
