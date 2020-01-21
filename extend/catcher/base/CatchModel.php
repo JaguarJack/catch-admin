@@ -21,7 +21,7 @@ abstract class CatchModel extends \think\Model
 
     protected $autoWriteTimestamp = true;
 
-    protected $limit = 10;
+    public const LIMIT = 10;
 
     // 开启
     public const ENABLE = 1;
