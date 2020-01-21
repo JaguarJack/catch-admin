@@ -18,7 +18,7 @@ class InstallCommand extends Command
     protected function configure()
     {
         $this->setName('catch:install')
-            // ->addArgument('module', Argument::REQUIRED, 'module name')
+            ->addOption('reinstall', '-r',Option::VALUE_NONE, 'reinstall back')
             ->setDescription('install project');
     }
 
@@ -31,17 +31,23 @@ class InstallCommand extends Command
      */
     protected function execute(Input $input, Output $output)
     {
-        $this->detectionEnvironment();
+        if ($input->getOption('reinstall')) {
+            $this->reInstall();
+            $this->project();
+        } else {
 
-        $this->firstStep();
+          $this->detectionEnvironment();
 
-        $this->secondStep();
+          $this->firstStep();
 
-        $this->thirdStep();
+          $this->secondStep();
 
-        $this->finished();
+          $this->thirdStep();
 
-        $this->project();
+          $this->finished();
+
+          $this->project();
+        }
     }
 
     /**
@@ -93,6 +99,7 @@ class InstallCommand extends Command
 
         $this->output->info('🎉 environment checking finished');
     }
+
 
     /**
      * 安装第一步
@@ -160,17 +167,39 @@ class InstallCommand extends Command
                 'connections' => $connections,
             ], 'database');
 
-            foreach (CatchAdmin::getModulesDirectory() as $directory) {
-                $moduleInfo = CatchAdmin::getModuleInfo($directory);
-                if (is_dir(CatchAdmin::moduleMigrationsDirectory($moduleInfo['alias']))) {
-                    $output = Console::call('catch-migrate:run', [$moduleInfo['alias']]);
-                    $this->output->info(sprintf('module [%s] migrations %s', $moduleInfo['alias'], $output->fetch()));
-
-                    $seedOut = Console::call('catch-seed:run', [$moduleInfo['alias']]);
-                    $this->output->info(sprintf('module [%s] seeds %s', $moduleInfo['alias'], $seedOut->fetch()));
-                }
-            }
+            $this->migrateAndSeeds();
         }
+    }
+
+  /**
+   * 生成表结构
+   *
+   * @time 2020年01月20日
+   * @return void
+   */
+    protected function migrateAndSeeds(): void
+    {
+      foreach (CatchAdmin::getModulesDirectory() as $directory) {
+        $moduleInfo = CatchAdmin::getModuleInfo($directory);
+        if (is_dir(CatchAdmin::moduleMigrationsDirectory($moduleInfo['alias']))) {
+          $output = Console::call('catch-migrate:run', [$moduleInfo['alias']]);
+          $this->output->info(sprintf('module [%s] migrations %s', $moduleInfo['alias'], $output->fetch()));
+
+          $seedOut = Console::call('catch-seed:run', [$moduleInfo['alias']]);
+          $this->output->info(sprintf('module [%s] seeds %s', $moduleInfo['alias'], $seedOut->fetch()));
+        }
+      }
+    }
+
+    protected function migrateRollback()
+    {
+      foreach (CatchAdmin::getModulesDirectory() as $directory) {
+        $moduleInfo = CatchAdmin::getModuleInfo($directory);
+        if (is_dir(CatchAdmin::moduleMigrationsDirectory($moduleInfo['alias']))) {
+              $rollbackOut = Console::call('catch-migrate:rollback', [$moduleInfo['alias'], '-f']);
+              // $this->output->info(sprintf('module [%s] [%s] rollback %s', $moduleInfo['alias'], basename($migration), $rollbackOut->fetch()));
+        }
+      }
     }
 
     /**
@@ -267,41 +296,6 @@ class InstallCommand extends Command
         return file_exists(root_path() . '.env') ? root_path() . '.env' : '';
     }
 
-    /**
-     * 检测根目录
-     *
-     * @time 2019年11月28日
-     * @return bool
-     */
-    protected function checkRootDatabase(): bool
-    {
-        $databasePath = root_path('database');
-
-        if (!is_dir($databasePath)) {
-            if (!mkdir($databasePath, 0777, true) && !is_dir($databasePath)) {
-                throw new \RuntimeException(sprintf('Directory "%s" was not created', $databasePath));
-            }
-        }
-
-        $migrationPath = $databasePath . DIRECTORY_SEPARATOR . 'migrations' . DIRECTORY_SEPARATOR;
-
-        $seedPath = $databasePath . DIRECTORY_SEPARATOR . 'seeds' . DIRECTORY_SEPARATOR;
-
-        if (!is_dir($migrationPath)) {
-            if (!mkdir($migrationPath, 0777, true) && !is_dir($migrationPath)) {
-                throw new \RuntimeException(sprintf('Directory "%s" was not created', $migrationPath));
-            }
-        }
-
-        if (!is_dir($seedPath)) {
-            if (!mkdir($seedPath, 0777, true) && !is_dir($seedPath)) {
-                throw new \RuntimeException(sprintf('Directory "%s" was not created', $seedPath));
-            }
-        }
-
-        return true;
-    }
-
 
     protected function project()
     {
@@ -322,5 +316,17 @@ class InstallCommand extends Command
  密码: admin                                               
 ', $year));
 
+    }
+
+
+    protected function reInstall(): void
+    {
+        $ask = strtolower($this->output->ask($this->input,'reset project? (Y/N)'));
+
+        if ($ask === 'y' || $ask === 'yes' ) {
+          $this->migrateRollback();
+
+          $this->migrateAndSeeds();
+        }
     }
 }

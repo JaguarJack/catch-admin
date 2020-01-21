@@ -23,8 +23,8 @@ class MigrateRunCommand extends Run
 The <info>migrate:run</info> command runs all available migrations, optionally up to a specific version
 
 <info>php think catch-migrate:run module</info>
-<info>php think catch-migrate:run -t 20110103081132</info>
-<info>php think catch-migrate:run -d 20110103</info>
+<info>php think catch-migrate:run module -t 20110103081132</info>
+<info>php think catch-migrate:run module -d 20110103</info>
 <info>php think catch-migrate:run -v</info>
 
 EOT
