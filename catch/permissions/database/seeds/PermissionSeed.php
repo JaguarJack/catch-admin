@@ -25,13 +25,12 @@ class PermissionSeed extends Seeder
             'description' => 'super user',
             'creator_id' => 1,
         ]);
-
-        \think\facade\Db::name(config('database.connections.mysql.prefix') . 'user_has_roles')->insert([
+        \think\facade\Db::name( 'user_has_roles')->insert([
            'role_id' => 1,
            'uid' => 1,
         ]);
 
-        \think\facade\Db::name(config('database.connections.mysql.prefix') .'role_has_permissions')->insertAll($this->getRolePermissions());
+        \think\facade\Db::name('role_has_permissions')->insertAll($this->getRolePermissions());
     }
 
 
