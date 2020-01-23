@@ -70,36 +70,7 @@ class CreateModuleCommand extends Command
         }
 
         $this->output->info('🎉 create controller  successfully');
-        $this->createView($controllers);
         $this->createRequest($controllers);
-    }
-
-
-
-    protected function createView($controllers)
-    {
-        $viewPath = $this->moduleDir . 'view' . DIRECTORY_SEPARATOR;
-
-        CatchAdmin::makeDirectory($viewPath);
-
-        $default = ['index.', 'create.', 'edit.'];
-
-        $viewSuffix = config('view.view_suffix');
-
-        if (count($controllers) === 1) {
-            foreach ($default as $v) {
-                file_put_contents($viewPath . $v .$viewSuffix, '');
-            }
-        } else {
-            foreach ($controllers as $controller) {
-                CatchAdmin::makeDirectory($viewPath . ucwords($controller));
-                foreach ($default as $v) {
-                    file_put_contents($viewPath . ucwords($controller) . DIRECTORY_SEPARATOR .$v . $viewSuffix, '');
-                }
-            }
-        }
-
-        $this->output->info('🎉 create view successfully');
     }
 
     protected function createRequest($controllers)
