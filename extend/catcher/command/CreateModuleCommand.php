@@ -38,8 +38,16 @@ class CreateModuleCommand extends Command
         $this->moduleDir = CatchAdmin::moduleDirectory($this->module);
         $this->stubDir = __DIR__ . DIRECTORY_SEPARATOR .'stubs'. DIRECTORY_SEPARATOR;
 
-        $this->namespaces = CatchAdmin::NAME . '\\' . $this->module . '\\';
+        $composer = json_decode(file_get_contents($this->app->getRootPath() . 'composer.json'), true);
 
+        $psr4 = $composer['autoload']['psr-4'];
+
+        foreach ($psr4 as $namespace => $des) {
+            if ($des === CatchAdmin::NAME) {
+                $this->namespaces = $namespace . $this->module . '\\';
+                break;
+            }
+        }
         $this->createController();
         $this->createService();
         $this->createMigration();
