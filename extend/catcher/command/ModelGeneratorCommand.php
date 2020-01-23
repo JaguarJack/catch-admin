@@ -16,8 +16,8 @@ class ModelGeneratorCommand extends Command
     protected function configure()
     {
         $this->setName('create:model')
-            ->addArgument('model', Argument::REQUIRED, 'model name')
             ->addArgument('module', Argument::REQUIRED, 'module name')
+            ->addArgument('model', Argument::REQUIRED, 'model name')
             ->setDescription('create model');
     }
 
