@@ -26,14 +26,13 @@ class CreateModuleCommand extends Command
             ->addOption('controller', '-c',Option::VALUE_REQUIRED, 'controller name')
             ->addOption('migration', '-m',Option::VALUE_REQUIRED, 'migration name')
             ->addOption('seed', '-s',Option::VALUE_REQUIRED, 'seed name')
-            ->addOption('service', '-se',Option::VALUE_REQUIRED, 'service name')
+            ->addOption('service', '-e',Option::VALUE_REQUIRED, 'service name')
             ->setDescription('create module service');
     }
 
     protected function execute(Input $input, Output $output)
     {
         $this->module = strtolower($input->getArgument('module'));
-
 
         $this->moduleDir = CatchAdmin::moduleDirectory($this->module);
         $this->stubDir = __DIR__ . DIRECTORY_SEPARATOR .'stubs'. DIRECTORY_SEPARATOR;
@@ -53,47 +52,57 @@ class CreateModuleCommand extends Command
         $this->createMigration();
         $this->createSeeds();
         $this->createRoute();
-        $this->moduleJson();
 
         $output->warning('module created');
     }
 
-
-    protected function createController()
+  /**
+   *
+   * @time 2020年01月23日
+   * @return void
+   */
+    protected function createController(): void
     {
         $controllers = $this->input->getOption('controller');
 
         $controllerPath = $this->moduleDir . 'controller' . DIRECTORY_SEPARATOR;
 
-        CatchAdmin::makeDirectory($controllerPath);
+        if ($controllers) {
+          CatchAdmin::makeDirectory($controllerPath);
 
-        $controllers = $controllers ? explode(',', $controllers) : ['Index'];
-
-        foreach ($controllers as $controller) {
+          foreach ($controllers as $controller) {
             file_put_contents($controllerPath . ucfirst($controller) . '.php', str_replace(
-                ['{CLASS}', '{NAMESPACE}', '{MODULE}'],
-                [ucfirst($controller), $this->namespaces . 'controller', $this->module],
-                file_get_contents($this->stubDir . 'controller.stub')
+              ['{CLASS}', '{NAMESPACE}', '{MODULE}'],
+              [ucfirst($controller), $this->namespaces . 'controller', $this->module],
+              file_get_contents($this->stubDir . 'controller.stub')
             ));
-        }
+          }
 
-        $this->output->info('🎉 create controller  successfully');
-        $this->createRequest($controllers);
+          $this->output->info('🎉 create controller  successfully');
+          $this->createRequest($controllers);
+        }
     }
 
-    protected function createRequest($controllers)
+  /**
+   *
+   * @time 2020年01月23日
+   * @param $controllers
+   * @return void
+   */
+    protected function createRequest($controllers): void
     {
-        $requestPath = $this->moduleDir . DIRECTORY_SEPARATOR . 'request' . DIRECTORY_SEPARATOR;
+        $requestPath = $this->moduleDir .  'request' . DIRECTORY_SEPARATOR;
 
         CatchAdmin::makeDirectory($requestPath);
 
         $default = ['CreateRequest.php', 'UpdateRequest.php'];
 
         if (count($controllers) === 1) {
+            CatchAdmin::makeDirectory($requestPath . ucwords($controllers[0]));
             foreach ($default as $v) {
-                file_put_contents($requestPath . $v, str_replace(
+                file_put_contents($requestPath . $controllers[0] . DIRECTORY_SEPARATOR . $v, str_replace(
                     ['{NAMESPACE}', '{CLASS}'],
-                    [$this->namespaces . 'request', 'Create'],
+                    [$this->namespaces . $controllers[0]. '\\request', 'Create'],
                     file_get_contents($this->stubDir. 'request.stub')));
             }
         } else {
@@ -107,18 +116,21 @@ class CreateModuleCommand extends Command
                 }
             }
         }
-        $this->output->info('🎉 create view successfully');
     }
 
-    protected function createMigration()
+  /**
+   *
+   * @time 2020年01月23日
+   * @return void
+   */
+    protected function createMigration(): void
     {
         $migrations = $this->input->getOption('migration');
 
         $migrationPath = $this->moduleDir . 'database'.DIRECTORY_SEPARATOR.'migrations'.DIRECTORY_SEPARATOR;
 
-        CatchAdmin::makeDirectory($migrationPath);
-
         if ($migrations) {
+            CatchAdmin::makeDirectory($migrationPath);
             $migrations = explode(',', $migrations);
 
             foreach ($migrations as $migration) {
@@ -137,9 +149,9 @@ class CreateModuleCommand extends Command
 
         $seedPath = $this->moduleDir . 'database'.DIRECTORY_SEPARATOR.'seeds'.DIRECTORY_SEPARATOR;
 
-        CatchAdmin::makeDirectory($seedPath);
-
         if ($seeds) {
+            CatchAdmin::makeDirectory($seedPath);
+
             $seeds = explode(',', $seeds);
 
             foreach ($seeds as $seed) {
@@ -153,32 +165,54 @@ class CreateModuleCommand extends Command
         }
     }
 
-    protected function moduleJson()
+  /**
+   *
+   * @time 2020年01月23日
+   * @param $service
+   * @return void
+   */
+    protected function moduleJson($service): void
     {
-        file_put_contents($this->moduleDir.DIRECTORY_SEPARATOR .'module.json', str_replace(
-            ['{MODULE}', '{SERVICE}'],
-            [$this->module, $this->namespaces. ucfirst($this->module) . 'Service'],
-            file_get_contents($this->stubDir . 'module.stub')));
+      if (!file_exists($this->moduleDir.DIRECTORY_SEPARATOR .'module.json')) {
+        file_put_contents($this->moduleDir . DIRECTORY_SEPARATOR . 'module.json', str_replace(
+          ['{MODULE}', '{SERVICE}'],
+          [$this->module, $service ? $this->namespaces . ucfirst($service) . 'Service' : ''],
+          file_get_contents($this->stubDir . 'module.stub')));
         $this->output->info('🎉 create module.json successfully');
+      }
     }
 
-    protected function createRoute()
+  /**
+   *
+   * @time 2020年01月23日
+   * @return void
+   */
+    protected function createRoute(): void
     {
-        file_put_contents($this->moduleDir.DIRECTORY_SEPARATOR .'route.php',
-            file_get_contents($this->stubDir . 'route.stub'));
+      if (!file_exists($this->moduleDir.DIRECTORY_SEPARATOR .'route.php')) {
+        file_put_contents($this->moduleDir . DIRECTORY_SEPARATOR . 'route.php',
+          file_get_contents($this->stubDir . 'route.stub'));
         $this->output->info('🎉 create route.php successfully');
+      }
     }
 
-    protected function createService()
+  /**
+   *
+   * @time 2020年01月23日
+   * @return void
+   */
+    protected function createService(): void
     {
         $service = $this->input->getOption('service');
         if ($service) {
             file_put_contents($this->moduleDir . DIRECTORY_SEPARATOR . ucfirst($this->module) . 'Service.php', str_replace(
                 ['{CLASS}', '{NAMESPACE}'],
-                [ucfirst($this->module), $this->namespaces . '\\' . $this->module],
+                [ucfirst($service), $this->namespaces . '\\' . $this->module],
                 file_get_contents($this->stubDir.'service.stub')));
             $this->output->info('🎉 create service successfully');
         }
+
+        $this->moduleJson($service);
     }
 
 
