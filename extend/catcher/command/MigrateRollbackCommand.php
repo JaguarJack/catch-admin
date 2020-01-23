@@ -105,9 +105,13 @@ EOT
       $versionLog = $this->getVersionLog();
       $versions = array_keys($versionLog);
 
-      foreach ($migrations as $key => $migration) {
-          if (in_array($key, $versions)) {
-            $this->executeMigration($migration, MigrationInterface::DOWN);
+      if ($version) {
+          $this->executeMigration($migrations[$version], MigrationInterface::DOWN);
+      } else {
+          foreach ($migrations as $key => $migration) {
+              if (in_array($key, $versions)) {
+                  $this->executeMigration($migration, MigrationInterface::DOWN);
+              }
           }
       }
   }
