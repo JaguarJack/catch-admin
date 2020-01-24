@@ -17,6 +17,7 @@ use catcher\command\MigrateRunCommand;
 use catcher\command\ModelGeneratorCommand;
 use catcher\command\ModuleCacheCommand;
 use catcher\command\SeedRunCommand;
+use catcher\command\worker\WsWorkerCommand;
 use catcher\event\LoadModuleRoutes;
 use catcher\validates\Sometimes;
 use think\facade\Validate;
@@ -57,6 +58,7 @@ class CatchAdminService extends Service
             CreateModuleCommand::class,
             MigrateRollbackCommand::class,
             MigrateCreateCommand::class,
+            WsWorkerCommand::class,
         ]);
     }
     /**
