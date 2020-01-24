@@ -24,7 +24,12 @@ class PermissionsMiddleware
      */
     public function handle(Request $request, \Closure $next)
     {
-        if ($request->isGet() && config('catch.is_allow_get')) {
+        // 超级管理员
+        if ($request->user()->id === config('catch.permissions.super_admin_id')) {
+            return $next($request);
+        }
+        // Get 请求
+        if ($request->isGet() && config('catch.permissions.is_allow_get')) {
           return $next($request);
         }
 
