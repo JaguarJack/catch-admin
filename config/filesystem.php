@@ -10,6 +10,7 @@ return [
         'local'  => [
             'type' => 'local',
             'root' => app()->getRuntimePath() . 'storage',
+            'domain' => '',
         ],
         'public' => [
             // 磁盘类型
