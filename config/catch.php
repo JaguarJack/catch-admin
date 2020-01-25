@@ -6,16 +6,26 @@ return [
      */
     'domain' => '',
 
-  /**
-   * 权限不验证 get 请求
-   *
-   */
-    'is_allow_get' => true,
-
-  /**
-   * auth 认证
-   *
-   */
+    /**
+     * 权限配置
+     *
+     */
+    'permissions' => [
+        /**
+         * get 请求不验证
+         */
+        'is_allow_get' => true,
+        
+        /**
+         * 超级管理员 ID
+         *
+         */
+        'super_admin_id' => 1,
+     ],
+    /**
+     *  auth 认证
+     *
+     */
   'auth' => [
       // 默认
       'default' => [

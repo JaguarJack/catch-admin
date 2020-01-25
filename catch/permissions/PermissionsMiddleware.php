@@ -24,26 +24,29 @@ class PermissionsMiddleware
      */
     public function handle(Request $request, \Closure $next)
     {
-        if ($request->isGet() && config('catch.is_allow_get')) {
-          return $next($request);
-        }
         $rule = $request->rule()->getName();
 
         if (!$rule) {
             return $next($request);
         }
-
+        // 模块忽略
         [$module, $controller, $action] = $this->parseRule($rule);
-
         if (in_array($module, $this->ignoreModule())) {
             return $next($request);
         }
-
+        // 用户未登录
         $user = $request->user();
         if (!$user) {
             throw new PermissionForbiddenException('Login is invalid', Code::LOST_LOGIN);
         }
-
+        // 超级管理员
+        if ($request->user()->id === config('catch.permissions.super_admin_id')) {
+            return $next($request);
+        }
+        // Get 请求
+        if ($request->isGet() && config('catch.permissions.is_allow_get')) {
+            return $next($request);
+        }
         // toad
         $permission = $this->getPermission($module, $controller, $action);
         if (!$permission || !in_array($permission->id, Cache::get(CatchCacheKeys::USER_PERMISSIONS . $user->id))) {

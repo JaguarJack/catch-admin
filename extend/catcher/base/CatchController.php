@@ -2,8 +2,6 @@
 namespace catcher\base;
 
 use catcher\CatchAdmin;
-use catcher\CatchResponse;
-use think\facade\View;
 
 abstract class CatchController
 {

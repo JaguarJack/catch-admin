@@ -3,11 +3,8 @@ declare (strict_types = 1);
 
 namespace app;
 
-use catcher\CatchAdmin;
 use think\App;
 use think\exception\ValidateException;
-use think\facade\View;
-use think\helper\Str;
 use think\Validate;
 
 /**
