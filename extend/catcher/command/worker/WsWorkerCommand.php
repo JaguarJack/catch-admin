@@ -23,6 +23,7 @@ class WsWorkerCommand extends Command
         $this->setName('ws:server')
             ->addArgument('option', Argument::OPTIONAL, '[start|reload|stop|restart|reload|status|connections]', 'start')
             ->addOption('mode', '-m', Option::VALUE_REQUIRED, 'worker start mode')
+            ->addOption('number', '-n', Option::VALUE_REQUIRED, 'worker number')
             ->addOption('address', '-a',Option::VALUE_REQUIRED, 'listen address, like \'127.0.0.1:9090\'')
             ->setDescription('start websocket server, default listen 127.0.0.1 port 10001');
     }
@@ -34,11 +35,19 @@ class WsWorkerCommand extends Command
         $this->start();
     }
 
+    /**
+     * worker start
+     *
+     * @author JaguarJack
+     * @email njphper@gmail.com
+     * @time 2020/1/23
+     * @return void
+     */
     protected function start()
     {
-        $ws = new Worker(sprintf('http://%s', $this->getAddress()));
+        $ws = new Worker(sprintf('websocket://%s', $this->getAddress()));
 
-        $ws->count = 7;
+        $ws->count = $this->getWorkerNumber();
 
         $ws->runAll();
     }
@@ -55,7 +64,25 @@ class WsWorkerCommand extends Command
     }
 
     /**
+     * worker number
      *
+     * @author JaguarJack
+     * @email njphper@gmail.com
+     * @time 2020/1/23
+     * @return mixed
+     */
+    protected function getWorkerNumber()
+    {
+        return $this->input->getOption('number') ? : 3;
+    }
+
+    /**
+     * set workerman command
+     *
+     * @author JaguarJack
+     * @email njphper@gmail.com
+     * @time 2020/1/23
+     * @return void
      */
     protected function setWokrermanCommnd()
     {
