@@ -21,7 +21,9 @@
         "topthink/framework": "^6.0.0",
         "topthink/think-orm": "^2.0",
         "topthink/think-migration": "^3.0",
-        "thans/tp-jwt-auth": "^1.0"
+        "thans/tp-jwt-auth": "^1.0",
+        "workerman/workerman": "^3.5",
+        "jaguarjack/think-filesystem-cloud": "dev-master"
     },
     "require-dev": {
         "symfony/var-dumper": "^4.2",
