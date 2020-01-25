@@ -14,4 +14,6 @@ $router->get('table/view/<table>', '\catchAdmin\system\controller\DataDictionary
 $router->post('table/optimize', '\catchAdmin\system\controller\DataDictionary@optimize');
 $router->post('table/backup', '\catchAdmin\system\controller\DataDictionary@backup');
 
-
+// 上传
+$router->post('upload/image', '\catchAdmin\system\controller\Upload@image');
+$router->post('upload/file', '\catchAdmin\system\controller\Upload@file');
