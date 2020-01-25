@@ -47,12 +47,6 @@ class CatchRequest extends Request
             if ($this->batch) {
               $validate->batch($this->batch);
             }
-            // 自定义规则
-            if (method_exists($this, 'newRules')) {
-              foreach ($this->newRules() as $rule) {
-                $validate->extend($rule->type(), [$rule, 'verify'], $rule->message());
-              }
-            }
 
             /**
              * // 场景设置验证
