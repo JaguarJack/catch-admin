@@ -1,6 +1,7 @@
 <?php
 namespace catcher;
 
+use catchAdmin\system\model\Attachments;
 use think\facade\Filesystem;
 use think\file\UploadedFile;
 
@@ -40,18 +41,24 @@ class CatchUpload
      */
     protected $path = '';
 
-    /**
-     * upload files
-     *
-     * @author JaguarJack
-     * @email njphper@gmail.com
-     * @time 2020/1/25
-     * @param UploadedFile $file
-     * @return mixed
-     */
-    public function upload(UploadedFile $file)
+  /**
+   * upload files
+   *
+   * @param UploadedFile $file
+   * @return array
+   * @author JaguarJack
+   * @email njphper@gmail.com
+   * @time 2020/1/25
+   */
+    public function upload(UploadedFile $file): array
     {
-        return Filesystem::disk($this->getDriver())->putFile($this->getPath(), $file);
+        $path = Filesystem::disk($this->getDriver())->putFile($this->getPath(), $file);
+
+        if ($path) {
+            Attachments::create(array_merge(['path' => $path], $this->data($file)));
+        }
+
+        return ['path' => Utils::getCloudDomain($this->getDriver()) . $path];
     }
 
     /**
@@ -62,7 +69,7 @@ class CatchUpload
      * @time 2020/1/25
      * @return string
      */
-    protected function getDriver()
+    protected function getDriver(): string
     {
         return $this->driver;
     }
@@ -77,7 +84,7 @@ class CatchUpload
      * @throws \Exception
      * @return $this
      */
-    public function setDriver($driver)
+    public function setDriver($driver): self
     {
         if (!in_array($driver, [self::OSS, self::QCLOUD, self::QIQNIU, self::LOCAL])) {
             throw new \Exception(sprintf('Upload Driver [%s] Not Supported', $driver));
@@ -113,5 +120,22 @@ class CatchUpload
         $this->path = $path;
 
         return $this;
+    }
+
+  /**
+   *
+   * @time 2020年01月25日
+   * @param UploadedFile $file
+   * @return array
+   */
+    protected function data(UploadedFile $file)
+    {
+        return [
+            'file_size' => $file->getSize(),
+            'mime_type' => $file->getMime(),
+            'file_ext' => $file->getExtension(),
+            'filename' => $file->getOriginalName(),
+            'driver'  => $this->getDriver(),
+        ];
     }
 }
