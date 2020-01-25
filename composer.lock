@@ -448,12 +448,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yanwenwu/think-filesystem-cloud.git",
-                "reference": "fb6dbe4b8e9df925b7e76c2a2c6469d7dd1f829b"
+                "reference": "1b2931c988cdea59c638c4f842c1ccb304376f4f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yanwenwu/think-filesystem-cloud/zipball/fb6dbe4b8e9df925b7e76c2a2c6469d7dd1f829b",
-                "reference": "fb6dbe4b8e9df925b7e76c2a2c6469d7dd1f829b",
+                "url": "https://api.github.com/repos/yanwenwu/think-filesystem-cloud/zipball/1b2931c988cdea59c638c4f842c1ccb304376f4f",
+                "reference": "1b2931c988cdea59c638c4f842c1ccb304376f4f",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -493,7 +493,7 @@
                 }
             ],
             "description": "cloud filesystem for thinkphp6.0",
-            "time": "2020-01-25T08:25:25+00:00"
+            "time": "2020-01-25T09:25:22+00:00"
         },
         {
             "name": "lcobucci/jwt",
