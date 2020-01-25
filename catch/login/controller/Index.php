@@ -1,14 +1,15 @@
 <?php
 namespace catchAdmin\login\controller;
 
-use catchAdmin\user\Auth;
 use catchAdmin\login\request\LoginRequest;
 use catchAdmin\user\model\Users;
 use catcher\base\CatchController;
 use catcher\CatchAuth;
 use catcher\CatchResponse;
+use catcher\CatchUpload;
 use catcher\exceptions\LoginFailedException;
-use think\captcha\Captcha;
+use jaguarjack\filesystem\cloud\adapters\QiniuAdapter;
+use think\facade\Filesystem;
 
 class Index extends CatchController
 {
@@ -20,8 +21,9 @@ class Index extends CatchController
    * @param CatchAuth $auth
    * @return bool|string
    */
-    public function login(LoginRequest $request, CatchAuth $auth)
+    public function login(LoginRequest $request, CatchAuth $auth, CatchUpload $upload)
     {
+       // dd(Filesystem::disk('qcloud')->putFile('ok', $file));
         $params = $request->param();
 
         $token = $auth->attempt($params);
