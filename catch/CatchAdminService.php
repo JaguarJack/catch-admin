@@ -32,10 +32,21 @@ class CatchAdminService extends Service
      */
     public function boot()
     {
+    }
+
+    /**
+     * register
+     *
+     * @author JaguarJack
+     * @email njphper@gmail.com
+     * @time 2020/1/30
+     * @return void
+     */
+    public function register()
+    {
         $this->registerCommands();
         $this->registerValidates();
         $this->registerMiddleWares();
-        $this->registerEvents();
         $this->registerListeners();
         $this->registerQuery();
     }
@@ -88,19 +99,6 @@ class CatchAdminService extends Service
         $this->app->middleware->import([
            'catch_check_permission' => PermissionsMiddleware::class,
         ], 'route');
-    }
-
-    /**
-     *
-     * @time 2019年12月12日
-     * @return void
-     */
-    protected function registerEvents(): void
-    {
-        $this->app->event->bind([
-            'loginLog' => LoginLogEvent::class,
-            'operateLog' => OperateLogEvent::class,
-        ]);
     }
 
     /**
