@@ -35,7 +35,9 @@ class Upload extends CatchController
    */
     public function image(CatchRequest $request, CatchUpload $upload): \think\response\Json
     {
-        return CatchResponse::success($upload->upload($request->file('image')));
+        $images = $request->file();
+
+        return CatchResponse::success($upload->checkImages($images)->multiUpload($images['image']));
     }
 
   /**
@@ -48,6 +50,8 @@ class Upload extends CatchController
    */
     public function file(CatchRequest $request, CatchUpload $upload): \think\response\Json
     {
-       return CatchResponse::success($upload->upload($request->file('file')));
+        $files = $request->file();
+
+        return CatchResponse::success($upload->checkFiles($files)->multiUpload($files['file']));
     }
 }

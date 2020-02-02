@@ -7,11 +7,6 @@ use think\facade\Db;
 
 class OperateLog extends CatchController
 {
-    public function index()
-    {
-        return $this->fetch();
-    }
-
     public function list()
     {
         return CatchResponse::paginate(

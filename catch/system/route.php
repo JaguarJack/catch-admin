@@ -17,3 +17,6 @@ $router->post('table/backup', '\catchAdmin\system\controller\DataDictionary@back
 // 上传
 $router->post('upload/image', '\catchAdmin\system\controller\Upload@image');
 $router->post('upload/file', '\catchAdmin\system\controller\Upload@file');
+
+// 附件
+$router->resource('attachments', '\catchAdmin\system\controller\Attachments');

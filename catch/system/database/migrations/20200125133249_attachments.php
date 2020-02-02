@@ -30,6 +30,7 @@ class Attachments extends Migrator
     {
         $table  =  $this->table('attachments',['engine'=>'Myisam', 'comment' => '附件管理', 'signed' => false]);
         $table->addColumn('path', 'string',['limit'  =>  50,'default'=>'','comment'=>'附件存储路径'])
+              ->addColumn('url', 'string',['default'=> '', 'limit' => 100, 'comment'=>'资源地址'])
               ->addColumn('mime_type', 'string',['default'=> '', 'limit' => 100, 'comment'=>'资源mimeType'])
               ->addColumn('file_ext', 'string',['default'=> '','limit' => 100, 'comment'=>'资源后缀'])
               ->addColumn('file_size', 'integer',['default'=> 0, 'comment'=>'资源大小'])
