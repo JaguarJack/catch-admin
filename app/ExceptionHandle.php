@@ -1,11 +1,6 @@
 <?php
 namespace app;
 
-use catcher\CatchResponse;
-use catcher\exceptions\CatchException;
-use catcher\exceptions\FailedException;
-use catcher\exceptions\LoginFailedException;
-use catcher\exceptions\PermissionForbiddenException;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\ModelNotFoundException;
 use think\exception\Handle;
