@@ -6,6 +6,7 @@ use catchAdmin\permissions\OperateLogListener;
 use catchAdmin\permissions\PermissionsMiddleware;
 use catchAdmin\system\event\LoginLogEvent;
 use catchAdmin\system\event\OperateLogEvent;
+use catcher\CatchExceptionHandle;
 use catcher\CatchQuery;
 use catcher\command\BackupCommand;
 use catcher\command\CompressPackageCommand;
@@ -20,6 +21,7 @@ use catcher\command\SeedRunCommand;
 use catcher\command\worker\WsWorkerCommand;
 use catcher\event\LoadModuleRoutes;
 use catcher\validates\Sometimes;
+use think\exception\Handle;
 use think\facade\Validate;
 use think\Service;
 
@@ -49,6 +51,7 @@ class CatchAdminService extends Service
         $this->registerMiddleWares();
         $this->registerListeners();
         $this->registerQuery();
+        $this->registerExceptionHandle();
     }
 
     /**
@@ -131,5 +134,10 @@ class CatchAdminService extends Service
         $this->app->config->set([
           'connections' => $connections
         ], 'database');
+    }
+
+    protected function registerExceptionHandle()
+    {
+        $this->app->bind(Handle::class, CatchExceptionHandle::class);
     }
 }
