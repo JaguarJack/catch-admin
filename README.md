@@ -20,15 +20,8 @@
 ### install
 - curl -sS http://install.phpcomposer.com/installer | php
 - composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/
-- composer update
+- composer install
 - php think catch:install 
-
-### Talking
-- 可以提 ISSUE，请按照 issue 模板提问
-- 欢迎进入 Q 群，可以及时反馈一些问题。
-- ![输入图片说明](https://images.gitee.com/uploads/images/2018/1219/110300_0257b6c0_810218.jpeg "微信图片_20181219105915.jpg")
-
-仅供学习
 
 ## 体验地址
 
@@ -43,4 +36,11 @@
 - 密码：123456
 请大家不要随意添加数据，因为没有意义，只看 `catchadmin` 的文档就可以了。
 如果有太多脏数据的话，我会关闭该账号。
+
+### Talking
+- 可以提 ISSUE，请按照 issue 模板提问
+- 欢迎进入 Q 群，可以及时反馈一些问题。
+- ![输入图片说明](https://images.gitee.com/uploads/images/2018/1219/110300_0257b6c0_810218.jpeg "微信图片_20181219105915.jpg")
+
+仅供学习
 
