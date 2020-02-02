@@ -64,7 +64,7 @@ class Utils
     {
         $driver = \config('filesystem.disks.' . $driver);
 
-        switch ($driver) {
+        switch ($driver['type']) {
           case CatchUpload::QIQNIU:
           case CatchUpload::LOCAL:
                return $driver['domain'];
@@ -73,7 +73,7 @@ class Utils
           case CatchUpload::QCLOUD:
                return $driver['cdn'];
           default:
-            throw new FailedException('Driver [%s] Not Supported.');
+            throw new FailedException(sprintf('Driver [%s] Not Supported.', $driver));
         }
     }
 }
