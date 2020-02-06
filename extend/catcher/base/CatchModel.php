@@ -1,10 +1,17 @@
 <?php
 namespace catcher\base;
 
+use catcher\CatchQuery;
 use catcher\traits\db\BaseOptionsTrait;
 use catcher\traits\db\TransTrait;
 use think\model\concern\SoftDelete;
 
+/**
+ *
+ * @mixin CatchQuery
+ * Class CatchModel
+ * @package catcher\base
+ */
 abstract class CatchModel extends \think\Model
 {
     use SoftDelete;
