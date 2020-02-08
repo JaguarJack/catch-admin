@@ -6,10 +6,7 @@ use catchAdmin\user\model\Users;
 use catcher\base\CatchController;
 use catcher\CatchAuth;
 use catcher\CatchResponse;
-use catcher\CatchUpload;
 use catcher\exceptions\LoginFailedException;
-use jaguarjack\filesystem\cloud\adapters\QiniuAdapter;
-use think\facade\Filesystem;
 
 class Index extends CatchController
 {
@@ -21,9 +18,8 @@ class Index extends CatchController
    * @param CatchAuth $auth
    * @return bool|string
    */
-    public function login(LoginRequest $request, CatchAuth $auth, CatchUpload $upload)
+    public function login(LoginRequest $request, CatchAuth $auth)
     {
-       // dd(Filesystem::disk('qcloud')->putFile('ok', $file));
         $params = $request->param();
 
         $token = $auth->attempt($params);
