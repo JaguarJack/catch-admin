@@ -55,7 +55,7 @@ class Users extends CatchModel
         return $this->withoutField(['updated_at'], true)
                     ->catchSearch()
                     ->catchLeftJoin(Department::class, 'id', 'department_id', ['department_name'])
-                    ->order('users.id', 'desc')
+                    ->order($this->getTable() . '.id', 'desc')
                     ->paginate($search['limit'] ?? parent::LIMIT);
     }
 
