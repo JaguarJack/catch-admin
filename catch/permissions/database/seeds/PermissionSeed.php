@@ -233,7 +233,7 @@ class PermissionSeed extends Seeder
             'id' => 17,
             'permission_name' => '菜单管理',
             'parent_id' => 16,
-            'route' => 'permission',
+            'route' => 'rule',
             'icon' => 'build',
             'module' => 'permissions',
             'creator_id' => 1,
