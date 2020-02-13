@@ -18,7 +18,7 @@
 - mysql
 
 ### install
-- curl -sS http://install.phpcomposer.com/installer | php
+- curl -sS https://install.phpcomposer.com/installer | php
 - composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/
 - composer install
 - php think catch:install 
