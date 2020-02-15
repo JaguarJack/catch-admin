@@ -1,0 +1,13 @@
+{
+    "name": "",
+    "alias": "wechat",
+    "description": "",
+    "keywords": [],
+    "order": 0,
+    "services": [
+        ""
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

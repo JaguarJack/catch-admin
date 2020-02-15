@@ -8,3 +8,11 @@
  * @copyright By CatchAdmin
  * @license  https://github.com/yanwenwu/catch-admin/blob/master/LICENSE.txt
  */
+namespace catchAdmin\wechat\controller;
+
+use catcher\base\CatchController;
+
+class Reply extends CatchController
+{
+    
+}
