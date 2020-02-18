@@ -62,6 +62,13 @@ return [
   'upload' => [
       'image' => 'filesize:' . 1024 * 5 . '|fileExt:jpg,png,gif,jpeg',
       'file' => 'filesize:' . 1024 * 10 . '|fileExt:txt,pdf,xlsx,xls,html'
-  ]
-
+  ],
+  /**
+   * 路由中间件
+   *
+   */
+  'route_middleware' => [
+     \catchAdmin\user\AuthTokenMiddleware::class,
+     \catchAdmin\permissions\PermissionsMiddleware::class,
+  ],
 ];

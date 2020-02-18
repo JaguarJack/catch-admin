@@ -24,18 +24,20 @@ class LoadModuleRoutes
 
         $routes = CatchAdmin::getRoutes();
 
+        $routeMiddleware = config('catch.route_middleware');
+
         if ($domain) {
             $router->domain($domain, function () use ($router, $routes) {
                 foreach ($routes as $route) {
                     include $route;
                 }
-            })->middleware([AuthTokenMiddleware::class, PermissionsMiddleware::class]);
+            })->middleware($routeMiddleware);
         } else {
             $router->group(function () use ($router, $routes) {
                 foreach ($routes as $route) {
                     include $route;
                 }
-            })->middleware([AuthTokenMiddleware::class, PermissionsMiddleware::class]);
+            })->middleware($routeMiddleware);
         }
 
         // 单独加载登录
