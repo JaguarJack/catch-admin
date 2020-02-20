@@ -1,5 +1,6 @@
 ## CatchAdmin
-- 该项目采用前后端分离，所以 PHP 作为 API 开发，vue 作为后台开发，两个项目是分开的，单独部署。
+- 该项目采用`前后端分离`，所以 PHP 作为 API 开发，vue 作为后台开发
+- 两个项目是分开的，单独部署。
 ## 这是 vue 分支 开发中
 - [vue 项目地址](https://github.com/yanwenwu/catch-admin-vue)
 
@@ -36,6 +37,14 @@
 - 密码：123456
 请大家不要随意添加数据，因为没有意义，只看 `catchadmin` 的文档就可以了。
 如果有太多脏数据的话，我会关闭该账号。
+
+### 系列文章
+如果是刚开始使用 thinkphp6, 以下文章可能会对你有些许帮助，文章基于 RC3 版本。整体架构是不变的。
+- [启动分析](https://www.kancloud.cn/akasishikelu/thinkphp6/1129385)
+- [Request 解析](https://www.kancloud.cn/akasishikelu/thinkphp6/1134496)
+- [应用初始化](https://www.kancloud.cn/akasishikelu/thinkphp6/1130427)
+- [中间件分析](https://www.kancloud.cn/akasishikelu/thinkphp6/1136616)
+- [请求流程](https://www.kancloud.cn/akasishikelu/thinkphp6/1136608)
 
 ### Talking
 - [论坛讨论](http://bbs.catchadmin.com)
