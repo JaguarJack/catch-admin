@@ -1,13 +1,6 @@
 <?php
-namespace catchAdmin;
+namespace catcher;
 
-use catchAdmin\login\LoginLogListener;
-use catchAdmin\permissions\OperateLogListener;
-use catchAdmin\permissions\PermissionsMiddleware;
-use catchAdmin\system\event\LoginLogEvent;
-use catchAdmin\system\event\OperateLogEvent;
-use catcher\CatchExceptionHandle;
-use catcher\CatchQuery;
 use catcher\command\BackupCommand;
 use catcher\command\CompressPackageCommand;
 use catcher\command\CreateModuleCommand;
@@ -19,8 +12,6 @@ use catcher\command\ModelGeneratorCommand;
 use catcher\command\ModuleCacheCommand;
 use catcher\command\SeedRunCommand;
 use catcher\command\worker\WsWorkerCommand;
-use catcher\event\LoadModuleRoutes;
-use catcher\validates\Sometimes;
 use think\exception\Handle;
 use think\facade\Validate;
 use think\Service;
@@ -110,20 +101,16 @@ class CatchAdminService extends Service
      */
     protected function registerListeners(): void
     {
-        $this->app->event->listenEvents([
-            'loginLog' => [
-                LoginLogListener::class,
-            ],
-            'operateLog' => [
-                OperateLogListener::class,
-            ],
-            'RouteLoaded' => [
-                LoadModuleRoutes::class
-            ],
-        ]);
+        $this->app->event->listenEvents(config('catch.events'));
     }
 
-    protected function registerQuery()
+  /**
+   * register query
+   *
+   * @time 2020年02月20日
+   * @return void
+   */
+    protected function registerQuery(): void
     {
         $connections = $this->app->config->get('database.connections');
 
@@ -134,7 +121,13 @@ class CatchAdminService extends Service
         ], 'database');
     }
 
-    protected function registerExceptionHandle()
+  /**
+   * register exception
+   *
+   * @time 2020年02月20日
+   * @return void
+   */
+    protected function registerExceptionHandle(): void
     {
         $this->app->bind(Handle::class, CatchExceptionHandle::class);
     }
