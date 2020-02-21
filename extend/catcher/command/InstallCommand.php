@@ -129,10 +129,16 @@ class InstallCommand extends Command
             $prefix = $this->output->ask($this->input, '👉 please input table prefix, default (null):') ? : '';
             $username = $this->output->ask($this->input, '👉 please input database username default (root): ') ? : 'root';
             $password = '';
+            $tryTimes = 0;
             while (!$password) {
                 $password = $this->output->ask($this->input, '👉 please input database password: ');
                 if ($password) {
                     break;
+                }
+                // 尝试三次以上未填写，视为密码空
+                $tryTimes++;
+                if (!$password && $tryTimes > 2) {
+                   break;
                 }
             }
 
