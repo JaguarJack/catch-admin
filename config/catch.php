@@ -60,8 +60,8 @@ return [
      *
      */
   'upload' => [
-      'image' => 'filesize:' . 1024 * 5 . '|fileExt:jpg,png,gif,jpeg',
-      'file' => 'filesize:' . 1024 * 10 . '|fileExt:txt,pdf,xlsx,xls,html'
+      'image' => 'fileSize:' . 1024 * 1024 * 5 . '|fileExt:jpg,png,gif,jpeg',
+      'file' => 'fileSize:' . 1024 * 1024 * 10 . '|fileExt:txt,pdf,xlsx,xls,html'
   ]
 
 ];
