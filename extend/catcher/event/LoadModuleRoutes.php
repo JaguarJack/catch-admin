@@ -3,6 +3,7 @@ declare (strict_types = 1);
 
 namespace catcher\event;
 
+use catchAdmin\permissions\PermissionsMiddleware;
 use catchAdmin\user\AuthTokenMiddleware;
 use catcher\CatchAdmin;
 use think\Route;
@@ -23,18 +24,20 @@ class LoadModuleRoutes
 
         $routes = CatchAdmin::getRoutes();
 
+        $routeMiddleware = config('catch.route_middleware');
+
         if ($domain) {
             $router->domain($domain, function () use ($router, $routes) {
                 foreach ($routes as $route) {
                     include $route;
                 }
-            })->middleware([AuthTokenMiddleware::class]);
+            })->middleware($routeMiddleware);
         } else {
             $router->group(function () use ($router, $routes) {
                 foreach ($routes as $route) {
                     include $route;
                 }
-            })->middleware([AuthTokenMiddleware::class]);
+            })->middleware($routeMiddleware);
         }
 
         // 单独加载登录

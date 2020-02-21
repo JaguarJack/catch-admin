@@ -1,4 +1,4 @@
 <?php
 return [
-    \catchAdmin\CatchAdminService::class,
+   \catcher\CatchAdminService::class,
 ];

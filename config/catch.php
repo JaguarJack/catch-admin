@@ -1,4 +1,9 @@
 <?php
+
+use catchAdmin\login\LoginLogListener;
+use catchAdmin\permissions\OperateLogListener;
+use catcher\event\LoadModuleRoutes;
+
 return [
     /**
      * set domain if you need
@@ -62,6 +67,31 @@ return [
   'upload' => [
       'image' => 'fileSize:' . 1024 * 1024 * 5 . '|fileExt:jpg,png,gif,jpeg',
       'file' => 'fileSize:' . 1024 * 1024 * 10 . '|fileExt:txt,pdf,xlsx,xls,html'
-  ]
-
+  ],
+  /**
+   * 路由中间件
+   *
+   */
+  'route_middleware' => [
+     \catchAdmin\user\AuthTokenMiddleware::class,
+     \catchAdmin\permissions\PermissionsMiddleware::class,
+  ],
+  /**
+   * 后台事件
+   *
+   */
+  'events' => [
+    // 登录日志
+    'loginLog' => [
+      LoginLogListener::class,
+    ],
+    // 操作日志
+    'operateLog' => [
+      OperateLogListener::class,
+    ],
+    // 路由加载
+    'RouteLoaded' => [
+      LoadModuleRoutes::class
+    ],
+  ],
 ];

@@ -23,7 +23,8 @@
         "topthink/think-migration": "^3.0",
         "thans/tp-jwt-auth": "^1.0",
         "workerman/workerman": "^3.5",
-        "jaguarjack/think-filesystem-cloud": "dev-master"
+        "jaguarjack/think-filesystem-cloud": "dev-master",
+        "overtrue/wechat": "^4.2"
     },
     "require-dev": {
         "symfony/var-dumper": "^4.2",
