@@ -4,7 +4,6 @@ namespace catcher\base;
 use app\Request;
 use catcher\exceptions\FailedException;
 use catcher\exceptions\ValidateFailedException;
-use think\Validate;
 
 class CatchRequest extends Request
 {
@@ -42,7 +41,7 @@ class CatchRequest extends Request
     {
         if (method_exists($this, 'rules')) {
           try {
-            $validate = new Validate();
+            $validate = app('validate');
             // 批量验证
             if ($this->batch) {
               $validate->batch($this->batch);
