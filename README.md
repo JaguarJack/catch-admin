@@ -40,11 +40,11 @@
 
 ### 系列文章
 如果是刚开始使用 thinkphp6, 以下文章可能会对你有些许帮助，文章基于 RC3 版本。整体架构是不变的。
-- [启动分析](https://www.kancloud.cn/akasishikelu/thinkphp6/1129385)
-- [Request 解析](https://www.kancloud.cn/akasishikelu/thinkphp6/1134496)
-- [应用初始化](https://www.kancloud.cn/akasishikelu/thinkphp6/1130427)
-- [中间件分析](https://www.kancloud.cn/akasishikelu/thinkphp6/1136616)
-- [请求流程](https://www.kancloud.cn/akasishikelu/thinkphp6/1136608)
+- [Tp6 启动分析](https://www.kancloud.cn/akasishikelu/thinkphp6/1129385)
+- [Tp6 Request 解析](https://www.kancloud.cn/akasishikelu/thinkphp6/1134496)
+- [TP6 应用初始化](https://www.kancloud.cn/akasishikelu/thinkphp6/1130427)
+- [Tp6 中间件分析](https://www.kancloud.cn/akasishikelu/thinkphp6/1136616)
+- [Tp6 请求流程](https://www.kancloud.cn/akasishikelu/thinkphp6/1136608)
 
 ### Talking
 - [论坛讨论](http://bbs.catchadmin.com)
