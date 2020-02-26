@@ -4,7 +4,7 @@ namespace catcher;
 use catcher\command\BackupCommand;
 use catcher\command\CompressPackageCommand;
 use catcher\command\CreateModuleCommand;
-use catcher\command\InstallCommand;
+use catcher\command\install\InstallProjectCommand;
 use catcher\command\MigrateCreateCommand;
 use catcher\command\MigrateRollbackCommand;
 use catcher\command\MigrateRunCommand;
@@ -53,7 +53,7 @@ class CatchAdminService extends Service
     protected function registerCommands(): void
     {
         $this->commands([
-            InstallCommand::class,
+            InstallProjectCommand::class,
             ModuleCacheCommand::class,
             MigrateRunCommand::class,
             ModelGeneratorCommand::class,
