@@ -49,8 +49,7 @@
 ### Talking
 - [论坛讨论](http://bbs.catchadmin.com)
 - 可以提 ISSUE，请按照 issue 模板提问
-- 欢迎进入 Q 群，可以及时反馈一些问题。
-- ![输入图片说明](https://images.gitee.com/uploads/images/2018/1219/110300_0257b6c0_810218.jpeg "微信图片_20181219105915.jpg")
+- 欢迎进入 Q 群 `302266230` 讨论以及反馈一些问题。
 
 仅供学习
 

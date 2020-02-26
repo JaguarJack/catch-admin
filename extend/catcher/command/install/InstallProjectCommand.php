@@ -1,16 +1,14 @@
 <?php
-namespace catcher\command;
+namespace catcher\command\install;
 
 use catcher\CatchAdmin;
 use think\console\Command;
 use think\console\Input;
-use think\console\input\Argument;
 use think\console\input\Option;
 use think\console\Output;
 use think\facade\Console;
-use think\facade\Db;
 
-class InstallCommand extends Command
+class InstallProjectCommand extends Command
 {
 
     protected $databaseLink = [];
