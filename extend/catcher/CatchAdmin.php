@@ -265,7 +265,8 @@ class CatchAdmin
         $routeFiles = [];
         foreach (self::getModulesDirectory() as $module) {
             $moduleInfo = self::getModuleInfo($module);
-            if (!in_array($moduleInfo['alias'], ['login']) && file_exists($module . 'route.php')) {
+            $module = $moduleInfo['alias'] ?? '';
+            if (!in_array($module, ['login']) && file_exists($module . 'route.php')) {
                 $routeFiles[] = $module . 'route.php';
             }
         }
