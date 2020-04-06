@@ -154,8 +154,13 @@ class InstallProjectCommand extends Command
      */
     protected function secondStep(): void
     {
-        if (file_exists(root_path() . '.env')) {
+        if (file_exists($this->getEnvFilePath())) {
             $connections = \config('database.connections');
+            // 因为 env file 导致安装失败
+            if (!$this->databaseLink) {
+                unlink($this->getEnvFilePath());
+                $this->execute($this->input, $this->output);
+            }
 
             [
                 $connections['mysql']['hostname'],
@@ -165,7 +170,9 @@ class InstallProjectCommand extends Command
                 $connections['mysql']['hostport'],
                 $connections['mysql']['charset'],
                 $connections['mysql']['prefix'],
-            ] = $this->databaseLink;
+            ] = $this->databaseLink ? : [
+                env('mysql.hostname')
+            ];
 
             \config([
                 'connections' => $connections,
@@ -283,7 +290,6 @@ class InstallProjectCommand extends Command
                 $this->output->warning(sprintf('create database %s failed，you need create database first by yourself', $database));
             }
         } catch (\Exception $e) {
-            unlink(root_path() . '.env');
             $this->output->error($e->getMessage());
             exit(0);
         }
@@ -333,5 +339,16 @@ class InstallProjectCommand extends Command
 
           $this->migrateAndSeeds();
         }
+    }
+
+    /**
+     * 获取 env path
+     *
+     * @time 2020年04月06日
+     * @return string
+     */
+    protected function getEnvFilePath()
+    {
+        return root_path() . '.env';
     }
 }
