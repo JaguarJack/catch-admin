@@ -283,6 +283,7 @@ class InstallProjectCommand extends Command
                 $this->output->warning(sprintf('create database %s failed，you need create database first by yourself', $database));
             }
         } catch (\Exception $e) {
+            unlink(root_path() . '.env');
             $this->output->error($e->getMessage());
             exit(0);
         }
