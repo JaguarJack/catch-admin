@@ -160,25 +160,26 @@ class InstallProjectCommand extends Command
             if (!$this->databaseLink) {
                 unlink($this->getEnvFilePath());
                 $this->execute($this->input, $this->output);
+            } else {
+
+                [
+                    $connections['mysql']['hostname'],
+                    $connections['mysql']['database'],
+                    $connections['mysql']['username'],
+                    $connections['mysql']['password'],
+                    $connections['mysql']['hostport'],
+                    $connections['mysql']['charset'],
+                    $connections['mysql']['prefix'],
+                ] = $this->databaseLink ?: [
+                    env('mysql.hostname')
+                ];
+
+                \config([
+                    'connections' => $connections,
+                ], 'database');
+
+                $this->migrateAndSeeds();
             }
-
-            [
-                $connections['mysql']['hostname'],
-                $connections['mysql']['database'],
-                $connections['mysql']['username'],
-                $connections['mysql']['password'],
-                $connections['mysql']['hostport'],
-                $connections['mysql']['charset'],
-                $connections['mysql']['prefix'],
-            ] = $this->databaseLink ? : [
-                env('mysql.hostname')
-            ];
-
-            \config([
-                'connections' => $connections,
-            ], 'database');
-
-            $this->migrateAndSeeds();
         }
     }
 
