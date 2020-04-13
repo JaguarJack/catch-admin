@@ -222,7 +222,7 @@ class InstallProjectCommand extends Command
      */
     protected function thirdStep(): void
     {
-        Console::call('catch:cache');
+        // Console::call('catch:cache');
     }
 
     /**
