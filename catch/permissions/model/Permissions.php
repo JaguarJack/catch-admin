@@ -39,13 +39,15 @@ class Permissions extends CatchModel
     public const PUT = 'put';
     public const DELETE = 'delete';
 
-    public function getList()
+    public function getList($isMenu = false)
     {
         return $this->catchSearch()
                     ->order('sort', 'desc')
                     ->order('id', 'desc')
-                    ->select()
-                    ->toArray();
+                    ->when($isMenu, function ($query){
+                        $query->where('type', self::MENU_TYPE);
+                    })
+                    ->select();
     }
 
     public function roles(): \think\model\relation\BelongsToMany

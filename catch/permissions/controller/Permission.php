@@ -22,12 +22,29 @@ class Permission extends CatchController
     /**
      *
      * @time 2019年12月11日
-     * @param Request $request
      * @return Json
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\db\exception\DataNotFoundException
      */
     public function index(): Json
     {
-        return CatchResponse::success(Tree::done($this->permissions->getList()));
+        // 获取菜单类型
+        $menuList = $this->permissions->getList(true);
+
+        // 获取按钮类型并且重新排列
+        $buttonList = [];
+        $this->permissions
+             ->whereIn('parent_id', array_unique($menuList->column('id')))
+             ->where('type', Permissions::BTN_TYPE)
+             ->select()->each(function ($item) use (&$buttonList){
+                 $buttonList[$item['parent_id']][] = $item->toArray();
+             });
+
+        // 返回树结构
+        return CatchResponse::success(Tree::done($menuList->each(function (&$item) use ($buttonList){
+            $item['actionList'] = $buttonList[$item['id']] ?? [];
+        })->toArray()));
     }
 
   /**
