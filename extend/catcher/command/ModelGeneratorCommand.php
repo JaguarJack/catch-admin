@@ -87,8 +87,8 @@ class {Class} extends CatchModel
     protected \$name = '{Name}';
     
     protected \$field = [
-            {Field}   
-    ];  
+        {Field}   
+    ]; 
 }
 EOT;
     }
