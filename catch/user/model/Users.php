@@ -4,6 +4,7 @@ namespace catchAdmin\user\model;
 use catchAdmin\permissions\model\Department;
 use catchAdmin\permissions\model\HasJobsTrait;
 use catchAdmin\permissions\model\HasRolesTrait;
+use catchAdmin\permissions\model\Permissions;
 use catcher\base\CatchModel;
 
 class Users extends CatchModel
@@ -71,6 +72,11 @@ class Users extends CatchModel
      */
     public function getPermissionsBy($uid = 0): array
     {
+        // 获取超级管理配置 超级管理员全部权限
+        if ($uid == config('catch.permissions.super_user_id')) {
+            return Permissions::select()->column('id');
+        }
+
         $roles = $uid ? $this->findBy($uid)->getRoles() : $this->getRoles();
 
         $permissionIds = [];

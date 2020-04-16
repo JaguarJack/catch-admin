@@ -17,4 +17,9 @@ trait UserSearch
     {
         return $query->where($this->aliasField('status'), $value);
     }
+
+    public function searchDepartmentIdAttr($query, $value, $data)
+    {
+        return $query->where($this->aliasField('department_id'), $value);
+    }
 }
