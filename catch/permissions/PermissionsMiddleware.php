@@ -31,6 +31,7 @@ class PermissionsMiddleware
         }
         // 模块忽略
         [$module, $controller, $action] = $this->parseRule($rule);
+        // toad
         if (in_array($module, $this->ignoreModule())) {
             return $next($request);
         }
@@ -39,6 +40,10 @@ class PermissionsMiddleware
         if (!$user) {
             throw new PermissionForbiddenException('Login is invalid', Code::LOST_LOGIN);
         }
+        //dd($this->parseRule($rule));
+        $permission = $this->getPermission($module, $controller, $action);
+        // 记录操作
+        $this->operateEvent($request->user()->id, $permission);
         // 超级管理员
         if ($request->user()->id === config('catch.permissions.super_admin_id')) {
             return $next($request);
@@ -47,21 +52,21 @@ class PermissionsMiddleware
         if ($request->isGet() && config('catch.permissions.is_allow_get')) {
             return $next($request);
         }
-        // toad
-        $permission = $this->getPermission($module, $controller, $action);
+
         if (!$permission || !in_array($permission->id, Cache::get(CatchCacheKeys::USER_PERMISSIONS . $user->id))) {
           throw new PermissionForbiddenException();
         }
 
-        // 操作日志
-        event('operateLog', [
-          'request' => $request,
-          'permission' => $permission,
-        ]);
-
         return $next($request);
     }
 
+    /**
+     * 解析规则
+     *
+     * @time 2020年04月16日
+     * @param $rule
+     * @return array
+     */
     protected function parseRule($rule)
     {
         [$controller, $action] = explode(Str::contains($rule, '@') ? '@' : '/', $rule);
@@ -99,8 +104,31 @@ class PermissionsMiddleware
         return $permission;
     }
 
+    /**
+     * 忽略模块
+     *
+     * @time 2020年04月16日
+     * @return array
+     */
     protected function ignoreModule()
     {
         return ['login'];
+    }
+
+    /**
+     * 操作日志
+     *
+     * @time 2020年04月16日
+     * @param $creatorId
+     * @param $permission
+     * @return void
+     */
+    protected function operateEvent($creatorId, $permission)
+    {
+        // 操作日志
+        $permission && event('operateLog', [
+            'creator_id' => $creatorId,
+            'permission' => $permission,
+        ]);
     }
 }

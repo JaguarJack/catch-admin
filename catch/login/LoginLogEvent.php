@@ -4,7 +4,7 @@ namespace catchAdmin\login;
 use catchAdmin\user\model\Users;
 use think\facade\Db;
 
-class LoginLogListener
+class LoginLogEvent
 {
     public function handle($params)
     {

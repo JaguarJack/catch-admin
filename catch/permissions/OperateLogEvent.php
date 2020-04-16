@@ -6,23 +6,24 @@ use catchAdmin\permissions\model\Permissions;
 use catcher\CatchAdmin;
 use think\facade\Db;
 
-class OperateLogListener
+class OperateLogEvent
 {
     public function handle($params)
     {
-        $request = $params['request'];
         $permission = $params['permission'];
 
         $parentPermission = Permissions::where('id', $permission->parent_id)->value('permission_name');
+
+        $requestParams = request()->param();
         Db::name('operate_log')->insert([
-            'creator_id' => $request->user()->id,
+            'creator_id' => $params['creator_id'],
             'module'     => $parentPermission ? : '',
-            'method'     => $request->method(),
+            'method'     => request()->method(),
             'operate'    => $permission->permission_name,
             'route'      => $permission->route,
-            'params'     => json_encode($request->param()),
+            'params'     => !empty($requestParams) ? json_encode($requestParams) : '',
             'created_at' => time(),
-            'ip'         => $request->ip(),
+            'ip'         => request()->ip(),
         ]);
     }
 }

@@ -1,7 +1,7 @@
 <?php
 
 use catchAdmin\login\LoginLogListener;
-use catchAdmin\permissions\OperateLogListener;
+use catchAdmin\permissions\OperateLogEvent;
 use catcher\event\LoadModuleRoutes;
 
 return [
@@ -83,11 +83,11 @@ return [
   'events' => [
     // 登录日志
     'loginLog' => [
-      LoginLogListener::class,
+        \catchAdmin\login\LoginLogEvent::class,
     ],
     // 操作日志
     'operateLog' => [
-      OperateLogListener::class,
+      OperateLogEvent::class,
     ],
     // 路由加载
     'RouteLoaded' => [
