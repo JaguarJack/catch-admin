@@ -68,7 +68,10 @@ class Permissions extends CatchModel
     public static function getCurrentUserPermissions(array $permissionIds): \think\Collection
     {
         return parent::whereIn('id', $permissionIds)
-                      ->field(['permission_name as title', 'route', 'icon'])
+                      ->field(['permission_name as title', 'id', 'parent_id',
+                          'route', 'icon', 'component', 'redirect',
+                          'keep_alive as keepAlive', 'hide_children_in_menu', 'type'
+                      ])
                       ->select();
     }
 }
