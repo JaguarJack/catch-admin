@@ -40,7 +40,7 @@ class CatchAdminService extends Service
         $this->registerCommands();
         $this->registerValidates();
         $this->registerMiddleWares();
-        $this->registerListeners();
+        $this->registerEvents();
         $this->registerQuery();
         $this->registerExceptionHandle();
     }
@@ -99,7 +99,7 @@ class CatchAdminService extends Service
      * @time 2019年12月12日
      * @return void
      */
-    protected function registerListeners(): void
+    protected function registerEvents(): void
     {
         $this->app->event->listenEvents(config('catch.events'));
     }
