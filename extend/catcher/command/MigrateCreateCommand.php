@@ -15,8 +15,8 @@ use Phinx\Util\Util;
 use think\console\Input;
 use think\console\input\Argument as InputArgument;
 use think\console\Output;
+use think\exception\InvalidArgumentException;
 use think\migration\command\migrate\Create;
-use think\migration\Creator;
 
 class MigrateCreateCommand extends Create
 {
@@ -77,7 +77,7 @@ class MigrateCreateCommand extends Create
       $filePath = $path . DIRECTORY_SEPARATOR . $fileName;
 
       if (is_file($filePath)) {
-       throw new InvalidArgumentException(sprintf('The file "%s" already exists', $filePath));
+          throw new InvalidArgumentException(sprintf('The file "%s" already exists', $filePath));
       }
 
       // Verify that the template creation class (or the aliased class) exists and that it implements the required interface.
