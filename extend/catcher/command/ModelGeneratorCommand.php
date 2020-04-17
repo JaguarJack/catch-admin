@@ -30,6 +30,15 @@ class ModelGeneratorCommand extends Command
 
         $modelFile= CatchAdmin::getModuleModelDirectory($module) . $model . '.php';
 
+        $asn = 'Y';
+        if (file_exists($modelFile)) {
+            $asn = $this->output->ask($this->input, "Model File {$model} already exists.Are you sure to overwrite, the content will be lost(Y/N)");
+        }
+
+        if (strtolower($asn) == 'n') {
+            exit(0);
+        }
+
         file_put_contents($modelFile, $this->replaceContent([
             $module, $model, $table, $this->generateFields($this->getTableFields($table))
         ]));
@@ -61,10 +70,10 @@ class ModelGeneratorCommand extends Command
     {
         $f = '';
         foreach ($fields as $field => $comment) {
-            $f .= sprintf("'%s', // %s" . "\r\n\t\t\t", $field, $comment);
+            $f .= sprintf("'%s', // %s" . "\r\n\t\t", $field, $comment);
         }
 
-        return $f;
+        return rtrim($f, "\r\n\t\t");
     }
 
     private function replaceContent(array $replace)
