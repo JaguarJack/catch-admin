@@ -21,7 +21,7 @@ class OperateLogEvent
             'method'     => request()->method(),
             'operate'    => $permission->permission_name,
             'route'      => $permission->route,
-            'params'     => !empty($requestParams) ? json_encode($requestParams) : '',
+            'params'     => !empty($requestParams) ? json_encode($requestParams, JSON_UNESCAPED_UNICODE) : '',
             'created_at' => time(),
             'ip'         => request()->ip(),
         ]);
