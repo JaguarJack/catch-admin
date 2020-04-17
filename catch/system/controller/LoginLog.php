@@ -9,7 +9,7 @@ class LoginLog extends CatchController
 {
     public function list()
     {
-        return CatchResponse::paginate(Db::name('login_log')->paginate(10));
+        return CatchResponse::paginate(Db::name('login_log')->paginate(request()->param('limit') ?? 10));
     }
 
     public function empty()

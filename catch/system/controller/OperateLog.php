@@ -14,7 +14,7 @@ class OperateLog extends CatchController
                 ->field(['operate_log.*', 'users.username as creator'])
                 ->join('users','users.id = operate_log.creator_id')
                 ->order('id', 'desc')
-                ->paginate(10)
+                ->paginate(request()->param('limit') ?? 10)
         );
     }
 
