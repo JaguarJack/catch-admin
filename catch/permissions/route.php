@@ -13,9 +13,9 @@ $router->resource('jobs', '\catchAdmin\permissions\controller\Job');
 $router->get('jobs/all', '\catchAdmin\permissions\controller\Job@getAll');
 
 // 用户
-$router->resource('users', '\catchAdmin\user\controller\User');
+$router->resource('users', '\catchAdmin\permissions\controller\User');
 // 切换状态
-$router->put('users/switch/status/<id>', '\catchAdmin\user\controller\User@switchStatus');
-$router->put('users/recover/<id>', '\catchAdmin\user\controller\User@recover');
-$router->get('users/get/roles', '\catchAdmin\user\controller\User@getRoles');
-$router->get('user/info', '\catchAdmin\user\controller\User@info');
+$router->put('users/switch/status/<id>', '\catchAdmin\permissions\controller\User@switchStatus');
+$router->put('users/recover/<id>', '\catchAdmin\permissions\controller\User@recover');
+$router->get('users/get/roles', '\catchAdmin\permissions\controller\User@getRoles');
+$router->get('user/info', '\catchAdmin\permissions\controller\User@info');
