@@ -18,3 +18,7 @@ $router->post('upload/file', '\catchAdmin\system\controller\Upload@file');
 
 // 附件
 $router->resource('attachments', '\catchAdmin\system\controller\Attachments');
+
+// 配置
+$router->get('config/parent', '\catchAdmin\system\controller\Config@parent');
+$router->resource('config', '\catchAdmin\system\controller\Config');
