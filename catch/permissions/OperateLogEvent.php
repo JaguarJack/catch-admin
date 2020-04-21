@@ -20,7 +20,7 @@ class OperateLogEvent
             'module'     => $parentPermission ? : '',
             'method'     => request()->method(),
             'operate'    => $permission->permission_name,
-            'route'      => $permission->route,
+            'route'      => $permission->permission_mark,
             'params'     => !empty($requestParams) ? json_encode($requestParams, JSON_UNESCAPED_UNICODE) : '',
             'created_at' => time(),
             'ip'         => request()->ip(),
