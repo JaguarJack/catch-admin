@@ -52,7 +52,7 @@ class User extends CatchController
 
         $roles = $user->getRoles();
 
-        $permissionIds = $user->getPermissionsBy();
+        $permissionIds = $user->getPermissionsBy($user->id);
         // 缓存用户权限
         Cache::set(CatchCacheKeys::USER_PERMISSIONS . $user->id, $permissionIds);
 

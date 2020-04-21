@@ -73,7 +73,7 @@ class Users extends CatchModel
     public function getPermissionsBy($uid = 0): array
     {
         // 获取超级管理配置 超级管理员全部权限
-        if ($uid == config('catch.permissions.super_user_id')) {
+        if ($uid == config('catch.permissions.super_admin_id')) {
             return Permissions::select()->column('id');
         }
 
