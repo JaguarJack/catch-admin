@@ -67,7 +67,7 @@ class Permission extends CatchController
             $params['module'] = $parent->module;
         }
 
-        return CatchResponse::success($this->permissions->storeBy($request->param()));
+        return CatchResponse::success($this->permissions->storeBy($params));
     }
 
     /**
