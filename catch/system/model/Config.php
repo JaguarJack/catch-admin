@@ -198,7 +198,7 @@ class Config extends CatchModel
                       ->select();
 
         foreach ($configs as $config) {
-            if ($config->value) {
+            if ($config->value !== '') {
                 $data[$config->k] = $config->value;
             } else {
                 $data[$config->k] = $this->getConfig($config->id);
