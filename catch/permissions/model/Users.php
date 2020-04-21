@@ -1,10 +1,7 @@
 <?php
-namespace catchAdmin\user\model;
+namespace catchAdmin\permissions\model;
 
-use catchAdmin\permissions\model\Department;
-use catchAdmin\permissions\model\HasJobsTrait;
-use catchAdmin\permissions\model\HasRolesTrait;
-use catchAdmin\permissions\model\Permissions;
+use catchAdmin\permissions\model\search\UserSearch;
 use catcher\base\CatchModel;
 
 class Users extends CatchModel

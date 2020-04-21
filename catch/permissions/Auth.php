@@ -1,11 +1,9 @@
 <?php
-namespace catchAdmin\user;
+namespace catchAdmin\Auth;
 
 use catchAdmin\permissions\model\Permissions;
-use catchAdmin\permissions\model\Roles;
-use catchAdmin\user\model\Users;
+use catchAdmin\permission\model\Users;
 use catcher\exceptions\LoginFailedException;
-use catcher\Tree;
 use thans\jwt\facade\JWTAuth;
 use think\facade\Session;
 

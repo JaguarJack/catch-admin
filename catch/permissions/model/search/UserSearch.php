@@ -1,5 +1,5 @@
 <?php
-namespace catchAdmin\user\model;
+namespace catchAdmin\permissions\model\search;
 
 trait UserSearch
 {

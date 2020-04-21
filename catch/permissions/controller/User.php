@@ -1,5 +1,5 @@
 <?php
-namespace catchAdmin\user\controller;
+namespace catchAdmin\permissions\controller;
 
 use catcher\base\CatchRequest as Request;
 use catchAdmin\permissions\model\Permissions;
