@@ -2,6 +2,7 @@
 namespace catcher;
 
 use catchAdmin\system\model\Attachments;
+use catchAdmin\system\model\Config;
 use catcher\exceptions\FailedException;
 use catcher\exceptions\ValidateFailedException;
 use think\exception\ValidateException;
@@ -55,6 +56,8 @@ class CatchUpload
    */
     public function upload(UploadedFile $file): string
     {
+        $this->initUploadConfig();
+
         $path = Filesystem::disk($this->getDriver())->putFile($this->getPath(), $file);
 
         if ($path) {
@@ -210,5 +213,52 @@ class CatchUpload
         }
 
         return $this;
+    }
+
+
+    protected function initUploadConfig()
+    {
+        $configModel = app(Config::class);
+
+        $upload = $configModel->where('key', 'upload')->find();
+
+        if ($upload) {
+            $disk = app()->config->get('filesystem.disks');
+            $uploadConfigs = $configModel->getConfig($upload->id);
+            // 读取上传可配置数据
+            foreach ($uploadConfigs as $key => &$config) {
+                // $disk[$key]['type'] = $key;
+                // 腾讯云配置处理
+                if (strtolower($key) == 'qcloud') {
+                    $config['credentials'] = [
+                        'appId' => $config['app_id'] ?? '',
+                        'secretKey' => $config['secret_key'] ?? '',
+                        'secretId' => $config['secret_id'] ?? '',
+                    ];
+                    $readFromCdn = $config['read_from_cdn'] ?? false;
+                    $config['read_from_cdn'] = $readFromCdn ? true : false;
+                }
+                // OSS 配置
+                if (strtolower($key) == 'oss') {
+                    $isCname = $config['is_cname'] ?? false;
+                    $config['is_cname'] = $isCname ? true : false;
+                }
+            }
+
+            // 合并数组
+            array_walk($disk, function (&$item, $key) use ($uploadConfigs){
+                if (!in_array($key, ['public', 'local'])) {
+                    if ($uploadConfigs[$key] ?? false) {
+                        foreach ($uploadConfigs[$key] as $k => $value) {
+                            $item[$k] = $value;
+                        }
+                    }
+                }
+            });
+            // 重新分配配置
+            app()->config->set([
+                'disk' => $disk,
+            ], 'filesystem');
+        }
     }
 }
