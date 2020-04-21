@@ -1,7 +1,7 @@
 <?php
 namespace catchAdmin\login;
 
-use catchAdmin\user\model\Users;
+use catchAdmin\permissions\model\Users;
 use think\facade\Db;
 
 class LoginLogEvent

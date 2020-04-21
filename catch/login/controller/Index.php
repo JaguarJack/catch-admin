@@ -2,7 +2,7 @@
 namespace catchAdmin\login\controller;
 
 use catchAdmin\login\request\LoginRequest;
-use catchAdmin\user\model\Users;
+use catchAdmin\permissions\model\Users;
 use catcher\base\CatchController;
 use catcher\CatchAuth;
 use catcher\CatchResponse;
