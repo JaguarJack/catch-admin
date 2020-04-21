@@ -71,7 +71,7 @@ class PermissionSeed extends Seeder
                     'id' => 2,
                     'permission_name' => '主页',
                     'parent_id' => 1,
-                    'route' => '/dashboard/workplac',
+                    'route' => '/dashboard/workplace',
                     'icon' => '',
                     'module' => 'index',
                     'creator_id' => 1,

@@ -2,7 +2,7 @@
 
 use think\migration\Seeder;
 
-class DepartmentsSeed extends Seeder
+class ConfigSeed extends Seeder
 {
     /**
      * Run Method.
@@ -16,24 +16,21 @@ class DepartmentsSeed extends Seeder
     {
         $data = [
             [
-            'id' => 1,
-            'department_name' => '总部',
-            'parent_id' => 0,
+                'name' => '基础配置',
+                'pid' => 0,
+                'component' => 'basic',
+                'key' => 'basic',
             ],
             [
-                'id' => 2,
-                'department_name' => '北京总部',
-                'parent_id' => 1,
-            ],
-            [
-                'id' => 2,
-                'department_name' => '南京总部',
-                'parent_id' => 1,
+                'name' => '上传配置',
+                'pid' => 0,
+                'component' => 'upload',
+                'key' => 'upload',
             ],
         ];
 
         foreach ($data as $item) {
-            \catchAdmin\permissions\model\Department::create($item);
+            \catchAdmin\system\model\Config::create($item);
         }
     }
 }
