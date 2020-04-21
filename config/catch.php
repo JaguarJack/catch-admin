@@ -48,7 +48,7 @@ return [
       'providers' => [
         'admin_users' => [
           'driver' => 'orm',
-          'model' =>  \catchAdmin\user\model\Users::class,
+          'model' =>  \catchAdmin\permissions\model\Users::class,
         ],
       ],
   ],
@@ -73,7 +73,7 @@ return [
    *
    */
   'route_middleware' => [
-     \catchAdmin\user\AuthTokenMiddleware::class,
+     \catchAdmin\permissions\AuthTokenMiddleware::class,
      \catchAdmin\permissions\PermissionsMiddleware::class,
   ],
   /**
