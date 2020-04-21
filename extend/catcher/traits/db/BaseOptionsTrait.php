@@ -12,11 +12,26 @@ trait BaseOptionsTrait
      */
     public function storeBy(array $data)
     {
+        if ($this->allowField($this->field)->save($data)) {
+            return $this->{$this->getPk()};
+        }
+
+        return false;
+    }
+
+    /**
+     * 用于循环插入
+     *
+     * @time 2020年04月21日
+     * @param array $data
+     * @return mixed
+     */
+    public function createBy(array $data)
+    {
         $model = parent::create($data, $this->field, true);
 
         return $model->{$this->getPk()};
     }
-
   /**33
    *
    * @time 2019年12月03日
