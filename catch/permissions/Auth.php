@@ -2,7 +2,7 @@
 namespace catchAdmin\Auth;
 
 use catchAdmin\permissions\model\Permissions;
-use catchAdmin\permission\model\Users;
+use catchAdmin\permissions\model\Users;
 use catcher\exceptions\LoginFailedException;
 use thans\jwt\facade\JWTAuth;
 use think\facade\Session;
@@ -60,10 +60,8 @@ class Auth
      */
     public static function user()
     {
-        $user = Users::where('id', JWTAuth::auth()[self::USER_ID])
+        return Users::where('id', JWTAuth::auth()[self::USER_ID])
                      ->field(['id', 'username', 'status'])->find();
-
-        return $user;
     }
 
     public static function getUserInfo()
