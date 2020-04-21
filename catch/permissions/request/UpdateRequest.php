@@ -1,7 +1,7 @@
 <?php
-namespace catchAdmin\permission\request;
+namespace catchAdmin\permissions\request;
 
-use catchAdmin\user\model\Users;
+use catchAdmin\permissions\model\Users;
 use catcher\base\CatchRequest;
 
 class UpdateRequest extends CatchRequest

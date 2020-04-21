@@ -2,7 +2,6 @@
 namespace catchAdmin\permissions\model;
 
 use catchAdmin\permissions\model\search\RolesSearch;
-use catchAdmin\user\model\Users;
 use catcher\base\CatchModel;
 
 class Roles extends CatchModel
