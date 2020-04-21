@@ -327,7 +327,7 @@ class InstallProjectCommand extends Command
  账号: admin@gmail.com
  密码: admin                                               
 ', $year));
-
+        exit(0);
     }
 
 
