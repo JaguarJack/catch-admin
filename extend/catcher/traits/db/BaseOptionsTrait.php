@@ -12,14 +12,12 @@ trait BaseOptionsTrait
      */
     public function storeBy(array $data)
     {
-        if ($this->allowField($this->field)->save($data)) {
-            return $this->{$this->getPk()};
-        }
+        $model = parent::create($data, $this->field, true);
 
-        return false;
+        return $model->{$this->getPk()};
     }
 
-  /**
+  /**33
    *
    * @time 2019年12月03日
    * @param $id
@@ -65,6 +63,35 @@ trait BaseOptionsTrait
     public function deleteBy($id, $force = false)
     {
         return static::destroy($id, $force);
+    }
+
+    /**
+     * 批量插入
+     *
+     * @time 2020年04月19日
+     * @param array $data
+     * @return mixed
+     */
+    public function insertAllBy(array $data)
+    {
+        $newData = [];
+        foreach ($data as $item) {
+            foreach ($item as $field => $value) {
+                if (!in_array($field, $this->field)) {
+                    unset($item[$field]);
+                }
+
+                if (in_array('created_at', $this->field)) {
+                    $item['created_at'] = time();
+                }
+
+                if (in_array('updated_at', $this->field)) {
+                    $item['updated_at'] = time();
+                }
+            }
+            $newData[] = $item;
+        }
+        return $this->insertAll($newData);
     }
 
     /**
