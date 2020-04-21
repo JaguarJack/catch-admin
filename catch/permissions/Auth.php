@@ -98,7 +98,9 @@ class Auth
      */
     public static function hasPermissions($mark, $module): bool
     {
-        $permissionIds = self::user()->get->getPermissionsBy();
+        $user = self::user();
+
+        $permissionIds = $user->getPermissionsBy($user->id);
 
         $permissionId = Permissions::where('module', $module)
                             ->where('permission_mark', $mark)->value('id');
