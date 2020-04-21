@@ -112,13 +112,13 @@ class Config extends CatchModel
                     }
                 } else {
                     if (!is_array($value)) {
-                        parent::storeBy([
+                        parent::createBy([
                             'pid' => $pid,
                             'key' => $key,
                             'value' => $value,
                         ]);
                     } else {
-                        $id = parent::storeBy([
+                        $id = parent::createBy([
                             'pid' => $pid,
                             'key' => $key,
                         ]);
