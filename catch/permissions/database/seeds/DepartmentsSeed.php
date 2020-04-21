@@ -26,7 +26,7 @@ class DepartmentsSeed extends Seeder
                 'parent_id' => 1,
             ],
             [
-                'id' => 2,
+                'id' => 3,
                 'department_name' => '南京总部',
                 'parent_id' => 1,
             ],
