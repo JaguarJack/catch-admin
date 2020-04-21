@@ -43,7 +43,7 @@ class Permission extends CatchController
 
         // 返回树结构
         return CatchResponse::success(Tree::done($menuList->each(function (&$item) use ($buttonList){
-            $item['actionList'] = $buttonList[$item['id']] ?? [];
+            $item['children'] = $buttonList[$item['id']] ?? [];
         })->toArray()));
     }
 
