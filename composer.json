@@ -24,7 +24,8 @@
         "thans/tp-jwt-auth": "^1.0",
         "workerman/workerman": "^3.5",
         "jaguarjack/think-filesystem-cloud": "dev-master",
-        "overtrue/wechat": "^4.2"
+        "overtrue/wechat": "^4.2",
+         "ext-json": "*"
     },
     "require-dev": {
         "symfony/var-dumper": "^4.2",

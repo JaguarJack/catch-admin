@@ -3181,5 +3181,6 @@
     "platform": {
         "php": ">=7.1.0"
     },
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "1.1.0"
 }
