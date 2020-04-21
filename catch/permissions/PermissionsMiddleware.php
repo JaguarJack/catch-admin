@@ -97,11 +97,9 @@ class PermissionsMiddleware
      */
     protected function getPermission($module, $controllerName, $action)
     {
-        $permissionMark = sprintf('%s:%s', $controllerName, $action);
+        $permissionMark = sprintf('%s@%s', $controllerName, $action);
 
-        $permission = Permissions::where('module', $module)->where('permission_mark', $permissionMark)->find();
-
-        return $permission;
+        return Permissions::where('module', $module)->where('permission_mark', $permissionMark)->find();
     }
 
     /**
