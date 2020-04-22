@@ -3,6 +3,7 @@ namespace catchAdmin\permissions\model;
 
 use catchAdmin\permissions\model\search\PermissionsSearch;
 use catcher\base\CatchModel;
+use think\Model;
 
 class Permissions extends CatchModel
 {
@@ -73,5 +74,30 @@ class Permissions extends CatchModel
                           'keep_alive as keepAlive', 'hide_children_in_menu', 'type'
                       ])
                       ->select();
+    }
+
+    /**
+     * 插入后回调 更新 level
+     *
+     * @time 2020年04月22日
+     * @param Model $model
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @return array|bool|Model|void|null
+     */
+    public static function onAfterInsert(Model $model)
+    {
+        $model = self::where('id', $model->id)->find();
+
+        if ($model && $model->parent_id) {
+            $parent = self::where('id', $model->parent_id)->find();
+            $level = $parent->level ? $parent->level . '-' . $parent->id : $parent->id;
+            return $model->where('id', $model->id)->update([
+                'level' => $level
+            ]);
+        }
+
+        return true;
     }
 }

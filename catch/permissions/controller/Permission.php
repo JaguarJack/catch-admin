@@ -22,12 +22,13 @@ class Permission extends CatchController
     /**
      *
      * @time 2019年12月11日
+     * @param Request $request
      * @return Json
      * @throws \think\db\exception\DbException
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\db\exception\DataNotFoundException
      */
-    public function index(): Json
+    public function index(Request $request): Json
     {
         // 获取菜单类型
         $menuList = $this->permissions->getList(true);
@@ -41,9 +42,11 @@ class Permission extends CatchController
                  $buttonList[$item['parent_id']][] = $item->toArray();
              });
 
+        // 子节点的 key
+        $children = $request->param('actionList') ?? 'children';
         // 返回树结构
-        return CatchResponse::success(Tree::done($menuList->each(function (&$item) use ($buttonList){
-            $item['children'] = $buttonList[$item['id']] ?? [];
+        return CatchResponse::success(Tree::done($menuList->each(function (&$item) use ($buttonList, $children){
+            $item[$children] = $buttonList[$item['id']] ?? [];
         })->toArray()));
     }
 
@@ -81,6 +84,11 @@ class Permission extends CatchController
     {
         $permission = $this->permissions->findBy($id);
 
+        $params = array_merge($request->param(), [
+            'parent_id' => $permission->parent_id,
+            'level'     => $permission->level
+        ]);
+
         // 如果是父分类需要更新所有子分类的模块
         if (!$permission->parent_id) {
             $this->permissions->updateBy($permission->parent_id, [
@@ -88,7 +96,7 @@ class Permission extends CatchController
             ], 'parent_id');
         }
 
-        return CatchResponse::success($this->permissions->updateBy($id, $request->param()));
+        return CatchResponse::success($this->permissions->updateBy($id, $params));
     }
 
     /**
