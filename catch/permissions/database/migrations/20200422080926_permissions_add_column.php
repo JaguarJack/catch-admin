@@ -28,9 +28,11 @@ class PermissionsAddColumn extends Migrator
      */
     public function change()
     {
-        $table = $this->table('permissions');
+        if ($this->hasTable('permissions')) {
+            $table = $this->table('permissions');
 
-        $table->addColumn('level', 'string', ['default' => '', 'comment' => '层级', 'limit' => '50', 'after' => 'parent_id'])
-              ->update();
+            $table->addColumn('level', 'string', ['default' => '', 'comment' => '层级', 'limit' => '50', 'after' => 'parent_id'])
+                ->update();
+        }
     }
 }
