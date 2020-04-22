@@ -14,9 +14,7 @@ use think\model\concern\SoftDelete;
  */
 abstract class CatchModel extends \think\Model
 {
-    use SoftDelete;
-    use TransTrait;
-    use BaseOptionsTrait;
+    use SoftDelete, TransTrait, BaseOptionsTrait;
 
     protected $createTime = 'created_at';
 
