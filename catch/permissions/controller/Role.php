@@ -40,8 +40,9 @@ class Role extends CatchController
     {
         $this->role->storeBy($request->param());
 
-        if (!empty($request->param('permissions'))) {
-            $this->role->attach($request->param('permissions'));
+        $permissions = $request->param('permissions');
+        if (!empty($permissions)) {
+            $this->role->attach(array_unique($permissions));
         }
         if (!empty($request->param('departments'))) {
             $this->role->attachDepartments($request->param('departments'));
@@ -69,14 +70,14 @@ class Role extends CatchController
     public function update($id, Request $request): Json
     {
         $this->role->updateBy($id, $request->param());
-
         $role = $this->role->findBy($id);
-
         $role->detach();
 
-        if (!empty($request->param('permissions'))) {
-            $role->attach($request->param('permissions'));
+        $permissions = $request->param('permissions');
+        if (!empty($permissions)) {
+            $this->role->attach(array_unique($permissions));
         }
+
         if (!empty($request->param('departments'))) {
             $role->detachDepartments();
             $role->attachDepartments($request->param('departments'));
