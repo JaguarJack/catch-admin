@@ -3,7 +3,7 @@
 use think\migration\Migrator;
 use think\migration\db\Column;
 
-class ChangePermissions extends Migrator
+class PermissionsAddColumn extends Migrator
 {
     /**
      * Change Method.
@@ -30,10 +30,7 @@ class ChangePermissions extends Migrator
     {
         $table = $this->table('permissions');
 
-        $table->addColumn('component', 'string', ['default' => '', 'comment' => '组件名称', 'limit' => '255', 'after' => 'permission_mark'])
-              ->addColumn('redirect', 'string', ['default' => '', 'comment' => '跳转地址', 'limit' => '255', 'after' => 'component'])
-              ->addColumn('hide_children_in_menu', 'integer', ['limit' => \Phinx\Db\Adapter\MysqlAdapter::INT_TINY,'default'=> 1,'comment'=>'1 显示 2隐藏', 'after' => 'redirect'])
-              ->addColumn('keep_alive', 'integer', ['limit' => \Phinx\Db\Adapter\MysqlAdapter::INT_TINY,'default'=> 1,'comment'=>'1 缓存 2 不存在 ', 'after' => 'hide_children_in_menu'])
+        $table->addColumn('level', 'string', ['default' => '', 'comment' => '层级', 'limit' => '50', 'after' => 'parent_id'])
               ->update();
     }
 }
