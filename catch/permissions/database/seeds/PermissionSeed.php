@@ -645,7 +645,7 @@ class PermissionSeed extends Seeder
                     'permission_name' => '系统管理',
                     'parent_id' => 0,
                     'level' => '',
-                    'route' => 'system',
+                    'route' => '/system',
                     'icon' => 'bar-chart',
                     'module' => 'system',
                     'creator_id' => 1,
