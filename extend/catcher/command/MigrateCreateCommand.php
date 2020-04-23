@@ -62,7 +62,7 @@ class MigrateCreateCommand extends Create
    */
   protected function create($module, $className): string
   {
-      $path = CatchAdmin::moduleMigrationsDirectory($module);
+      $path = CatchAdmin::makeDirectory(CatchAdmin::moduleMigrationsDirectory($module));
 
       if (!Util::isValidPhinxClassName($className)) {
         throw new InvalidArgumentException(sprintf('The migration class name "%s" is invalid. Please use CamelCase format.', $className));
@@ -74,6 +74,7 @@ class MigrateCreateCommand extends Create
 
       // Compute the file path
       $fileName = Util::mapClassNameToFileName($className);
+
       $filePath = $path . DIRECTORY_SEPARATOR . $fileName;
 
       if (is_file($filePath)) {
