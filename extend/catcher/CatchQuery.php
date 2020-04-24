@@ -111,6 +111,10 @@ class CatchQuery extends Query
     {
         $params = \request()->param();
 
+        if (empty($params)) {
+            return $this;
+        }
+
         return $this->withSearch(array_keys($params), Utils::filterSearchParams($params));
     }
 
