@@ -22,3 +22,7 @@ $router->resource('attachments', '\catchAdmin\system\controller\Attachments');
 // 配置
 $router->get('config/parent', '\catchAdmin\system\controller\Config@parent');
 $router->resource('config', '\catchAdmin\system\controller\Config');
+
+// 代码生成
+$router->post('generate', '\catchAdmin\system\controller\Generate@save');
+$router->post('generate/preview', '\catchAdmin\system\controller\Generate@preview'); // 预览

@@ -4,16 +4,32 @@ namespace catchAdmin\system\controller;
 use catcher\base\CatchController;
 use catcher\CatchResponse;
 use think\facade\Db;
+use catchAdmin\system\model\LoginLog as Log;
 
 class LoginLog extends CatchController
 {
-    public function list()
+    /**
+     *
+     * @time 2020年04月28日
+     * @param Log $log
+     * @throws \think\db\exception\DbException
+     * @return \think\response\Json
+     */
+    public function list(Log $log)
     {
-        return CatchResponse::paginate(Db::name('login_log')->paginate(request()->param('limit') ?? 10));
+        return CatchResponse::paginate($log->paginate());
     }
 
-    public function empty()
+    /**
+     * 清空
+     * 
+     * @time 2020年04月28日
+     * @param Log $log
+     * @throws \Exception
+     * @return \think\response\Json
+     */
+    public function empty(Log $log)
     {
-        return CatchResponse::success(Db::name('login_log')->delete(true), '清空成功');
+        return CatchResponse::success($log->where('id', '>', 0)->delete(), '清空成功');
     }
 }

@@ -1,7 +1,6 @@
 <?php
 namespace catchAdmin\system\model;
 
-use catcher\base\CatchModel;
 use catcher\traits\db\BaseOptionsTrait;
 
 class LoginLog extends \think\Model
