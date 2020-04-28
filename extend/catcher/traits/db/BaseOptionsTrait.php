@@ -5,6 +5,19 @@ namespace catcher\traits\db;
 trait BaseOptionsTrait
 {
     /**
+     * 查询列表
+     *
+     * @time 2020年04月28日
+     * @return mixed
+     */
+    public function getList()
+    {
+        return $this->catchSearch()
+                    ->order($this->getPk(), 'desc')
+                    ->paginate();
+    }
+
+    /**
      *
      * @time 2019年12月03日
      * @param array $data
