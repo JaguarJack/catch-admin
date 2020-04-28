@@ -2,6 +2,7 @@
 namespace catchAdmin\login;
 
 use catchAdmin\permissions\model\Users;
+use catchAdmin\system\model\LoginLog;
 use think\facade\Db;
 
 class LoginLogEvent
@@ -12,7 +13,7 @@ class LoginLogEvent
 
         $username = Users::where('email', $params['email'])->value('username');
 
-        Db::name('login_log')->insert([
+        app(LoginLog::class)->storeBy([
             'login_name' => $username ? : $params['email'],
             'login_ip'   => request()->ip(),
             'browser'    => $this->getBrowser($agent),
