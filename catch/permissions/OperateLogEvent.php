@@ -3,6 +3,7 @@
 namespace catchAdmin\permissions;
 
 use catchAdmin\permissions\model\Permissions;
+use catchAdmin\system\model\OperateLog;
 use catcher\CatchAdmin;
 use think\facade\Db;
 
@@ -15,7 +16,8 @@ class OperateLogEvent
         $parentPermission = Permissions::where('id', $permission->parent_id)->value('permission_name');
 
         $requestParams = request()->param();
-        Db::name('operate_log')->insert([
+
+        app(OperateLog::class)->storeBy([
             'creator_id' => $params['creator_id'],
             'module'     => $parentPermission ? : '',
             'method'     => request()->method(),
