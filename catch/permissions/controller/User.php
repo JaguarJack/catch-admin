@@ -26,10 +26,10 @@ class User extends CatchController
 
     /**
      *
-     * @time 2019年12月04日
+     * @time 2020年04月24日
      * @param Request $request
-     * @return string
      * @throws \think\db\exception\DbException
+     * @return \think\response\Json
      */
     public function index(Request $request)
     {

@@ -44,17 +44,16 @@ class Users extends CatchModel
      * 用户列表
      *
      * @time 2019年12月08日
-     * @param $search
      * @throws \think\db\exception\DbException
      * @return \think\Paginator
      */
-    public function getList($search): \think\Paginator
+    public function getList(): \think\Paginator
     {
         return $this->withoutField(['updated_at'], true)
                     ->catchSearch()
                     ->catchLeftJoin(Department::class, 'id', 'department_id', ['department_name'])
                     ->order($this->getTable() . '.id', 'desc')
-                    ->paginate($search['limit'] ?? parent::LIMIT);
+                    ->paginate();
     }
 
     /**
