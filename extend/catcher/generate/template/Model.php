@@ -1,21 +1,87 @@
 <?php
-namespace JaguarJack\Generator\Template;
+namespace catcher\generate\template;
 
-trait Model
+class Model
 {
     use Content;
 
-    public function getList()
+    public function createModel($model, $table)
     {
         return <<<TMP
-    public function getList()
-    {
-        return \$this->catchSearch()
-                    ->order(\$this->getPk(), 'desc')
-                    ->paginate();
-    }
+class {$model} extends Model
+{
+    {CONTENT} 
+}
 TMP;
     }
+
+    public function useTrait($hasDeletedAt = true)
+    {
+        if (!$hasDeletedAt) {
+            return <<<TMP
+use BaseOptionsTrait; 
+
+
+TMP;
+        }
+    }
+
+    public function uses($hasDeletedAt = true)
+    {
+        if ($hasDeletedAt) {
+            return <<<TMP
+use catcher\base\CatchModel as Model;
+
+
+TMP;
+        } else {
+            return <<<TMP
+use think\Model; 
+use catcher\\traits\db\BaseOptionsTrait;
+
+
+TMP;
+
+        }
+
+    }
+
+    /**
+     * name
+     *
+     * @time 2020年04月28日
+     * @param $name
+     * @return string
+     */
+    public function name($name)
+    {
+        return <<<TMP
+protected \$name = '{$name}';
+
+
+TMP;
+
+    }
+
+    /**
+     * field
+     *
+     * @time 2020年04月28日
+     * @param $field
+     * @return string
+     */
+    public function field($field)
+    {
+        return <<<TMP
+    protected \$field = [
+        {$field}
+    ];
+    
+ 
+TMP;
+
+    }
+
 
     /**
      * 一对一关联

@@ -1,6 +1,9 @@
 <?php
-namespace JaguarJack\Generator\Factory;
+namespace catcher\generate\factory;
 
+
+use catcher\exceptions\FailedException;
+use think\facade\Db;
 
 class SQL
 {
@@ -9,19 +12,43 @@ class SQL
 
     public function done($params)
     {
-        if ($params['controller']['table'] ?? false) {
-            return false;
+
+        //dd($this->createSQL($params));
+        Db::execute($this->createSQL($params));
+
+        // 判断表是否创建成功
+        if (!$this->hasTableExists($params['table'])) {
+            throw new FailedException(sprintf('create table [%s] failed',$params['table']));
         }
 
-        $table = \config('database.connections.mysql.prefix') . $params['controller']['table'];
+        return true;
+    }
 
-        $extra = $params['model']['extra'];
+    /**
+     * create table sql
+     *
+     * @time 2020年04月28日
+     * @param $params
+     * @return string
+     */
+    protected function createSQL($params)
+    {
+        if (!$params['table'] ?? false) {
+            throw new FailedException('table name has lost~');
+        }
 
+        $table = \config('database.connections.mysql.prefix') . $params['table'];
+
+        if ($this->hasTableExists($table)) {
+            throw new FailedException(sprintf('table [%s] has existed', $params['table']));
+        }
+
+        $extra = $params['extra'];
         // 主键
         $createSql = $this->primaryKey($extra['primary_key']);
         // 字段
         $ifHaveNotFields = true;
-        foreach ($params['model']['data'] as $sql) {
+        foreach ($params['sql'] as $sql) {
             if (!$sql['field'] || !$sql['type']) {
                 continue;
             }
@@ -30,7 +57,7 @@ class SQL
         }
         // 如果没有设置数据库字段
         if ($ifHaveNotFields) {
-            return false;
+            throw new FailedException('Do you have set mysql fields?');
         }
         // 创建时间
         if ($extra['created_at'] ?? false) {
@@ -44,10 +71,10 @@ class SQL
         if ($this->index) {
             $createSql .= $this->index;
         }
+        $createSql = rtrim($createSql, ',' . PHP_EOL);
         // 创建表 SQL
         return $this->createTable($table, $createSql, $extra['engine'], 'utf8mb4', $extra['comment']);
     }
-
 
     /**
      * parse sql
@@ -69,7 +96,7 @@ class SQL
             $sql['type'],
             $sql['length'] ? sprintf('(%s)', $sql['length']) : '',
             $sql['unsigned'] ? 'unsigned' : '',
-            $sql['default'] ? 'default ' . $sql['default']: '',
+            $sql['default'] ?? '',
             $sql['nullable'] ? 'not null' : '',
             $sql['comment'] ? sprintf('comment \'%s\'', $sql['comment']) : ''
         ]) . ','. PHP_EOL;
@@ -139,13 +166,26 @@ class SQL
     protected function parseIndex($index, $field)
     {
         if ($index == 'unique') {
-            $this->index .= "unique index unique_ . $field($field)";
+            $this->index .= "unique index unique_$field($field)," . PHP_EOL;
         } elseif ($index == 'index') {
-            $this->index .= "index($field)";
+            $this->index .= "index($field),". PHP_EOL;
         } elseif ($index == 'fulltext') {
-            $this->index .= "fulltext key fulltext_ .$field($field)";
+            $this->index .= "fulltext key fulltext_$field($field)," . PHP_EOL;
         } elseif ($index == 'spatial') {
-            $this->index .= "spatial index spatial_.$field($field)";
+            $this->index .= "spatial index spatial_$field($field),". PHP_EOL;
         }
+    }
+
+    /**
+     *
+     * @time 2020年04月28日
+     * @param $table
+     * @return bool
+     */
+    protected function hasTableExists($table)
+    {
+        $tables = Db::getConnection()->getTables();
+
+        return in_array($table, $tables);
     }
 }

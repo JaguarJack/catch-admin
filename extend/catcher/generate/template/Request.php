@@ -1,5 +1,5 @@
 <?php
-namespace JaguarJack\Generator\Template;
+namespace catcher\generate\template;
 
 trait Request
 {

@@ -1,5 +1,5 @@
 <?php
-namespace JaguarJack\Generator\Factory;
+namespace catcher\generate\factory;
 
 use catcher\CatchAdmin;
 
@@ -62,5 +62,23 @@ abstract class Factory
         $psr4 = $this->parsePsr4();
 
         return root_path() . $psr4[$projectRootNamespace.'\\'] . DIRECTORY_SEPARATOR. $module . DIRECTORY_SEPARATOR;
+    }
+
+    /**
+     * parse filename
+     *
+     * @time 2020年04月27日
+     * @param $filename
+     * @return array
+     */
+    public function parseFilename($filename)
+    {
+        $namespace = explode('\\', $filename);
+
+        $className = ucfirst(array_pop($namespace));
+
+        $namespace = implode('\\', $namespace);
+
+        return [$className, $namespace];
     }
 }

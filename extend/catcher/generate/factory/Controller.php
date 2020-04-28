@@ -1,8 +1,8 @@
 <?php
-namespace JaguarJack\Generator\Factory;
+namespace catcher\generate\factory;
 
 use catcher\exceptions\FailedException;
-use JaguarJack\Generator\Template\Controller as Template;
+use catcher\generate\template\Controller as Template;
 use think\helper\Str;
 
 class Controller extends Factory
@@ -17,8 +17,28 @@ class Controller extends Factory
      */
     public function done($params)
     {
+        // 写入成功之后
+        if (file_put_contents($this->getGeneratePath($params['controller']), $this->getContent($params))) {
+           return (new Route())->controller($params['controller'])
+                         ->restful($params['restful'])
+                         ->methods($this->parseOtherMethods($params['other_function']))
+                         ->done();
+        }
+
+        throw new FailedException($params['controller'] . ' generate failed~');
+    }
+
+    /**
+     * 获取内容
+     *
+     * @time 2020年04月28日
+     * @param $params
+     * @return bool|string|string[]
+     */
+    protected function getContent($params)
+    {
         if (!$params['controller']) {
-            return false;
+            throw new FailedException('params has lost～');
         }
 
         $template = new Template();
@@ -30,23 +50,30 @@ class Controller extends Factory
 
         // parse model
         [$model, $modelNamespace] = $this->parseFilename($params['model']);
+
+        $use = implode(';',[
+                'use ' . $params['model'] .' as '. $model . 'Model',
+            ]) . ';';
+
         $content =  $template->header() .
-                     $template->nameSpace($namespace) .
-                     str_replace('{USE}', $model ? 'use ' . $params['model'] .';' : '', $template->uses())  .
-                     $template->createClass($className);
+            $template->nameSpace($namespace) .
+            str_replace('{USE}', $model ? $use : '', $template->uses())  .
+            $template->createClass($className);
 
-
-        $content = str_replace('{CONTENT}', ($model ? $template->construct($model) : '') . rtrim($this->content($params, $template), "\r\n"), $content);
-
-        // 写入成功之后
-        if (file_put_contents($this->getGeneratePath($params['controller']), $content)) {
-            (new Route())->controller($params['controller'])
-                         ->restful($params['restful'])
-                         ->methods($this->parseOtherMethods($params['other_function']))
-                         ->done();
-        }
+        return str_replace('{CONTENT}', ($model ? $template->construct($model.'Model') : '') . rtrim($this->content($params, $template), "\r\n"), $content);
     }
 
+    /**
+     * parse use
+     *
+     * @time 2020年04月28日
+     * @param $params
+     * @return string
+     */
+    protected function parseUse($params)
+    {
+
+    }
     /**
      * content
      *
@@ -77,25 +104,6 @@ class Controller extends Factory
 
         return $content;
     }
-    /**
-     * parse filename
-     *
-     * @time 2020年04月27日
-     * @param $filename
-     * @return array
-     */
-    public function parseFilename($filename)
-    {
-        $namespace = explode('\\', $filename);
-
-        $className = ucfirst(array_pop($namespace));
-
-        $namespace = implode('\\', $namespace);
-
-        return [$className, $namespace];
-    }
-
-
 
     /**
      * parse $method

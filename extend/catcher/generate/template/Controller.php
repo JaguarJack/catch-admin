@@ -1,5 +1,7 @@
 <?php
-namespace JaguarJack\Generator\Template;
+namespace catcher\generate\template;
+
+use catcher\base\CatchController;
 
 class Controller
 {
@@ -16,6 +18,7 @@ class Controller
         return <<<TMP
 use think\Request;
 use catcher\CatchResponse;
+use catcher\base\CatchController;
 {USE}
 
 
@@ -48,7 +51,7 @@ TMP;
     public function createClass($class)
     {
         return <<<TMP
-class {$class}
+class {$class} extends CatchController
 {
     {CONTENT}
 }

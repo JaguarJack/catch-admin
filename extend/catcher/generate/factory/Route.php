@@ -1,7 +1,7 @@
 <?php
-namespace JaguarJack\Generator\Factory;
+namespace catcher\generate\factory;
 
-use JaguarJack\Generator\Template\Content;
+use catcher\generate\template\Content;
 
 class Route extends Factory
 {
