@@ -1,7 +1,7 @@
 <?php
 declare (strict_types = 1);
 
-namespace catcher\command;
+namespace catcher\command\Tools;
 
 use catcher\CatchAdmin;
 use think\console\Command;

@@ -1,8 +1,8 @@
 <?php
 namespace catcher;
 
-use catcher\command\BackupCommand;
-use catcher\command\CompressPackageCommand;
+use catcher\command\Tools\BackupCommand;
+use catcher\command\Tools\CompressPackageCommand;
 use catcher\command\CreateModuleCommand;
 use catcher\command\install\InstallProjectCommand;
 use catcher\command\MigrateCreateCommand;
@@ -11,6 +11,7 @@ use catcher\command\MigrateRunCommand;
 use catcher\command\ModelGeneratorCommand;
 use catcher\command\ModuleCacheCommand;
 use catcher\command\SeedRunCommand;
+use catcher\command\Tools\ExportDataCommand;
 use catcher\command\worker\WsWorkerCommand;
 use think\exception\Handle;
 use think\facade\Validate;
@@ -64,6 +65,7 @@ class CatchAdminService extends Service
             MigrateRollbackCommand::class,
             MigrateCreateCommand::class,
             WsWorkerCommand::class,
+            ExportDataCommand::class
         ]);
     }
     /**
