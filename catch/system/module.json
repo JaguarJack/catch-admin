@@ -1,0 +1,11 @@
+{
+  "name": "系统管理",
+  "alias": "system",
+  "description": "",
+  "keywords": [],
+  "order": 2,
+  "services": [],
+  "aliases": {},
+  "files": [],
+  "requires": []
+}
