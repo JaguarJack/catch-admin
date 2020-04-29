@@ -339,6 +339,8 @@ class InstallProjectCommand extends Command
           $this->migrateRollback();
 
           $this->migrateAndSeeds();
+
+          $this->finished();
         }
     }
 
