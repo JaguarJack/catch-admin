@@ -79,27 +79,38 @@ class CompressPackageCommand extends Command
     {
         $zip = new \ZipArchive();
 
-        //dd($zip->open(CatchAdmin::directory() . 'permissions.zip'));
-        $res = $zip->open(CatchAdmin::directory() . 'permissions.zip');
-        $extractToPath = CatchAdmin::directory() . 'goods';
+        // 创建解压包的临时目录
+        $tempExtractToPath = runtime_path('module' . DIRECTORY_SEPARATOR . date('YmdHis'));
+        CatchAdmin::makeDirectory($tempExtractToPath);
+
+        /**$extractToPath = CatchAdmin::directory();
 
         if (is_dir($extractToPath)) {
             $this->rmDir($extractToPath);
-        }
+        }*/
 
-        $extractToPath = CatchAdmin::makeDirectory($extractToPath);
+        $res = $zip->open(CatchAdmin::directory() . 'permissions.zip');
 
         if ($res === true) {
-            $zip->extractTo($extractToPath);
+            $zip->extractTo($tempExtractToPath);
             $zip->close();
             $this->output->info('unzip successfully');
+            $this->copyFileToModule($tempExtractToPath, 'permissions', $tempExtractToPath);
+            $this->rmDir($tempExtractToPath);
+            $this->output->info('更新成功');
             return true;
         }
 
         $this->output->error('unzip failed');
     }
 
-
+    /**
+     * 删除目录
+     *
+     * @time 2020年04月29日
+     * @param $packageDir
+     * @return void
+     */
     protected function rmDir($packageDir)
     {
         $fileSystemIterator = new \FilesystemIterator($packageDir);
@@ -122,6 +133,37 @@ class CompressPackageCommand extends Command
 
         rmdir($packageDir);
     }
+
+    /**
+     *
+     * @time 2020年04月29日
+     * @param $path
+     * @param string $moduleName
+     * @param $tempExtractToPath
+     * @return void
+     */
+    protected function copyFileToModule($path, $moduleName = '', $tempExtractToPath)
+    {
+        $fileSystemIterator = new \FilesystemIterator($path . $moduleName ? : '');
+
+        foreach ($fileSystemIterator as $fileSystem) {
+            if ($fileSystem->isDir()) {
+                $this->copyFileToModule($fileSystem->getPathname(), '', $tempExtractToPath);
+            } else {
+                // 原模块文件
+                $originModuleFile = str_replace($tempExtractToPath, CatchAdmin::directory(), $fileSystem->getPathname());
+                // md5 校验 文件是否修改过
+                if (md5_file($originModuleFile) != md5_file($fileSystem->getPathname())) {
+                    if (!copy($fileSystem->getPathname(), $originModuleFile)) {
+                        $this->output->error($originModuleFile . ' 更新失败');
+                    } else {
+                        $this->output->error($originModuleFile . ' 更新成功');
+                    }
+                }
+            }
+        }
+    }
+
 
     /**
      * get files from dir
