@@ -13,8 +13,16 @@ class Generate extends CatchController
         return CatchResponse::success($generator->done($request->param()));
     }
 
-    public function preview()
+    /**
+     * 预览
+     *
+     * @time 2020年04月29日
+     * @param Request $request
+     * @param Generator $generator
+     * @return \think\response\Json
+     */
+    public function preview(Request $request, Generator $generator)
     {
-
+        return CatchResponse::success($generator->preview($request->param()));
     }
 }
