@@ -72,13 +72,15 @@ TMP;
      */
     public function field($field)
     {
-        return <<<TMP
+        if ($field) {
+            return <<<TMP
     protected \$field = [
         {$field}
     ];
     
  
 TMP;
+        }
 
     }
 

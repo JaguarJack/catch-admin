@@ -2,6 +2,7 @@
 namespace catcher\generate\factory;
 
 use catcher\CatchAdmin;
+use think\facade\Db;
 
 abstract class Factory
 {
@@ -80,5 +81,18 @@ abstract class Factory
         $namespace = implode('\\', $namespace);
 
         return [$className, $namespace];
+    }
+
+    /**
+     *
+     * @time 2020年04月28日
+     * @param $table
+     * @return bool
+     */
+    protected function hasTableExists($table)
+    {
+        $tables = Db::getConnection()->getTables();
+
+        return in_array($table, $tables);
     }
 }

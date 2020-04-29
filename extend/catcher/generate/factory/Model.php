@@ -9,6 +9,26 @@ class Model extends Factory
 {
     public function done($params)
     {
+        $file = $this->getGeneratePath($params['model']);
+
+        file_put_contents($file, $this->getContent($params));
+
+        if (!file_exists($file)) {
+            throw new FailedException('create model failed');
+        }
+
+        return true;
+    }
+
+    /**
+     * get contents
+     *
+     * @time 2020年04月29日
+     * @param $params
+     * @return string|string[]
+     */
+    public function getContent($params)
+    {
         // TODO: Implement done() method.
         $template = new Template();
 
@@ -23,26 +43,16 @@ class Model extends Factory
         }
 
         $content = $template->useTrait($extra['soft_delete']) .
-                   $template->name($table) .
-                   $template->field($this->parseField($table));
+            $template->name($table) .
+            $template->field($this->parseField($table));
 
         $class = $template->header() .
-                 $template->nameSpace($namespace) .
-                 $template->uses($extra['soft_delete']) .
-                 $template->createModel($modelName, $table);
+            $template->nameSpace($namespace) .
+            $template->uses($extra['soft_delete']) .
+            $template->createModel($modelName, $table);
 
-
-        $file = $this->getGeneratePath($params['model']);
-
-        file_put_contents($file, str_replace('{CONTENT}', $content, $class));
-
-        if (!file_exists($file)) {
-            throw new FailedException('create model failed');
-        }
-
-        return true;
+        return str_replace('{CONTENT}', $content, $class);
     }
-
 
     /**
      * parse field
@@ -53,6 +63,10 @@ class Model extends Factory
      */
     protected function parseField($table)
     {
+        if (!$this->hasTableExists($table)) {
+            return false;
+        }
+
         $columns = Db::query('show full columns from ' .
             config('database.connections.mysql.prefix') . $table);
 

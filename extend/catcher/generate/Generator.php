@@ -48,7 +48,7 @@ class Generator
     {
         $class = ucfirst($type);
 
-        (new $class)->done($params);
+        return (new $class)->getContent($params);
     }
 
 

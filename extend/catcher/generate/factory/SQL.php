@@ -175,17 +175,4 @@ class SQL
             $this->index .= "spatial index spatial_$field($field),". PHP_EOL;
         }
     }
-
-    /**
-     *
-     * @time 2020年04月28日
-     * @param $table
-     * @return bool
-     */
-    protected function hasTableExists($table)
-    {
-        $tables = Db::getConnection()->getTables();
-
-        return in_array($table, $tables);
-    }
 }
