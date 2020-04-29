@@ -1,8 +1,6 @@
 <?php
 namespace catcher;
 
-use catcher\exceptions\FailedException;
-use think\file\UploadedFile;
 use think\helper\Str;
 
 class Utils
@@ -51,29 +49,5 @@ class Utils
         }
 
         return array_merge($search, $params);
-    }
-
-  /**
-   * 获取云存储的域名
-   *
-   * @time 2020年01月25日
-   * @param $driver
-   * @return string
-   */
-    public static function getCloudDomain($driver): ?string
-    {
-        $driver = \config('filesystem.disks.' . $driver);
-
-        switch ($driver['type']) {
-          case CatchUpload::QIQNIU:
-          case CatchUpload::LOCAL:
-               return $driver['domain'];
-          case CatchUpload::OSS:
-                return $driver['end_point'];
-          case CatchUpload::QCLOUD:
-               return $driver['cdn'];
-          default:
-            throw new FailedException(sprintf('Driver [%s] Not Supported.', $driver));
-        }
     }
 }

@@ -61,7 +61,7 @@ class CatchUpload
         $path = Filesystem::disk($this->getDriver())->putFile($this->getPath(), $file);
 
         if ($path) {
-            $url = Utils::getCloudDomain($this->getDriver()) . $path;
+            $url = self::getCloudDomain($this->getDriver()) . $path;
 
             Attachments::create(array_merge([
                 'path' => $path,
@@ -259,6 +259,30 @@ class CatchUpload
             app()->config->set([
                 'disk' => $disk,
             ], 'filesystem');
+        }
+    }
+
+    /**
+     * 获取云存储的域名
+     *
+     * @time 2020年01月25日
+     * @param $driver
+     * @return string
+     */
+    public static function getCloudDomain($driver): ?string
+    {
+        $driver = \config('filesystem.disks.' . $driver);
+
+        switch ($driver['type']) {
+            case CatchUpload::QIQNIU:
+            case CatchUpload::LOCAL:
+                return $driver['domain'];
+            case CatchUpload::OSS:
+                return $driver['end_point'];
+            case CatchUpload::QCLOUD:
+                return $driver['cdn'];
+            default:
+                throw new FailedException(sprintf('Driver [%s] Not Supported.', $driver));
         }
     }
 }
