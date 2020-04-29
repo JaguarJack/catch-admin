@@ -1,6 +1,7 @@
 <?php
 namespace catcher;
 
+use think\facade\Db;
 use think\helper\Str;
 
 class Utils
@@ -49,5 +50,41 @@ class Utils
         }
 
         return array_merge($search, $params);
+    }
+
+    /**
+     * 导入树形数据
+     *
+     * @time 2020年04月29日
+     * @param $data
+     * @param $table
+     * @param string $pid
+     * @param string $primaryKey
+     * @return void
+     */
+    public static function importTreeData($data, $table, $pid = 'parent_id',$primaryKey = 'id')
+    {
+        $table = \config('database.connections.mysql.prefix') . $table;
+
+        foreach ($data as $value) {
+            if (isset($value[$primaryKey])) {
+                unset($value[$primaryKey]);
+            }
+
+            $children = $value['children'] ?? false;
+            if($children) {
+                unset($value['children']);
+            }
+
+            $id = Db::name($table)->insertGetId($value);
+
+            if ($children) {
+                foreach ($children as &$v) {
+                    $v[$pid] = $id;
+                    $v['level'] = !$value[$pid] ? $id : $value['level'] . '-' .$id;
+                }
+                self::importTreeData($children, $table, $primaryKey);
+            }
+        }
     }
 }

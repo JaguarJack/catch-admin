@@ -4,7 +4,6 @@ declare (strict_types = 1);
 namespace catcher\command;
 
 use catcher\CatchAdmin;
-use think\Config;
 use think\console\Command;
 use think\console\Input;
 use think\console\input\Argument;
