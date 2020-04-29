@@ -25,7 +25,8 @@
         "workerman/workerman": "^3.5",
         "jaguarjack/think-filesystem-cloud": "dev-master",
         "overtrue/wechat": "^4.2",
-         "ext-json": "*"
+         "ext-json": "*",
+        "jaguarjack/migration-generator": "dev-master"
     },
     "require-dev": {
         "symfony/var-dumper": "^4.2",
@@ -34,7 +35,8 @@
     "autoload": {
         "psr-4": {
             "app\\": "app",
-            "catchAdmin\\": "catch"
+            "catchAdmin\\": "catch",
+            "JaguarJack\\Generator\\": "package/thinkphp-generator/src"
         },
         "psr-0": {
             "": "extend/"
