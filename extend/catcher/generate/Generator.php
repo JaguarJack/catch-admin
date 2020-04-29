@@ -10,6 +10,13 @@ use catcher\generate\factory\SQL;
 
 class Generator
 {
+    /**
+     * generate
+     *
+     * @time 2020年04月29日
+     * @param $params
+     * @return array
+     */
     public function done($params)
     {
         $params = \json_decode($params['data'], true);
@@ -44,11 +51,29 @@ class Generator
         return $message;
     }
 
-    public function preview($type, $params)
+    /**
+     * preview
+     *
+     * @time 2020年04月29日
+     * @param $params
+     * @return bool|string|string[]
+     */
+    public function preview($params)
     {
-        $class = ucfirst($type);
+        $params = \json_decode($params['data'], true);
 
-        return (new $class)->getContent($params);
+        $type = $params['type'];
+
+        [$controller, $model] = $this->parseParams($params);
+
+        switch ($type) {
+            case 'controller':
+                return (new Controller())->getContent($controller);
+            case 'model':
+                return (new Model())->getContent($model);
+            default:
+                break;
+        }
     }
 
 
@@ -61,12 +86,14 @@ class Generator
      */
     protected function parseParams($params)
     {
-        if (!$params['controller']['module'] ?? false) {
+        $module = $params['controller']['module'] ?? false;
+
+        if (!$module) {
             throw new FailedException('请设置模块');
         }
 
         $controller = [
-            'module' => $params['controller']['module'],
+            'module' => $module,
             'model'  => $params['controller']['model'] ?? '',
             'controller' => $params['controller']['controller'] ?? '',
             'restful' => $params['controller']['restful'],
@@ -74,8 +101,8 @@ class Generator
         ];
 
         $model = [
-            'table' => $params['controller']['table'],
-            'model' => $params['controller']['model'],
+            'table' => $params['controller']['table'] ?? '',
+            'model' => $params['controller']['model'] ?? '',
             'sql'   => $params['model']['data'],
             'extra' => $params['model']['extra'],
         ];

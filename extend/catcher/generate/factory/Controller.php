@@ -35,7 +35,7 @@ class Controller extends Factory
      * @param $params
      * @return bool|string|string[]
      */
-    protected function getContent($params)
+    public function getContent($params)
     {
         if (!$params['controller']) {
             throw new FailedException('params has lost～');
@@ -47,7 +47,7 @@ class Controller extends Factory
         if (!$className) {
             throw new FailedException('未填写控制器名称');
         }
-
+        
         // parse model
         [$model, $modelNamespace] = $this->parseFilename($params['model']);
 

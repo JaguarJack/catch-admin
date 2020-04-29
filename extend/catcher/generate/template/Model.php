@@ -55,12 +55,13 @@ TMP;
      */
     public function name($name)
     {
-        return <<<TMP
+        if ($name) {
+            return <<<TMP
 protected \$name = '{$name}';
 
 
 TMP;
-
+        }
     }
 
     /**

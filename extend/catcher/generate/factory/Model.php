@@ -39,7 +39,7 @@ class Model extends Factory
         [$modelName, $namespace] = $this->parseFilename($params['model']);
 
         if (!$modelName) {
-            throw new FailedException('create Model Failed');
+            throw new FailedException('model name not set');
         }
 
         $content = $template->useTrait($extra['soft_delete']) .
