@@ -83,7 +83,7 @@ class Utils
                     $v[$pid] = $id;
                     $v['level'] = !$value[$pid] ? $id : $value['level'] . '-' .$id;
                 }
-                self::importTreeData($children, $table, $primaryKey);
+                self::importTreeData($children, $table, $pid);
             }
         }
     }
