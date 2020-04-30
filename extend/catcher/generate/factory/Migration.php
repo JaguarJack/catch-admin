@@ -40,7 +40,7 @@ class Migration extends Factory
 
                 $model->insert([
                     'version' => $version,
-                    'migration_name' => Str::camel(ucfirst($tableName)),
+                    'migration_name' => ucfirst(Str::camel($tableName)),
                     'start_time' => date('Y-m-d H:i:s'),
                     'end_time'  => date('Y-m-d H:i:s')
                 ]);
