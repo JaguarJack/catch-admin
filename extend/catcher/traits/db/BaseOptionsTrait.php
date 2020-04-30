@@ -13,7 +13,7 @@ trait BaseOptionsTrait
     public function getList()
     {
         return $this->catchSearch()
-                    ->order($this->getPk(), 'desc')
+                    ->order()
                     ->paginate();
     }
 
