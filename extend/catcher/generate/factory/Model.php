@@ -4,6 +4,7 @@ namespace catcher\generate\factory;
 use catcher\exceptions\FailedException;
 use catcher\generate\template\Model as Template;
 use think\facade\Db;
+use think\helper\Str;
 
 class Model extends Factory
 {
@@ -37,6 +38,11 @@ class Model extends Factory
         $table = $params['table'];
 
         [$modelName, $namespace] = $this->parseFilename($params['model']);
+
+        // 如果填写了表名并且没有填写模型名称 使用表名作为模型名称
+        if (!$modelName && $table) {
+            $modelName = Str::camel($table);
+        }
 
         if (!$modelName) {
             throw new FailedException('model name not set');

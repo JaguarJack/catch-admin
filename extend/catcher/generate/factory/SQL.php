@@ -5,7 +5,7 @@ namespace catcher\generate\factory;
 use catcher\exceptions\FailedException;
 use think\facade\Db;
 
-class SQL
+class SQL extends Factory
 {
     protected $index = '';
 
