@@ -4,6 +4,8 @@ namespace catcher\generate\factory;
 use catcher\CatchAdmin;
 use catcher\exceptions\FailedException;
 use JaguarJack\MigrateGenerator\MigrateGenerator;
+use think\facade\Db;
+use think\helper\Str;
 
 
 class Migration extends Factory
@@ -22,7 +24,9 @@ class Migration extends Factory
 
         $tables = $migrateGenerator->getDatabase()->getAllTables($tableName);
 
-        $file = $migrationPath . date('YmdHis') . '_'. $tableName . '.php';
+        $version = date('YmdHis');
+
+        $file = $migrationPath . $version . '_'. $tableName . '.php';
 
         foreach ($tables as $table) {
             if ($table->getName() == $tableName) {
@@ -30,6 +34,16 @@ class Migration extends Factory
                 if (!file_exists($file)) {
                     throw new FailedException('migration generate failed');
                 }
+                $model = new class extends \think\Model {
+                    protected $name = 'migrations';
+                };
+
+                $model->insert([
+                    'version' => $version,
+                    'migration_name' => Str::camel(ucfirst($tableName)),
+                    'start_time' => date('Y-m-d H:i:s'),
+                    'end_time'  => date('Y-m-d H:i:s')
+                ]);
                 break;
             }
         }

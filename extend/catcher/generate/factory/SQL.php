@@ -95,7 +95,7 @@ class SQL extends Factory
             $sql['type'],
             $sql['length'] ? sprintf('(%s)', $sql['length']) : '',
             $sql['unsigned'] ? 'unsigned' : '',
-            $sql['default'] ?? '',
+            'default ' . $sql['default'],
             $sql['nullable'] ? 'not null' : '',
             $sql['comment'] ? sprintf('comment \'%s\'', $sql['comment']) : ''
         ]) . ','. PHP_EOL;
