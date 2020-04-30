@@ -53,34 +53,13 @@ class Compress
      * download zip
      *
      * @time 2020年04月30日
+     * @param $url
      * @param $moduleName
      * @return string
      */
     public function download($moduleName)
     {
-        $client = new Client();
-
-        $zip = CatchAdmin::directory() . $moduleName .'.zip';
-
-        $resource = fopen($zip, 'w+');
-
-        $stream = stream_for($resource);
-
-        $client->request('get', 'http://api.catchadmin.com/permissions.zip', [
-            'auth' => ['username', 'password'],
-            'timeout' => 5, // 请求超时时间
-            'on_headers' => function(ResponseInterface $response) {
-                $response->getHeader('Content-Length');
-            },
-            'on_stats' => function(TransferStats $stats) {
-                $size = $stats->getResponse()->getBody()->getSize();
-                $time = $stats->getTransferTime();
-                var_dump($size, $time);
-            },
-            'save_to' => $stream,
-        ]);
-
-        return $zip;
+        return (new Http())->download('', CatchAdmin::directory() . $moduleName .'.zip');
     }
 
     /**
