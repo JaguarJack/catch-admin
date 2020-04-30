@@ -12,7 +12,6 @@ class SQL extends Factory
 
     public function done($params)
     {
-
         //dd($this->createSQL($params));
         Db::execute($this->createSQL($params));
 
