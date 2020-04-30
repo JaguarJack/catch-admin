@@ -4,6 +4,7 @@ declare (strict_types = 1);
 namespace catcher\command\Tools;
 
 use catcher\library\Compress;
+use catcher\library\Http;
 use think\console\Command;
 use think\console\Input;
 use think\console\input\Argument;
