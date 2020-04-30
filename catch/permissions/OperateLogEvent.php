@@ -17,6 +17,7 @@ class OperateLogEvent
 
         $requestParams = request()->param();
 
+        // 如果参数过长则不记录
         if (!empty($requestParams)) {
             if (strlen(\json_encode($requestParams)) > 1000) {
                 $requestParams = [];
