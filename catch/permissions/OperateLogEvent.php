@@ -17,6 +17,12 @@ class OperateLogEvent
 
         $requestParams = request()->param();
 
+        if (!empty($requestParams)) {
+            if (strlen(\json_encode($requestParams)) > 1000) {
+                $requestParams = [];
+            }
+        }
+
         app(OperateLog::class)->storeBy([
             'creator_id' => $params['creator_id'],
             'module'     => $parentPermission ? : '',
