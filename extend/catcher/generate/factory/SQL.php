@@ -12,6 +12,7 @@ class SQL extends Factory
 
     public function done($params)
     {
+        //dd($this->createSQL($params));
         Db::execute($this->createSQL($params));
 
         // 判断表是否创建成功
@@ -89,14 +90,28 @@ class SQL extends Factory
             $this->parseIndex($sql['index'], $sql['field']);
         }
 
-        return implode(' ', [
-            sprintf('`%s`', $sql['field']),
-            $sql['type'] . ($sql['length'] ? sprintf('(%s)', $sql['length']) : ''),
-            $sql['unsigned'] ? 'unsigned' : '',
-            'default ' . $sql['default'],
-            $sql['nullable'] ? 'not null' : '',
-            $sql['comment'] ? sprintf('comment \'%s\'', $sql['comment']) : ''
-        ]) . ','. PHP_EOL;
+        // 字段
+        $_sql[] = sprintf('`%s`', $sql['field']);
+        // 类型
+        $_sql[] = $sql['type'] . ($sql['length'] ? sprintf('(%s)', $sql['length']) : '');
+
+        if ($sql['unsigned']) {
+            $_sql[] = 'unsigned';
+        }
+        // 默认值
+        if (!$sql['nullable']) {
+            $_sql[] = 'not null';
+            if (!$sql['default']) {
+                $_sql[] = ' default \'\'';
+            } else {
+                $_sql[] = ' default ' . $sql['default'];
+            }
+        }
+        // 字段注释
+        $_sql[] = $sql['comment'] ? sprintf('comment \'%s\'', $sql['comment']) : '';
+
+
+        return implode(' ', $_sql) . ','. PHP_EOL;
     }
 
     /**

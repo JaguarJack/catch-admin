@@ -29,8 +29,13 @@ class Route extends Factory
             }
         }
 
-        return file_put_contents($this->getModulePath($this->controller) . DIRECTORY_SEPARATOR . 'route.php',
-                                    $this->header() . implode(';'. PHP_EOL , $route) . ';');
+        $router = $this->getModulePath($this->controller) . DIRECTORY_SEPARATOR . 'route.php';
+
+        if (file_exists($router)) {
+            return file_put_contents($router, PHP_EOL . implode(';'. PHP_EOL , $route) . ';', FILE_APPEND);
+        }
+
+        return file_put_contents($router, $this->header() . implode(';'. PHP_EOL , $route) . ';');
     }
 
     /**

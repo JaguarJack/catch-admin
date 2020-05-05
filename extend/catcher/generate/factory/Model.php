@@ -10,11 +10,11 @@ class Model extends Factory
 {
     public function done($params)
     {
-        $file = $this->getGeneratePath($params['model']);
+        $content = $this->getContent($params);
 
-        file_put_contents($file, $this->getContent($params));
+        file_put_contents($this->getGeneratePath($params['model']), $content);
 
-        if (!file_exists($file)) {
+        if (!file_exists($this->getGeneratePath($params['model']))) {
             throw new FailedException('create model failed');
         }
 
@@ -28,7 +28,7 @@ class Model extends Factory
      * @param $params
      * @return string|string[]
      */
-    public function getContent($params)
+    public function getContent(&$params)
     {
         // TODO: Implement done() method.
         $template = new Template();
@@ -41,7 +41,8 @@ class Model extends Factory
 
         // 如果填写了表名并且没有填写模型名称 使用表名作为模型名称
         if (!$modelName && $table) {
-            $modelName = Str::camel($table);
+            $modelName = ucfirst(Str::camel($table));
+            $params['model'] = $params['model'] . $modelName;
         }
 
         if (!$modelName) {
