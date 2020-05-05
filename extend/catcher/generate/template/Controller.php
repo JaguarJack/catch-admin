@@ -67,10 +67,10 @@ TMP;
     public function index()
     {
         return <<<TMP
-{$this->controllerFunctionComment('列表', 'Request $request')}
-    public function index(Request \$request)
+{$this->controllerFunctionComment('列表', '')}
+    public function index()
     {
-        return CatchResponse::paginate(\$this->model->getList(\$request->param()));
+        return CatchResponse::paginate(\$this->model->getList());
     }
     
     
