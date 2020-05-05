@@ -12,7 +12,6 @@ class SQL extends Factory
 
     public function done($params)
     {
-        //dd($this->createSQL($params));
         Db::execute($this->createSQL($params));
 
         // 判断表是否创建成功
@@ -92,8 +91,7 @@ class SQL extends Factory
 
         return implode(' ', [
             sprintf('`%s`', $sql['field']),
-            $sql['type'],
-            $sql['length'] ? sprintf('(%s)', $sql['length']) : '',
+            $sql['type'] . ($sql['length'] ? sprintf('(%s)', $sql['length']) : ''),
             $sql['unsigned'] ? 'unsigned' : '',
             'default ' . $sql['default'],
             $sql['nullable'] ? 'not null' : '',
