@@ -87,4 +87,26 @@ class Utils
             }
         }
     }
+
+    /**
+     *  解析 Rule 规则
+     *
+     * @time 2020年05月06日
+     * @param $rule
+     * @return array
+     */
+    public static function parseRule($rule)
+    {
+        [$controller, $action] = explode(Str::contains($rule, '@') ? '@' : '/', $rule);
+
+        $controller = explode('\\', $controller);
+
+        $controllerName = strtolower(array_pop($controller));
+
+        array_pop($controller);
+
+        $module = array_pop($controller);
+
+        return [$module, $controllerName, $action];
+    }
 }
