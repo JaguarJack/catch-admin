@@ -74,6 +74,7 @@ return [
    */
   'route_middleware' => [
      \catchAdmin\permissions\AuthTokenMiddleware::class,
+      \catchAdmin\permissions\RecordOperateMiddleware::class,
      \catchAdmin\permissions\PermissionsMiddleware::class,
   ],
   /**
