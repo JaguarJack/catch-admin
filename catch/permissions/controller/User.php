@@ -83,7 +83,7 @@ class User extends CatchController
      */
     public function save(CreateRequest $request)
     {
-        $this->user->storeBy($request->post());
+        $this->user->storeBy($request->param());
 
         $this->user->attach($request->param('roles'));
 
@@ -121,7 +121,7 @@ class User extends CatchController
      */
     public function update($id, UpdateRequest $request)
     {
-        $this->user->updateBy($id, $request->post());
+        $this->user->updateBy($id, $request->param());
 
         $user = $this->user->findBy($id);
 
