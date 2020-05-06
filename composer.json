@@ -19,14 +19,16 @@
     "require": {
         "php": ">=7.1.0",
         "topthink/framework": "^6.0.0",
-        "topthink/think-orm": "^2.0",
+        "topthink/think-orm": "v2.0.31",
         "topthink/think-migration": "^3.0",
         "thans/tp-jwt-auth": "^1.0",
         "workerman/workerman": "^3.5",
         "jaguarjack/think-filesystem-cloud": "dev-master",
         "overtrue/wechat": "^4.2",
          "ext-json": "*",
-        "jaguarjack/migration-generator": "dev-master"
+        "jaguarjack/migration-generator": "dev-master",
+      "ext-zip": "*",
+        "phpoffice/phpspreadsheet": "^1.12"
     },
     "require-dev": {
         "symfony/var-dumper": "^4.2",
@@ -35,8 +37,7 @@
     "autoload": {
         "psr-4": {
             "app\\": "app",
-            "catchAdmin\\": "catch",
-            "JaguarJack\\Generator\\": "package/thinkphp-generator/src"
+            "catchAdmin\\": "catch"
         },
         "psr-0": {
             "": "extend/"
