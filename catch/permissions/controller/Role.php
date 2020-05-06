@@ -75,7 +75,7 @@ class Role extends CatchController
 
         $permissions = $request->param('permissions');
         if (!empty($permissions)) {
-            $this->role->attach(array_unique($permissions));
+            $role->attach(array_unique($permissions));
         }
 
         if (!empty($request->param('departments'))) {
