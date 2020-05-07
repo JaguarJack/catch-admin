@@ -64,8 +64,6 @@ class Utils
      */
     public static function importTreeData($data, $table, $pid = 'parent_id',$primaryKey = 'id')
     {
-        $table = \config('database.connections.mysql.prefix') . $table;
-
         foreach ($data as $value) {
             if (isset($value[$primaryKey])) {
                 unset($value[$primaryKey]);
