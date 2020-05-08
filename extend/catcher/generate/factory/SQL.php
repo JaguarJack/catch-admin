@@ -36,9 +36,7 @@ class SQL extends Factory
             throw new FailedException('table name has lost~');
         }
 
-        $table = \config('database.connections.mysql.prefix') . $params['table'];
-
-        if ($this->hasTableExists($table)) {
+        if ($this->hasTableExists($params['table'])) {
             throw new FailedException(sprintf('table [%s] has existed', $params['table']));
         }
 

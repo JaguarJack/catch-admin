@@ -93,6 +93,6 @@ abstract class Factory
     {
         $tables = Db::getConnection()->getTables();
 
-        return in_array($table, $tables);
+        return in_array(\config('database.connections.mysql.prefix') . $table, $tables);
     }
 }
