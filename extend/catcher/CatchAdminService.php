@@ -12,6 +12,7 @@ use catcher\command\ModelGeneratorCommand;
 use catcher\command\ModuleCacheCommand;
 use catcher\command\SeedRunCommand;
 use catcher\command\Tools\ExportDataCommand;
+use catcher\command\Tools\MakeMenuCommand;
 use catcher\command\worker\WsWorkerCommand;
 use think\exception\Handle;
 use think\facade\Validate;
@@ -65,7 +66,8 @@ class CatchAdminService extends Service
             MigrateRollbackCommand::class,
             MigrateCreateCommand::class,
             WsWorkerCommand::class,
-            ExportDataCommand::class
+            ExportDataCommand::class,
+            MakeMenuCommand::class,
         ]);
     }
     /**
