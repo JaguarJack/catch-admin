@@ -1,16 +1,16 @@
 ![logo](./logo.png)
 
 <p align="center">
-<a href="https://gitee.com/jaguarjack/catchAdmin" target="_blank">
-< img src="https://svg.hamm.cn/gitee.svg?type=star&user=jaguarjack&project=catchAdmin"/>
-</a >
-<a href="https://gitee.com/jaguarjack/catchAdmin" target="_blank">
-< img src="https://svg.hamm.cn/gitee.svg?type=fork&user=jaguarjack&project=catchAdmin"/>
-</a >
-< img src="https://svg.hamm.cn/badge.svg?key=Base&value=ThinkPHP6"/>
-< img src="https://svg.hamm.cn/badge.svg?key=Data&value=MySQL5.5"/>
-< img src="https://svg.hamm.cn/badge.svg?key=Runtime&value=PHP7.1"/>
-< img src="https://svg.hamm.cn/badge.svg?key=License&value=Apache-2.0"/>
+    <a href="https://gitee.com/jaguarjack/catchAdmin" target="_blank">
+        <img src="https://svg.hamm.cn/gitee.svg?type=star&user=jaguarjack&project=catchAdmin"/>
+    </a >
+    <a href="https://gitee.com/jaguarjack/catchAdmin" target="_blank">
+        <img src="https://svg.hamm.cn/gitee.svg?type=fork&user=jaguarjack&project=catchAdmin"/>
+    </a >
+    <img src="https://svg.hamm.cn/badge.svg?key=Base&value=ThinkPHP6"/>
+    <img src="https://svg.hamm.cn/badge.svg?key=Data&value=MySQL5.5"/>
+    <img src="https://svg.hamm.cn/badge.svg?key=Runtime&value=PHP7.1"/>
+    <img src="https://svg.hamm.cn/badge.svg?key=License&value=Apache-2.0"/>
 </p >
 
 ## CatchAdmin
@@ -25,11 +25,11 @@
 
 ### 环境要求
 - php7.1+ (需以下扩展)
-    - mbstring
-    - json
-    - openssl
-    - xml
-    - pdo
+    - [x] mbstring
+    - [x] json
+    - [x] openssl
+    - [x] xml
+    - [x] pdo
 - nginx
 - mysql
 
@@ -65,6 +65,7 @@
 - [论坛讨论](http://bbs.catchadmin.com)
 - 可以提 ISSUE，请按照 issue 模板提问
 - 欢迎进入 Q 群 `302266230` 讨论以及反馈一些问题。
+
 
 仅供学习
 
