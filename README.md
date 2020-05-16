@@ -1,5 +1,17 @@
 ![logo](./logo.png)
 
+<p align="center"><code>CatchAdmin</code>是一款基于<a href="http://www.thinkphp.cn/" target="_blank">thinkphp framework</a>和
+<a href="https://pro.loacg.com/docs/getting-started">ant degisn pro vue</a>二次开发而成的后台系统系统，采用了目前趋势的前后端分离开发模式，后端仅需要提供简洁的 API 数据结构，前端负责呈现数据。目前前端采用数据驱动，大大提高了开发效率。这不仅仅是一个项目，更是后端更新技术栈的一次实践</p>
+
+<p align="center">
+<a href="http://doc.catchadmin.com/">文档</a> |
+<a href="http://vue.catchadmin.com">演示地址</a> |
+<a href="http://apidoc.catchadmin.com">接口文档</a> |
+<a href="https://gitee.com/jaguarjack/catchAdmin">项目源码</a> |
+<a href="https://www.kancloud.cn/akasishikelu/thinkphp6">看云分析</a> 
+<a href="#extensions">扩展</a>
+</p>
+
 <p align="center">
     <a href="https://gitee.com/jaguarjack/catchAdmin" target="_blank">
         <img src="https://svg.hamm.cn/gitee.svg?type=star&user=jaguarjack&project=catchAdmin"/>
@@ -13,15 +25,10 @@
     <img src="https://svg.hamm.cn/badge.svg?key=License&value=Apache-2.0"/>
 </p >
 
-## CatchAdmin
-- 该项目采用`前后端分离`，所以 PHP 作为 API 开发，vue 作为后台开发
-- 两个项目是分开的，单独部署。
-## 这是 vue 分支 开发中
-- [vue 项目地址](https://github.com/yanwenwu/catch-admin-vue)
-
 ## 项目地址
-- [github地址](https://github.com/yanwenwu/catch-admin)
-- [gitee地址](https://gitee.com/jaguarjack/catchAdmin)
+- [github 地址](https://github.com/yanwenwu/catch-admin)
+- [gitee 地址](https://gitee.com/jaguarjack/catchAdmin)
+- [前端 Vue 项目地址](https://github.com/yanwenwu/catch-admin-vue)
 
 ### 环境要求
 - php7.1+ (需以下扩展)
@@ -33,11 +40,20 @@
 - nginx
 - mysql
 
-### install
-- curl -sS https://install.phpcomposer.com/installer | php
-- composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/
-- composer install
-- php think catch:install 
+### 如何安装
+```shell
+git clone https://gitee.com/jaguarjack/catchAdmin && cd catchAdmin
+
+curl -sS https://install.phpcomposer.com/installer | php
+
+composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/
+
+composer install
+
+php think catch:install 
+
+```
+
 
 ## 体验地址
 
@@ -50,7 +66,8 @@
 [catchadmin 接口文档地址](http://apidoc.catchadmin.com)
 - 账号：test@catch.com
 - 密码：123456
-请大家不要随意添加数据，因为没有意义，只看 `catchadmin` 的文档就可以了。
+
+> 请大家不要随意添加数据，因为没有意义，只看 `catchadmin` 的文档就可以了。
 如果有太多脏数据的话，我会关闭该账号。
 
 ### 系列文章
@@ -66,6 +83,14 @@
 - 可以提 ISSUE，请按照 issue 模板提问
 - 欢迎进入 Q 群 `302266230` 讨论以及反馈一些问题。
 
+### Thanks
+> 排名部分先后
 
-仅供学习
-
+- [top-think/think](https://github.com/top-think/think)
+- [ant-design-pro-vue](https://github.com/sendya/ant-design-pro-vue)
+- [thans/tp-jwt-auth](https://packagist.org/packages/thans/tp-jwt-auth)
+- [workerman/workerman](https://github.com/walkor/Workerman)
+- [jaguarjack/think-filesystem-cloud](https://github.com/yanwenwu/think-filesystem-cloud)
+- [overtrue/wechat](https://github.com/overtrue/wechat)
+- [jaguarjack/migration-generator](https://github.com/yanwenwu/migration-generator)
+- [phpoffice/phpspreadsheet](https://github.com/PHPOffice/PhpSpreadsheet)
