@@ -1,7 +1,7 @@
 ![logo](./logo.png)
 
 <p align="center">
-<a href=" "_blank">
+<a href="https://gitee.com/jaguarjack/catchAdmin" target="_blank">
 < img src="https://svg.hamm.cn/gitee.svg?type=star&user=jaguarjack&project=catchAdmin"/>
 </a >
 <a href="https://gitee.com/jaguarjack/catchAdmin" target="_blank">
