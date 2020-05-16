@@ -1,3 +1,18 @@
+![logo](./logo.png)
+
+<p align="center">
+<a href=" "_blank">
+< img src="https://svg.hamm.cn/gitee.svg?type=star&user=jaguarjack&project=catchAdmin"/>
+</a >
+<a href="https://gitee.com/jaguarjack/catchAdmin" target="_blank">
+< img src="https://svg.hamm.cn/gitee.svg?type=fork&user=jaguarjack&project=catchAdmin"/>
+</a >
+< img src="https://svg.hamm.cn/badge.svg?key=Base&value=ThinkPHP6"/>
+< img src="https://svg.hamm.cn/badge.svg?key=Data&value=MySQL5.5"/>
+< img src="https://svg.hamm.cn/badge.svg?key=Runtime&value=PHP7.1"/>
+< img src="https://svg.hamm.cn/badge.svg?key=License&value=Apache-2.0"/>
+</p >
+
 ## CatchAdmin
 - 该项目采用`前后端分离`，所以 PHP 作为 API 开发，vue 作为后台开发
 - 两个项目是分开的，单独部署。
