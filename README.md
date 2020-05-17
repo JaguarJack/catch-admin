@@ -1,4 +1,7 @@
-![logo](./logo.png)
+<p align="center">
+    <img src="https://cdn.learnku.com/uploads/images/202005/17/18206/zSuf7Ce5kM.png!large">
+</p>
+
 
 <p align="center"><code>CatchAdmin</code>是一款基于<a href="http://www.thinkphp.cn/" target="_blank">thinkphp framework</a>和
 <a href="https://pro.loacg.com/docs/getting-started">ant degisn pro vue</a>二次开发而成的后台系统系统，采用了目前趋势的前后端分离开发模式，后端仅需要提供简洁的 API 数据结构，前端负责呈现数据。目前前端采用数据驱动，大大提高了开发效率。这不仅仅是一个项目，更是后端更新技术栈的一次实践</p>
@@ -30,7 +33,15 @@
 - [gitee 地址](https://gitee.com/jaguarjack/catchAdmin)
 - [前端 Vue 项目地址](https://github.com/yanwenwu/catch-admin-vue)
 
-### 环境要求
+## 预览
+<p align="center">
+    <img src="https://cdn.learnku.com/uploads/images/202005/17/18206/0ECPy72zUZ.png!large">
+</p>
+<p align="center">
+    <img src="https://cdn.learnku.com/uploads/images/202005/17/18206/ngzSU0A9SI.png!large">
+</p>
+
+## 环境要求
 - php7.1+ (需以下扩展)
     - [x] mbstring
     - [x] json
@@ -41,6 +52,7 @@
 - mysql
 
 ### 如何安装
+> 安装之前请确保已安装 Composer
 ```shell
 git clone https://gitee.com/jaguarjack/catchAdmin && cd catchAdmin
 
@@ -80,7 +92,7 @@ php think catch:install
 
 ### Talking
 - [论坛讨论](http://bbs.catchadmin.com)
-- 可以提 ISSUE，请按照 issue 模板提问
+- 可以提 `ISSUE`，请按照 `issue` 模板提问
 - 欢迎进入 Q 群 `302266230` 讨论以及反馈一些问题。
 
 ### Thanks
