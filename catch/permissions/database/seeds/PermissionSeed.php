@@ -43,53 +43,6 @@ class PermissionSeed extends Seeder
     protected function getPermissions()
     {
         return array(
-            0 =>
-                array(
-                    'id' => 1,
-                    'permission_name' => 'Dashboard',
-                    'parent_id' => 0,
-                    'level' => '',
-                    'route' => '/dashboard',
-                    'icon' => 'home',
-                    'module' => 'system',
-                    'creator_id' => 1,
-                    'method' => 'get',
-                    'permission_mark' => 'index@dashboard',
-                    'component' => 'routeView',
-                    'redirect' => '',
-                    'hide_children_in_menu' => 2,
-                    'keepalive' => 1,
-                    'type' => 1,
-                    'sort' => 1000,
-                    'created_at' => 1587461227,
-                    'updated_at' => 1587622113,
-                    'deleted_at' => 0,
-                    'children' =>
-                        array(
-                            0 =>
-                                array(
-                                    'id' => 2,
-                                    'permission_name' => '主页',
-                                    'parent_id' => 1,
-                                    'level' => '1',
-                                    'route' => '/dashboard/workplace',
-                                    'icon' => '',
-                                    'module' => 'index',
-                                    'creator_id' => 1,
-                                    'method' => 'get',
-                                    'permission_mark' => 'index@index',
-                                    'component' => 'workplace',
-                                    'redirect' => '',
-                                    'hide_children_in_menu' => 2,
-                                    'keepalive' => 1,
-                                    'type' => 1,
-                                    'sort' => 1,
-                                    'created_at' => 1587461326,
-                                    'updated_at' => 1587547886,
-                                    'deleted_at' => 0,
-                                ),
-                        ),
-                ),
             1 =>
                 array(
                     'id' => 3,
