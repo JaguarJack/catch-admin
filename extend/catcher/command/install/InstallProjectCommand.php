@@ -193,7 +193,7 @@ class InstallProjectCommand extends Command
     {
       foreach (CatchAdmin::getModulesDirectory() as $directory) {
         $moduleInfo = CatchAdmin::getModuleInfo($directory);
-        if (is_dir(CatchAdmin::moduleMigrationsDirectory($moduleInfo['alias']))) {
+        if (!empty($moduleInfo) && is_dir(CatchAdmin::moduleMigrationsDirectory($moduleInfo['alias']))) {
           $output = Console::call('catch-migrate:run', [$moduleInfo['alias']]);
           $this->output->info(sprintf('module [%s] migrations %s', $moduleInfo['alias'], $output->fetch()));
 
@@ -207,7 +207,7 @@ class InstallProjectCommand extends Command
     {
       foreach (CatchAdmin::getModulesDirectory() as $directory) {
         $moduleInfo = CatchAdmin::getModuleInfo($directory);
-        if (is_dir(CatchAdmin::moduleMigrationsDirectory($moduleInfo['alias']))) {
+        if (!empty($moduleInfo) && is_dir(CatchAdmin::moduleMigrationsDirectory($moduleInfo['alias']))) {
               $rollbackOut = Console::call('catch-migrate:rollback', [$moduleInfo['alias'], '-f']);
               // $this->output->info(sprintf('module [%s] [%s] rollback %s', $moduleInfo['alias'], basename($migration), $rollbackOut->fetch()));
         }
