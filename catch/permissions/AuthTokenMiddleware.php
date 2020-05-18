@@ -17,7 +17,7 @@ class AuthTokenMiddleware extends Middleware
           JWTAuth::auth();
        } catch (\Exception $e) {
            if ($e instanceof TokenExpiredException) {
-               throw new FailedException('token 过期', Code::LOST_LOGIN);
+               throw new FailedException('token 过期', Code::LOGIN_EXPIRED);
            }
            if ($e instanceof TokenBlacklistException) {
                throw new FailedException('token 被加入黑名单', Code::LOST_LOGIN);
