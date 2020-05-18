@@ -9,4 +9,5 @@ class Code
     public const PERMISSION_FORBIDDEN = 10003; // 权限禁止
     public const LOGIN_FAILED = 10004; // 登录失败
     public const FAILED = 10005; // 操作失败
+    public const LOGIN_EXPIRED = 10006; // 登录失效
 }
