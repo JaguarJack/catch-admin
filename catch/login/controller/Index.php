@@ -7,6 +7,7 @@ use catcher\base\CatchController;
 use catcher\CatchAuth;
 use catcher\CatchResponse;
 use catcher\exceptions\LoginFailedException;
+use thans\jwt\facade\JWTAuth;
 
 class Index extends CatchController
 {
@@ -54,5 +55,20 @@ class Index extends CatchController
     public function logout(): \think\response\Json
     {
         return CatchResponse::success();
+    }
+
+    /**
+     * refresh token
+     *
+     * @author JaguarJack
+     * @email njphper@gmail.com
+     * @time 2020/5/18
+     * @return \think\response\Json
+     */
+    public function refreshToken()
+    {
+        return CatchResponse::success([
+            'token' => JWTAuth::refresh()
+        ]);
     }
 }
