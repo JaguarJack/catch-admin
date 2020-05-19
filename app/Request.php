@@ -4,6 +4,11 @@ namespace app;
 // 应用请求对象类
 
 use catcher\CatchAuth;
+use catcher\Code;
+use catcher\exceptions\FailedException;
+use thans\jwt\exception\TokenBlacklistException;
+use thans\jwt\exception\TokenExpiredException;
+use thans\jwt\exception\TokenInvalidException;
 
 class Request extends \think\Request
 {
@@ -21,6 +26,21 @@ class Request extends \think\Request
       $this->auth = new CatchAuth;
     }
 
-    return $this->auth->user();
+    try {
+        $user = $this->auth->user();
+    }  catch (\Exception $e) {
+        if ($e instanceof TokenExpiredException) {
+            throw new FailedException('token 过期', Code::LOGIN_EXPIRED);
+        }
+        if ($e instanceof TokenBlacklistException) {
+            throw new FailedException('token 被加入黑名单', Code::LOGIN_BLACKLIST);
+        }
+        if ($e instanceof TokenInvalidException) {
+            throw new FailedException('token 不合法', Code::LOST_LOGIN);
+        }
+        throw new FailedException('auth failed', Code::LOST_LOGIN);
+    }
+
+    return $user;
   }
 }

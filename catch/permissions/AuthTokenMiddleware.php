@@ -20,7 +20,7 @@ class AuthTokenMiddleware extends Middleware
                throw new FailedException('token 过期', Code::LOGIN_EXPIRED);
            }
            if ($e instanceof TokenBlacklistException) {
-               throw new FailedException('token 被加入黑名单', Code::LOST_LOGIN);
+               throw new FailedException('token 被加入黑名单', Code::LOGIN_BLACKLIST);
            }
            if ($e instanceof TokenInvalidException) {
                throw new FailedException('token 不合法', Code::LOST_LOGIN);
