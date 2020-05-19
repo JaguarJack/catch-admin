@@ -36,7 +36,7 @@ class SQL extends Factory
             throw new FailedException('table name has lost~');
         }
 
-        if ($this->hasTableExists($params['table'])) {
+        if ($table = $this->hasTableExists($params['table'])) {
             throw new FailedException(sprintf('table [%s] has existed', $params['table']));
         }
 
