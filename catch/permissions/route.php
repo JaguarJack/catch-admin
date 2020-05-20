@@ -5,6 +5,8 @@ $router->resource('roles', '\catchAdmin\permissions\controller\Role');
 $router->get('/role/get/permissions', '\catchAdmin\permissions\controller\Role@getPermissions');
 // 权限
 $router->resource('permissions', '\catchAdmin\permissions\controller\Permission');
+$router->put('permissions/show/<id>', '\catchAdmin\permissions\controller\Permission@show');
+
 // 部门
 $router->resource('departments', '\catchAdmin\permissions\controller\Department');
 // 岗位

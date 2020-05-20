@@ -119,6 +119,30 @@ class Permission extends CatchController
 
         return CatchResponse::success($this->permissions->deleteBy($id));
     }
+
+    /**
+     * 显示/隐藏
+     *
+     * @author JaguarJack
+     * @email njphper@gmail.com
+     * @time 2020/5/19
+     * @param $id
+     * @return Json
+     */
+    public function show($id)
+    {
+        $permission = $this->permissions->findBy($id);
+
+        $permission->status = $permission->status == Permissions::ENABLE ? Permissions::DISABLE : Permissions::ENABLE;
+
+        if ($permission->save()) {
+            $this->permissions->where('parent_id', $id)->update([
+                'status' => $permission->status,
+            ]);
+        }
+
+        return CatchResponse::success($permission->save());
+    }
 }
 
 
