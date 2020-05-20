@@ -1,6 +1,5 @@
 <?php
 
-use catchAdmin\login\LoginLogListener;
 use catchAdmin\permissions\OperateLogEvent;
 use catcher\event\LoadModuleRoutes;
 
