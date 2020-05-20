@@ -16,7 +16,7 @@ class Migration extends Factory
 
         // TODO: Implement done() method.
         $migrationPath =  CatchAdmin::directory() . $module . DIRECTORY_SEPARATOR.
-            'database' . DIRECTORY_SEPARATOR . 'migration' .DIRECTORY_SEPARATOR;
+            'database' . DIRECTORY_SEPARATOR . 'migrations' .DIRECTORY_SEPARATOR;
 
         CatchAdmin::makeDirectory($migrationPath);
 
