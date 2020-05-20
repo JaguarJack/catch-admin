@@ -205,6 +205,6 @@ class Config extends CatchModel
             }
         }
 
-        return $data;
+        return empty($data) ? '' : $data;
     }
 }
