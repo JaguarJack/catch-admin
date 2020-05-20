@@ -100,8 +100,13 @@ class Generator
             'other_function' => $params['controller']['other_function'],
         ];
 
+        $table = $params['controller']['table'] ?? '';
+        if ($table) {
+            $table =  \config('database.connections.mysql.prefix') . $table;
+
+        }
         $model = [
-            'table' => $params['controller']['table'] ?? '',
+            'table' => $table,
             'model' => $params['controller']['model'] ?? '',
             'sql'   => $params['model']['data'],
             'extra' => $params['model']['extra'],

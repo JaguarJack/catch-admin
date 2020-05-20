@@ -12,12 +12,11 @@ class SQL extends Factory
 
     public function done($params)
     {
-        //dd($this->createSQL($params));
         Db::execute($this->createSQL($params));
 
         // 判断表是否创建成功
         if (!$this->hasTableExists($params['table'])) {
-            throw new FailedException(sprintf('create table [%s] failed',$params['table']));
+            throw new FailedException(sprintf('create table [%s] failed', $params['table']));
         }
 
         return true;
@@ -36,7 +35,7 @@ class SQL extends Factory
             throw new FailedException('table name has lost~');
         }
 
-        if ($table = $this->hasTableExists($params['table'])) {
+        if ($this->hasTableExists($params['table'])) {
             throw new FailedException(sprintf('table [%s] has existed', $params['table']));
         }
 
@@ -70,7 +69,7 @@ class SQL extends Factory
         }
         $createSql = rtrim($createSql, ',' . PHP_EOL);
         // 创建表 SQL
-        return $this->createTable($table, $createSql, $extra['engine'], 'utf8mb4', $extra['comment']);
+        return $this->createTable($params['table'], $createSql, $extra['engine'], 'utf8mb4', $extra['comment']);
     }
 
     /**
@@ -102,9 +101,14 @@ class SQL extends Factory
             if (!$sql['default']) {
                 $_sql[] = ' default \'\'';
             } else {
-                $_sql[] = ' default ' . $sql['default'];
+                if (strpos('int', $sql['type']) === false) {
+                    $_sql[] = ' default "' . $sql['default'] . '"';
+                } else {
+                    $_sql[] = ' default ' . $sql['default'];
+                }
             }
         }
+
         // 字段注释
         $_sql[] = $sql['comment'] ? sprintf('comment \'%s\'', $sql['comment']) : '';
 
