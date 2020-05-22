@@ -217,9 +217,8 @@ class Http
      */
     public function get(string $url)
     {
-        return new Response($this->getClient()->{$this->asyncMethod(__FUNCTION__)}($url, array_merge($this->header, $this->query, $this->timeout, $this->options)));
+        return new Response($this->getClient()->{$this->asyncMethod(__FUNCTION__)}($url, $this->merge()));
     }
-
     /**
      * Request post
      *
@@ -229,9 +228,7 @@ class Http
      */
     public function post(string $url)
     {
-        return new Response($this->getClient()->{$this->asyncMethod(__FUNCTION__)}($url, array_merge(
-            $this->header, $this->body, $this->formParams, $this->json, $this->timeout, $this->multipart,$this->options
-        )));
+        return new Response($this->getClient()->{$this->asyncMethod(__FUNCTION__)}($url, $this->merge()));
     }
 
     /**
@@ -243,9 +240,7 @@ class Http
      */
     public function put(string $url)
     {
-        return new Response($this->getClient()->{$this->asyncMethod(__FUNCTION__)}($url, array_merge(
-            $this->header, $this->body, $this->formParams, $this->json, $this->timeout, $this->options
-        )));
+        return new Response($this->getClient()->{$this->asyncMethod(__FUNCTION__)}($url, $this->merge()));
     }
 
     /**
@@ -257,9 +252,21 @@ class Http
      */
     public function delete(string $url)
     {
-        return new Response($this->getClient()->{$this->asyncMethod(__FUNCTION__)}($url, array_merge(
-            $this->header, $this->query, $this->timeout, $this->options
-        )));
+        return new Response($this->getClient()->{$this->asyncMethod(__FUNCTION__)}($url, $this->merge()));
+    }
+
+
+    /**
+     * request params merge
+     *
+     * @time 2020年05月22日
+     * @return array
+     */
+    protected function merge()
+    {
+        return array_merge($this->header, $this->query, $this->timeout,
+            $this->options, $this->body, $this->auth, $this->multipart, $this->formParams
+        );
     }
 
     /**

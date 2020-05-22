@@ -35,13 +35,24 @@ class Response implements \ArrayAccess
     }
 
     /**
+     * 响应内容
+     *
+     * @time 2020年05月22日
+     * @return false|string
+     */
+    public function contents()
+    {
+        return $this->body()->getContents();
+    }
+
+    /**
      *
      * @time 2020年05月21日
      * @return array
      */
     public function json():array
     {
-        return \json_decode($this->response->getBody()->getContents(), true);
+        return \json_decode($this->contents(), true);
     }
 
     /**
