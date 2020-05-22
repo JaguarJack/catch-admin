@@ -52,10 +52,27 @@ class CatchExceptionHandle extends Handle
     public function render($request, Throwable $e): Response
     {
         // 其他错误交给系统处理
-        if (!$e instanceof CatchException) {
-            $e = new FailedException($e->getMessage());
+        if ($e instanceof \Exception && !$e instanceof CatchException) {
+            $e = new FailedException($e->getMessage(), 10005, $e);
         }
 
         return parent::render($request, $e);
+    }
+
+    /**
+     * 重写异常渲染页面
+     *
+     * @time 2020年05月22日
+     * @param Throwable $exception
+     * @return string
+     */
+    protected function renderExceptionContent(Throwable $exception): string
+    {
+        ob_start();
+        $data = $this->convertExceptionToArray($exception->getPrevious() ? $exception->getPrevious() : $exception);
+        extract($data);
+        include $this->app->config->get('app.exception_tmpl') ?: __DIR__ . '/../../tpl/think_exception.tpl';
+
+        return ob_get_clean();
     }
 }
