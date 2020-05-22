@@ -114,7 +114,7 @@ class Utils
      * @time 2020年05月22日
      * @return mixed
      */
-    public function tablePrefix()
+    public static function tablePrefix()
     {
         return \config('database.connections.mysql.prefix');
     }
