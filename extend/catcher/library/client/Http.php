@@ -3,6 +3,7 @@ namespace catcher\library\client;
 
 use catcher\exceptions\FailedException;
 use GuzzleHttp\Client;
+use GuzzleHttp\Promise\Promise;
 use GuzzleHttp\TransferStats;
 use Psr\Http\Message\ResponseInterface;
 use function GuzzleHttp\Psr7\stream_for;
@@ -49,32 +50,27 @@ class Http
     protected $async = false;
 
 
+    /**
+     * @var array
+     */
     protected $timeout = [];
 
     /**
-     * Http constructor.
-     * @param string $baseUri
+     * @var string
      */
-    public function __construct(string $baseUri = '')
-    {
-        $this->getClient($baseUri);
+    protected $token = '';
 
-
-    }
-
+    protected $multipart = [];
     /**
      * 获取 Guzzle 客户端
      *
-     * @param $baseUri
      * @time 2020年05月21日
      * @return Client
      */
-    public function getClient(string $baseUri)
+    public function getClient()
     {
         if (!$this->client) {
-            $this->client = $baseUri ? new Client([
-                'base_uri' => $baseUri
-            ]) : new Client;
+            $this->client = new Client;
         }
 
         return $this->client;
@@ -89,9 +85,24 @@ class Http
      */
     public function headers(array $headers)
     {
-        $this->header = [
-            'headers' => $headers
-        ];
+
+        $this->header = isset($this->header['headers']) ?
+                            array_merge($this->header['headers'], $headers) :
+                            [ 'headers' => $headers ];
+
+        return $this;
+    }
+
+    /**
+     * set bearer token
+     *
+     * @time 2020年05月22日
+     * @param string $token
+     * @return $this
+     */
+    public function token(string $token)
+    {
+        $this->header['headers']['authorization'] = 'Bearer '. $token;
 
         return $this;
     }
@@ -151,10 +162,10 @@ class Http
      * @param $params
      * @return $this
      */
-    public function formParams($params)
+    public function form(array $params)
     {
         $this->formParams = [
-            'form_params' => $params
+            'form_params' => array_merge($this->multipart, $params)
         ];
 
         return $this;
@@ -183,11 +194,9 @@ class Http
      * @param $url
      * @return Response
      */
-    public function get($url)
+    public function get(string $url)
     {
-        $response = $this->client->{$this->asyncMethod(__FUNCTION__)}($url, array_merge($this->header, $this->query, $this->timeout));
-
-        return new Response($response);
+        return new Response($this->getClient()->{$this->asyncMethod(__FUNCTION__)}($url, array_merge($this->header, $this->query, $this->timeout)));
     }
 
     /**
@@ -197,11 +206,11 @@ class Http
      * @param $url
      * @return mixed
      */
-    public function post($url)
+    public function post(string $url)
     {
-        return $this->client->{$this->asyncMethod(__FUNCTION__)}($url, array_merge(
-            $this->header, $this->body, $this->formParams, $this->json, $this->timeout
-        ) );
+        return new Response($this->getClient()->{$this->asyncMethod(__FUNCTION__)}($url, array_merge(
+            $this->header, $this->body, $this->formParams, $this->json, $this->timeout, $this->multipart
+        )));
     }
 
     /**
@@ -211,11 +220,11 @@ class Http
      * @param $url
      * @return mixed
      */
-    public function put($url)
+    public function put(string $url)
     {
-        return $this->client->{$this->asyncMethod(__FUNCTION__)}($url, array_merge(
+        return new Response($this->getClient()->{$this->asyncMethod(__FUNCTION__)}($url, array_merge(
             $this->header, $this->body, $this->formParams, $this->json, $this->timeout
-        ));
+        )));
     }
 
     /**
@@ -225,11 +234,11 @@ class Http
      * @param $url
      * @return mixed
      */
-    public function delete($url)
+    public function delete(string $url)
     {
-        return $this->client{$this->asyncMethod(__FUNCTION__)}($url, array_merge(
+        return new Response($this->getClient()->{$this->asyncMethod(__FUNCTION__)}($url, array_merge(
             $this->header, $this->query, $this->timeout
-        ));
+        )));
     }
 
     /**
@@ -241,6 +250,30 @@ class Http
     public function async()
     {
         $this->async = true;
+
+        return $this;
+    }
+
+    /**
+     * 附件
+     *
+     * @time 2020年05月22日
+     * @param $name
+     * @param $resource
+     * @param $filename
+     * @return $this
+     */
+    public function attach(string $name, $resource, string $filename)
+    {
+        $this->multipart = [
+            'multipart' => [
+                [
+                    'name' => $name,
+                    'contents' => $resource,
+                    'filename' => $filename,
+                ]
+            ]
+        ];
 
         return $this;
     }

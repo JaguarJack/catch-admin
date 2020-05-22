@@ -2,6 +2,8 @@
 namespace catcher\library\client;
 
 
+use GuzzleHttp\Promise\Promise;
+
 /**
  * http response
  *
@@ -12,21 +14,22 @@ namespace catcher\library\client;
 class Response implements \ArrayAccess
 {
     /**
-     * @var \GuzzleHttp\Psr7\Response
+     * @var \GuzzleHttp\Psr7\Response|Promise
      */
     protected $response;
 
-    public function __construct(\GuzzleHttp\Psr7\Response $response)
+    public function __construct($response)
     {
         $this->response = $response;
     }
 
+
     /**
      *
-     * @time 2020年05月21日
-     * @return string
+     * @time 2020年05月22日
+     * @return bool|callable|float|\GuzzleHttp\Psr7\PumpStream|\GuzzleHttp\Psr7\Stream|int|\Iterator|\Psr\Http\Message\StreamInterface|resource|string|null
      */
-    public function body():string
+    public function body()
     {
         return $this->response->getBody();
     }
@@ -89,6 +92,19 @@ class Response implements \ArrayAccess
     public function headers(): array
     {
         return $this->response->getHeaders();
+    }
+
+    /**
+     * 异步回调
+     *
+     * @time 2020年05月22日
+     * @param callable $response
+     * @param callable $exception
+     * @return \GuzzleHttp\Promise\FulfilledPromise|Promise|\GuzzleHttp\Promise\PromiseInterface|\GuzzleHttp\Promise\RejectedPromise
+     */
+    public function then(callable $response, callable $exception)
+    {
+        return $this->response->then($response, $exception);
     }
 
     /**
