@@ -107,4 +107,15 @@ class Utils
 
         return [$module, $controllerName, $action];
     }
+
+    /**
+     * 表前缀
+     *
+     * @time 2020年05月22日
+     * @return mixed
+     */
+    public function tablePrefix()
+    {
+        return \config('database.connections.mysql.prefix');
+    }
 }
