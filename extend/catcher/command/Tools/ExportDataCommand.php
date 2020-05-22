@@ -3,7 +3,9 @@ declare (strict_types = 1);
 
 namespace catcher\command\Tools;
 
+use catcher\facade\Http;
 use catcher\Tree;
+use catcher\Utils;
 use think\console\Command;
 use think\console\Input;
 use think\console\input\Argument;
@@ -26,9 +28,7 @@ class ExportDataCommand extends Command
 
     protected function execute(Input $input, Output $output)
     {
-
-        $table = \config('database.connections.mysql.prefix') . $input->getArgument('table');
-
+        $table = Utils::tablePrefix() . $input->getArgument('table');
 
         $parent = $input->getOption('pid');
 
