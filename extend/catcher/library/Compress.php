@@ -3,6 +3,7 @@ namespace catcher\library;
 
 use catcher\CatchAdmin;
 use catcher\exceptions\FailedException;
+use catcher\facade\Http;
 use GuzzleHttp\Client;
 use GuzzleHttp\TransferStats;
 use Psr\Http\Message\ResponseInterface;
@@ -53,13 +54,19 @@ class Compress
      * download zip
      *
      * @time 2020年04月30日
-     * @param $url
+     * @param $remotePackageUrl
      * @param $moduleName
      * @return string
      */
-    public function download($moduleName)
+    public function download($moduleName, $remotePackageUrl = '')
     {
-        return (new Http())->download('', CatchAdmin::directory() . $moduleName .'.zip');
+        $response = Http::timeout(5)
+                    ->options([
+                        'save_to' => stream_for(fopen(CatchAdmin::directory() . $moduleName .'.zip', 'w+'))
+                    ])
+                    ->get($remotePackageUrl);
+
+       return $response->ok();
     }
 
     /**
