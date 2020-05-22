@@ -349,7 +349,9 @@ class Http
      */
     public function auth($username, $password)
     {
-        $this->auth = [$username, $password];
+        $this->options = [
+            'auth' => $username, $password
+        ];
 
         return $this;
     }
