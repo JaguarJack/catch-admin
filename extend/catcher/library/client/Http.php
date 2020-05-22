@@ -42,6 +42,13 @@ class Http
 
 
     protected $json = [];
+
+    /**
+     *  可选参数
+     * @var array
+     */
+    protected $options = [];
+
     /**
      * 异步请求
      *
@@ -188,15 +195,29 @@ class Http
     }
 
     /**
+     * 可选参数
+     *
+     * @time 2020年05月22日
+     * @param array $options
+     * @return $this
+     */
+    public function options(array $options)
+    {
+        $this->options = $options;
+
+        return $this;
+    }
+
+    /**
      * Request get
      *
      * @time 2020年05月21日
-     * @param $url
+     * @param string $url
      * @return Response
      */
     public function get(string $url)
     {
-        return new Response($this->getClient()->{$this->asyncMethod(__FUNCTION__)}($url, array_merge($this->header, $this->query, $this->timeout)));
+        return new Response($this->getClient()->{$this->asyncMethod(__FUNCTION__)}($url, array_merge($this->header, $this->query, $this->timeout, $this->options)));
     }
 
     /**
@@ -209,7 +230,7 @@ class Http
     public function post(string $url)
     {
         return new Response($this->getClient()->{$this->asyncMethod(__FUNCTION__)}($url, array_merge(
-            $this->header, $this->body, $this->formParams, $this->json, $this->timeout, $this->multipart
+            $this->header, $this->body, $this->formParams, $this->json, $this->timeout, $this->multipart,$this->options
         )));
     }
 
@@ -223,7 +244,7 @@ class Http
     public function put(string $url)
     {
         return new Response($this->getClient()->{$this->asyncMethod(__FUNCTION__)}($url, array_merge(
-            $this->header, $this->body, $this->formParams, $this->json, $this->timeout
+            $this->header, $this->body, $this->formParams, $this->json, $this->timeout, $this->options
         )));
     }
 
@@ -237,7 +258,7 @@ class Http
     public function delete(string $url)
     {
         return new Response($this->getClient()->{$this->asyncMethod(__FUNCTION__)}($url, array_merge(
-            $this->header, $this->query, $this->timeout
+            $this->header, $this->query, $this->timeout, $this->options
         )));
     }
 
@@ -290,61 +311,32 @@ class Http
         return $this->async ? $method . 'Async' : $method;
     }
 
-    public function onHeaders(\Closure $closure)
-    {
-        return $closure();
-    }
-
-    public function onStats(\Closure $closure)
-    {
-        return $closure();
-    }
-
-
     /**
-     * download
+     * onHeaders
      *
-     * @time 2020年04月30日
-     * @param $remoteUrl
-     * @param $filePath
-     * @param int $timeout
+     * @time 2020年05月22日
+     * @param callable $callable
      * @return mixed
      */
-    public function download($remoteUrl, $filePath = null, $timeout = 5)
+    public function onHeaders(callable $callable)
     {
-        try {
+        $this->options['on_headers'] = $callable;
 
-            $params = [
-                'timeout' => $timeout, // 请求超时时间
-                'on_headers' => function (ResponseInterface $response) {
-                    $response->getHeader('Content-Length');
-                },
-                'on_stats' => function (TransferStats $stats) {
-                },
-            ];
+        return $this;
+    }
 
-            if (!empty($this->auth)) {
-                $params['auth'] = $this->auth;
-            }
+    /**
+     * onStats
+     *
+     * @time 2020年05月22日
+     * @param callable $callable
+     * @return mixed
+     */
+    public function onStats(callable $callable)
+    {
+        $this->options['on_stats'] = $callable;
 
-            if (!empty($proxy)) {
-                $params['proxy'] = $this->proxy;
-            }
-
-            if ($filePath) {
-                $resource = fopen($filePath, 'w+');
-
-                $stream = stream_for($resource);
-
-                $params['save_to'] = $stream;
-            }
-
-            return (new Client())->request('get', $remoteUrl, $params);
-        } catch (\Exception $e) {
-            throw new FailedException($e->getMessage());
-        }
-
-        return $filePath;
+        return $this;
     }
 
     /**
