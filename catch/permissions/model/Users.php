@@ -3,6 +3,7 @@ namespace catchAdmin\permissions\model;
 
 use catchAdmin\permissions\model\search\UserSearch;
 use catcher\base\CatchModel;
+use catcher\exceptions\FailedException;
 
 class Users extends CatchModel
 {
@@ -52,7 +53,7 @@ class Users extends CatchModel
         return $this->withoutField(['updated_at'], true)
                     ->catchSearch()
                     ->catchLeftJoin(Department::class, 'id', 'department_id', ['department_name'])
-                    ->order($this->getTable() . '.id', 'desc')
+                    ->order($this->aliasField('id'), 'desc')
                     ->paginate();
     }
 

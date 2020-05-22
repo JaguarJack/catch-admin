@@ -27,13 +27,12 @@ class User extends CatchController
     /**
      *
      * @time 2020年04月24日
-     * @param Request $request
      * @throws \think\db\exception\DbException
      * @return \think\response\Json
      */
-    public function index(Request $request)
+    public function index()
     {
-        return CatchResponse::paginate($this->user->getList($request->param()));
+        return CatchResponse::paginate($this->user->getList());
     }
 
   /**
