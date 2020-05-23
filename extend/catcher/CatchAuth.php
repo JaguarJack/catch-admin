@@ -17,6 +17,9 @@ class CatchAuth
     // 校验字段
     protected $password = 'password';
 
+    // 保存用户信息
+    protected $user = null;
+
     public function __construct()
     {
         $this->auth = config('catch.auth');
@@ -66,15 +69,23 @@ class CatchAuth
    */
     public function user()
     {
-        switch ($this->getDriver()) {
-          case 'jwt':
-            $model = app($this->getProvider()['model']);
-            return $model->where($model->getPk(), JWTAuth::auth()[$this->jwtKey()])->find();
-          case 'session':
-            return Session::get($this->sessionUserKey(), null);
-          default:
-            throw new FailedException('user not found');
+        if (!$this->user) {
+            switch ($this->getDriver()) {
+                case 'jwt':
+                    $model = app($this->getProvider()['model']);
+                    $this->user = $model->where($model->getPk(), JWTAuth::auth()[$this->jwtKey()])->find();
+                    break;
+                case 'session':
+                    $this->user = Session::get($this->sessionUserKey(), null);
+                    break;
+                default:
+                    throw new FailedException('user not found');
+            }
+
+            return $this->user;
         }
+
+        return $this->user;
     }
 
   /**
