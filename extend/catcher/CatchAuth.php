@@ -18,7 +18,7 @@ class CatchAuth
     protected $password = 'password';
 
     // 保存用户信息
-    protected $user = null;
+    protected $user = [];
 
     public function __construct()
     {
@@ -69,23 +69,27 @@ class CatchAuth
    */
     public function user()
     {
-        if (!$this->user) {
+        $user = $this->user[$this->guard] ?? null;
+
+        if (!$user) {
             switch ($this->getDriver()) {
                 case 'jwt':
                     $model = app($this->getProvider()['model']);
-                    $this->user = $model->where($model->getPk(), JWTAuth::auth()[$this->jwtKey()])->find();
+                    $user = $model->where($model->getPk(), JWTAuth::auth()[$this->jwtKey()])->find();
                     break;
                 case 'session':
-                    $this->user = Session::get($this->sessionUserKey(), null);
+                    $user = Session::get($this->sessionUserKey(), null);
                     break;
                 default:
                     throw new FailedException('user not found');
             }
 
-            return $this->user;
+            $this->user[$this->guard] = $user;
+
+            return $user;
         }
 
-        return $this->user;
+        return $user;
     }
 
   /**
