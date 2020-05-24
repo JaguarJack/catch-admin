@@ -53,6 +53,9 @@
 
 ### 如何安装
 > 安装之前请确保已安装 Composer
+
+#### 下载项目
+- 通过 Git 下载(推荐)
 ```shell
 git clone https://gitee.com/jaguarjack/catchAdmin && cd catchAdmin
 
@@ -62,10 +65,17 @@ composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/
 
 composer install
 
-php think catch:install 
-
+```
+- composer 安装
+```shell
+composer create-projet jaguarjack/catchadmin:dev-mase
 ```
 
+#### 安装
+下载完成之后通过命令来进行安装, 一键安装 🚀
+```shell
+ php think catch:install 
+```
 
 ## 体验地址
 
