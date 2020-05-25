@@ -1,14 +1,11 @@
 <?php
 namespace catcher\library\excel;
 
-interface Excel
+interface ExcelContract
 {
-    public function title(): string;
-
     public function headers(): array;
 
-    public function sheets(): array;
+    public function keys(): array ;
 
-    public function filename():string;
-
+    public function sheets();
 }
