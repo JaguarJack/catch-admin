@@ -71,11 +71,11 @@ class CatchQuery extends Query
     public function withoutField($field, $needAlias = false)
     {
       if (empty($field)) {
-        return $this;
+          return $this;
       }
 
       if (is_string($field)) {
-        $field = array_map('trim', explode(',', $field));
+          $field = array_map('trim', explode(',', $field));
       }
 
       // 过滤软删除字段
@@ -86,15 +86,14 @@ class CatchQuery extends Query
       $field  = $fields ? array_diff($fields, $field) : $field;
 
       if (isset($this->options['field'])) {
-        $field = array_merge((array) $this->options['field'], $field);
+          $field = array_merge((array) $this->options['field'], $field);
       }
 
       $this->options['field'] = array_unique($field);
 
       if ($needAlias) {
-        $alias = $this->getAlias();
-
-        $this->options['field'] = array_map(function ($field) use ($alias) {
+          $alias = $this->getAlias();
+          $this->options['field'] = array_map(function ($field) use ($alias) {
           return $alias . '.' . $field;
         }, $this->options['field']);
       }
@@ -190,22 +189,20 @@ class CatchQuery extends Query
      */
     public function order($field = '', string $order = 'desc', $position = 'backend')
     {
+        // 排序在前
         if ($position = 'front') {
             parent::order($field, $order);
         }
-
-        if (property_exists($this, 'field')) {
-             if (in_array('sort', $this->field)) {
-                 parent::order('sort', 'desc');
-             }
-         }
-
+        if (in_array('sort', array_keys($this->getFields()))) {
+            parent::order('sort', $order);
+        }
+        // 紧跟权重的排序
         if ($position == 'middle') {
             parent::order($field, $order);
         }
 
-        parent::order($this->getPk(), 'desc');
-
+        parent::order($this->getPk(), $order);
+        // 最后插入排序
         if ($position == 'backend') {
             parent::order($field, $order);
         }

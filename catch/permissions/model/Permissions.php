@@ -74,6 +74,7 @@ class Permissions extends CatchModel
                           'route', 'icon', 'component', 'redirect',
                           'keepalive as keepAlive', 'hide_children_in_menu', 'type', 'permission_mark', 'status'
                       ])
+                      ->order()
                       ->select();
     }
 
