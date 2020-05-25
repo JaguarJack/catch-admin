@@ -29,7 +29,7 @@ trait MacroExcel
     protected function getStartSheet(): string
     {
         if (method_exists($this->excel, 'start')) {
-            return $this->excel->start();
+            $this->start = $this->excel->start();
         }
 
         return $this->start;
@@ -74,11 +74,6 @@ trait MacroExcel
     protected function getSheetColumns()
     {
         if (empty($this->columns)) {
-            if (method_exists($this->excel, 'sheetColumns')) {
-                $this->columns = $this->excel->sheetColumns();
-                return $this->columns;
-            }
-
             $start = $this->getStartSheet();
 
             $columns = [];
@@ -142,19 +137,6 @@ trait MacroExcel
                  ->getAlignment()
                  ->setHorizontal($style);
 
-        }
-    }
-
-    /**
-     * 设置其他信息
-     *
-     * @time 2020年05月25日
-     * @return void
-     */
-    protected function setOther()
-    {
-        if (method_exists($this->excel, 'setOther')) {
-             $this->excel->setOther($this->getWorksheet());
         }
     }
 

@@ -2,9 +2,11 @@
 namespace catcher\library\excel;
 
 use catcher\CatchUpload;
+use catcher\exceptions\FailedException;
 use PhpOffice\PhpSpreadsheet\Exception;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xls;
 use think\file\UploadedFile;
 
 class Excel
@@ -27,9 +29,8 @@ class Excel
      * @param ExcelContract $excel
      * @param $path
      * @param null $disk
+     * @return bool
      * @throws Exception
-     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
-     * @return void
      */
     public function save(ExcelContract $excel, $path, $disk = null)
     {
@@ -37,9 +38,19 @@ class Excel
 
         $this->init();
 
-        (new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($this->spreadsheet))->save($path);
+        Factory::make(pathinfo($path, PATHINFO_EXTENSION))
+                ->setSpreadsheet($this->spreadsheet)
+                ->save($path);
 
-        // $this->upload($disk, $path);
+         if (!file_exists($path)) {
+             throw new FailedException($path . ' generate failed');
+         }
+
+        if ($disk) {
+           $path =  $this->upload($disk, $path);
+        }
+
+        return $path;
     }
 
     /**
