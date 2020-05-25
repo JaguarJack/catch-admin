@@ -5,7 +5,5 @@ interface ExcelContract
 {
     public function headers(): array;
 
-    public function keys(): array ;
-
     public function sheets();
 }
