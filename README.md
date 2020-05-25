@@ -68,7 +68,7 @@ composer install
 ```
 - composer 安装
 ```shell
-composer create-projet jaguarjack/catchadmin:dev-mase
+composer create-project jaguarjack/catchadmin:dev-master
 ```
 
 #### 安装
