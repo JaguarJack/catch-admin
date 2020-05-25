@@ -3,7 +3,6 @@ namespace catcher\library\excel;
 
 use catcher\CatchUpload;
 use PhpOffice\PhpSpreadsheet\Exception;
-use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use think\file\UploadedFile;
@@ -36,8 +35,27 @@ class Excel
     {
         $this->excel = $excel;
 
+        $this->init();
+
+        (new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($this->spreadsheet))->save($path);
+
+        // $this->upload($disk, $path);
+    }
+
+    /**
+     * init excel
+     *
+     * @time 2020年05月25日
+     * @throws Exception
+     * @return void
+     */
+    protected function init()
+    {
         // register worksheet for current excel
         $this->registerWorksheet();
+
+        // before save excel
+        $this->before();
 
         // set excel title
         $this->setTitle();
@@ -50,12 +68,7 @@ class Excel
 
         // set worksheets
         $this->setWorksheets();
-
-        (new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($this->spreadsheet))->save($path);
-
-        // $this->upload($disk, $path);
     }
-
 
     /**
      *  设置 sheets

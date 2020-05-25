@@ -53,6 +53,19 @@ trait MacroExcel
     }
 
     /**
+     * before
+     *
+     * @time 2020年05月25日
+     * @return void
+     */
+    protected function before()
+    {
+        if (method_exists($this->excel, 'before')) {
+            $this->excel->before();
+        }
+    }
+
+    /**
      * 设置 column 信息 ['A', 'B', 'C' ...]
      *
      * @time 2020年05月25日
