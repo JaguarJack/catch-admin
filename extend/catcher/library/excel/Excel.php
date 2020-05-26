@@ -61,25 +61,17 @@ class Excel
      */
     protected function init()
     {
-        if (property_exists($this->excel, 'memory')) {
-            ini_set('memory_limit', $this->excel->memory);
-        }
-
+        $this->setMemoryLimit();
         // register worksheet for current excel
         $this->registerWorksheet();
-
         // before save excel
         $this->before();
-
         // set excel title
         $this->setTitle();
-
         // set excel headers
         $this->setExcelHeaders();
-
         // set cell width
         $this->setSheetWidth();
-
         // set worksheets
         $this->setWorksheets();
     }

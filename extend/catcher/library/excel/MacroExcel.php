@@ -163,4 +163,17 @@ trait MacroExcel
     {
         ++$this->row;
     }
+
+    /**
+     * 设置内存限制
+     *
+     * @time 2020年05月26日
+     * @return void
+     */
+    public function setMemoryLimit()
+    {
+        if (property_exists($this->excel, 'memory')) {
+            ini_set('memory_limit', $this->excel->memory);
+        }
+    }
 }
