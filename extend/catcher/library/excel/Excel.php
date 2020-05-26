@@ -6,7 +6,6 @@ use catcher\exceptions\FailedException;
 use PhpOffice\PhpSpreadsheet\Exception;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
-use PhpOffice\PhpSpreadsheet\Writer\Xls;
 use think\file\UploadedFile;
 
 class Excel
@@ -62,6 +61,10 @@ class Excel
      */
     protected function init()
     {
+        if (property_exists($this->excel, 'memory')) {
+            ini_set('memory_limit', $this->excel->memory);
+        }
+
         // register worksheet for current excel
         $this->registerWorksheet();
 
