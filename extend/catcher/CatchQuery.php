@@ -3,6 +3,7 @@ namespace catcher;
 
 use catcher\base\CatchModel;
 use think\db\Query;
+use think\helper\Str;
 use think\Paginator;
 
 class CatchQuery extends Query
@@ -115,7 +116,14 @@ class CatchQuery extends Query
             return $this;
         }
 
-        return $this->withSearch(array_keys($params), Utils::filterSearchParams($params));
+        foreach ($params as $field => $value) {
+            $method = 'search' . Str::studly($field) . 'Attr';
+            if (method_exists($this->model, $method)) {
+                $this->model->$method($this, $value ?? null, $params);
+            }
+        }
+
+        return $this;
     }
 
   /**
