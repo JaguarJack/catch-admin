@@ -101,14 +101,15 @@ class CatchQuery extends Query
       return $this;
     }
 
-  /**
-   *
-   * @time 2020年01月13日
-   * @return CatchQuery
-   */
-    public function catchSearch(): CatchQuery
+    /**
+     *
+     * @time 2020年01月13日
+     * @param array $params
+     * @return CatchQuery
+     */
+    public function catchSearch($params = []): CatchQuery
     {
-        $params = \request()->param();
+        $params = empty($params) ? \request()->param() : $params;
 
         if (empty($params)) {
             return $this;
