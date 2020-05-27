@@ -28,7 +28,7 @@ class Model extends Factory
      * @param $params
      * @return string|string[]
      */
-    public function getContent(&$params)
+    public function getContent($params)
     {
         // TODO: Implement done() method.
         $template = new Template();

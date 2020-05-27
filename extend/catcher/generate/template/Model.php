@@ -57,7 +57,8 @@ TMP;
     {
         if ($name) {
             return <<<TMP
-protected \$name = '{$name}';
+    
+    protected \$name = '{$name}';
 
 
 TMP;
