@@ -3,9 +3,11 @@
 namespace catcher\command;
 
 use catcher\CatchAdmin;
+use catcher\generate\factory\Model;
 use think\console\Command;
 use think\console\Input;
 use think\console\input\Argument;
+use think\console\input\Option;
 use think\console\input\Option as InputOption;
 use think\console\Output;
 use think\facade\Db;
@@ -18,6 +20,7 @@ class ModelGeneratorCommand extends Command
         $this->setName('create:model')
             ->addArgument('module', Argument::REQUIRED, 'module name')
             ->addArgument('model', Argument::REQUIRED, 'model name')
+            ->addOption('softDelete', '-d', Option::VALUE_REQUIRED, 'soft delete')
             ->setDescription('create model');
     }
 
@@ -25,12 +28,20 @@ class ModelGeneratorCommand extends Command
     {
         $model = ucfirst($input->getArgument('model'));
         $module = strtolower($input->getArgument('module'));
+        $softDelete = $input->getOption('softDelete');
 
-        $table = Str::snake($model);
+        $params = [
+            'model' => 'catchAdmin\\'.$module.'\\model\\'.$model,
+            'table' => Str::snake($model),
+            'extra' => [
+                'soft_delete' => $softDelete ? true : false,
+            ],
+        ];
 
         $modelFile= CatchAdmin::getModuleModelDirectory($module) . $model . '.php';
 
         $asn = 'Y';
+
         if (file_exists($modelFile)) {
             $asn = $this->output->ask($this->input, "Model File {$model} already exists.Are you sure to overwrite, the content will be lost(Y/N)");
         }
@@ -39,9 +50,7 @@ class ModelGeneratorCommand extends Command
             exit(0);
         }
 
-        file_put_contents($modelFile, $this->replaceContent([
-            $module, $model, $table, $this->generateFields($this->getTableFields($table))
-        ]));
+        (new Model())->done($params);
 
         if (file_exists($modelFile)) {
             $output->info(sprintf('%s Create Successfully!', $modelFile));
