@@ -89,6 +89,10 @@ return [
     'operateLog' => [
       OperateLogEvent::class,
     ],
+    // 附件操作
+    'attachment' => [
+        \catchAdmin\system\events\AttachmentEvent::class,
+    ],
     // 路由加载
     'RouteLoaded' => [
       LoadModuleRoutes::class
