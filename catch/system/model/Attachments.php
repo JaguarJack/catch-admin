@@ -2,6 +2,8 @@
 namespace catchAdmin\system\model;
 
 use catcher\base\CatchModel;
+use think\file\UploadedFile;
+use think\Model;
 
 class Attachments extends CatchModel
 {
@@ -41,5 +43,26 @@ class Attachments extends CatchModel
     public function searchDriver($query, $value, $data)
     {
         return $query->where('driver', $value);
+    }
+
+    /**
+     *
+     *
+     * @time 2020年06月01日
+     * @param $data ['driver' => '', 'path' => '', 'url' => ],
+     * @param UploadedFile $file
+     * @return Attachments|Model
+     */
+    public static function store($data, UploadedFile $file)
+    {
+        return parent::create([
+            'file_size' => $file->getSize(),
+            'mime_type' => $file->getMime(),
+            'file_ext' => $file->getOriginalExtension(),
+            'filename' => $file->getOriginalName(),
+            'driver'  => $data['driver'],
+            'url' => $data['url'],
+            'path' => $data['path']
+        ]);
     }
 }
