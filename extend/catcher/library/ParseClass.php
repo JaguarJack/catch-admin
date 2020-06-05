@@ -1,6 +1,8 @@
 <?php
 namespace catcher\library;
 
+use think\helper\Str;
+
 class ParseClass
 {
     protected $namespace;
@@ -67,7 +69,7 @@ class ParseClass
 
         return new \ReflectionClass($this->namespace . $this->module . '\\controller\\'.
 
-            ucfirst($this->controller));
+          ucfirst($this->controller));
     }
 
 
