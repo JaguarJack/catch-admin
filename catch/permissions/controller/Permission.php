@@ -6,6 +6,7 @@ use catcher\base\CatchRequest as Request;
 use catcher\base\CatchController;
 use catcher\CatchResponse;
 use catcher\exceptions\FailedException;
+use catcher\library\ParseClass;
 use catcher\Tree;
 use catchAdmin\permissions\model\Permissions;
 use think\response\Json;
@@ -142,6 +143,23 @@ class Permission extends CatchController
         }
 
         return CatchResponse::success($permission->save());
+    }
+
+    /**
+     *
+     * @time 2020年06月05日
+     * @param $id
+     * @param ParseClass $parseClass
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @return Json
+     */
+    public function getMethods($id, ParseClass $parseClass)
+    {
+        $methods = $parseClass->setModule('catch')->setRule(Permissions::where('id', $id)->find())->onlySelfMethods();
+
+        return CatchResponse::success($methods);
     }
 }
 
