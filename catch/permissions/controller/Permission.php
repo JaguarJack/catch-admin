@@ -157,7 +157,13 @@ class Permission extends CatchController
      */
     public function getMethods($id, ParseClass $parseClass)
     {
-        $methods = $parseClass->setModule('catch')->setRule(Permissions::where('id', $id)->find())->onlySelfMethods();
+        $permission = Permissions::where('id', $id)->find();
+
+        $module = $permission->module;
+
+        $controller = explode('@', $permission->permission_mark)[0];
+
+        $methods = $parseClass->setModule('catch')->setRule($module, $controller)->onlySelfMethods();
 
         return CatchResponse::success($methods);
     }
