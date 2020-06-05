@@ -99,7 +99,7 @@ class Utils
 
         $controller = explode('\\', $controller);
 
-        $controllerName = strtolower(array_pop($controller));
+        $controllerName = lcfirst(array_pop($controller));
 
         array_pop($controller);
 
