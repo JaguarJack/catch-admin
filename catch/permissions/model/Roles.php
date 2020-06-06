@@ -18,13 +18,12 @@ class Roles extends CatchModel
     public const DEPARTMENT_DATA = 4; // 部门数据
     public const DEPARTMENT_DOWN_DATA = 5; // 部门及以下数据
 
-
     protected $field = [
             'id', // 
 			'role_name', // 角色名
 			'parent_id', // 父级ID
-      'creator_id', // 创建者
-      'data_range', // 数据范围
+            'creator_id', // 创建者
+            'data_range', // 数据范围
 			'description', // 角色备注
 			'created_at', // 创建时间
 			'updated_at', // 更新时间
@@ -50,41 +49,4 @@ class Roles extends CatchModel
         return $this->belongsToMany(Users::class, 'user_has_roles', 'uid', 'role_id');
     }
 
-
-    public static function getDepartmentUserIdsBy($roles)
-    {
-        $uids = [];
-
-        $isAll = false;
-
-        $user = request()->user();
-
-        foreach ($roles as $role) {
-            switch ($role->data_range) {
-              case self::ALL_DATA:
-                    $isAll = true;
-                    break;
-              case self::SELF_CHOOSE:
-                    $departmentIds = array_merge(array_column($role->getDepartments()->toArray(), 'id'));
-                    $uids = array_merge($uids, Users::getUserIdsByDepartmentIds($departmentIds));
-                    break;
-              case self::SELF_DATA:
-                    $uids[] = $user->id;
-                    break;
-              case self::DEPARTMENT_DOWN_DATA:
-              case self::DEPARTMENT_DATA:
-                    $uids = array_merge($uids, Users::getUserIdsByDepartmentIds([$user->department_id]));
-                    break;
-              default:
-                    break;
-            }
-
-            // 如果有全部数据 直接跳出
-            if ($isAll) {
-              break;
-            }
-        }
-
-        return $uids;
-    }
 }
