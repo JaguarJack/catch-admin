@@ -32,7 +32,7 @@
 - [github 地址](https://github.com/yanwenwu/catch-admin)
 - [gitee 地址](https://gitee.com/jaguarjack/catchAdmin)
 - [前端 Vue 项目地址](https://github.com/yanwenwu/catch-admin-vue)
-
+- [文档地址](https://github.com/catch-admin/document)[个人精力实在有限,希望可以小伙伴们可以一起维护文档]
 ## 预览
 <p align="center">
     <img src="https://cdn.learnku.com/uploads/images/202005/17/18206/0ECPy72zUZ.png!large">
