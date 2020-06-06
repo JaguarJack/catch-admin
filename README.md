@@ -103,7 +103,11 @@ composer create-project jaguarjack/catchadmin:dev-master
 ### Talking
 - [论坛讨论](http://bbs.catchadmin.com)
 - 可以提 `ISSUE`，请按照 `issue` 模板提问
-- 欢迎进入 Q 群 `302266230` 讨论以及反馈一些问题。
+- 加入 Q 群 `302266230` 讨论以及反馈一些问题。
+    - 加群需要付费，所以请使用能支持群费的客户端。(不喜勿喷，过滤一部分不看文档和 TP 框架文档并且衣来伸手饭来张口的用户)
+    - 不建议你付费入群，认真阅读文档可以解决所有问题
+    - 更愿意以 `ISSUE` 的方式提问
+    - 付费入群，群里的各位也是没有义务回答各种各样的基础问题。请 GOOGLE。
 
 ### Thanks
 > 排名部分先后
