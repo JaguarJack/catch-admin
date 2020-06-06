@@ -1,7 +1,6 @@
 <?php
 namespace catcher\library;
 
-use think\helper\Str;
 
 class ParseClass
 {
@@ -11,6 +10,11 @@ class ParseClass
 
     protected $controller;
 
+    /**
+     * 获取父类方法
+     *
+     * @return array
+     */
     public function parentMethods()
     {
         $class = $this->getClass();
@@ -28,7 +32,11 @@ class ParseClass
         return $methods;
     }
 
-
+    /**
+     * 获取所有方法
+     *
+     * @return array
+     */
     public function methods()
     {
         $class = $this->getClass();
@@ -63,7 +71,12 @@ class ParseClass
        return  $methods;
     }
 
-
+    /**
+     * 获取 CLASS
+     *
+     * @return \ReflectionClass
+     * @throws \ReflectionException
+     */
     public function getClass()
     {
 
@@ -72,12 +85,22 @@ class ParseClass
           ucfirst($this->controller));
     }
 
-
+    /**
+     * @param $method
+     * @return bool
+     */
     protected function isMagicMethod($method)
     {
        return strpos($method, '__') !== false;
     }
 
+    /**
+     *
+     * @param $module
+     * @return $this
+     * @author JaguarJack <njphper@gmail.com>
+     * @date 2020/6/6
+     */
     public function setModule($module)
     {
         $composer = \json_decode(file_get_contents(root_path() . 'composer.json'), true);
@@ -94,7 +117,14 @@ class ParseClass
         return $this;
     }
 
-
+    /**
+     *
+     * @param $module
+     * @param $controller
+     * @return $this
+     * @author JaguarJack <njphper@gmail.com>
+     * @date 2020/6/6
+     */
     public function setRule($module, $controller)
     {
         $this->module = $module;
