@@ -29,7 +29,7 @@ class WechatCommand extends Command
     {
         file_put_contents(config_path() . 'wechat.php', $this->config());
 
-        file_put_contents(root_path(). '.env', $this->env(), FILE_APPEND);
+        $this->env();
 
         $output->warning('wechat publish successfully');
     }
@@ -68,8 +68,42 @@ return [
         ],
 
         /**
+         * 小程序
+         */
+         'mini_program' => [
+           // 更多配置查看 https://www.easywechat.com/docs/master/mini-program/index
+         ],
+         
+        /**
+         * 开放平台
+         */
+         'open_platform' => [
+           // 更多配置查看 https://www.easywechat.com/docs/master/open-platform/index
+         ],
+         
+        /**
+         * 企业微信
+         */
+         'work' => [
+           // 更多配置查看 https://www.easywechat.com/docs/master/wework/index
+         ],
+         
+        /**
+         * 企业微信开放平台
+         */
+         'open_work' => [
+           // 配置 https://www.easywechat.com/docs/master/open-work/index
+         ],
+         
+         /**
+         * 小微商户
+         */
+         'micro_merchant' => [
+           // 配置 https://www.easywechat.com/docs/master/micro-merchant/index
+         ],
+         
+        /**
          * wechat pay
-         *
          */
         'payment' => [
             'app_id'    => 'xxxx',
