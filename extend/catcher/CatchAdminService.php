@@ -1,7 +1,7 @@
 <?php
 namespace catcher;
 
-use catcher\command\TestCommand;
+use catcher\command\publish\WechatCommand;
 use catcher\command\Tools\BackupCommand;
 use catcher\command\Tools\CompressPackageCommand;
 use catcher\command\CreateModuleCommand;
@@ -70,8 +70,8 @@ class CatchAdminService extends Service
             WsWorkerCommand::class,
             ExportDataCommand::class,
             MakeMenuCommand::class,
-            TestCommand::class,
             ExcelTaskCommand::class,
+            WechatCommand::class
         ]);
     }
     /**
