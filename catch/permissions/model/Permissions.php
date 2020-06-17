@@ -44,8 +44,7 @@ class Permissions extends CatchModel
     public function getList($isMenu = false)
     {
         return $this->catchSearch()
-                    ->order('sort', 'desc')
-                    ->order('id', 'desc')
+                    ->catchOrder()
                     ->when($isMenu, function ($query){
                         $query->where('type', self::MENU_TYPE);
                     })
@@ -74,7 +73,7 @@ class Permissions extends CatchModel
                           'route', 'icon', 'component', 'redirect',
                           'keepalive as keepAlive', 'hide_children_in_menu', 'type', 'permission_mark', 'status'
                       ])
-                      ->order()
+                      ->catchOrder()
                       ->select();
     }
 

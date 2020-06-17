@@ -38,7 +38,7 @@ class Department extends CatchModel
         return $this->withoutField(['department_name'])
                     ->addFields(['department_name as title'])
                     ->catchSearch()
-                    ->order()
+                    ->catchOrder()
                     ->select()->toArray();
     }
 }
