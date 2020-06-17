@@ -26,5 +26,10 @@ return [
             'serialize'  => [],
         ],
         // 更多的缓存连接
+        'redis' => [
+            'type' => 'redis',
+            'host' => '127.0.0.1',
+            'password' => '123456',
+        ]
     ],
 ];
