@@ -11,6 +11,7 @@
 
 namespace catchAdmin\system\model;
 
+use catchAdmin\permissions\model\Users;
 use catcher\base\CatchModel;
 
 class SensitiveWord extends CatchModel
@@ -25,4 +26,35 @@ class SensitiveWord extends CatchModel
 		'updated_at', // 更新时间
 		'deleted_at', // 删除时间
     ];
+
+    /**
+     * 词汇查询
+     *
+     * @time 2020年06月17日
+     * @param $query
+     * @param $value
+     * @param $data
+     * @return mixed
+     */
+    public function searchWordAttr($query, $value, $data)
+    {
+        return $query->whereLike('word', $value);
+    }
+
+
+    /**
+     * 创建人
+     *
+     * @time 2020年06月17日
+     * @param $query
+     * @return mixed
+     */
+    public function scopeCreator($query)
+    {
+        return $query->addSelectSub(function (){
+            $user = app(Users::class);
+            return $user->whereColumn($this->getTable() . '.creator_id', $user->getTable() . '.id')
+                ->field('username');
+        }, 'creator');
+    }
 }
