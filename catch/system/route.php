@@ -26,3 +26,6 @@ $router->resource('config', '\catchAdmin\system\controller\Config');
 // 代码生成
 $router->post('generate', '\catchAdmin\system\controller\Generate@save');
 $router->post('generate/preview', '\catchAdmin\system\controller\Generate@preview'); // 预览
+
+// 敏感词
+$router->resource('sensitive/word', '\catchAdmin\system\controller\SensitiveWord');
