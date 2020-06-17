@@ -2,6 +2,8 @@
 
 namespace catcher\traits\db;
 
+use catchAdmin\permissions\model\Users;
+
 trait BaseOptionsTrait
 {
     /**
@@ -13,7 +15,9 @@ trait BaseOptionsTrait
     public function getList()
     {
         return $this->catchSearch()
+                    ->field('*')
                     ->catchOrder()
+                    ->creator()
                     ->paginate();
     }
 

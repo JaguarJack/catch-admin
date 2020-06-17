@@ -166,11 +166,17 @@ class CatchQuery extends Query
    * 额外的字段
    *
    * @time 2020年01月13日
-   * @param array $fields
+   * @param $fields
    * @return CatchQuery
    */
-    public function addFields(array $fields): CatchQuery
+    public function addFields($fields): CatchQuery
     {
+        if (is_string($fields)) {
+            $this->options['field'][] = $fields;
+
+            return $this;
+        }
+
         $this->options['field'] = array_merge($this->options['field'], $fields);
 
         return $this;
@@ -202,6 +208,21 @@ class CatchQuery extends Query
         }
 
         $this->order($this->getTable() . '.' . $this->getPk(), $order);
+
+        return $this;
+    }
+
+    /**
+     * 新增 Select 子查询
+     *
+     * @time 2020年06月17日
+     * @param callable $callable
+     * @param string $as
+     * @return $this
+     */
+    public function  addSelectSub(callable $callable, string $as)
+    {
+        $this->field(sprintf('%s as %s', $callable($this)->buildSql(), $as));
 
         return $this;
     }
