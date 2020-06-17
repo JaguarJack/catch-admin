@@ -13,4 +13,6 @@ namespace catcher;
 class CatchCacheKeys
 {
     public const USER_PERMISSIONS = 'user_permissions_';
+
+    public const TRIE_TREE = 'trie_tree';
 }
