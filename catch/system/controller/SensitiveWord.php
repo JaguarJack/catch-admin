@@ -1,6 +1,8 @@
 <?php
 namespace catchAdmin\system\controller;
 
+use catchAdmin\system\request\sensitiveWord\CreateRequest;
+use catchAdmin\system\request\sensitiveWord\UpdateRequest;
 use catcher\base\CatchController;
 use catchAdmin\system\model\SensitiveWord as Model;
 use catcher\base\CatchRequest;
@@ -30,10 +32,10 @@ class SensitiveWord extends CatchController
      * 保存
      *
      * @time 2020年06月17日
-     * @param CatchRequest $request
+     * @param CreateRequest $request
      * @return \think\response\Json
      */
-    public function save(CatchRequest $request)
+    public function save(CreateRequest $request)
     {
         return CatchResponse::success($this->sensitiveWord->storeBy($request->param()));
     }
@@ -43,10 +45,10 @@ class SensitiveWord extends CatchController
      *
      * @time 2020年06月17日
      * @param $id
-     * @param CatchRequest $request
+     * @param UpdateRequest $request
      * @return \think\response\Json
      */
-    public function update($id, CatchRequest $request)
+    public function update($id, UpdateRequest $request)
     {
         return CatchResponse::success($this->sensitiveWord->updateBy($id, $request->param()));
 
