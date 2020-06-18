@@ -32,7 +32,8 @@
     },
     "require-dev": {
         "symfony/var-dumper": "^4.2",
-        "topthink/think-trace":"^1.0"
+        "topthink/think-trace":"^1.0",
+        "phpunit/phpunit": "^8.5"
     },
     "autoload": {
         "psr-4": {
@@ -41,6 +42,11 @@
         },
         "psr-0": {
             "": "extend/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "catchAdmin\\tests\\": "tests"
         }
     },
     "config": {
