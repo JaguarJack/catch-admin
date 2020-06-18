@@ -86,6 +86,7 @@ class Trie
             }
             $node = $trieTree[$words[$start]];
             $this->sensitiveWord = $words[$start];
+            // 从敏感词开始查找内容中是否又符合的
             for ($i = $start+1; $i< $len; $i++) {
                 $node = $node[$words[$i]] ?? null;
                 $this->sensitiveWord .= $words[$i];
@@ -102,6 +103,13 @@ class Trie
                     $start = $i-1;
                     break;
                 }
+            }
+            // 防止内容比敏感词短 导致验证过去
+            // 使用敏感词【傻子】校验【傻】这个词
+            // 会提取【傻】
+            // 再次判断是否是尾部
+            if (!isset($node['end'])) {
+                $this->sensitiveWord = '';
             }
         }
 
