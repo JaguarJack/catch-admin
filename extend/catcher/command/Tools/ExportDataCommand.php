@@ -38,7 +38,7 @@ class ExportDataCommand extends Command
             $data = Tree::done($data, 0, $parent);
         }
 
-        file_put_contents(root_path() . DIRECTORY_SEPARATOR . $table . '.php', "<?php\r\n return " . var_export($data, true));
+        file_put_contents(root_path() . DIRECTORY_SEPARATOR . $table . '.php', "<?php\r\n return " . var_export($data, true) . ';');
 
         $output->info('succeed!');
     }
