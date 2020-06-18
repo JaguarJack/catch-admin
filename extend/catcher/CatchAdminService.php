@@ -2,7 +2,9 @@
 namespace catcher;
 
 use catcher\command\publish\WechatCommand;
+use catcher\command\TestCommand;
 use catcher\command\Tools\BackupCommand;
+use catcher\command\Tools\CacheTrieCommand;
 use catcher\command\Tools\CompressPackageCommand;
 use catcher\command\CreateModuleCommand;
 use catcher\command\install\InstallProjectCommand;
@@ -71,7 +73,8 @@ class CatchAdminService extends Service
             ExportDataCommand::class,
             MakeMenuCommand::class,
             ExcelTaskCommand::class,
-            WechatCommand::class
+            WechatCommand::class,
+            CacheTrieCommand::class,
         ]);
     }
     /**
