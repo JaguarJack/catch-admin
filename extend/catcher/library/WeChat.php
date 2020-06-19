@@ -27,9 +27,31 @@ use think\helper\Str;
  */
 class WeChat
 {
+    /**
+     * 静态调用
+     *
+     * @time 2020年06月19日
+     * @param $name
+     * @param $arguments
+     * @return mixed
+     */
     public static function __callStatic($name, $arguments)
     {
         // TODO: Implement __callStatic() method.
+        return Factory::{$name}(\config('wechat.'. Str::snake($name)));
+    }
+
+    /**
+     * 动态调用
+     *
+     * @time 2020年06月19日
+     * @param $name
+     * @param $arguments
+     * @return mixed
+     */
+    public function __call($name, $arguments)
+    {
+        // TODO: Implement __call() method.
         return Factory::{$name}(\config('wechat.'. Str::snake($name)));
     }
 }
