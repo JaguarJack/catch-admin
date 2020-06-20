@@ -205,8 +205,8 @@ class CatchAdmin
      */
     public static function getModuleInfo($module)
     {
-        if (file_exists($module . DIRECTORY_SEPARATOR . 'module.json')) {
-            return \json_decode(file_get_contents($module . DIRECTORY_SEPARATOR . 'module.json'), true);
+        if (file_exists(self::moduleDirectory($module) . DIRECTORY_SEPARATOR . 'module.json')) {
+            return \json_decode(file_get_contents(self::moduleDirectory($module) . DIRECTORY_SEPARATOR . 'module.json'), true);
         }
 
         return [];
