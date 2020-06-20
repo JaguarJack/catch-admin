@@ -11,6 +11,7 @@
 namespace catcher\command\install;
 
 use catcher\CatchAdmin;
+use Doctrine\DBAL\Types\DateImmutableType;
 use think\console\Command;
 use think\console\Input;
 use think\console\input\Option;
@@ -20,7 +21,7 @@ class InstallModuleServiceCommand extends Command
 {
     protected function configure()
     {
-        $this->setName('catch-module:service')
+        $this->setName('catch-service:discover')
             ->addOption('module', '-m',Option::VALUE_REQUIRED, 'module name')
             ->setDescription('install catch module service');
     }
@@ -105,8 +106,7 @@ PHP
         if (!$module) {
             $modules = CatchAdmin::getModulesDirectory();
             foreach ($modules as $module) {
-               $m = explode(DIRECTORY_SEPARATOR, $module);
-
+               $m = explode(DIRECTORY_SEPARATOR, trim($module, DIRECTORY_SEPARATOR));
                $moduleNames[] = array_pop($m);
             }
 
