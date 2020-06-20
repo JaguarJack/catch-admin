@@ -1,11 +1,13 @@
 {
-  "name": "系统管理",
-  "alias": "system",
-  "description": "",
-  "keywords": [],
+  "name": "微信管理",
+  "alias": "wechat",
+  "description": "catchadmin 微信管理模块",
+  "keywords": [
+    "wechat", "module"
+  ],
   "order": 2,
-  "services": [],
-  "aliases": {},
+  "services": ["\\catchAdmin\\wechat\\CatchWechatService"],
+  "aliases": "wechat",
   "files": [],
   "requires": []
 }
