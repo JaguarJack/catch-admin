@@ -11,7 +11,6 @@
 namespace catcher\command\install;
 
 use catcher\CatchAdmin;
-use Doctrine\DBAL\Types\DateImmutableType;
 use think\console\Command;
 use think\console\Input;
 use think\console\input\Option;
@@ -41,8 +40,6 @@ class InstallModuleServiceCommand extends Command
         $services = array_unique(array_merge($services, $moduleServices));
 
         $this->exportServices($services, $servicesPath);
-
-        $output->info('export service successfully');
     }
 
     /**
