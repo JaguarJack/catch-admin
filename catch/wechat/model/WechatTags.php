@@ -18,6 +18,8 @@ class WechatTags extends Model
 {
     use TagSearchTrait;
 
+    protected $pk = 'tag_id';
+
     protected $name = 'wechat_tags';
 
     protected $field = [
@@ -29,9 +31,8 @@ class WechatTags extends Model
 		'updated_at', // 更新时间
 		'deleted_at', // 软删除
     ];
-    
 
-    public function hasManyUsers()
+    public function hasUsers()
     {
         return $this->belongsToMany(WechatUsers::class, 'wechat_user_has_tags', 'user_id', 'tag_id');
     }

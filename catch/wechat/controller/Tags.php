@@ -24,17 +24,25 @@ class Tags extends CatchController
     {
         $this->repository = $repository;
     }
-    
+
     /**
      * 列表
      *
      * @time 2020/06/21 14:45
-     *  
+     *
+     * @param Request $request
      * @return \think\Response
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\db\exception\DataNotFoundException
      */
-    public function index()
+    public function index(Request $request)
     {
-        return CatchResponse::paginate($this->repository->getList());
+        if ($request->has('all')) {
+            return CatchResponse::success($this->repository->getList($request->param()));
+        }
+
+        return CatchResponse::paginate($this->repository->getList($request->param()));
     }
     
     /**

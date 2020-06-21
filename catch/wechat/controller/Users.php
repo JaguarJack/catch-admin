@@ -13,8 +13,10 @@ namespace catchAdmin\wechat\controller;
 use catchAdmin\wechat\repository\WechatUsersRepository;
 use catcher\base\CatchController;
 use catcher\CatchResponse;
+use catcher\library\WeChat;
 use catcher\Utils;
 use think\facade\Console;
+use think\Request;
 
 class Users extends CatchController
 {
@@ -59,6 +61,11 @@ class Users extends CatchController
     public function block($id)
     {
         return CatchResponse::success($this->user->block($id));
+    }
+
+    public function tag($id, Request $request)
+    {
+       return CatchResponse::success($this->user->tag($id, $request->post()));
     }
 
     public function sync()

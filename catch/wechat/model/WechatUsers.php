@@ -13,7 +13,7 @@ namespace catchAdmin\wechat\model;
 
 use catchAdmin\wechat\model\search\UserSearchTrait;
 use catcher\base\CatchModel;
-use catcher\traits\db\BaseOptionsTrait;
+use think\facade\Db;
 
 class WechatUsers extends CatchModel
 {
@@ -47,8 +47,19 @@ class WechatUsers extends CatchModel
     const BlOCK = 2; // 拉黑
     const UNBLOCK = 1; // 取消拉黑
 
-    public function hasManyTags()
+    public function hasTags()
     {
         return $this->belongsToMany(WechatTags::class, 'wechat_user_has_tags', 'tag_id', 'user_id');
     }
+
+    public function scopeTags($query)
+    {
+        return $query->addSelectSub(function () {
+            return Db::name('wechat_user_has_tags')
+                        ->whereColumn('wechat_user_has_tags.user_id', $this->aliasField('id'))
+                        ->leftJoin('wechat_tags','wechat_user_has_tags.tag_id=wechat_tags.tag_id')
+                        ->field(Db::raw('group_concat(`wechat_tags`.name)'));
+        }, 'tags');
+    }
+
 }

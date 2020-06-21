@@ -15,6 +15,7 @@ $router->group('wechat', function () use ($router){
         $router->get('', '\catchAdmin\wechat\controller\Users@index');
         $router->put('remark/<id>/<remark>', '\catchAdmin\wechat\controller\Users@remark');
         $router->put('block/<id>', '\catchAdmin\wechat\controller\Users@block');
+        $router->put('tag/<id>', '\catchAdmin\wechat\controller\Users@tag');
         $router->get('sync', '\catchAdmin\wechat\controller\Users@sync');
     });
     // 粉丝标签
