@@ -51,7 +51,7 @@ trait HasPermissionsTrait
   public function attach(array $permissions)
   {
     if (empty($permissions)) {
-      return true;
+        return true;
     }
 
     sort($permissions);
@@ -68,7 +68,7 @@ trait HasPermissionsTrait
   public function detach(array $roles = [])
   {
     if (empty($roles)) {
-      return $this->permissions()->detach();
+        return $this->permissions()->detach();
     }
 
     return $this->permissions()->detach($roles);
