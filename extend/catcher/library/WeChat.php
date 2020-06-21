@@ -66,7 +66,8 @@ class WeChat
     public static function throw($response)
     {
         if (isset($response['errcode']) && $response['errcode']) {
-            throw new WechatResponseException(Errors::WECHAT[$response['errcode']], $response['errcode']);
+            $message = Errors::WECHAT[$response['errcode']] ?? $response['errcode'];
+            throw new WechatResponseException($message, $response['errcode']);
         }
 
         return $response;
