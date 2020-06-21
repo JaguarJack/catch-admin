@@ -10,6 +10,8 @@
  */
 namespace catcher\library;
 
+use catcher\exceptions\WechatResponseException;
+use catcher\library\Errors;
 use EasyWeChat\Factory;
 use think\helper\Str;
 
@@ -36,8 +38,7 @@ class WeChat
      * @return mixed
      */
     public static function __callStatic($name, $arguments)
-    {
-        // TODO: Implement __callStatic() method.
+    {// TODO: Implement __callStatic() method.
         return Factory::{$name}(\config('wechat.'. Str::snake($name)));
     }
 
@@ -53,5 +54,21 @@ class WeChat
     {
         // TODO: Implement __call() method.
         return Factory::{$name}(\config('wechat.'. Str::snake($name)));
+    }
+
+    /**
+     * throw error
+     *
+     * @time 2020年06月21日
+     * @param $response
+     * @return bool
+     */
+    public static function throw($response)
+    {
+        if (isset($response['errcode']) && $response['errcode']) {
+            throw new WechatResponseException(Errors::WECHAT[$response['errcode']], $response['errcode']);
+        }
+
+        return $response;
     }
 }
