@@ -10,40 +10,29 @@
  */
 namespace catchAdmin\wechat\controller;
 
+use catchAdmin\wechat\model\WechatUsers;
 use catcher\base\CatchController;
 use catcher\CatchResponse;
-use catcher\library\WeChat;
 use catcher\Utils;
 
 class Users extends CatchController
 {
     protected $user;
 
-    public function __construct(WeChat $weChat)
+    public function __construct(WechatUsers $users)
     {
-        $this->user = $weChat->officialAccount()->user;
+        $this->user = $users;
     }
 
     /**
      * 列表
      *
      * @time 2020年06月19日
-     * @param null $nextOpenid
      * @return \think\response\Json
      */
-    public function index($nextOpenid = null)
+    public function index()
     {
-        $openIds = $this->user->list($nextOpenid);
-
-        if ($openIds['count']) {
-            $users = $this->user->select($openIds['data']['openid']);
-
-            $openIds['users'] = $users;
-
-            return CatchResponse::success($openIds);
-        }
-
-        return CatchResponse::success($openIds);
+        return CatchResponse::paginate($this->user->getList());
     }
 
     /**
@@ -93,5 +82,15 @@ class Users extends CatchController
     public function unblock($openId)
     {
         return CatchResponse::success($this->user->unblock(Utils::stringToArrayBy($openId)));
+    }
+
+    public function subscribe()
+    {
+
+    }
+
+    public function unsubscribe()
+    {
+
     }
 }
