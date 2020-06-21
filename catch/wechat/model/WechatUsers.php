@@ -46,4 +46,9 @@ class WechatUsers extends CatchModel
 
     const BlOCK = 2; // 拉黑
     const UNBLOCK = 1; // 取消拉黑
+
+    public function hasManyTags()
+    {
+        return $this->belongsToMany(WechatTags::class, 'wechat_user_has_tags', 'tag_id', 'user_id');
+    }
 }

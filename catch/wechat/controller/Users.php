@@ -14,6 +14,7 @@ use catchAdmin\wechat\repository\WechatUsersRepository;
 use catcher\base\CatchController;
 use catcher\CatchResponse;
 use catcher\Utils;
+use think\facade\Console;
 
 class Users extends CatchController
 {
@@ -58,6 +59,13 @@ class Users extends CatchController
     public function block($id)
     {
         return CatchResponse::success($this->user->block($id));
+    }
+
+    public function sync()
+    {
+        Console::call('sync:users');
+
+        return CatchResponse::success('', 'success');
     }
 
     public function subscribe()

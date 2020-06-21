@@ -12,13 +12,16 @@
 namespace catchAdmin\wechat\command;
 
 use catchAdmin\wechat\model\WechatUsers;
+use catcher\exceptions\FailedException;
 use catcher\facade\Trie;
 use catcher\library\ProgressBar;
 use catcher\library\WeChat;
+use catcher\Utils;
 use think\Collection;
 use think\console\Command;
 use think\console\Input;
 use think\console\Output;
+use think\Db;
 
 class SyncUsersCommand extends Command
 {
@@ -34,9 +37,37 @@ class SyncUsersCommand extends Command
     {
         $this->officialAccount = WeChat::officialAccount();
 
-        $this->sync(null);
+        $latest = WechatUsers::order('subscribe_time')->find();
+
+        if ($latest) {
+            throw new FailedException('暂时无法增量同步');
+        }
+
+        $this->sync($latest ? $latest->openid : null);
+
+        $this->syncTags();
     }
 
+    protected function syncTags()
+    {
+        $users = WechatUsers::cursor();
+
+        foreach ($users as $user) {
+            if ($user->tag_list) {
+                $tagIds = Utils::stringToArrayBy($user->tag_list);
+                $relate = [];
+
+                foreach ($tagIds as $id) {
+                    $relate[] = [
+                        'user_id' => $user->id,
+                        'tag_id' => $id,
+                    ];
+                }
+
+                Db::name('wechat_user_has_tags')->insertAll($relate);
+            }
+        }
+    }
     /**
      * 同步
      *

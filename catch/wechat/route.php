@@ -12,8 +12,15 @@
 $router->group('wechat', function () use ($router){
     // 公众号粉丝
     $router->group('official/users', function () use ($router){
-        $router->get('<nextOpenid?>', '\catchAdmin\wechat\controller\Users@index');
+        $router->get('', '\catchAdmin\wechat\controller\Users@index');
         $router->put('remark/<id>/<remark>', '\catchAdmin\wechat\controller\Users@remark');
         $router->put('block/<id>', '\catchAdmin\wechat\controller\Users@block');
+        $router->get('sync', '\catchAdmin\wechat\controller\Users@sync');
+    });
+    // 粉丝标签
+    $router->group('official/tags', function () use ($router){
+        $router->resource('', '\catchAdmin\wechat\controller\Tags');
+        $router->get('sync', '\catchAdmin\wechat\controller\Tags@sync');
     });
 });
+
