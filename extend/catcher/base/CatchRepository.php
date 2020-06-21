@@ -13,7 +13,7 @@ namespace catcher\base;
 
 /**
  * @method  getList(array $data = [])
- * @method   store(array $data)
+ * @method   storeBy(array $data)
  * @method   updateBy(int $id, array $data)
  * @method   findBy(int $id, array $column = ['*'])
  * @method   deleteBy(int $id)
