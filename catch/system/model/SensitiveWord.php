@@ -40,21 +40,4 @@ class SensitiveWord extends CatchModel
     {
         return $query->whereLike('word', $value);
     }
-
-
-    /**
-     * 创建人
-     *
-     * @time 2020年06月17日
-     * @param $query
-     * @return mixed
-     */
-    public function scopeCreator($query)
-    {
-        return $query->addSelectSub(function (){
-            $user = app(Users::class);
-            return $user->whereColumn($this->getTable() . '.creator_id', $user->getTable() . '.id')
-                ->field('username');
-        }, 'creator');
-    }
 }

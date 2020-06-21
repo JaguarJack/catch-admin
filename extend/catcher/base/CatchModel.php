@@ -5,6 +5,7 @@ use catcher\CatchQuery;
 use catcher\traits\db\BaseOptionsTrait;
 use catcher\traits\db\TransTrait;
 use think\model\concern\SoftDelete;
+use catcher\traits\db\ScopeTrait;
 
 /**
  *
@@ -14,7 +15,7 @@ use think\model\concern\SoftDelete;
  */
 abstract class CatchModel extends \think\Model
 {
-    use SoftDelete, TransTrait, BaseOptionsTrait;
+    use SoftDelete, TransTrait, BaseOptionsTrait, ScopeTrait;
 
     protected $createTime = 'created_at';
 

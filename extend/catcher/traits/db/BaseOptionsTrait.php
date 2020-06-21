@@ -2,8 +2,6 @@
 
 namespace catcher\traits\db;
 
-use catchAdmin\permissions\model\Users;
-
 trait BaseOptionsTrait
 {
     /**
