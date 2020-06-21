@@ -1,6 +1,6 @@
 <?php
 /**
- * @filename Users.php
+ * @filename WechatUsersRepository.php
  * @date     2020/6/7
  * @project  https://github.com/yanwenwu/catch-admin
  * @document http://doc.catchadmin.com
@@ -10,7 +10,7 @@
  */
 namespace catchAdmin\wechat\controller;
 
-use catchAdmin\wechat\model\WechatUsers;
+use catchAdmin\wechat\repository\WechatUsersRepository;
 use catcher\base\CatchController;
 use catcher\CatchResponse;
 use catcher\Utils;
@@ -19,7 +19,7 @@ class Users extends CatchController
 {
     protected $user;
 
-    public function __construct(WechatUsers $users)
+    public function __construct(WechatUsersRepository $users)
     {
         $this->user = $users;
     }
@@ -39,49 +39,25 @@ class Users extends CatchController
      * 备注
      *
      * @time 2020年06月19日
-     * @param $optionId
+     * @param $id
      * @param $remark
      * @return \think\response\Json
      */
-    public function remark($optionId, $remark)
+    public function remark($id, $remark)
     {
-        return CatchResponse::success($this->user->remark($optionId, $remark));
+        return CatchResponse::success($this->user->remark($id, $remark));
     }
 
     /**
      * 拉黑
      *
      * @time 2020年06月19日
-     * @param $openId
+     * @param $id
      * @return \think\response\Json
      */
-    public function block($openId)
+    public function block($id)
     {
-        return CatchResponse::success($this->user->block(Utils::stringToArrayBy($openId)));
-    }
-
-    /**
-     * 拉黑列表
-     *
-     * @time 2020年06月19日
-     * @param null $nextOpenid
-     * @return \think\response\Json
-     */
-    public function blacklist($nextOpenid = null)
-    {
-       return CatchResponse::success($this->user->blacklist($nextOpenid));
-    }
-
-    /**
-     * 取消拉黑
-     *
-     * @time 2020年06月19日
-     * @param $openId
-     * @return \think\response\Json
-     */
-    public function unblock($openId)
-    {
-        return CatchResponse::success($this->user->unblock(Utils::stringToArrayBy($openId)));
+        return CatchResponse::success($this->user->block($id));
     }
 
     public function subscribe()

@@ -13,9 +13,7 @@ $router->group('wechat', function () use ($router){
     // 公众号粉丝
     $router->group('official/users', function () use ($router){
         $router->get('<nextOpenid?>', '\catchAdmin\wechat\controller\Users@index');
-        $router->put('remark/<openid>/<remark>', '\catchAdmin\wechat\controller\Users@remark');
-        $router->put('block/<openid>', '\catchAdmin\wechat\controller\Users@block');
-        $router->put('unblock/<openid>', '\catchAdmin\wechat\controller\Users@unblock');
-        $router->get('blacklist', '\catchAdmin\wechat\controller\Users@blacklist');
+        $router->put('remark/<id>/<remark>', '\catchAdmin\wechat\controller\Users@remark');
+        $router->put('block/<id>', '\catchAdmin\wechat\controller\Users@block');
     });
 });
