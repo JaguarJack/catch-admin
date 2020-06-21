@@ -8,3 +8,11 @@
  * @copyright By CatchAdmin
  * @license  https://github.com/yanwenwu/catch-admin/blob/master/LICENSE.txt
  */
+namespace catcher\exceptions;
+
+use catcher\Code;
+
+class WechatResponseException extends CatchException
+{
+    protected $code = Code::WECHAT_RESPONSE_ERROR;
+}
