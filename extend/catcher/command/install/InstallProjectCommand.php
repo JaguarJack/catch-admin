@@ -236,6 +236,8 @@ class InstallProjectCommand extends Command
         // todo something
       // create jwt 
       Console::call('jwt:create');
+      // create service
+      Console::call('catch-service:discover');
     }
 
     /**
