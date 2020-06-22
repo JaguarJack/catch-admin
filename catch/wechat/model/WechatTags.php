@@ -9,35 +9,31 @@
 // | Author: JaguarJack [ njphper@gmail.com ]
 // +----------------------------------------------------------------------
 
-namespace catchAdmin\system\model;
+namespace catchAdmin\wechat\model;
 
-use catchAdmin\permissions\model\Users;
-use catcher\base\CatchModel;
+use catchAdmin\wechat\model\search\TagSearchTrait;
+use catcher\base\CatchModel as Model;
 
-class SensitiveWord extends CatchModel
+class WechatTags extends Model
 {
-    protected $name = 'sensitive_word';
+    use TagSearchTrait;
+
+    protected $pk = 'tag_id';
+
+    protected $name = 'wechat_tags';
 
     protected $field = [
         'id', // 
-		'word', // 词汇
-		'creator_id', // 创建人ID
+		'tag_id', // 微信 tagId
+		'name', // 标签名称
+        'fans_amount', // 粉丝数量
 		'created_at', // 创建时间
 		'updated_at', // 更新时间
-		'deleted_at', // 删除时间
+		'deleted_at', // 软删除
     ];
 
-    /**
-     * 词汇查询
-     *
-     * @time 2020年06月17日
-     * @param $query
-     * @param $value
-     * @param $data
-     * @return mixed
-     */
-    public function searchWordAttr($query, $value, $data)
+    public function hasUsers()
     {
-        return $query->whereLike('word', $value);
+        return $this->belongsToMany(WechatUsers::class, 'wechat_user_has_tags', 'user_id', 'tag_id');
     }
 }

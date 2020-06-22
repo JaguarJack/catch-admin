@@ -4,9 +4,7 @@
   "description": "",
   "keywords": [],
   "order": 1,
-  "services": [
-    "catchAdmin\\login\\LoginService"
-  ],
+  "services": [],
   "aliases": {},
   "files": [],
   "requires": []

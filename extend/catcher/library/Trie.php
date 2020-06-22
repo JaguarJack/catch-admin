@@ -144,6 +144,6 @@ class Trie
      */
     public function cached()
     {
-        Cache::store('redis')->set(CatchCacheKeys::TRIE_TREE, $this->tree);
+       return Cache::store('redis')->set(CatchCacheKeys::TRIE_TREE, $this->tree);
     }
 }

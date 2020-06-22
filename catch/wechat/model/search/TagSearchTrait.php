@@ -8,36 +8,20 @@
 // +----------------------------------------------------------------------
 // | Author: JaguarJack [ njphper@gmail.com ]
 // +----------------------------------------------------------------------
+namespace catchAdmin\wechat\model\search;
 
-namespace catchAdmin\system\model;
-
-use catchAdmin\permissions\model\Users;
-use catcher\base\CatchModel;
-
-class SensitiveWord extends CatchModel
+trait TagSearchTrait
 {
-    protected $name = 'sensitive_word';
-
-    protected $field = [
-        'id', // 
-		'word', // 词汇
-		'creator_id', // 创建人ID
-		'created_at', // 创建时间
-		'updated_at', // 更新时间
-		'deleted_at', // 删除时间
-    ];
-
     /**
-     * 词汇查询
-     *
-     * @time 2020年06月17日
+     * 昵称搜索
+     * @time 2020年06月21日
      * @param $query
      * @param $value
      * @param $data
      * @return mixed
      */
-    public function searchWordAttr($query, $value, $data)
+    public function searchNameAttr($query, $value, $data)
     {
-        return $query->whereLike('word', $value);
+        return $query->whereLike('name', $value);
     }
 }

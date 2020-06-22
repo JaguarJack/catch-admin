@@ -24,7 +24,7 @@ class CatchQuery extends Query
         $table = app($model)->getTable();
 
         // 合并字段
-        $this->options['field'] = array_merge($this->options['field'], array_map(function ($value) use ($table) {
+        $this->options['field'] = array_merge($this->options['field'] ?? [], array_map(function ($value) use ($table) {
           return $table . '.' . $value;
         }, $field));
 
@@ -222,7 +222,7 @@ class CatchQuery extends Query
      */
     public function  addSelectSub(callable $callable, string $as)
     {
-        $this->field(sprintf('%s as %s', $callable($this)->buildSql(), $as));
+        $this->field(sprintf('%s as %s', $callable()->buildSql(), $as));
 
         return $this;
     }

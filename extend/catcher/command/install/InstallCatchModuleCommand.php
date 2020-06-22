@@ -8,7 +8,7 @@
  * @copyright By CatchAdmin
  * @license  https://github.com/yanwenwu/catch-admin/blob/master/LICENSE.txt
  */
-namespace catcher\command;
+namespace catcher\command\install;
 
 use think\console\Command;
 use think\console\Input;
@@ -22,7 +22,7 @@ class InstallCatchModuleCommand extends Command
     {
       $this->setName('install:module')
            ->addArgument('module', Argument::REQUIRED, 'module name')
-           ->addOption('modue', '-r',Option::VALUE_NONE, 'reinstall back')
+           ->addOption('mode', '-r',Option::VALUE_NONE, 'reinstall back')
            ->setDescription('install catch module');
     }
 

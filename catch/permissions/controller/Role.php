@@ -71,17 +71,29 @@ class Role extends CatchController
     {
         $this->role->updateBy($id, $request->param());
         $role = $this->role->findBy($id);
-        $role->detach();
 
-        $permissions = $request->param('permissions');
-        if (!empty($permissions)) {
-            $role->attach(array_unique($permissions));
+        $hasPermissionIds = $role->getPermissions()->column('id');
+
+        $permissionIds = $request->param('permissions');
+
+        // 已存在权限 IDS
+        $existedPermissionIds = [];
+        foreach ($hasPermissionIds as $hasPermissionId) {
+            if (in_array($hasPermissionId, $permissionIds)) {
+                $existedPermissionIds[] = $hasPermissionId;
+            }
         }
 
-        if (!empty($request->param('departments'))) {
-            $role->detachDepartments();
-            $role->attachDepartments($request->param('departments'));
+        $attachIds = array_diff($permissionIds, $existedPermissionIds);
+        $detachIds = array_diff($hasPermissionIds, $existedPermissionIds);
+
+        if (!empty($detachIds)) {
+            $role->detach($detachIds);
         }
+        if (!empty($attachIds)) {
+            $role->attach(array_unique($attachIds));
+        }
+
         return CatchResponse::success();
     }
 

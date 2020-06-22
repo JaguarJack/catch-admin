@@ -8,4 +8,20 @@
  * @copyright By CatchAdmin
  * @license  https://github.com/yanwenwu/catch-admin/blob/master/LICENSE.txt
  */
-$router->resource('official/users', '\catchAdmin\wechat\controller\Users');
+
+$router->group('wechat', function () use ($router){
+    // 公众号粉丝
+    $router->group('official/users', function () use ($router){
+        $router->get('', '\catchAdmin\wechat\controller\Users@index');
+        $router->put('remark/<id>/<remark>', '\catchAdmin\wechat\controller\Users@remark');
+        $router->put('block/<id>', '\catchAdmin\wechat\controller\Users@block');
+        $router->put('tag/<id>', '\catchAdmin\wechat\controller\Users@tag');
+        $router->get('sync', '\catchAdmin\wechat\controller\Users@sync');
+    });
+    // 粉丝标签
+    $router->group('official/tags', function () use ($router){
+        $router->resource('', '\catchAdmin\wechat\controller\Tags');
+        $router->get('sync', '\catchAdmin\wechat\controller\Tags@sync');
+    });
+});
+
