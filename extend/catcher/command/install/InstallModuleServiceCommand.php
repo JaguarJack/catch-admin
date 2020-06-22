@@ -75,18 +75,17 @@ PHP
      */
     protected function getServices($module)
     {
-        $services = [];
 
-        foreach ($this->getModules($module) as $module) {
-            $information = CatchAdmin::getModuleInfo($module);
-            if (!empty($information)) {
-                if (isset($information['services']) && !empty($information['services'])) {
-                    $services = array_merge($services, $information['services']);
-                }
+        if ($module) {
+            $moduleInfo = CatchAdmin::getModuleInfo(CatchAdmin::directory() . $module);
+            if (isset($moduleInfo['services']) && !empty($moduleInfo['services'])) {
+                return $moduleInfo['services'];
+            } else {
+                return [];
             }
         }
 
-        return $services;
+        return CatchAdmin::getServices();
     }
 
     /**
