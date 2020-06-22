@@ -23,7 +23,7 @@ trait ScopeTrait
      */
     public function scopeCreator($query)
     {
-        if (in_array('creator_id', $this->field)) {
+        if (property_exists($this, 'field') && in_array('creator_id', $this->field)) {
             return $query->addSelectSub(function () {
                 $user = app(Users::class);
                 return $user->whereColumn($this->getTable() . '.creator_id', $user->getTable() . '.id')
