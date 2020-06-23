@@ -177,6 +177,78 @@ class CatchAdmin
     }
 
     /**
+     * 获取可用模块
+     *
+     * @time 2020年06月23日
+     * @return array
+     */
+    public static function getEnabledService()
+    {
+        $services = [];
+
+        foreach (self::getModulesDirectory() as $module) {
+            if (is_dir($module)) {
+                $moduleInfo = self::getModuleInfo($module);
+                if (isset($moduleInfo['services']) && !empty($moduleInfo['services'])) {
+                    if ($moduleInfo['enable']) {
+                        $services = array_merge($services, $moduleInfo['services']);
+                    }
+                }
+            }
+        }
+
+        return $services;
+    }
+
+    /**
+     * 开启模块
+     *
+     * @time 2020年06月23日
+     * @param $module
+     * @return bool
+     */
+    public static function enableModule($module)
+    {
+        $moduleJson = self::moduleDirectory($module) . 'module.json';
+
+        if (!file_exists($moduleJson)) {
+            return true;
+        }
+
+        $info = \json_decode(file_get_contents($moduleJson), true);
+
+        $info['enable'] = true;
+
+        file_put_contents($moduleJson, \json_encode($info, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE));
+
+        return true;
+    }
+
+    /**
+     * 关闭模块
+     *
+     * @time 2020年06月23日
+     * @param $module
+     * @return bool
+     */
+    public function disableModule($module)
+    {
+        $moduleJson = self::moduleDirectory($module) . 'module.json';
+
+        if (!file_exists($moduleJson)) {
+            return true;
+        }
+
+        $info = \json_decode(file_get_contents($moduleJson), true);
+
+        $info['enable'] = true;
+
+        file_put_contents($moduleJson, \json_encode($info, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE));
+
+        return true;
+    }
+
+    /**
      *
      * @time 2019年11月30日
      * @return array
@@ -272,8 +344,8 @@ class CatchAdmin
         }
 
         return $routeFiles;
-
     }
+
     /**
      *
      * @time 2019年11月30日
