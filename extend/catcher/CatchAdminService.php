@@ -18,6 +18,7 @@ use catcher\command\Tools\ExportDataCommand;
 use catcher\command\Tools\MakeMenuCommand;
 use catcher\command\worker\ExcelTaskCommand;
 use catcher\command\worker\WsWorkerCommand;
+use catcher\event\LoadModuleRoutes;
 use think\exception\Handle;
 use think\facade\Validate;
 use think\Service;
@@ -30,8 +31,7 @@ class CatchAdminService extends Service
      * @return void
      */
     public function boot()
-    {
-    }
+    {}
 
     /**
      * register
@@ -49,6 +49,8 @@ class CatchAdminService extends Service
         $this->registerEvents();
         $this->registerQuery();
         $this->registerExceptionHandle();
+        $this->registerRoutePath();
+        $this->registerServices();
     }
 
     /**
@@ -113,7 +115,9 @@ class CatchAdminService extends Service
      */
     protected function registerEvents(): void
     {
-        $this->app->event->listenEvents(config('catch.events'));
+        $this->app->event->listenEvents([
+            'RouteLoaded' => [LoadModuleRoutes::class]
+        ]);
     }
 
   /**
@@ -142,5 +146,44 @@ class CatchAdminService extends Service
     protected function registerExceptionHandle(): void
     {
         $this->app->bind(Handle::class, CatchExceptionHandle::class);
+    }
+
+    /**
+     * 注册模块服务
+     *
+     * @time 2020年06月23日
+     * @return void
+     */
+    protected function registerServices()
+    {
+        $services = CatchAdmin::getEnabledService();
+
+        foreach ($services as $service) {
+            if (class_exists($service)) {
+                $this->app->register($service);
+            }
+        }
+    }
+
+    /**
+     * 注册路由地址
+     *
+     * @time 2020年06月23日
+     * @return void
+     */
+    protected function registerRoutePath()
+    {
+        $this->app->instance('routePath', new class {
+            protected $path = [];
+            public function loadRouterFrom($path)
+            {
+                $this->path[] = $path;
+                return $this;
+            }
+            public function get()
+            {
+                return $this->path;
+            }
+        });
     }
 }
