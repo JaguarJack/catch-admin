@@ -1,6 +1,8 @@
 <?php
 namespace catcher;
 
+use catcher\command\install\DisableModuleCommand;
+use catcher\command\install\EnableModuleCommand;
 use catcher\command\install\ModuleServiceDiscoverCommand;
 use catcher\command\publish\WechatCommand;
 use catcher\command\Tools\BackupCommand;
@@ -78,6 +80,8 @@ class CatchAdminService extends Service
             WechatCommand::class,
             CacheTrieCommand::class,
             ModuleServiceDiscoverCommand::class,
+            DisableModuleCommand::class,
+            EnableModuleCommand::class,
         ]);
     }
     /**
