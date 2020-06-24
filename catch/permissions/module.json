@@ -4,8 +4,11 @@
   "description": "",
   "keywords": [],
   "order": 2,
-  "services": [],
+  "services": [
+    "\\catchAdmin\\permissions\\PermissionService"
+  ],
   "aliases": {},
   "files": [],
-  "requires": []
+  "requires": [],
+  "enable": true
 }

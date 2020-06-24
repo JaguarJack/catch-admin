@@ -1,5 +1,5 @@
 <?php
-namespace catchAdmin\permissions;
+namespace catchAdmin\permissions\middleware;
 
 use catcher\Code;
 use catcher\exceptions\FailedException;

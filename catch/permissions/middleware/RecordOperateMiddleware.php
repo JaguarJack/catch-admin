@@ -1,5 +1,5 @@
 <?php
-namespace catchAdmin\permissions;
+namespace catchAdmin\permissions\middleware;
 
 use app\Request;
 use catchAdmin\permissions\model\Permissions;

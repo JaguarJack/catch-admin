@@ -1,6 +1,6 @@
 <?php
 
-namespace catchAdmin\permissions;
+namespace catchAdmin\permissions\event;
 
 use catchAdmin\permissions\model\Permissions;
 use catchAdmin\system\model\OperateLog;
