@@ -189,10 +189,10 @@ class CatchAdmin
         foreach (self::getModulesDirectory() as $module) {
             if (is_dir($module)) {
                 $moduleInfo = self::getModuleInfo($module);
-                if (isset($moduleInfo['services']) && !empty($moduleInfo['services'])) {
-                    if ($moduleInfo['enable']) {
-                        $services = array_merge($services, $moduleInfo['services']);
-                    }
+                // 如果没有设置 module.json 默认加载
+                $moduleServices = $moduleInfo['services'] ?? [];
+                if (!empty($moduleServices) && $moduleInfo['enable']) {
+                    $services = array_merge($services, $moduleServices);
                 }
             }
         }
@@ -231,7 +231,7 @@ class CatchAdmin
      * @param $module
      * @return bool
      */
-    public function disableModule($module)
+    public static function disableModule($module)
     {
         $moduleJson = self::moduleDirectory($module) . 'module.json';
 
@@ -241,7 +241,7 @@ class CatchAdmin
 
         $info = \json_decode(file_get_contents($moduleJson), true);
 
-        $info['enable'] = true;
+        $info['enable'] = false;
 
         file_put_contents($moduleJson, \json_encode($info, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE));
 
@@ -280,7 +280,6 @@ class CatchAdmin
         if (file_exists($module . DIRECTORY_SEPARATOR . 'module.json')) {
             return \json_decode(file_get_contents($module. DIRECTORY_SEPARATOR . 'module.json'), true);
         }
-
         return [];
     }
 
