@@ -6,6 +6,7 @@ namespace catcher\event;
 use catchAdmin\permissions\PermissionsMiddleware;
 use catchAdmin\user\AuthTokenMiddleware;
 use catcher\CatchAdmin;
+use think\App;
 use think\Route;
 
 class LoadModuleRoutes
@@ -19,28 +20,21 @@ class LoadModuleRoutes
     public function handle(): void
     {
         $router = app(Route::class);
-
         $domain = config('catch.domain');
-
-        $routes = CatchAdmin::getRoutes();
-
-        $routeMiddleware = config('catch.route_middleware');
-
+        $paths = app(App::class)->make('routePath')->get();
+        // $routeMiddleware = config('catch.route_middleware');
         if ($domain) {
-            $router->domain($domain, function () use ($router, $routes) {
-                foreach ($routes as $route) {
-                    include $route;
+            $router->domain($domain, function () use ($router, $paths) {
+                foreach ($paths as $path) {
+                    include $path;
                 }
-            })->middleware($routeMiddleware);
+            });
         } else {
-            $router->group(function () use ($router, $routes) {
-                foreach ($routes as $route) {
-                    include $route;
+            $router->group(function () use ($router, $paths) {
+                foreach ($paths as $path) {
+                    include $path;
                 }
-            })->middleware($routeMiddleware);
+            });
         }
-
-        // 单独加载登录
-        include CatchAdmin::moduleDirectory('login') . 'route.php';
     }
 }
