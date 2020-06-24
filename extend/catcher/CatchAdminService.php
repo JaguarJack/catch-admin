@@ -1,7 +1,7 @@
 <?php
 namespace catcher;
 
-use catcher\command\install\InstallModuleServiceCommand;
+use catcher\command\install\ModuleServiceDiscoverCommand;
 use catcher\command\publish\WechatCommand;
 use catcher\command\Tools\BackupCommand;
 use catcher\command\Tools\CacheTrieCommand;
@@ -77,7 +77,7 @@ class CatchAdminService extends Service
             ExcelTaskCommand::class,
             WechatCommand::class,
             CacheTrieCommand::class,
-            InstallModuleServiceCommand::class,
+            ModuleServiceDiscoverCommand::class,
         ]);
     }
     /**

@@ -16,7 +16,7 @@ use think\console\Input;
 use think\console\input\Option;
 use think\console\Output;
 
-class InstallModuleServiceCommand extends Command
+class ModuleServiceDiscoverCommand extends Command
 {
     protected function configure()
     {
@@ -79,13 +79,13 @@ PHP
         if ($module) {
             $moduleInfo = CatchAdmin::getModuleInfo(CatchAdmin::directory() . $module);
             if (isset($moduleInfo['services']) && !empty($moduleInfo['services'])) {
-                return $moduleInfo['services'];
+                return $moduleInfo['enable'] ? $moduleInfo['services'] : [];
             } else {
                 return [];
             }
         }
 
-        return CatchAdmin::getServices();
+        return CatchAdmin::getEnabledService();
     }
 
     /**
