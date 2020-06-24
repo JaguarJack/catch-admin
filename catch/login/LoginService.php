@@ -20,4 +20,11 @@ class LoginService extends ModuleService
         // TODO: Implement loadRouteFrom() method.
         return __DIR__ . DIRECTORY_SEPARATOR . 'route.php';
     }
+
+    public function loadEvents()
+    {
+        return [
+            'loginLog' => [ LoginLogEvent::class ],
+        ];
+    }
 }
