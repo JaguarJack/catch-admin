@@ -8,3 +8,24 @@
 // +----------------------------------------------------------------------
 // | Author: JaguarJack [ njphper@gmail.com ]
 // +----------------------------------------------------------------------
+namespace catchAdmin\system;
+
+use catchAdmin\system\events\AttachmentEvent;
+use catcher\ModuleService;
+
+class SystemService extends ModuleService
+{
+
+    public function loadRouteFrom()
+    {
+        // TODO: Implement loadRouteFrom() method.
+        return __DIR__ . DIRECTORY_SEPARATOR . 'route.php';
+    }
+
+    public function loadEvents()
+    {
+        return [
+            'attachment' => [ AttachmentEvent::class ],
+        ];
+    }
+}
