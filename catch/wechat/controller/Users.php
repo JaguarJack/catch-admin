@@ -35,6 +35,7 @@ class Users extends CatchController
      */
     public function index()
     {
+        dd(WeChat::officialAccount()->server->serve()->send());
         return CatchResponse::paginate($this->user->getList());
     }
 

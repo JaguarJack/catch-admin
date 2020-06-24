@@ -23,5 +23,7 @@ $router->group('wechat', function () use ($router){
         $router->resource('', '\catchAdmin\wechat\controller\Tags');
         $router->get('sync', '\catchAdmin\wechat\controller\Tags@sync');
     });
-});
+    // 消息
+    $router->rule('message', '\catchAdmin\wechat\controller\Message@done', 'GET|POST');
+})->middleware('auth');
 
