@@ -84,7 +84,11 @@ class CatchAdmin
      */
     public static function moduleSeedsDirectory($module): string
     {
-        return self::directory() . $module . DIRECTORY_SEPARATOR . 'database' . DIRECTORY_SEPARATOR. 'seeds' . DIRECTORY_SEPARATOR;
+        $seedPath = self::directory() . $module . DIRECTORY_SEPARATOR . 'database' . DIRECTORY_SEPARATOR. 'seeds' . DIRECTORY_SEPARATOR;
+
+        self::makeDirectory($seedPath);
+
+        return  $seedPath;
     }
 
     /**
