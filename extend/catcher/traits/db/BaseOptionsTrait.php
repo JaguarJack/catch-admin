@@ -57,7 +57,6 @@ trait BaseOptionsTrait
    */
     public function updateBy($id, $data, $field = ''): bool
     {
-
         if (static::update($data, [$field ? : $this->getPk() => $id], $this->field)) {
             return true;
         }
