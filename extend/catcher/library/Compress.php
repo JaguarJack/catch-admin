@@ -150,7 +150,7 @@ class Compress
      * @param $packageDir
      * @return void
      */
-    protected function rmDir($packageDir)
+    public function rmDir($packageDir)
     {
         $fileSystemIterator = new \FilesystemIterator($packageDir);
         try {

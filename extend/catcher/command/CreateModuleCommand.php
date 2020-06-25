@@ -1,13 +1,12 @@
 <?php
 namespace catcher\command;
 
+use catcher\library\Compress;
 use think\console\Command;
 use think\console\Input;
 use think\console\input\Argument;
-use think\console\input\Option;
 use think\console\Output;
 use catcher\CatchAdmin;
-use think\helper\Str;
 
 class CreateModuleCommand extends Command
 {
@@ -23,197 +22,148 @@ class CreateModuleCommand extends Command
     {
         $this->setName('create:module')
             ->addArgument('module', Argument::REQUIRED,  'module name')
-            ->addOption('controller', '-c',Option::VALUE_REQUIRED, 'controller name')
-            ->addOption('migration', '-m',Option::VALUE_REQUIRED, 'migration name')
-            ->addOption('seed', '-s',Option::VALUE_REQUIRED, 'seed name')
-            ->addOption('service', '-e',Option::VALUE_REQUIRED, 'service name')
             ->setDescription('create module service');
     }
 
     protected function execute(Input $input, Output $output)
     {
-        $this->module = strtolower($input->getArgument('module'));
+        try {
+            $this->module = strtolower($input->getArgument('module'));
 
-        $this->moduleDir = CatchAdmin::moduleDirectory($this->module);
-        $this->stubDir = __DIR__ . DIRECTORY_SEPARATOR .'stubs'. DIRECTORY_SEPARATOR;
+            $this->moduleDir = CatchAdmin::moduleDirectory($this->module);
 
-        $composer = json_decode(file_get_contents($this->app->getRootPath() . 'composer.json'), true);
+            $this->stubDir = __DIR__ . DIRECTORY_SEPARATOR . 'stubs' . DIRECTORY_SEPARATOR;
 
-        $psr4 = $composer['autoload']['psr-4'];
+            $composer = json_decode(file_get_contents($this->app->getRootPath() . 'composer.json'), true);
 
-        foreach ($psr4 as $namespace => $des) {
-            if ($des === CatchAdmin::NAME) {
-                $this->namespaces = $namespace . $this->module . '\\';
-                break;
-            }
-        }
-        $this->createController();
-        $this->createService();
-        $this->createMigration();
-        $this->createSeeds();
-        $this->createRoute();
+            $psr4 = $composer['autoload']['psr-4'];
 
-        $output->warning('module created');
-    }
-
-  /**
-   *
-   * @time 2020年01月23日
-   * @return void
-   */
-    protected function createController(): void
-    {
-        $controllers = $this->input->getOption('controller');
-
-        $controllerPath = $this->moduleDir . 'controller' . DIRECTORY_SEPARATOR;
-
-        if ($controllers) {
-          CatchAdmin::makeDirectory($controllerPath);
-
-          foreach ($controllers as $controller) {
-            file_put_contents($controllerPath . ucfirst($controller) . '.php', str_replace(
-              ['{CLASS}', '{NAMESPACE}', '{MODULE}'],
-              [ucfirst($controller), $this->namespaces . 'controller', $this->module],
-              file_get_contents($this->stubDir . 'controller.stub')
-            ));
-          }
-
-          $this->output->info('🎉 create controller  successfully');
-          $this->createRequest($controllers);
-        }
-    }
-
-  /**
-   *
-   * @time 2020年01月23日
-   * @param $controllers
-   * @return void
-   */
-    protected function createRequest($controllers): void
-    {
-        $requestPath = $this->moduleDir .  'request' . DIRECTORY_SEPARATOR;
-
-        CatchAdmin::makeDirectory($requestPath);
-
-        $default = ['CreateRequest.php', 'UpdateRequest.php'];
-
-        if (count($controllers) === 1) {
-            CatchAdmin::makeDirectory($requestPath . ucwords($controllers[0]));
-            foreach ($default as $v) {
-                file_put_contents($requestPath . $controllers[0] . DIRECTORY_SEPARATOR . $v, str_replace(
-                    ['{NAMESPACE}', '{CLASS}'],
-                    [$this->namespaces . $controllers[0]. '\\request', 'Create'],
-                    file_get_contents($this->stubDir. 'request.stub')));
-            }
-        } else {
-            foreach ($controllers as $controller) {
-                CatchAdmin::makeDirectory($requestPath . ucwords($controller));
-                foreach ($default as $v) {
-                    file_put_contents($requestPath . ucwords($controller). DIRECTORY_SEPARATOR .  $v, str_replace(
-                        ['{NAMESPACE}', '{CLASS}'],
-                        [$this->namespaces . 'request' . ucwords($controller), 'Create'],
-                        file_get_contents($this->stubDir . 'request.stub')));
+            foreach ($psr4 as $namespace => $des) {
+                if ($des === CatchAdmin::NAME) {
+                    $this->namespaces = $namespace . $this->module . '\\';
+                    break;
                 }
             }
+
+            $this->createFile();
+        } catch (\Exception $exception) {
+            $this->rollback();
+            $output->error($exception->getMessage());
+            exit;
+        }
+
+        $output->info('module created');
+    }
+
+    /**
+     * 创建失败 rollback
+     *
+     * @time 2020年06月25日
+     * @return void
+     */
+    protected function rollback()
+    {
+        (new Compress())->rmDir($this->moduleDir);
+    }
+
+    /**
+     * 模块文件夹
+     *
+     * @time 2020年06月25日
+     * @return string[]
+     */
+    protected function modulePath()
+    {
+        return [
+            $this->moduleDir . 'controller',
+            $this->moduleDir . 'model',
+            $this->moduleDir . 'database' . DIRECTORY_SEPARATOR . 'migrations',
+            $this->moduleDir . 'database' . DIRECTORY_SEPARATOR . 'seeds',
+        ];
+    }
+
+    /**
+     * 模块文件
+     *
+     * @time 2020年06月25日
+     * @return string[]
+     */
+    protected function moduleFiles()
+    {
+        return [
+            $this->moduleDir . ucfirst($this->module). 'Service.php',
+            $this->moduleDir . 'module.json',
+            $this->moduleDir . 'route.php',
+        ];
+    }
+
+    /**
+     * 创建路径
+     *
+     * @time 2020年06月25日
+     * @return void
+     */
+    protected function createDir()
+    {
+        foreach ($this->modulePath() as $path)
+        {
+            CatchAdmin::makeDirectory($path);
         }
     }
 
-  /**
-   *
-   * @time 2020年01月23日
-   * @return void
-   */
-    protected function createMigration(): void
+    /**
+     * 创建文件
+     *
+     * @time 2020年06月25日
+     * @return void
+     */
+    protected function createFile()
     {
-        $migrations = $this->input->getOption('migration');
-
-        $migrationPath = $this->moduleDir . 'database'.DIRECTORY_SEPARATOR.'migrations'.DIRECTORY_SEPARATOR;
-
-        if ($migrations) {
-            CatchAdmin::makeDirectory($migrationPath);
-            $migrations = explode(',', $migrations);
-
-            foreach ($migrations as $migration) {
-                $filename = date('Ymdhis', time()) . '_' .Str::snake($migration) . '.php';
-
-                file_put_contents($migrationPath . $filename, str_replace(
-                    ['{CLASS}'], [ucfirst($migration)], file_get_contents($this->stubDir.'migration.stub')));
-            }
-            $this->output->info('🎉 create migrations successfully');
-        }
+        $this->createDir();
+        $this->createService();
+        $this->createRoute();
+        $this->createModuleJson();
     }
 
-    protected function createSeeds()
+    /**
+     * 创建 service
+     *
+     * @time 2020年06月25日
+     * @return void
+     */
+    protected function createService()
     {
-        $seeds = $this->input->getOption('seed');
+        $service = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'stubs' . DIRECTORY_SEPARATOR . 'service.stub');
 
-        $seedPath = $this->moduleDir . 'database'.DIRECTORY_SEPARATOR.'seeds'.DIRECTORY_SEPARATOR;
+        $content = str_replace(['{NAMESPACE}', '{SERVICE}'], [substr($this->namespaces, 0, -1), ucfirst($this->module) . 'Service'], $service);
 
-        if ($seeds) {
-            CatchAdmin::makeDirectory($seedPath);
+        file_put_contents($this->moduleDir . ucfirst($this->module) . 'Service.php', $content);
 
-            $seeds = explode(',', $seeds);
-
-            foreach ($seeds as $seed) {
-                $filename = ucfirst(Str::camel($seed)) . 'Seed.php';
-
-                file_put_contents($seedPath . $filename, str_replace(
-                    ['{CLASS}'], [ucfirst($seed)], file_get_contents($this->stubDir.'seeder.stub')));
-            }
-
-            $this->output->info('🎉 create seeds successfully');
-        }
     }
 
-  /**
-   *
-   * @time 2020年01月23日
-   * @param $service
-   * @return void
-   */
-    protected function moduleJson($service): void
+    /**
+     * 创建 module.json
+     *
+     * @time 2020年06月25日
+     * @return void
+     */
+    protected function createModuleJson()
     {
-      if (!file_exists($this->moduleDir.DIRECTORY_SEPARATOR .'module.json')) {
-        file_put_contents($this->moduleDir . DIRECTORY_SEPARATOR . 'module.json', str_replace(
-          ['{MODULE}', '{SERVICE}'],
-          [$this->module, $service ? $this->namespaces . ucfirst($service) . 'Service' : ''],
-          file_get_contents($this->stubDir . 'module.stub')));
-        $this->output->info('🎉 create module.json successfully');
-      }
+        $moduleJson = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'stubs' . DIRECTORY_SEPARATOR . 'module.stub');
+
+        $content = str_replace(['{MODULE}', '{SERVICE}'], [$this->module,  '\\\\'. str_replace('\\', '\\\\',$this->namespaces . ucfirst($this->module) . 'Service')], $moduleJson);
+
+        file_put_contents($this->moduleDir . 'module.json', $content);
     }
 
-  /**
-   *
-   * @time 2020年01月23日
-   * @return void
-   */
-    protected function createRoute(): void
+    /**
+     * 创建路由文件
+     *
+     * @time 2020年06月25日
+     * @return void
+     */
+    protected function createRoute()
     {
-      if (!file_exists($this->moduleDir.DIRECTORY_SEPARATOR .'route.php')) {
-        file_put_contents($this->moduleDir . DIRECTORY_SEPARATOR . 'route.php',
-          file_get_contents($this->stubDir . 'route.stub'));
-        $this->output->info('🎉 create route.php successfully');
-      }
+        file_put_contents($this->moduleDir . 'route.php', file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'stubs' . DIRECTORY_SEPARATOR . 'route.stub'));
     }
-
-  /**
-   *
-   * @time 2020年01月23日
-   * @return void
-   */
-    protected function createService(): void
-    {
-        $service = $this->input->getOption('service');
-        if ($service) {
-            file_put_contents($this->moduleDir . DIRECTORY_SEPARATOR . ucfirst($this->module) . 'Service.php', str_replace(
-                ['{CLASS}', '{NAMESPACE}'],
-                [ucfirst($service), $this->namespaces . '\\' . $this->module],
-                file_get_contents($this->stubDir.'service.stub')));
-            $this->output->info('🎉 create service successfully');
-        }
-
-        $this->moduleJson($service);
-    }
-
-
 }

@@ -1,5 +1,7 @@
 <?php
 
 // you should user `$router`
-// $router->get('index', 'controller@method');
+$router->group(function () use ($router){
+
+});
 

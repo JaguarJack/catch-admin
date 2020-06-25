@@ -9,5 +9,6 @@
     ],
     "aliases": {},
     "files": [],
-    "requires": []
+    "requires": [],
+    "enable": true
 }
