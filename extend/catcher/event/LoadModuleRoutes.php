@@ -3,9 +3,6 @@ declare (strict_types = 1);
 
 namespace catcher\event;
 
-use catchAdmin\permissions\PermissionsMiddleware;
-use catchAdmin\user\AuthTokenMiddleware;
-use catcher\CatchAdmin;
 use think\App;
 use think\Route;
 
