@@ -23,12 +23,13 @@ $router->group('wechat', function () use ($router){
         $router->resource('', '\catchAdmin\wechat\controller\Tags');
         $router->get('sync', '\catchAdmin\wechat\controller\Tags@sync');
     });
-    // 消息
-    $router->rule('message', '\catchAdmin\wechat\controller\Message@done', 'GET|POST');
     // 微信菜单
     $router->group('official/menus', function () use ($router){
         $router->resource('', '\catchAdmin\wechat\controller\Menus');
         $router->post('sync', '\catchAdmin\wechat\controller\Menus@sync');
     });
 })->middleware('auth');
+
+// 消息
+$router->rule('wechat', '\catchAdmin\wechat\controller\Message@done', 'GET|POST');
 
