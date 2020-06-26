@@ -8,41 +8,22 @@
 // +----------------------------------------------------------------------
 // | Author: JaguarJack [ njphper@gmail.com ]
 // +----------------------------------------------------------------------
-namespace catchAdmin\wechat\controller;
+namespace catchAdmin\wechat\library\messages\events;
 
-use catchAdmin\wechat\repository\WechatUsersRepository;
-use catcher\base\CatchController;
-use catcher\base\CatchRequest;
-use catcher\CatchResponse;
-use catcher\library\WeChat;
-use catcher\Utils;
-use think\facade\Console;
-use think\Request;
+use catchAdmin\wechat\library\messages\Message;
+use catchAdmin\wechat\model\WechatUsers;
 
-class Material extends CatchController
+/**
+ * 取消订阅事件
+ *
+ * Class Unsubscribe
+ * @package catchAdmin\wechat\library\messages\events
+ */
+class Unsubscribe extends Message
 {
-    public function index(CatchRequest $request)
+    public function reply()
     {
-
-    }
-
-    public function read($id)
-    {
-
-    }
-
-    public function save(CatchRequest $request)
-    {
-
-    }
-
-    public function update($id, Request $request)
-    {
-
-    }
-
-    public function delete($id)
-    {
-
+        // TODO: Implement reply() method.
+        WechatUsers::where('openid', $this->fromUserName())->find()->delete();
     }
 }

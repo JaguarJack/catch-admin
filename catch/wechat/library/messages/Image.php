@@ -8,3 +8,12 @@
 // +----------------------------------------------------------------------
 // | Author: JaguarJack [ njphper@gmail.com ]
 // +----------------------------------------------------------------------
+namespace catchAdmin\wechat\library\messages;
+
+class Image extends Message
+{
+    public function reply()
+    {
+        // TODO: Implement reply() method.
+    }
+}

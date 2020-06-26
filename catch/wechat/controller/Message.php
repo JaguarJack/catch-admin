@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace catchAdmin\wechat\controller;
 
+use catchAdmin\wechat\library\messages\Factory;
 use catcher\base\CatchController;
 use catcher\library\WeChat;
 use think\Request;
@@ -18,22 +19,17 @@ class Message extends CatchController
 {
     public function done(Request $request)
     {
+        $app = WeChat::officialAccount();
+
         if ($request->isPost()) {
-            WeChat::officialAccount()->server->push(function ($message) {
-                switch ($message['MsgType']) {
-                    case 'subscribe':
-                        return '收到事件消息';
-                        break;
-                    case 'unsubscribe':
-                        return '收到文字消息';
-                        break;
-                    case 'image':
-                    default:
-
+            $app->server->push(function ($message) {
+                file_put_contents('root.txt', var_export($message, true), FILE_APPEND);
+                if ($res = Factory::make($message)->reply()) {
+                    return $res;
                 }
-
-                return '';
             });
         }
+
+        $app->server->serve()->send();exit;
     }
 }

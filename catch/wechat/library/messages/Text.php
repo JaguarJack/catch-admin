@@ -8,41 +8,12 @@
 // +----------------------------------------------------------------------
 // | Author: JaguarJack [ njphper@gmail.com ]
 // +----------------------------------------------------------------------
-namespace catchAdmin\wechat\controller;
+namespace catchAdmin\wechat\library\messages;
 
-use catchAdmin\wechat\repository\WechatUsersRepository;
-use catcher\base\CatchController;
-use catcher\base\CatchRequest;
-use catcher\CatchResponse;
-use catcher\library\WeChat;
-use catcher\Utils;
-use think\facade\Console;
-use think\Request;
-
-class Material extends CatchController
+class Text extends Message
 {
-    public function index(CatchRequest $request)
+    public function reply()
     {
-
-    }
-
-    public function read($id)
-    {
-
-    }
-
-    public function save(CatchRequest $request)
-    {
-
-    }
-
-    public function update($id, Request $request)
-    {
-
-    }
-
-    public function delete($id)
-    {
-
+        // TODO: Implement reply() method.
     }
 }

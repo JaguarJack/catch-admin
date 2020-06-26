@@ -35,7 +35,6 @@ class Users extends CatchController
      */
     public function index()
     {
-        dd(WeChat::officialAccount()->server->serve()->send());
         return CatchResponse::paginate($this->user->getList());
     }
 
@@ -64,11 +63,25 @@ class Users extends CatchController
         return CatchResponse::success($this->user->block($id));
     }
 
+    /**
+     * 贴标签
+     *
+     * @time 2020年06月26日
+     * @param $id
+     * @param Request $request
+     * @return \think\response\Json
+     */
     public function tag($id, Request $request)
     {
        return CatchResponse::success($this->user->tag($id, $request->post()));
     }
 
+    /**
+     * 用户同步
+     *
+     * @time 2020年06月26日
+     * @return \think\response\Json
+     */
     public function sync()
     {
         Console::call('sync:users');
