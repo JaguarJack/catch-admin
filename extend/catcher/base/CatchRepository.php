@@ -12,12 +12,12 @@ namespace catcher\base;
 
 
 /**
- * @method  getList(array $data = [])
+ * @method   getList(array $data = [])
  * @method   storeBy(array $data)
  * @method   updateBy(int $id, array $data)
  * @method   findBy(int $id, array $column = ['*'])
  * @method   deleteBy(int $id)
- * @method   beginTransaction()
+ * @method   startTrans()
  * @method   rollback()
  * @method   commit()
  * @method   transaction(\Closure $callback)
