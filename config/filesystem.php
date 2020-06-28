@@ -9,8 +9,8 @@ return [
     'disks'   => [
         'local'  => [
             'type' => 'local',
-            'root' => app()->getRuntimePath() . 'storage',
-            'domain' => '',
+            'root' =>  app()->getRootPath() . 'public/images',
+            'domain' => env('API_URL'),
         ],
         'public' => [
             // 磁盘类型
