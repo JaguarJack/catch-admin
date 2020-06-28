@@ -28,6 +28,10 @@ $router->group('wechat', function () use ($router){
         $router->resource('', '\catchAdmin\wechat\controller\Menus');
         $router->post('sync', '\catchAdmin\wechat\controller\Menus@sync');
     });
+    // 图文管理
+    $router->group('official/graphic', function () use ($router){
+        $router->resource('', '\catchAdmin\wechat\controller\Graphic');
+    });
 })->middleware('auth');
 
 // 消息
