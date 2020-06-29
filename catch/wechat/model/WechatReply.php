@@ -11,10 +11,13 @@
 
 namespace catchAdmin\wechat\model;
 
+use catchAdmin\wechat\model\search\ReplySearchTrait;
 use catcher\base\CatchModel;
 
 class WechatReply extends CatchModel
 {
+    use ReplySearchTrait;
+
     protected $name = 'wechat_reply';
 
     protected $field = [
