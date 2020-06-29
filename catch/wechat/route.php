@@ -32,6 +32,10 @@ $router->group('wechat', function () use ($router){
     $router->group('official/graphic', function () use ($router){
         $router->resource('', '\catchAdmin\wechat\controller\Graphic');
     });
+    // 微信回复管理
+    $router->group('official/reply', function () use ($router){
+        $router->resource('', '\catchAdmin\wechat\controller\Reply');
+    });
 })->middleware('auth');
 
 // 消息
