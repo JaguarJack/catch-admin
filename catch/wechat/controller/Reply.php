@@ -24,23 +24,51 @@ class Reply extends CatchController
         $this->reply = $reply;
     }
 
+    /**
+     * 列表
+     *
+     * @time 2020年06月29日
+     * @param CatchRequest $request
+     * @return \think\response\Json
+     */
     public function index(CatchRequest $request)
     {
         return CatchResponse::paginate($this->reply->getList());
     }
 
+    /**
+     * 保存
+     *
+     * @time 2020年06月29日
+     * @param CatchRequest $request
+     * @return \think\response\Json
+     */
     public function save(CatchRequest $request)
     {
         return CatchResponse::success($this->reply->storeBy($request->param()));
     }
 
-    public function update($id, CatchRequest $request)
-    {
-        return CatchResponse::success($this->reply->updateBy($id, $request->param()));
-    }
-
+    /**
+     * 删除
+     *
+     * @time 2020年06月29日
+     * @param $id
+     * @return \think\response\Json
+     */
     public function delete($id)
     {
         return CatchResponse::success($this->reply->deleteBy($id));
+    }
+
+    /**
+     * 禁用启用
+     *
+     * @time 2020年06月29日
+     * @param $id
+     * @return \think\response\Json
+     */
+    public function disOrEnable($id)
+    {
+        return CatchResponse::success($this->reply->disOrEnable($id));
     }
 }
