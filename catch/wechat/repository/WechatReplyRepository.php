@@ -33,7 +33,7 @@ class WechatReplyRepository extends CatchRepository
         $material = WeChat::officialAccount()->material;
 
         $mediaUrl = $this->getLocalPath($data['media_url'] ?? '');
-        $imageUrl = $this->getLocalPath($data['imageUrl'] ?? '');
+        $imageUrl = $this->getLocalPath($data['image_url'] ?? '');
 
         if ($imageUrl) {
             // 音乐
