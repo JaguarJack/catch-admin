@@ -17,6 +17,7 @@ namespace catcher\base;
  * @method   updateBy(int $id, array $data)
  * @method   findBy(int $id, array $column = ['*'])
  * @method   deleteBy(int $id)
+ * @method   disOrEnable(int $id)
  * @method   startTrans()
  * @method   rollback()
  * @method   commit()

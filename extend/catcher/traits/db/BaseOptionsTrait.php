@@ -155,4 +155,23 @@ trait BaseOptionsTrait
     {
         return sprintf('%s.%s', $this->getTable(), $field);
     }
+
+    /**
+     * 禁用/启用
+     *
+     * @time 2020年06月29日
+     * @param $id
+     * @param string $field
+     * @return mixed
+     */
+    public function disOrEnable($id, $field='status')
+    {
+        $model = $this->findBy($id);
+
+        $status = $model->{$field} == self::DISABLE ? self::ENABLE : self::DISABLE;
+
+        $model->{$field} = $status;
+
+        return $model->save();
+    }
 }
