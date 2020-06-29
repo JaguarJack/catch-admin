@@ -36,6 +36,11 @@ $router->group('wechat', function () use ($router){
     $router->group('official/reply', function () use ($router){
         $router->resource('', '\catchAdmin\wechat\controller\Reply');
     });
+    // 微信回复管理
+    $router->group('official/upload', function () use ($router){
+        $router->post('/image', '\catchAdmin\wechat\controller\Upload@image');
+        $router->post('/file', '\catchAdmin\wechat\controller\Upload@file');
+    });
 })->middleware('auth');
 
 // 消息
