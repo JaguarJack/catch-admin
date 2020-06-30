@@ -111,22 +111,26 @@ class WechatGraphicRepository extends CatchRepository
      */
     public function updateBy(int $id, array $data)
     {
-        $articles = $data['articles'];
-        $this->wechatGraphic->startTrans();
-        $updateStatus = true;
-        foreach ($articles as $article) {
-            $id = $article['id'];
-            unset($article['id']);
-            if ($this->wechatGraphic->where('id', $id)
-                 ->update($article) === false) {
-                $updateStatus = false;
-                break;
+        try {
+            $this->wechatGraphic->startTrans();
+            if (!parent::deleteBy($id)) {
+                throw new FailedException('更新失败');
             }
-        }
 
-        if (!$updateStatus) {
+            if ($this->wechatGraphic->where('parent_id', $id)->find() && !$this->wechatGraphic->where('parent_id', $id)->delete()) {
+                throw new FailedException('更新失败');
+            }
+
+            foreach ($data['articles'] as &$article) {
+                unset($article['id']);
+            }
+
+            if ($this->storeBy($data) === false) {
+                throw new FailedException('更新失败');
+            }
+        } catch (\Exception $exception) {
             $this->wechatGraphic->rollback();
-            throw new FailedException('更新失败');
+            throw new FailedException($exception->getMessage());
         }
 
         $this->wechatGraphic->commit();

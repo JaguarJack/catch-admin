@@ -51,7 +51,7 @@ class Graphic extends CatchController
         return CatchResponse::success($this->graphic->storeBy($request->param()));
     }
 
-    public function update($id, Request $request)
+    public function update($id, CatchRequest $request)
     {
         return CatchResponse::success($this->graphic->updateBy($id, $request->param()));
     }
