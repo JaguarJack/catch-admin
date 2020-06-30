@@ -20,22 +20,24 @@ class Route extends Factory
         $route = [];
 
         if ($this->restful) {
-            $route[] = sprintf("\$router->resource('%s', '\%s')", $this->controllerName, $this->controller);
+            $route[] = sprintf("\$router->resource('%s', '\%s')->middleware('auth')", $this->controllerName, $this->controller);
         }
 
         if (!empty($this->methods)) {
             foreach ($this->methods as $method) {
-                $route[] = sprintf("\$router->%s('%s/%s', '\%s@%s')", $method[1], $this->controllerName, $method[0], $this->controller, $method[0] );
+                $route[] = sprintf("\$router->%s('%s/%s', '\%s@%s')->middleware('auth')", $method[1], $this->controllerName, $method[0], $this->controller, $method[0] );
             }
         }
 
         $router = $this->getModulePath($this->controller) . DIRECTORY_SEPARATOR . 'route.php';
 
+        $comment = PHP_EOL . '//' . $this->controllerName . '路由' . PHP_EOL;
+
         if (file_exists($router)) {
-            return file_put_contents($router, PHP_EOL . implode(';'. PHP_EOL , $route) . ';', FILE_APPEND);
+            return file_put_contents($router, PHP_EOL . $comment . implode(';'. PHP_EOL , $route) . ';', FILE_APPEND);
         }
 
-        return file_put_contents($router, $this->header() . implode(';'. PHP_EOL , $route) . ';');
+        return file_put_contents($router, $this->header() . $comment. implode(';'. PHP_EOL , $route) . ';');
     }
 
     /**
