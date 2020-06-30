@@ -74,8 +74,7 @@ class Model extends Factory
             return false;
         }
 
-        $columns = Db::query('show full columns from ' .
-            config('database.connections.mysql.prefix') . $table);
+        $columns = Db::query('show full columns from ' . $table);
 
         $new = [];
         foreach ($columns as $field) {

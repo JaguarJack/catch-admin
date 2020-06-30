@@ -96,15 +96,16 @@ class SQL extends Factory
             $_sql[] = 'unsigned';
         }
         // 默认值
+        $default = trim(trim($sql['default'], '\''));
         if (!$sql['nullable']) {
             $_sql[] = 'not null';
-            if (!$sql['default']) {
+            if (!$default) {
                 $_sql[] = ' default \'\'';
             } else {
                 if (strpos('int', $sql['type']) === false) {
-                    $_sql[] = ' default "' . $sql['default'] . '"';
+                    $_sql[] = ' default "' . $default . '"';
                 } else {
-                    $_sql[] = ' default ' . $sql['default'];
+                    $_sql[] = ' default ' . $default;
                 }
             }
         }
