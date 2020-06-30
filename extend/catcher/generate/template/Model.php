@@ -19,7 +19,7 @@ TMP;
     {
         if (!$hasDeletedAt) {
             return <<<TMP
-use BaseOptionsTrait; 
+use BaseOptionsTrait,ScopeTrait; 
 
 
 TMP;
@@ -38,6 +38,7 @@ TMP;
             return <<<TMP
 use think\Model; 
 use catcher\\traits\db\BaseOptionsTrait;
+use catcher\\traits\db\ScopeTrait;
 
 
 TMP;
@@ -57,7 +58,6 @@ TMP;
     {
         if ($name) {
             return <<<TMP
-    
     protected \$name = '{$name}';
 
 
