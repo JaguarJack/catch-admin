@@ -8,29 +8,48 @@
 // +----------------------------------------------------------------------
 // | Author: JaguarJack [ njphper@gmail.com ]
 // +----------------------------------------------------------------------
-namespace catcher\library;
+namespace catcher\library\rate;
 
 use think\facade\Cache;
 
-class Redis
+trait Redis
 {
-    protected $handle = null;
+    protected $redis = null;
 
-
-    public function __construct()
+    protected function getRedis()
     {
-        if (!$this->handle) {
-            $this->handle = Cache::store('redis')->handler();
+        if (!$this->redis) {
+            $this->redis = Cache::store('redis')->handler();
         }
 
-        return $this->handle;
+        return $this->redis;
     }
 
-
-
-    public function __call($name, $arguments)
+    /**
+     * 设置 ttl
+     *
+     * @time 2020年06月30日
+     * @param $ttl
+     * @return $this
+     */
+    public function ttl($ttl)
     {
-        // TODO: Implement __call() method.
-        return $this->handle->{$name}(...$arguments);
+        $this->ttl = $ttl;
+
+        return $this;
+    }
+
+    /**
+     * 设置限制次数
+     *
+     * @time 2020年06月30日
+     * @param $limit
+     * @return $this
+     */
+    public function limit($limit)
+    {
+        $this->limit = $limit;
+
+        return $this;
     }
 }
