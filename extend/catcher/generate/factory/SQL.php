@@ -55,6 +55,10 @@ class SQL extends Factory
         if ($ifHaveNotFields) {
             throw new FailedException('Do you have set mysql fields?');
         }
+        // 创建人
+        if ($extra['creator_id'] ?? false) {
+            $createSql .= $this->parseCreatorId();
+        }
         // 创建时间
         if ($extra['created_at'] ?? false) {
             $createSql .= $this->parseCreatedAt();
@@ -99,11 +103,11 @@ class SQL extends Factory
         $default = trim(trim($sql['default'], '\''));
         if (!$sql['nullable']) {
             $_sql[] = 'not null';
-            if (!$default) {
+            if ($default == '' || $default === '') {
                 $_sql[] = ' default \'\'';
             } else {
                 if (strpos('int', $sql['type']) === false) {
-                    $_sql[] = ' default "' . $default . '"';
+                    $_sql[] = ' default ' . (int)$default ;
                 } else {
                     $_sql[] = ' default ' . $default;
                 }
@@ -150,6 +154,17 @@ class SQL extends Factory
     protected function parseDeletedAt()
     {
         return sprintf('`deleted_at` int unsigned not null default 0 comment \'%s\',', '软删除') . PHP_EOL;
+    }
+
+    /**
+     * parse creator id
+     *
+     * @time 2020年07月01日
+     * @return string
+     */
+    protected function parseCreatorId()
+    {
+        return sprintf('`creator_id` int unsigned not null default 0 comment \'%s\',', '创建人ID') . PHP_EOL;
     }
 
     /**
