@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace catcher\command\install;
 
+use catchAdmin\permissions\model\Permissions;
 use catcher\CatchAdmin;
 use think\console\Command;
 use think\console\Input;
@@ -33,6 +34,7 @@ class EnableModuleCommand extends Command
             $output->error("module [$module] not exist");
         } else {
             CatchAdmin::enableModule($module);
+            app(Permissions::class)->restore(['module' => trim($module)]);
             $output->info("module [$module] enabled");
         }
     }
