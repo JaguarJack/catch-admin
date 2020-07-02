@@ -8,14 +8,11 @@
  * @copyright By CatchAdmin
  * @license  https://github.com/yanwenwu/catch-admin/blob/master/LICENSE.txt
  */
-namespace catcher\command\publish;
+namespace catchAdmin\wechat\command;
 
 use think\console\Command;
 use think\console\Input;
-use think\console\input\Argument;
-use think\console\input\Option;
 use think\console\Output;
-use catcher\CatchAdmin;
 
 class WechatCommand extends Command
 {

@@ -48,4 +48,3 @@ $router->group('wechat', function () use ($router){
 
 // 消息
 $router->rule('wechat', '\catchAdmin\wechat\controller\Message@done', 'GET|POST');
-

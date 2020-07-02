@@ -16,21 +16,17 @@ class CatchWechatService extends ModuleService
     public function register()
     {
         parent::register();
-
-        $this->registerCommand();
     }
 
     /**
      * register command
      *
      * @time 2020年06月24日
-     * @return void
+     * @return array
      */
-    public function registerCommand()
+    public function loadCommands()
     {
-        $this->commands([
-            SyncUsersCommand::class,
-        ]);
+       return [__NAMESPACE__, __DIR__ . DIRECTORY_SEPARATOR . 'command'];
     }
 
     /**
