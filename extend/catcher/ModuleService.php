@@ -16,15 +16,23 @@ abstract class ModuleService extends Service
 {
     abstract public function loadRouteFrom();
 
+    /**
+     * 注册
+     *
+     * @time 2020年07月02日
+     * @return void
+     */
     public function register()
     {
         $this->app->make('routePath')->loadRouterFrom($this->loadRouteFrom());
 
         $this->registerEvents();
+
+        $this->registerCommands();;
     }
 
     /**
-     * 时间注册
+     * 事件注册
      *
      * @time 2020年06月24日
      * @return void
@@ -36,6 +44,22 @@ abstract class ModuleService extends Service
         }
     }
 
+    /**
+     * 注册commands
+     *
+     * @time 2020年07月02日
+     * @return void
+     */
+    protected function registerCommands()
+    {
+        if (method_exists($this,'loadCommands')) {
+            list($namespace, $path) = $this->loadCommands();
 
+            $this->commands((new CatchConsole($this->app))
+                                ->setNamespace($namespace)
+                                ->path($path)
+                                ->commands());
+        }
+    }
 
 }

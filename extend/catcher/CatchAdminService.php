@@ -62,27 +62,7 @@ class CatchAdminService extends Service
      */
     protected function registerCommands(): void
     {
-        $this->commands([
-            InstallProjectCommand::class,
-            ModuleCacheCommand::class,
-            MigrateRunCommand::class,
-            ModelGeneratorCommand::class,
-            SeedRunCommand::class,
-            BackupCommand::class,
-            CompressPackageCommand::class,
-            CreateModuleCommand::class,
-            MigrateRollbackCommand::class,
-            MigrateCreateCommand::class,
-            WsWorkerCommand::class,
-            ExportDataCommand::class,
-            MakeMenuCommand::class,
-            ExcelTaskCommand::class,
-            WechatCommand::class,
-            CacheTrieCommand::class,
-            ModuleServiceDiscoverCommand::class,
-            DisableModuleCommand::class,
-            EnableModuleCommand::class,
-        ]);
+        $this->commands((new CatchConsole($this->app))->commands());
     }
     /**
      *
