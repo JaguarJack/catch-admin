@@ -18,7 +18,7 @@
     ],
     "require": {
         "php": ">=7.1.0",
-        "topthink/framework": "^6.0.0",
+        "topthink/framework": "6.0.2",
         "topthink/think-orm": "v2.0.31",
         "topthink/think-migration": "^3.0",
         "thans/tp-jwt-auth": "^1.0",
@@ -31,9 +31,9 @@
         "phpoffice/phpspreadsheet": "^1.12"
     },
     "require-dev": {
-        "symfony/var-dumper": "^4.2",
         "topthink/think-trace":"^1.0",
-        "phpunit/phpunit": "^8.5"
+        "phpunit/phpunit": "^7.5",
+        "symfony/var-dumper": "^5.1"
     },
     "autoload": {
         "psr-4": {
