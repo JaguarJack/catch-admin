@@ -62,7 +62,11 @@ class CatchAdminService extends Service
      */
     protected function registerCommands(): void
     {
-        $this->commands((new CatchConsole($this->app))->commands());
+        $catchConsole = new CatchConsole($this->app);
+
+        $this->app->bind('catch_console', $catchConsole);
+
+        $this->commands($catchConsole->commands());
     }
     /**
      *

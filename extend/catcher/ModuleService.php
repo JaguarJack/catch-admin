@@ -55,10 +55,11 @@ abstract class ModuleService extends Service
         if (method_exists($this,'loadCommands')) {
             list($namespace, $path) = $this->loadCommands();
 
-            $this->commands((new CatchConsole($this->app))
-                                ->setNamespace($namespace)
-                                ->path($path)
-                                ->commands());
+            $catchConsole = $this->app['catch_console'];
+
+            $this->commands($catchConsole->setNamespace($namespace)
+                                         ->path($path)
+                                         ->commands());
         }
     }
 
