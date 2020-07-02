@@ -14,9 +14,18 @@ use think\facade\Cache;
 
 trait Redis
 {
+    /**
+     * @var \Redis
+     */
     protected $redis = null;
 
-    protected function getRedis()
+    /**
+     * 返回 redis
+     *
+     * @time 2020年07月02日
+     * @return \Redis
+     */
+    protected function getRedis(): \Redis
     {
         if (!$this->redis) {
             $this->redis = Cache::store('redis')->handler();
