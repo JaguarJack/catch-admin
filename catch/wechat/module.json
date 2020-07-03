@@ -2,6 +2,7 @@
     "name": "微信管理",
     "alias": "wechat",
     "description": "catchadmin 微信管理模块",
+    "version": "1.0.0",
     "keywords": [
         "wechat",
         "module"

@@ -1,7 +1,8 @@
 {
   "name": "登陆",
   "alias": "login",
-  "description": "",
+  "description": "login 模块",
+  "version": "1.0.0",
   "keywords": [],
   "order": 1,
   "services": [

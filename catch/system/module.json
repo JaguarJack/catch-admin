@@ -1,14 +1,15 @@
 {
-  "name": "系统管理",
-  "alias": "system",
-  "description": "",
-  "keywords": [],
-  "order": 2,
-  "services": [
-    "catchAdmin\\system\\SystemService"
-  ],
-  "aliases": {},
-  "files": [],
-  "requires": [],
-  "enable": true
+    "name": "系统管理",
+    "alias": "system",
+    "description": "系统管理模块",
+    "version": "1.0.0",
+    "keywords": [],
+    "order": 2,
+    "services": [
+        "\\catchAdmin\\system\\SystemService"
+    ],
+    "aliases": [],
+    "files": [],
+    "requires": [],
+    "enable": true
 }

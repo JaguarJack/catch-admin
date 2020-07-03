@@ -16,6 +16,16 @@ class CreateModuleCommand extends Command
 
     protected $stubDir;
 
+    /**
+     * @var string
+     */
+    protected $name;
+
+    /**
+     * @var string
+     */
+    protected $description;
+
     protected $namespaces;
 
     protected function configure()
@@ -29,6 +39,21 @@ class CreateModuleCommand extends Command
     {
         try {
             $this->module = strtolower($input->getArgument('module'));
+
+            $this->name = $output->ask($input, '请输入模块中文名称');
+
+            if (!$this->name) {
+                while (true) {
+                    $this->name = $output->ask($input, '请输入模块中文名称');
+                    if ($this->name) {
+                        break;
+                    }
+                }
+            }
+
+            $this->description = $output->ask($input, '请输入模块描述');
+
+            $this->description = $this->description ? : '';
 
             $this->moduleDir = CatchAdmin::moduleDirectory($this->module);
 
@@ -135,7 +160,9 @@ class CreateModuleCommand extends Command
     {
         $service = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'stubs' . DIRECTORY_SEPARATOR . 'service.stub');
 
-        $content = str_replace(['{NAMESPACE}', '{SERVICE}'], [substr($this->namespaces, 0, -1), ucfirst($this->module) . 'Service'], $service);
+        $content = str_replace(['{NAMESPACE}', '{SERVICE}'],
+            [substr($this->namespaces, 0, -1),
+                ucfirst($this->module) . 'Service'], $service);
 
         file_put_contents($this->moduleDir . ucfirst($this->module) . 'Service.php', $content);
 
@@ -151,7 +178,9 @@ class CreateModuleCommand extends Command
     {
         $moduleJson = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'stubs' . DIRECTORY_SEPARATOR . 'module.stub');
 
-        $content = str_replace(['{MODULE}', '{SERVICE}'], [$this->module,  '\\\\'. str_replace('\\', '\\\\',$this->namespaces . ucfirst($this->module) . 'Service')], $moduleJson);
+        $content = str_replace(['{NAME}','{DESCRIPTION}','{MODULE}', '{SERVICE}'],
+            [$this->name, $this->description,
+                $this->module,  '\\\\'. str_replace('\\', '\\\\',$this->namespaces . ucfirst($this->module) . 'Service')], $moduleJson);
 
         file_put_contents($this->moduleDir . 'module.json', $content);
     }

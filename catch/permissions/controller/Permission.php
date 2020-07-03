@@ -92,7 +92,7 @@ class Permission extends CatchController
 
         // 如果是父分类需要更新所有子分类的模块
         if (!$permission->parent_id) {
-            $this->permissions->updateBy($permission->parent_id, [
+            $this->permissions->updateBy($permission->id, [
               'module' => $permission->module,
             ], 'parent_id');
         }

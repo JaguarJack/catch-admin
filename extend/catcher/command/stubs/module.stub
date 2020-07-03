@@ -1,7 +1,8 @@
 {
-    "name": "",
+    "name": "{NAME}",
     "alias": "{MODULE}",
-    "description": "",
+    "description": "{DESCRIPTION}",
+    "version": "1.0.0",
     "keywords": [],
     "order": 0,
     "services": [
