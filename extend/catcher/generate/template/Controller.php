@@ -16,7 +16,7 @@ class Controller
     public function uses()
     {
         return <<<TMP
-use think\Request;
+use catcher\base\CatchRequest as Request;
 use catcher\CatchResponse;
 use catcher\base\CatchController;
 {USE}
