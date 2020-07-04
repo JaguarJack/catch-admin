@@ -11,7 +11,7 @@ trait DataRangScopeTrait
      * @author JaguarJack <njphper@gmail.com>
      * @date 2020/6/6
      */
-    protected function scopeDataRange($roles)
+    protected function dataRange($roles)
     {
         return $this->whereIn($this->aliasField('creator_id'), $this->getDepartmentUserIdsBy($roles));
     }
