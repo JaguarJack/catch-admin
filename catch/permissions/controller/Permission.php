@@ -90,14 +90,13 @@ class Permission extends CatchController
             'level'     => $permission->level
         ]);
 
-        // 如果是父分类需要更新所有子分类的模块
-        if (!$permission->parent_id) {
-            $this->permissions->updateBy($permission->id, [
-              'module' => $permission->module,
-            ], 'parent_id');
+        if ($permission->updateBy($id, $params) && $this->permissions->updateBy($permission->id, [
+                'module' => $params['module'],
+            ], 'parent_id')) {
+            return CatchResponse::success();
         }
 
-        return CatchResponse::success($this->permissions->updateBy($id, $params));
+       throw new FailedException('更新失败');
     }
 
     /**
