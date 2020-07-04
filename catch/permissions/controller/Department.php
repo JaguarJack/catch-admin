@@ -38,7 +38,7 @@ class Department extends CatchController
    */
     public function save(CatchRequest $request): \think\response\Json
     {
-        return CatchResponse::success($this->department->storeBy($request->post()));
+        return CatchResponse::success($this->department->storeBy($request->param()));
     }
 
   /**
@@ -51,7 +51,7 @@ class Department extends CatchController
    */
     public function update($id, CatchRequest $request): \think\response\Json
     {
-        return CatchResponse::success($this->department->updateBy($id, $request->post()));
+        return CatchResponse::success($this->department->updateBy($id, $request->param()));
     }
 
   /**
