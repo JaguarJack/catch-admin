@@ -86,6 +86,7 @@ class CatchRequest extends Request
         // 设置默认参数
         if ($this->needCreatorId) {
           $this->param['creator_id'] = $this->user()->id;
+          $this->post['creator'] = $this->user()->id;
         }
 
         return true;
