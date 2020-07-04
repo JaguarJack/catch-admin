@@ -1,6 +1,8 @@
 <?php
 namespace catchAdmin\permissions\model;
 
+use catcher\Utils;
+
 trait DataRangScopeTrait
 {
     /**
@@ -13,7 +15,17 @@ trait DataRangScopeTrait
      */
     protected function dataRange($roles)
     {
-        return $this->whereIn($this->aliasField('creator_id'), $this->getDepartmentUserIdsBy($roles));
+        if (Utils::isSuperAdmin()) {
+            return $this;
+        }
+
+        $userIds =  $this->getDepartmentUserIdsBy($roles);
+
+        if (empty($userIds)) {
+            return $this;
+        }
+
+        return $this->whereIn($this->aliasField('creator_id'), $userIds);
     }
 
     /**

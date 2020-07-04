@@ -118,4 +118,15 @@ class Utils
     {
         return \config('database.connections.mysql.prefix');
     }
+
+    /**
+     * 是否是超级管理员
+     *
+     * @time 2020年07月04日
+     * @return bool
+     */
+    public static function isSuperAdmin()
+    {
+        return request()->user()->id == config('catch.permissions.super_admin_id');
+    }
 }
