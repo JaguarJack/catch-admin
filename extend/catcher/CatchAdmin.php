@@ -7,6 +7,8 @@ class CatchAdmin
 {
     public const NAME = 'catch';
 
+    public const VERSION = '1.0.0';
+
     /**
      *
      * @time 2019年11月30日

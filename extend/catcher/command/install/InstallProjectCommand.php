@@ -326,9 +326,10 @@ class InstallProjectCommand extends Command
 | \___/\__,_/\__/\___/_/ /_/  /_/  |_\__,_/_/ /_/ /_/_/_/ /_/  |
 |                                                              |   
  \ __ __ __ __ _ __ _ __ enjoy it ! _ __ __ __ __ __ __ ___ _ @ 2017 ～ %s
- 账号: admin@gmail.com
- 密码: admin                                               
-', $year));
+ 版本: %s
+ 初始账号: admin@gmail.com
+ 初始密码: admin                                               
+', CatchAdmin::VERSION, $year));
         exit(0);
     }
 
