@@ -93,6 +93,28 @@ class Role extends CatchController
         if (!empty($attachIds)) {
             $role->attach(array_unique($attachIds));
         }
+        
+        // 更新department
+        $hasDepartmentIds = $role->getDepartments()->column('id');
+        $departmentIds = $request->param('departments');
+
+        // 已存在部门 IDS
+        $existedDepartmentIds = [];
+        foreach ($hasDepartmentIds as $hasDepartmentId) {
+            if (in_array($hasDepartmentId, $departmentIds)) {
+                $existedDepartmentIds[] = $hasDepartmentId;
+            }
+        }
+
+        $attachDepartmentIds = array_diff($departmentIds, $existedDepartmentIds);
+        $detachDepartmentIds = array_diff($hasDepartmentIds, $existedDepartmentIds);
+
+        if (!empty($detachDepartmentIds)) {
+            $role->detachDepartments($detachDepartmentIds);
+        }
+        if (!empty($attachDepartmentIds)) {
+            $role->attachDepartments(array_unique($attachDepartmentIds));
+        }
 
         return CatchResponse::success();
     }
