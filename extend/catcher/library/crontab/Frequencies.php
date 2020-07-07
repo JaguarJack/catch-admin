@@ -10,12 +10,17 @@
 // +----------------------------------------------------------------------
 namespace catcher\library\crontab;
 
+use think\helper\Str;
+
 /**
+ * From Laravel
+ *
  * Trait ManagesFrequencies
  * @package catcher\library\crontab
  */
-trait frequencies
+trait Frequencies
 {
+
     /**
      * The Cron expression representing the event's frequency.
      *
@@ -30,51 +35,49 @@ trait frequencies
     }
 
     /**
-     * Schedule the event to run between start and end time.
+     * 每十秒
      *
-     * @param  string  $startTime
-     * @param  string  $endTime
+     * @time 2020年07月04日
      * @return $this
      */
-    public function between($startTime, $endTime)
+    public function everyTenSeconds()
     {
-        return $this->when($this->inTimeInterval($startTime, $endTime));
+        $this->second = 10;
+
+        return $this;
     }
 
     /**
-     * Schedule the event to not run between start and end time.
+     * 每二十秒
      *
-     * @param  string  $startTime
-     * @param  string  $endTime
+     * @time 2020年07月04日
      * @return $this
      */
-    public function unlessBetween($startTime, $endTime)
+    public function everyTwentySeconds()
     {
-        return $this->skip($this->inTimeInterval($startTime, $endTime));
+        $this->second = 20;
+
+        return $this;
     }
 
     /**
-     * Schedule the event to run between start and end time.
+     * 每三十秒
      *
-     * @param  string  $startTime
-     * @param  string  $endTime
-     * @return \Closure
+     * @time 2020年07月04日
+     * @return $this
      */
-    private function inTimeInterval($startTime, $endTime)
+    public function everyThirtySeconds()
     {
-        return function () use ($startTime, $endTime) {
-            return Carbon::now($this->timezone)->between(
-                Carbon::parse($startTime, $this->timezone),
-                Carbon::parse($endTime, $this->timezone),
-                true
-            );
-        };
+        $this->second = 30;
+
+        return $this;
     }
 
     /**
-     * Schedule the event to run every minute.
+     * 每分钟
      *
-     * @return $this
+     * @time 2020年07月04日
+     * @return Frequencies
      */
     public function everyMinute()
     {
@@ -82,9 +85,10 @@ trait frequencies
     }
 
     /**
-     * Schedule the event to run every five minutes.
+     * 5 分钟
      *
-     * @return $this
+     * @time 2020年07月04日
+     * @return Frequencies
      */
     public function everyFiveMinutes()
     {
@@ -92,9 +96,10 @@ trait frequencies
     }
 
     /**
-     * Schedule the event to run every ten minutes.
+     * 10 分钟
      *
-     * @return $this
+     * @time 2020年07月04日
+     * @return Frequencies
      */
     public function everyTenMinutes()
     {
@@ -102,9 +107,10 @@ trait frequencies
     }
 
     /**
-     * Schedule the event to run every fifteen minutes.
+     * 15 分钟
      *
-     * @return $this
+     * @time 2020年07月04日
+     * @return Frequencies
      */
     public function everyFifteenMinutes()
     {
@@ -112,9 +118,10 @@ trait frequencies
     }
 
     /**
-     * Schedule the event to run every thirty minutes.
+     * 三十分钟
      *
-     * @return $this
+     * @time 2020年07月04日
+     * @return Frequencies
      */
     public function everyThirtyMinutes()
     {
@@ -122,9 +129,10 @@ trait frequencies
     }
 
     /**
-     * Schedule the event to run hourly.
+     * 每小时
      *
-     * @return $this
+     * @time 2020年07月04日
+     * @return Frequencies
      */
     public function hourly()
     {
@@ -132,7 +140,7 @@ trait frequencies
     }
 
     /**
-     * Schedule the event to run hourly at a given offset in the hour.
+     * 小时的时间
      *
      * @param  array|int  $offset
      * @return $this
@@ -144,10 +152,12 @@ trait frequencies
         return $this->spliceIntoPosition(1, $offset);
     }
 
+
     /**
-     * Schedule the event to run daily.
+     * 每天
      *
-     * @return $this
+     * @time 2020年07月04日
+     * @return Frequencies
      */
     public function daily()
     {
@@ -156,7 +166,7 @@ trait frequencies
     }
 
     /**
-     * Schedule the command at a given time.
+     * 每天固定时间启动
      *
      * @param  string  $time
      * @return $this
@@ -167,7 +177,7 @@ trait frequencies
     }
 
     /**
-     * Schedule the event to run daily at a given time (10:00, 19:30, etc).
+     * 每天固定时间启动 (10:00, 19:30, etc).
      *
      * @param  string  $time
      * @return $this
@@ -181,7 +191,7 @@ trait frequencies
     }
 
     /**
-     * Schedule the event to run twice daily.
+     * 每两天一次
      *
      * @param  int  $first
      * @param  int  $second
@@ -196,7 +206,7 @@ trait frequencies
     }
 
     /**
-     * Schedule the event to run only on weekdays.
+     * 工作日跑
      *
      * @return $this
      */
@@ -206,9 +216,10 @@ trait frequencies
     }
 
     /**
-     * Schedule the event to run only on weekends.
+     * 周末
      *
-     * @return $this
+     * @time 2020年07月04日
+     * @return Frequencies
      */
     public function weekends()
     {
@@ -216,9 +227,10 @@ trait frequencies
     }
 
     /**
-     * Schedule the event to run only on Mondays.
+     * 周一
      *
-     * @return $this
+     * @time 2020年07月04日
+     * @return Frequencies
      */
     public function mondays()
     {
@@ -226,7 +238,7 @@ trait frequencies
     }
 
     /**
-     * Schedule the event to run only on Tuesdays.
+     * 周二
      *
      * @return $this
      */
@@ -236,7 +248,7 @@ trait frequencies
     }
 
     /**
-     * Schedule the event to run only on Wednesdays.
+     * 周三
      *
      * @return $this
      */
@@ -246,7 +258,7 @@ trait frequencies
     }
 
     /**
-     * Schedule the event to run only on Thursdays.
+     * 周四
      *
      * @return $this
      */
@@ -256,7 +268,7 @@ trait frequencies
     }
 
     /**
-     * Schedule the event to run only on Fridays.
+     * 周五
      *
      * @return $this
      */
@@ -266,7 +278,7 @@ trait frequencies
     }
 
     /**
-     * Schedule the event to run only on Saturdays.
+     * 周六
      *
      * @return $this
      */
@@ -276,7 +288,7 @@ trait frequencies
     }
 
     /**
-     * Schedule the event to run only on Sundays.
+     * 周日
      *
      * @return $this
      */
@@ -286,9 +298,10 @@ trait frequencies
     }
 
     /**
-     * Schedule the event to run weekly.
+     * 每周
      *
-     * @return $this
+     * @time 2020年07月04日
+     * @return Frequencies
      */
     public function weekly()
     {
@@ -298,7 +311,7 @@ trait frequencies
     }
 
     /**
-     * Schedule the event to run weekly on a given day and time.
+     * 每周的某个时间
      *
      * @param  int  $day
      * @param  string  $time
@@ -312,23 +325,12 @@ trait frequencies
     }
 
     /**
-     * Schedule the event to run monthly.
+     * 每月的某天某个时间
      *
-     * @return $this
-     */
-    public function monthly()
-    {
-        return $this->spliceIntoPosition(1, 0)
-            ->spliceIntoPosition(2, 0)
-            ->spliceIntoPosition(3, 1);
-    }
-
-    /**
-     * Schedule the event to run monthly on a given day and time.
-     *
-     * @param  int  $day
-     * @param  string  $time
-     * @return $this
+     * @time 2020年07月04日
+     * @param int $day
+     * @param string $time
+     * @return Frequencies
      */
     public function monthlyOn($day = 1, $time = '0:0')
     {
@@ -338,11 +340,12 @@ trait frequencies
     }
 
     /**
-     * Schedule the event to run twice monthly.
+     * 每月两次
      *
-     * @param  int  $first
-     * @param  int  $second
-     * @return $this
+     * @time 2020年07月04日
+     * @param int $first
+     * @param int $second
+     * @return Frequencies
      */
     public function twiceMonthly($first = 1, $second = 16)
     {
@@ -354,9 +357,23 @@ trait frequencies
     }
 
     /**
-     * Schedule the event to run quarterly.
+     * 每月
      *
-     * @return $this
+     * @time 2020年07月04日
+     * @return Frequencies
+     */
+    public function monthly()
+    {
+        return $this->spliceIntoPosition(1, 0)
+            ->spliceIntoPosition(2, 0)
+            ->spliceIntoPosition(3, 1);
+    }
+
+    /**
+     * 每个季度
+     *
+     * @time 2020年07月04日
+     * @return Frequencies
      */
     public function quarterly()
     {
@@ -367,23 +384,11 @@ trait frequencies
     }
 
     /**
-     * Schedule the event to run yearly.
+     * 一周中的几天运行
      *
-     * @return $this
-     */
-    public function yearly()
-    {
-        return $this->spliceIntoPosition(1, 0)
-            ->spliceIntoPosition(2, 0)
-            ->spliceIntoPosition(3, 1)
-            ->spliceIntoPosition(4, 1);
-    }
-
-    /**
-     * Set the days of the week the command should run on.
-     *
-     * @param  array|mixed  $days
-     * @return $this
+     * @time 2020年07月04日
+     * @param $days
+     * @return Frequencies
      */
     public function days($days)
     {
@@ -393,16 +398,17 @@ trait frequencies
     }
 
     /**
-     * Set the timezone the date should be evaluated on.
+     * 每年
      *
-     * @param  \DateTimeZone|string  $timezone
-     * @return $this
+     * @time 2020年07月04日
+     * @return Frequencies
      */
-    public function timezone($timezone)
+    public function yearly()
     {
-        $this->timezone = $timezone;
-
-        return $this;
+        return $this->spliceIntoPosition(1, 0)
+            ->spliceIntoPosition(2, 0)
+            ->spliceIntoPosition(3, 1)
+            ->spliceIntoPosition(4, 1);
     }
 
     /**
@@ -420,4 +426,43 @@ trait frequencies
 
         return $this->cron(implode(' ', $segments));
     }
+
+    /**
+     * call
+     *
+     * @time 2020年07月04日
+     * @param $name
+     * @param $arguments
+     * @return $this
+     */
+    public function __call($name, $arguments)
+    {
+       if (Str::contains($name, 'every')) {
+           $num = (int)Str::substr(str_replace('every', '',$name), 0, 2);
+           if (Str::contains($name, 'second')) {
+               return $this->spliceIntoPosition(1, $num < 60 ? $num : 1);
+           }
+
+           if (Str::contains($name, 'minute')) {
+               return $this->spliceIntoPosition(2, $num < 60 ? $num : 1);
+           }
+
+           if (Str::contains($name, 'hour')) {
+               return $this->spliceIntoPosition(3, $num < 24 ? $num : 1);
+           }
+
+           if (Str::contains($name, 'day')) {
+               return $this->spliceIntoPosition(4, $num < 31 ? $num : 1);
+           }
+
+           if (Str::contains($name, 'month')) {
+               return $this->spliceIntoPosition(5, $num < 12 ? $num : 1);
+           }
+        }
+
+       // other to do
+
+       return $this;
+   }
+
 }
