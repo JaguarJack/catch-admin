@@ -30,11 +30,77 @@ trait Store
      * 存储信息
      *
      * @time 2020年07月07日
-     * @return false|int
+     * @param array $status
+     * @return void
      */
-    public function storeStatus()
+    public function storeStatus(array $status)
     {
-        return file_put_contents($this->getWorkerStatusPath(), $this->getWorkerStatus());
+        if (file_exists($this->getWorkerStatusPath())) {
+
+            $workersStatus = $this->getWorkersStatus();
+            // ['PID',, 'START_AT', 'STATUS', 'DEAL_TASKS', 'ERRORS', 'running_time', 'memory'];
+            $pids = array_column($workersStatus, 'pid');
+            if (!in_array($status['pid'], $pids)) {
+                $workersStatus = array_merge($workersStatus, $status);
+            } else {
+                foreach ($workersStatus as &$workerStatus) {
+                    if ($workersStatus['pid'] == $status['pid']) {
+                        $workersStatus = $status;
+                        break;
+                    }
+                }
+            }
+            $this->writeStatusToFile($workersStatus);
+        } else {
+            file_put_contents($this->getWorkerStatusPath(), \json_encode($status));
+        }
+    }
+
+    /**
+     * 获取进程间信息
+     *
+     * @time 2020年07月08日
+     * @return mixed
+     */
+    protected function getWorkersStatus()
+    {
+        return \json_decode(file_get_contents($this->getWorkerStatusPath()), true);
+    }
+
+    /**
+     * 清除退出的 worker 信息
+     *
+     * @time 2020年07月08日
+     * @param $pid
+     * @return void
+     */
+    protected function unsetWorkerStatus($pid)
+    {
+        $workers = $this->getWorkersStatus();
+
+        foreach ($workers as $k => $worker) {
+            if ($worker['pid'] == $pid) {
+                unset($workers[$k]);
+            }
+        }
+
+        $this->writeStatusToFile($workers);
+    }
+
+    /**
+     * 写入文件
+     *
+     * @time 2020年07月08日
+     * @param $status
+     * @return void
+     */
+    protected function writeStatusToFile($status)
+    {
+        $file = new \SplFileObject($this->getWorkerStatusPath(), 'rw+');
+        // 加锁 防止多进程写入混乱
+        $file->flock(LOCK_EX);
+        $file->fwrite(\json_encode($status));
+        $file->flock(LOCK_UN);
     }
 
     /**
@@ -95,6 +161,6 @@ trait Store
             mkdir($path, 0777, true);
         }
 
-        return $path . 'worker-status.txt';
+        return $path . 'worker-status.php';
     }
 }
