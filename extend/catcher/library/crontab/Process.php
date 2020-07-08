@@ -12,6 +12,7 @@ namespace catcher\library\crontab;
 
 use catcher\CatchAdmin;
 use think\console\Table;
+use think\facade\Log;
 
 trait Process
 {
@@ -27,30 +28,32 @@ trait Process
                 $quit = true;
             });
 
+            pcntl_signal(SIGUSR1, function (){
+                // todo
+            });
+
             while (true) {
                 //$data = $worker->pop();
-                $this->beforeTask($process->pid);
-                $this->afterTask($process->pid);
+                /**if ($cron = $process->pop()) {
+                    if (is_string($cron) && $cron) {
+                        var_dump($cron);
+                        //$cron = unserialize($cron);
 
-                var_dump($this->process);
-                var_dump(isset($this->process[$process->pid]), $process->pid);
-                // 处理任务前
-                // 处理任务中
-                // 处理任务后
-                //var_dump(unserialize($data));
-                // echo  "来自主进程的消息:". $worker->pop().',来自管道'.$worker->pipe.',当前的进程id为'.$worker->pid.PHP_EOL;
-                // $worker->push('hello 主进程'); //不要当做管道使用
+                        $this->beforeTask($process->pid);
 
-                // 睡眠一秒 让出 CPU 调度
+                        //$cron->run();
 
-                // var_dump(123);
+                        $this->afterTask($process->pid);
+
+                        //$process->push('from process' . $process->pid);
+                    }
+                }*/
 
                 pcntl_signal_dispatch();
-                sleep(5);
+                sleep(1);
 
                 // 如果收到安全退出的信号，需要在最后任务处理完成之后退出
                 if ($quit) {
-                    var_dump(1000);
                     $process->exit(0);
                 }
             }
@@ -88,7 +91,7 @@ trait Process
 
         foreach ($this->process as $process) {
             if ($process['status'] == self::WAITING) {
-                $waiting = [true, $process];
+                $waiting = [true, $process['name']];
                 break;
             }
         }
@@ -122,7 +125,6 @@ trait Process
         if (isset($this->process[$pid])) {
             $this->process[$pid]['status'] = self::WAITING;
             $this->process[$pid]['deal_num'] += 1;
-            var_dump($this->process);
         }
     }
 

@@ -106,17 +106,17 @@ class Cron
      * @time 2020年07月04日
      * @return bool
      */
-    protected function can()
+    public function can()
     {
         if ($this->second) {
             $now = date('s', time());
 
-            return in_array($now, [--$now, $now, ++$now]);
+            return  ($now % 5) == 0;
         }
 
         if ($this->expression) {
             $cron = CronExpression::factory($this->expression);
-            return $cron->isDue('now');
+            return $cron->getNextRunDate(date('Y-m-d H:i:s'), 0 , true)->getTimestamp() == time();
         }
 
         return  false;

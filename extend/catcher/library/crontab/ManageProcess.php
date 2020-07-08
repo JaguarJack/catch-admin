@@ -12,6 +12,7 @@ namespace catcher\library\crontab;
 
 use Swoole\Process;
 use catcher\library\crontab\Process as MProcess;
+use Swoole\Timer;
 
 class ManageProcess
 {
@@ -29,7 +30,7 @@ class ManageProcess
      *
      * @var int
      */
-    protected $staticNum = 2;
+    protected $staticNum = 1;
 
     /**
      * 存储 process 信息
@@ -78,9 +79,9 @@ class ManageProcess
         // 守护进程
        // Process::daemon(true, false);
         // alarm 信号
-        Process::alarm(1000 * 1000);
+        // Process::alarm(1000 * 1000);
         // 1s 调度一次
-        swoole_timer_tick(1000, $this->schedule());//不会继承
+        $this->timeTick(1000, $this->schedule());
         // 注册信号
         $this->registerSignal();
         // 存储 pid
@@ -89,6 +90,24 @@ class ManageProcess
         $this->master_pid = getmypid();
         // 初始化进程
         $this->initProcesses();
+    }
+
+    /**
+     * 自定义 tick 关闭协程
+     *
+     * @time 2020年07月08日
+     * @param int $time
+     * @param $callable
+     * @return void
+     */
+    protected function timeTick(int $time, $callable)
+    {
+        // 关闭协程
+        Timer::set([
+            'enable_coroutine' => false,
+        ]);
+
+        Timer::tick($time, $callable);
     }
 
     /**
@@ -101,13 +120,16 @@ class ManageProcess
     {
         return function () {
             $schedule = new Schedule();
-            $schedule->command('route:list')->everyFiveMinutes();
+            $schedule->command('catch:cache')->everyThirtySeconds();
 
             foreach ($schedule->getCronTask() as $cron) {
                 if ($cron->can()) {
                     list($waiting, $process) = $this->hasWaitingProcess();
                     if ($waiting) {
                         // 向 process 投递 cron
+                       // var_dump(serialize($cron));
+                       //$process->push(serialize($cron));
+                        var_dump($process->pop());
                     } else {
                         // 创建临时 process 处理，处理完自动销毁
                         $this->createProcess($cron);
@@ -127,11 +149,12 @@ class ManageProcess
     protected function createProcess(Cron $cron)
     {
         $process = new Process(function (Process $process) use($cron) {
-            $cron->run();
+            echo 'hello world';
+            //$cron->run();
             $process->exit();
         });
 
-        $process->name(sprintf('worker: '));
+        // $process->name(sprintf('worker: '));
 
         $process->start();
     }
@@ -144,7 +167,12 @@ class ManageProcess
      */
     protected function createStaticProcess()
     {
-        return new Process($this->createProcessCallback());
+        $process =  new Process($this->createProcessCallback());
+
+        // 使用非阻塞队列
+        $process->useQueue(1, 2|Process::IPC_NOWAIT);
+
+        return $process;
     }
 
     /**
@@ -163,5 +191,16 @@ class ManageProcess
 
             $this->process[$process->pid] = $this->processInfo($process);
         }
+    }
+
+    /**
+     * 记录日志
+     *
+     * @time 2020年07月07日
+     * @return void
+     */
+    protected function log()
+    {
+        fwrite(STDOUT, runtime_path('schedule') . 'error.log');
     }
 }

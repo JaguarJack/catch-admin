@@ -82,7 +82,7 @@ trait RegisterSignal
             foreach ($this->process as $process) {
                 Process::kill($process['pid'], SIGTERM);
             }
-
+            // 退出 master
             Process::kill($this->master_pid, SIGKILL);
         };
     }
@@ -96,7 +96,11 @@ trait RegisterSignal
     protected function workerStatus()
     {
         return function () {
-            $this->storeStatus();
+           // $this->storeStatus();
+            var_dump(123);
+            foreach ($this->process as $process) {
+                Process::kill($process['pid'], SIGUSR1);
+            }
         };
     }
 
@@ -109,13 +113,13 @@ trait RegisterSignal
     protected function smoothReloadWorkers()
     {
         return function () {
+            // 使用队列， 会发生主进程往一个不存在的进程发送消息吗？
+            var_dump('send');
             foreach ($this->process as $process) {
-                var_dump($process['pid']);
                 Process::kill((int)$process['pid'], SIGTERM);
             }
         };
     }
-
 
     /**
      * 管道破裂信号
