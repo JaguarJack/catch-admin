@@ -23,14 +23,21 @@ class Master
      *
      * @var int
      */
-    protected $maxNum = 10;
+    protected $maxNum;
 
     /**
      * 常驻 process
      *
      * @var int
      */
-    protected $staticNum = 1;
+    protected $staticNum;
+
+    /**
+     * 临时进程数量
+     *
+     * @var int
+     */
+    protected $temporaryNum = 0;
 
     /**
      * 存储 process 信息
@@ -57,15 +64,6 @@ class Master
      * @var int
      */
     protected $master_start_at;
-
-
-    protected $table;
-    /**
-     * 日志
-     *
-     * @var
-     */
-    protected $logHandle;
 
     // 版本
     const VERSION = '1.0.0';
@@ -157,14 +155,29 @@ class Master
      */
     protected function createProcess(Cron $cron)
     {
-        $process = new Process(function (Process $process) use($cron) {
-            $cron->run();
-            $process->exit();
-        });
+        if ($this->isCanCreateTemporaryProcess()) {
+            $process = new Process(function (Process $process) use ($cron) {
+                $cron->run();
+                $process->exit();
+            });
 
-        // $process->name(sprintf('worker: '));
+            // $process->name(sprintf('worker: '));
 
-        $process->start();
+            $process->start();
+
+            $this->temporaryNum += 1;
+        }
+    }
+
+    /**
+     * 是否可以创建临时进程
+     *
+     * @time 2020年07月09日
+     * @return bool
+     */
+    protected function isCanCreateTemporaryProcess()
+    {
+        return ($this->table->count() + $this->temporaryNum) < $this->maxNum;
     }
 
     /**

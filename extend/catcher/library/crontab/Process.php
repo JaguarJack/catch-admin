@@ -98,7 +98,7 @@ trait Process
             }
         }
 
-        // 获取相应的状态
+        // 获取相应的进程投递任务
         if (isset($this->processes[$pid])) {
             return [true, $this->processes[$pid]];
         }
