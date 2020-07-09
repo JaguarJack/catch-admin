@@ -65,6 +65,11 @@ class Master
      */
     protected $master_start_at;
 
+    /**
+     * @var bool
+     */
+    protected $daemon = false;
+
     // 版本
     const VERSION = '1.0.0';
 
@@ -82,7 +87,9 @@ class Master
     public function start()
     {
         // 守护进程
-        //Process::daemon(true, false);
+        if ($this->daemon) {
+            Process::daemon(true, false);
+        }
         // alarm 信号
         // Process::alarm(1000 * 1000);
         // 1s 调度一次
@@ -129,7 +136,7 @@ class Master
     {
         return function () {
             $schedule = new Schedule();
-            $schedule->command('catch:cache')->everyTenSeconds();
+            $schedule->command('catch:cache')->everyThirtySeconds();
 
             foreach ($schedule->getCronTask() as $cron) {
                 if ($cron->can()) {
@@ -243,6 +250,8 @@ class Master
 
         $this->initLog();
 
+        file_put_contents($this->getSaveProcessStatusFile(), '');
+
         $this->createTable();
     }
 
@@ -267,5 +276,18 @@ class Master
             'channels' => $channels,
              'default' => 'schedule',
         ], 'log');
+    }
+
+    /**
+     * 开启 debug
+     *
+     * @time 2020年07月09日
+     * @return $this
+     */
+    public function daemon()
+    {
+        $this->daemon = true;
+
+        return $this;
     }
 }
