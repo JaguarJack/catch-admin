@@ -97,10 +97,9 @@ trait RegisterSignal
     protected function workerStatus()
     {
         return function () {
-           // $this->storeStatus();
-            foreach ($this->processes as $pid => $process) {
+           foreach ($this->processes as $pid => $process) {
                 Process::kill($pid, SIGUSR1);
-            }
+           }
         };
     }
 

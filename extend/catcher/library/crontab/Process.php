@@ -28,8 +28,9 @@ trait Process
                 $quit = true;
             });
 
-            pcntl_signal(SIGUSR1, function (){
+            pcntl_signal(SIGUSR1, function () use ($process){
                 // todo
+                $this->afterTask($process->pid);
             });
 
             while (true) {
@@ -94,6 +95,7 @@ trait Process
 
         // 获取等待状态的 worker
         $processes = $this->getProcessesStatus();
+
         // $processIds
         foreach ($processes as $process) {
             if ($process['status'] == self::WAITING) {
@@ -195,7 +197,7 @@ trait Process
      * @time 2020年07月05日
      * @return string
      */
-    public function getWorkerStatus()
+    public function renderProcessesStatusToString()
     {
         $scheduleV = self::VERSION;
         $adminV = CatchAdmin::VERSION;
@@ -215,22 +217,24 @@ EOT;
 
         $table = new Table();
         $table->setHeader([
-            'Pid', 'StartAt', 'Status', 'DealTaskNumber', 'Errors'
-        ], 3);
+            'pid', 'memory', 'start_at', 'running_time', 'status', 'deal_tasks','errors'
+        ], 2);
 
         $processes = [];
 
-        foreach ($this->process as $process) {
+        foreach ($this->getProcessesStatus() as $process) {
             $processes[] = [
-                'pid' => $process['pid'],
-                'start_at' => date('Y-m-d H:i', $process['start_at']),
-                'status' => $process['status'],
-                'deal_num' => $process['deal_num'],
-                'error' => $process['error'],
+                 $process['pid'],
+                (int)($process['memory']/1024/1024) . 'M',
+                date('Y-m-d H:i', $process['start_at']),
+                gmstrftime('%H:%M:%S', $process['running_time']),
+                $process['status'],
+                $process['deal_tasks'],
+                $process['errors'],
             ];
         }
 
-        $table->setRows($processes, 3);
+        $table->setRows($processes, 2);
 
         $table->render();
 

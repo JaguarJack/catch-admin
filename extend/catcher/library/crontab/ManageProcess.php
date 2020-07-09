@@ -84,10 +84,10 @@ class ManageProcess
         $this->timeTick(1000, $this->schedule());
         // 注册信号
         $this->registerSignal();
-        // 存储 pid
-        $this->storeMasterPid(getmypid());
         // pid
         $this->master_pid = getmypid();
+        // 存储 pid
+        $this->storeMasterPid($this->master_pid);
         // 初始化进程
         $this->initProcesses();
     }
@@ -148,8 +148,7 @@ class ManageProcess
     protected function createProcess(Cron $cron)
     {
         $process = new Process(function (Process $process) use($cron) {
-            echo 'hello world';
-            //$cron->run();
+            $cron->run();
             $process->exit();
         });
 
@@ -195,6 +194,8 @@ class ManageProcess
 
             $this->storeStatus($this->processInfo($process));
         }
+
+        $this->saveProcessStatus();
     }
 
     /**

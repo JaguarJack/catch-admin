@@ -35,8 +35,8 @@ trait Store
      */
     public function storeStatus(array $status)
     {
-
         $workersStatus = $this->getProcessesStatus();
+
         if (empty($workersStatus)) {
             $this->writeStatusToFile([$status]);
         } else {
@@ -115,7 +115,7 @@ trait Store
         // 等待信号输出
         sleep(1);
 
-        return file_exists($this->getProcessStatusPath()) ? file_get_contents($this->getProcessStatusPath()) : '';
+        return $this->getProcessStatusInfo();
     }
 
     /**
@@ -139,13 +139,24 @@ trait Store
      */
     protected function getMasterPidPath()
     {
+        return  $this->schedulePath() . 'master.pid';
+    }
+
+    /**
+     * 创建任务调度文件夹
+     *
+     * @time 2020年07月09日
+     * @return string
+     */
+    protected function schedulePath()
+    {
         $path = runtime_path('schedule' . DIRECTORY_SEPARATOR);
 
         if (!is_dir($path)) {
             mkdir($path, 0777, true);
         }
 
-        return $path . 'master.pid';
+        return $path;
     }
 
     /**
@@ -156,12 +167,41 @@ trait Store
      */
     protected function getProcessStatusPath()
     {
-        $path = runtime_path('schedule' . DIRECTORY_SEPARATOR);
+        return $this->schedulePath() . 'worker-status.json';
+    }
 
-        if (!is_dir($path)) {
-            mkdir($path, 0777, true);
-        }
+    /**
+     * 进程状态文件
+     *
+     * @time 2020年07月09日
+     * @return string
+     */
+    protected function getSaveProcessStatusFile()
+    {
+        return $this->schedulePath() . '.worker-status';
+    }
 
-        return $path . 'worker-status.json';
+    /**
+     *  保存进程状态
+     *
+     * @time 2020年07月09日
+     * @return void
+     */
+    protected function saveProcessStatus()
+    {
+        file_put_contents($this->getSaveProcessStatusFile(), $this->renderProcessesStatusToString());
+    }
+
+    /**
+     * 获取进程状态
+     *
+     * @time 2020年07月09日
+     * @return false|string
+     */
+    protected function getProcessStatusInfo()
+    {
+        $this->saveProcessStatus();
+
+        return file_get_contents($this->getSaveProcessStatusFile());
     }
 }
