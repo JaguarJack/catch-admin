@@ -12,7 +12,6 @@ namespace catcher\library\crontab;
 
 use catcher\CatchAdmin;
 use think\console\Table;
-use think\facade\Log;
 
 trait Process
 {
@@ -34,22 +33,22 @@ trait Process
             });
 
             while (true) {
-                //$data = $worker->pop();
-                /**if ($cron = $process->pop()) {
+                if ($cron = $process->pop()) {
                     if (is_string($cron) && $cron) {
-                        var_dump($cron);
-                        //$cron = unserialize($cron);
+
+                        $cron = unserialize($cron);
 
                         $this->beforeTask($process->pid);
 
-                        //$cron->run();
+                        try {
+                            $cron->run();
+                        } catch (\Throwable $e) {
+                            file_put_contents($this->schedulePath() . 'schedule.log', $e . PHP_EOL, FILE_APPEND);
+;                        }
 
                         $this->afterTask($process->pid);
-
-                        //$process->push('from process' . $process->pid);
                     }
-                }*/
-
+                }
                 pcntl_signal_dispatch();
                 sleep(1);
 
@@ -203,6 +202,10 @@ trait Process
         $adminV = CatchAdmin::VERSION;
         $phpV = PHP_VERSION;
 
+        $processNumber = count($this->processes);
+        $memory = (int)(memory_get_usage()/1024/1024). 'M';
+        $startAt = date('Y-m-d H:i:s', $this->master_start_at);
+        $runtime = gmstrftime('%H:%M:%S', time() - $this->master_start_at);
         $info =  <<<EOT
 -------------------------------------------------------------------------------------------------------
 |   ____      _       _        _       _           _         ____       _              _       _       | 
@@ -211,7 +214,9 @@ trait Process
 | | |__| (_| | || (__| | | |/ ___ \ (_| | | | | | | | | | |  ___) | (__| | | |  __/ (_| | |_| | |  __/ |
 |  \____\__,_|\__\___|_| |_/_/   \_\__,_|_| |_| |_|_|_| |_| |____/ \___|_| |_|\___|\__,_|\__,_|_|\___| |
 | ----------------------------------------- CatchAdmin Schedule ---------------------------------------|                                                                                                   
-|  Schedule Version: $scheduleV         CatchAdmin Version: $adminV         PHP Version: $phpV         |
+|  Schedule Version: $scheduleV         CatchAdmin Version: $adminV         PHP Version: $phpV         |      
+|  Process Number: $processNumber           Memory: $memory                     Start at: $startAt     |
+|  Running Time: $runtime                                                                              |
 |------------------------------------------------------------------------------------------------------|
 EOT;
 

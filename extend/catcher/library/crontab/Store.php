@@ -97,10 +97,22 @@ trait Store
      */
     protected function writeStatusToFile($status)
     {
-        $file = new \SplFileObject($this->getProcessStatusPath(), 'rw+');
-        // 加锁 防止多进程写入混乱
+        $this->writeContentToFile($this->getProcessStatusPath(), \json_encode($status));
+    }
+
+    /**
+     * 写入内容
+     *
+     * @time 2020年07月09日
+     * @param $path
+     * @param $content
+     * @return void
+     */
+    protected function writeContentToFile($path, $content)
+    {
+        $file = new \SplFileObject($path, 'rw+');
         $file->flock(LOCK_EX);
-        $file->fwrite(\json_encode($status));
+        $file->fwrite($content);
         $file->flock(LOCK_UN);
     }
 

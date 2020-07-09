@@ -54,6 +54,11 @@ class ManageProcess
     protected $mater = 'catch-master';
 
     /**
+     * @var int
+     */
+    protected $master_start_at;
+
+    /**
      * process status 存储文件
      *
      * @var string
@@ -77,7 +82,7 @@ class ManageProcess
     public function start()
     {
         // 守护进程
-       // Process::daemon(true, false);
+        // Process::daemon(true, false);
         // alarm 信号
         // Process::alarm(1000 * 1000);
         // 1s 调度一次
@@ -86,8 +91,11 @@ class ManageProcess
         $this->registerSignal();
         // pid
         $this->master_pid = getmypid();
+        $this->master_start_at = time();
         // 存储 pid
         $this->storeMasterPid($this->master_pid);
+        // 初始化文件
+        $this->initFiles();
         // 初始化进程
         $this->initProcesses();
     }
@@ -120,15 +128,15 @@ class ManageProcess
     {
         return function () {
             $schedule = new Schedule();
-            $schedule->command('catch:cache')->everyThirtySeconds();
+            $schedule->command('catch:cache')->everyTenSeconds();
 
             foreach ($schedule->getCronTask() as $cron) {
                 if ($cron->can()) {
                     list($waiting, $process) = $this->hasWaitingProcess();
                     if ($waiting) {
                         // 向 process 投递 cron
-                       // var_dump(serialize($cron));
-                       //$process->push(serialize($cron));
+                       var_dump(serialize($cron));
+                       $process->push(serialize($cron));
                     } else {
                         // 创建临时 process 处理，处理完自动销毁
                         $this->createProcess($cron);
@@ -181,7 +189,7 @@ class ManageProcess
      */
     protected function initProcesses()
     {
-        file_put_contents($this->getProcessStatusPath(), '');
+
 
         for ($i = 0; $i < $this->staticNum; $i++) {
 
@@ -199,13 +207,14 @@ class ManageProcess
     }
 
     /**
-     * 记录日志
+     * 初始化文件
      *
-     * @time 2020年07月07日
+     * @time 2020年07月09日
      * @return void
      */
-    protected function log()
+    protected function initFiles()
     {
-        fwrite(STDOUT, runtime_path('schedule') . 'error.log');
+        file_put_contents($this->getProcessStatusPath(), '');
+        file_put_contents($this->schedulePath() . 'error.log', '');
     }
 }
