@@ -35,9 +35,11 @@ trait Store
      */
     public function storeStatus(array $status)
     {
-        if (file_exists($this->getProcessStatusPath())) {
 
-            $workersStatus = $this->getProcessesStatus();
+        $workersStatus = $this->getProcessesStatus();
+        if (empty($workersStatus)) {
+            $this->writeStatusToFile([$status]);
+        } else {
             // ['PID',, 'START_AT', 'STATUS', 'DEAL_TASKS', 'ERRORS', 'running_time', 'memory'];
             $pids = array_column($workersStatus, 'pid');
 
@@ -52,8 +54,6 @@ trait Store
                 }
             }
             $this->writeStatusToFile($workersStatus);
-        } else {
-            file_put_contents($this->getProcessStatusPath(), \json_encode([$status]));
         }
     }
 

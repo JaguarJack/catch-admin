@@ -94,12 +94,14 @@ trait Process
 
         // 获取等待状态的 worker
         $processes = $this->getProcessesStatus();
+        // $processIds
         foreach ($processes as $process) {
             if ($process['status'] == self::WAITING) {
                 $pid = $process['pid'];
                 break;
             }
         }
+
         // 获取相应的状态
         if (isset($this->processes[$pid])) {
             return [true, $this->processes[$pid]];

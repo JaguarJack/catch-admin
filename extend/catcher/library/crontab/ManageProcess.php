@@ -129,7 +129,6 @@ class ManageProcess
                         // 向 process 投递 cron
                        // var_dump(serialize($cron));
                        //$process->push(serialize($cron));
-                        var_dump($process->pop());
                     } else {
                         // 创建临时 process 处理，处理完自动销毁
                         $this->createProcess($cron);
@@ -183,6 +182,8 @@ class ManageProcess
      */
     protected function initProcesses()
     {
+        file_put_contents($this->getProcessStatusPath(), '');
+
         for ($i = 0; $i < $this->staticNum; $i++) {
 
             $process = $this->createStaticProcess();
