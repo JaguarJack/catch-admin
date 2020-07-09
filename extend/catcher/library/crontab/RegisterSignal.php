@@ -65,9 +65,10 @@ trait RegisterSignal
                 if (isset($this->processes[$res['pid']])) {
                     $this->unsetWorkerStatus($res['pid']);
                     unset($this->processes[$res['pid']]);
+                } else {
+                    // 临时进程数目减少一次
+                    $this->temporaryNum -= 1;
                 }
-                // 临时进程数目减少一次
-                $this->temporaryNum -= 1;
             }
         };
     }
