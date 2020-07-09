@@ -37,7 +37,7 @@ class ManageProcess
      *
      * @var array
      */
-    protected $process = [];
+    protected $processes = [];
 
     /**
      * 主进程ID
@@ -187,9 +187,12 @@ class ManageProcess
 
             $process = $this->createStaticProcess();
             // $worker->name("[$i+1]catch-worker");
+
             $process->start();
 
-            $this->process[$process->pid] = $this->processInfo($process);
+            $this->processes[$process->pid] = $process;
+
+            $this->storeStatus($this->processInfo($process));
         }
     }
 

@@ -35,11 +35,12 @@ trait Store
      */
     public function storeStatus(array $status)
     {
-        if (file_exists($this->getWorkerStatusPath())) {
+        if (file_exists($this->getProcessStatusPath())) {
 
-            $workersStatus = $this->getWorkersStatus();
+            $workersStatus = $this->getProcessesStatus();
             // ['PID',, 'START_AT', 'STATUS', 'DEAL_TASKS', 'ERRORS', 'running_time', 'memory'];
             $pids = array_column($workersStatus, 'pid');
+
             if (!in_array($status['pid'], $pids)) {
                 $workersStatus = array_merge($workersStatus, $status);
             } else {
@@ -52,7 +53,7 @@ trait Store
             }
             $this->writeStatusToFile($workersStatus);
         } else {
-            file_put_contents($this->getWorkerStatusPath(), \json_encode($status));
+            file_put_contents($this->getProcessStatusPath(), \json_encode([$status]));
         }
     }
 
@@ -62,9 +63,9 @@ trait Store
      * @time 2020年07月08日
      * @return mixed
      */
-    protected function getWorkersStatus()
+    protected function getProcessesStatus()
     {
-        return \json_decode(file_get_contents($this->getWorkerStatusPath()), true);
+        return \json_decode(file_get_contents($this->getProcessStatusPath()), true);
     }
 
     /**
@@ -76,7 +77,7 @@ trait Store
      */
     protected function unsetWorkerStatus($pid)
     {
-        $workers = $this->getWorkersStatus();
+        $workers = $this->getProcessesStatus();
 
         foreach ($workers as $k => $worker) {
             if ($worker['pid'] == $pid) {
@@ -96,7 +97,7 @@ trait Store
      */
     protected function writeStatusToFile($status)
     {
-        $file = new \SplFileObject($this->getWorkerStatusPath(), 'rw+');
+        $file = new \SplFileObject($this->getProcessStatusPath(), 'rw+');
         // 加锁 防止多进程写入混乱
         $file->flock(LOCK_EX);
         $file->fwrite(\json_encode($status));
@@ -114,7 +115,7 @@ trait Store
         // 等待信号输出
         sleep(1);
 
-        return file_exists($this->getWorkerStatusPath()) ? file_get_contents($this->getWorkerStatusPath()) : '';
+        return file_exists($this->getProcessStatusPath()) ? file_get_contents($this->getProcessStatusPath()) : '';
     }
 
     /**
@@ -153,7 +154,7 @@ trait Store
      * @time 2020年07月07日
      * @return string
      */
-    protected function getWorkerStatusPath()
+    protected function getProcessStatusPath()
     {
         $path = runtime_path('schedule' . DIRECTORY_SEPARATOR);
 
@@ -161,6 +162,6 @@ trait Store
             mkdir($path, 0777, true);
         }
 
-        return $path . 'worker-status.php';
+        return $path . 'worker-status.json';
     }
 }

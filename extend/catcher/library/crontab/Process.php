@@ -70,12 +70,13 @@ trait Process
     protected function processInfo($process)
     {
         return [
-            'name' => $process,
             'pid'  => $process->pid,
             'status' => self::WAITING,
             'start_at' => time(),
-            'deal_num' => 0,
-            'error' => 0,
+            'running_time' => 0,
+            'memory' => memory_get_usage(),
+            'deal_tasks' => 0,
+            'errors' => 0,
         ];
     }
 
@@ -89,11 +90,19 @@ trait Process
     {
         $waiting = [false, null];
 
-        foreach ($this->process as $process) {
+        $pid = 0;
+
+        // 获取等待状态的 worker
+        $processes = $this->getProcessesStatus();
+        foreach ($processes as $process) {
             if ($process['status'] == self::WAITING) {
-                $waiting = [true, $process['name']];
+                $pid = $process['pid'];
                 break;
             }
+        }
+        // 获取相应的状态
+        if (isset($this->processes[$pid])) {
+            return [true, $this->processes[$pid]];
         }
 
         return $waiting;
@@ -108,9 +117,18 @@ trait Process
      */
     protected function beforeTask($pid)
     {
-        if (isset($this->process[$pid])) {
-            $this->process[$pid]['status'] = self::BUSYING;
+        $processes = $this->getProcessesStatus();
+
+        foreach ($processes as &$process) {
+            if ($process['pid'] == $pid) {
+                $process['status'] = self::BUSYING;
+                $process['running_time'] = time() - $process['start_at'];
+                $process['memory'] = memory_get_usage();
+                break;
+            }
         }
+
+        $this->writeStatusToFile($processes);
     }
 
     /**
@@ -122,10 +140,18 @@ trait Process
      */
     protected function afterTask($pid)
     {
-        if (isset($this->process[$pid])) {
-            $this->process[$pid]['status'] = self::WAITING;
-            $this->process[$pid]['deal_num'] += 1;
+        $processes = $this->getProcessesStatus();
+
+        foreach ($processes as &$process) {
+            if ($process['pid'] == $pid) {
+                $process['status'] = self::WAITING;
+                $process['running_time'] = time() - $process['start_at'];
+                $process['memory'] = memory_get_usage();
+                break;
+            }
         }
+
+        $this->writeStatusToFile($processes);
     }
 
     /**

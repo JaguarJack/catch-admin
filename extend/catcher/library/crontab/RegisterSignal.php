@@ -62,9 +62,9 @@ trait RegisterSignal
     {
         return function () {
             while ($res = Process::wait(false)) {
-                if (isset($this->process[$res['pid']])) {
+                if (isset($this->processes[$res['pid']])) {
                     $this->unsetWorkerStatus($res['pid']);
-                    unset($this->process[$res['pid']]);
+                    unset($this->processes[$res['pid']]);
                 }
             }
         };
@@ -80,8 +80,8 @@ trait RegisterSignal
     {
         return function () {
             // 发送停止信号给子进程 等待结束后自动退出
-            foreach ($this->process as $process) {
-                Process::kill($process['pid'], SIGTERM);
+            foreach ($this->processes as $pid => $process) {
+                Process::kill($pid, SIGTERM);
             }
             // 退出 master
             Process::kill($this->master_pid, SIGKILL);
@@ -98,8 +98,8 @@ trait RegisterSignal
     {
         return function () {
            // $this->storeStatus();
-            foreach ($this->process as $process) {
-                Process::kill($process['pid'], SIGUSR1);
+            foreach ($this->processes as $pid => $process) {
+                Process::kill($pid, SIGUSR1);
             }
         };
     }
@@ -114,7 +114,7 @@ trait RegisterSignal
     {
         return function () {
             // 使用队列， 会发生主进程往一个不存在的进程发送消息吗？
-            foreach ($this->process as $process) {
+            foreach ($this->processes as $process) {
                 Process::kill((int)$process['pid'], SIGTERM);
             }
         };
