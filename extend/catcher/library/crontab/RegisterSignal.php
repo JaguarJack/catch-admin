@@ -100,6 +100,10 @@ trait RegisterSignal
            foreach ($this->processes as $pid => $process) {
                 Process::kill($pid, SIGUSR1);
            }
+
+           usleep(100);
+
+           $this->saveProcessStatus();
         };
     }
 

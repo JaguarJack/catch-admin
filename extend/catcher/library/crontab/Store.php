@@ -27,48 +27,6 @@ trait Store
     }
 
     /**
-     * 存储信息
-     *
-     * @time 2020年07月07日
-     * @param array $status
-     * @return void
-     */
-    public function storeStatus(array $status)
-    {
-        $workersStatus = $this->getProcessesStatus();
-
-        if (empty($workersStatus)) {
-            $this->writeStatusToFile([$status]);
-        } else {
-            // ['PID',, 'START_AT', 'STATUS', 'DEAL_TASKS', 'ERRORS', 'running_time', 'memory'];
-            $pids = array_column($workersStatus, 'pid');
-
-            if (!in_array($status['pid'], $pids)) {
-                $workersStatus = array_merge($workersStatus, $status);
-            } else {
-                foreach ($workersStatus as &$workerStatus) {
-                    if ($workersStatus['pid'] == $status['pid']) {
-                        $workersStatus = $status;
-                        break;
-                    }
-                }
-            }
-            $this->writeStatusToFile($workersStatus);
-        }
-    }
-
-    /**
-     * 获取进程间信息
-     *
-     * @time 2020年07月08日
-     * @return mixed
-     */
-    protected function getProcessesStatus()
-    {
-        return \json_decode(file_get_contents($this->getProcessStatusPath()), true);
-    }
-
-    /**
      * 清除退出的 worker 信息
      *
      * @time 2020年07月08日
@@ -77,44 +35,9 @@ trait Store
      */
     protected function unsetWorkerStatus($pid)
     {
-        $workers = $this->getProcessesStatus();
-
-        foreach ($workers as $k => $worker) {
-            if ($worker['pid'] == $pid) {
-                unset($workers[$k]);
-            }
-        }
-
-        $this->writeStatusToFile($workers);
+        $this->table->del($this->getColumnKey($pid));
     }
 
-    /**
-     * 写入文件
-     *
-     * @time 2020年07月08日
-     * @param $status
-     * @return void
-     */
-    protected function writeStatusToFile($status)
-    {
-        $this->writeContentToFile($this->getProcessStatusPath(), \json_encode($status));
-    }
-
-    /**
-     * 写入内容
-     *
-     * @time 2020年07月09日
-     * @param $path
-     * @param $content
-     * @return void
-     */
-    protected function writeContentToFile($path, $content)
-    {
-        $file = new \SplFileObject($path, 'rw+');
-        $file->flock(LOCK_EX);
-        $file->fwrite($content);
-        $file->flock(LOCK_UN);
-    }
 
     /**
      * 输出
@@ -125,7 +48,7 @@ trait Store
     public function output()
     {
         // 等待信号输出
-        sleep(1);
+        usleep(500);
 
         return $this->getProcessStatusInfo();
     }
@@ -151,7 +74,7 @@ trait Store
      */
     protected function getMasterPidPath()
     {
-        return  $this->schedulePath() . 'master.pid';
+        return  config('catch.schedule.master_pid_file');
     }
 
     /**
@@ -162,7 +85,7 @@ trait Store
      */
     protected function schedulePath()
     {
-        $path = runtime_path('schedule' . DIRECTORY_SEPARATOR);
+        $path = config('catch.schedule.store_path');
 
         if (!is_dir($path)) {
             mkdir($path, 0777, true);
@@ -171,16 +94,6 @@ trait Store
         return $path;
     }
 
-    /**
-     * 获取 worker 状态存储地址
-     *
-     * @time 2020年07月07日
-     * @return string
-     */
-    protected function getProcessStatusPath()
-    {
-        return $this->schedulePath() . 'worker-status.json';
-    }
 
     /**
      * 进程状态文件
@@ -212,8 +125,6 @@ trait Store
      */
     protected function getProcessStatusInfo()
     {
-        $this->saveProcessStatus();
-
         return file_get_contents($this->getSaveProcessStatusFile());
     }
 }

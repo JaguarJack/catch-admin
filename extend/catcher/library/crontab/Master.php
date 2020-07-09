@@ -14,9 +14,9 @@ use Swoole\Process;
 use catcher\library\crontab\Process as MProcess;
 use Swoole\Timer;
 
-class ManageProcess
+class Master
 {
-    use RegisterSignal, MProcess, Store;
+    use RegisterSignal, MProcess, Store, Table;
 
     /**
      * 动态扩展的最大 process 数量
@@ -58,12 +58,14 @@ class ManageProcess
      */
     protected $master_start_at;
 
+
+    protected $table;
     /**
-     * process status 存储文件
+     * 日志
      *
-     * @var string
+     * @var
      */
-    protected $processStatus = 'process-status';
+    protected $logHandle;
 
     // 版本
     const VERSION = '1.0.0';
@@ -82,7 +84,7 @@ class ManageProcess
     public function start()
     {
         // 守护进程
-        // Process::daemon(true, false);
+        //Process::daemon(true, false);
         // alarm 信号
         // Process::alarm(1000 * 1000);
         // 1s 调度一次
@@ -92,10 +94,11 @@ class ManageProcess
         // pid
         $this->master_pid = getmypid();
         $this->master_start_at = time();
+        // 初始化
+        $this->init();
         // 存储 pid
         $this->storeMasterPid($this->master_pid);
-        // 初始化文件
-        $this->initFiles();
+
         // 初始化进程
         $this->initProcesses();
     }
@@ -135,7 +138,6 @@ class ManageProcess
                     list($waiting, $process) = $this->hasWaitingProcess();
                     if ($waiting) {
                         // 向 process 投递 cron
-                       var_dump(serialize($cron));
                        $process->push(serialize($cron));
                     } else {
                         // 创建临时 process 处理，处理完自动销毁
@@ -189,8 +191,6 @@ class ManageProcess
      */
     protected function initProcesses()
     {
-
-
         for ($i = 0; $i < $this->staticNum; $i++) {
 
             $process = $this->createStaticProcess();
@@ -200,10 +200,20 @@ class ManageProcess
 
             $this->processes[$process->pid] = $process;
 
-            $this->storeStatus($this->processInfo($process));
+            $this->addColumn($this->getColumnKey($process->pid), $this->processInfo($process));
         }
+    }
 
-        $this->saveProcessStatus();
+    /**
+     * 栏目 KEY
+     *
+     * @time 2020年07月09日
+     * @param $pid
+     * @return string
+     */
+    protected function getColumnKey($pid)
+    {
+        return 'process_'. $pid;
     }
 
     /**
@@ -212,9 +222,37 @@ class ManageProcess
      * @time 2020年07月09日
      * @return void
      */
-    protected function initFiles()
+    protected function init()
     {
-        file_put_contents($this->getProcessStatusPath(), '');
-        file_put_contents($this->schedulePath() . 'error.log', '');
+        $this->staticNum = config('catch.schedule.static_worker_number');
+
+        $this->maxNum = config('catch.schedule.max_worker_number');
+
+        $this->initLog();
+
+        $this->createTable();
+    }
+
+    /**
+     * 日志初始化
+     *
+     * @time 2020年07月09日
+     * @return void
+     */
+    protected function initLog()
+    {
+        $log = config('log.channels.file');
+
+        $log['path'] = config('catch.schedule.store_path');
+
+        $channels = config('log.channels');
+
+        $channels['schedule'] = $log;
+
+
+        config([
+            'channels' => $channels,
+             'default' => 'schedule',
+        ], 'log');
     }
 }

@@ -12,6 +12,7 @@ namespace catcher\library\crontab;
 
 use catcher\CatchAdmin;
 use think\console\Table;
+use think\facade\Log;
 
 trait Process
 {
@@ -29,31 +30,28 @@ trait Process
 
             pcntl_signal(SIGUSR1, function () use ($process){
                 // todo
-                $this->afterTask($process->pid);
+                $this->updateTask($process->pid);
             });
 
             while (true) {
-                if ($cron = $process->pop()) {
-                    if (is_string($cron) && $cron) {
-
-                        $cron = unserialize($cron);
-
-                        $this->beforeTask($process->pid);
-
-                        try {
-                            $cron->run();
-                        } catch (\Throwable $e) {
-                            file_put_contents($this->schedulePath() . 'schedule.log', $e . PHP_EOL, FILE_APPEND);
-;                        }
-
-                        $this->afterTask($process->pid);
+                $cron = $process->pop();
+                if ($cron && is_string($cron)) {
+                    $cron = unserialize($cron);
+                    $this->beforeTask($process->pid);
+                    try {
+                        $cron->run();
+                    } catch (\Throwable $e) {
+                        $this->addErrors($process->pid);
+                        Log::error($e->getMessage() . ': at ' . $e->getFile() . ' ' . $e->getLine() . '行'.
+                            PHP_EOL . $e->getTraceAsString());
                     }
+                    $this->afterTask($process->pid);
                 }
                 pcntl_signal_dispatch();
                 sleep(1);
-
                 // 如果收到安全退出的信号，需要在最后任务处理完成之后退出
                 if ($quit) {
+                    Log::info('worker quit');
                     $process->exit(0);
                 }
             }
@@ -71,10 +69,10 @@ trait Process
     {
         return [
             'pid'  => $process->pid,
-            'status' => self::WAITING,
+            'memory' => memory_get_usage(),
             'start_at' => time(),
             'running_time' => 0,
-            'memory' => memory_get_usage(),
+            'status' => self::WAITING,
             'deal_tasks' => 0,
             'errors' => 0,
         ];
@@ -92,11 +90,8 @@ trait Process
 
         $pid = 0;
 
-        // 获取等待状态的 worker
-        $processes = $this->getProcessesStatus();
-
         // $processIds
-        foreach ($processes as $process) {
+        foreach ($this->table as $process) {
             if ($process['status'] == self::WAITING) {
                 $pid = $process['pid'];
                 break;
@@ -120,18 +115,12 @@ trait Process
      */
     protected function beforeTask($pid)
     {
-        $processes = $this->getProcessesStatus();
-
-        foreach ($processes as &$process) {
-            if ($process['pid'] == $pid) {
-                $process['status'] = self::BUSYING;
-                $process['running_time'] = time() - $process['start_at'];
-                $process['memory'] = memory_get_usage();
-                break;
-            }
+        if ($process = $this->table->get($this->getColumnKey($pid))) {
+            $process['status'] = self::BUSYING;
+            $process['running_time'] = time() - $process['start_at'];
+            $process['memory'] = memory_get_usage();
+            $this->table->set($this->getColumnKey($pid), $process);
         }
-
-        $this->writeStatusToFile($processes);
     }
 
     /**
@@ -143,18 +132,44 @@ trait Process
      */
     protected function afterTask($pid)
     {
-        $processes = $this->getProcessesStatus();
-
-        foreach ($processes as &$process) {
-            if ($process['pid'] == $pid) {
-                $process['status'] = self::WAITING;
-                $process['running_time'] = time() - $process['start_at'];
-                $process['memory'] = memory_get_usage();
-                break;
-            }
+        if ($process = $this->table->get($this->getColumnKey($pid))) {
+            $process['status'] = self::WAITING;
+            $process['running_time'] = time() - $process['start_at'];
+            $process['memory'] = memory_get_usage();
+            $process['deal_tasks'] += 1;
+            $this->table->set($this->getColumnKey($pid), $process);
         }
+    }
 
-        $this->writeStatusToFile($processes);
+    /**
+     * 更新信息
+     *
+     * @time 2020年07月09日
+     * @param $pid
+     * @return void
+     */
+    protected function updateTask($pid)
+    {
+        if ($process = $this->table->get($this->getColumnKey($pid))) {
+            $process['running_time'] = time() - $process['start_at'];
+            $process['memory'] = memory_get_usage();
+            $this->table->set($this->getColumnKey($pid), $process);
+        }
+    }
+
+    /**
+     * 增加错误
+     *
+     * @time 2020年07月09日
+     * @param $pid
+     * @return void
+     */
+    protected function addErrors($pid)
+    {
+        if ($process = $this->table->get($this->getColumnKey($pid))) {
+            $process['errors'] += 1;
+            $this->table->set($this->getColumnKey($pid), $process);
+        }
     }
 
     /**
@@ -202,7 +217,7 @@ trait Process
         $adminV = CatchAdmin::VERSION;
         $phpV = PHP_VERSION;
 
-        $processNumber = count($this->processes);
+        $processNumber = $this->table->count();
         $memory = (int)(memory_get_usage()/1024/1024). 'M';
         $startAt = date('Y-m-d H:i:s', $this->master_start_at);
         $runtime = gmstrftime('%H:%M:%S', time() - $this->master_start_at);
@@ -227,7 +242,7 @@ EOT;
 
         $processes = [];
 
-        foreach ($this->getProcessesStatus() as $process) {
+        foreach ($this->table as $process) {
             $processes[] = [
                  $process['pid'],
                 (int)($process['memory']/1024/1024) . 'M',
