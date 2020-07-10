@@ -22,17 +22,16 @@
         "topthink/think-orm": "v2.0.31",
         "topthink/think-migration": "^3.0",
         "thans/tp-jwt-auth": "^1.0",
-        "workerman/workerman": "^3.5",
         "jaguarjack/think-filesystem-cloud": "dev-master",
         "overtrue/wechat": "^4.2",
          "ext-json": "*",
         "jaguarjack/migration-generator": "dev-master",
-      "ext-zip": "*",
-        "phpoffice/phpspreadsheet": "^1.12"
+        "ext-zip": "*",
+        "phpoffice/phpspreadsheet": "^1.12",
+        "ext-pcntl": "*"
     },
     "require-dev": {
         "topthink/think-trace":"^1.0",
-        "phpunit/phpunit": "^7.5",
         "symfony/var-dumper": "^5.1"
     },
     "autoload": {
@@ -55,8 +54,7 @@
     "scripts": {
         "post-autoload-dump": [
             "@php think service:discover",
-            "@php think vendor:publish",
-            "@php think catch-service:discover"
+            "@php think vendor:publish"
         ]
     }
 }
