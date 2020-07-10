@@ -54,6 +54,11 @@ class Master
     protected $master_pid;
 
     /**
+     * @var string
+     */
+    protected $kernel;
+
+    /**
      * pid 文件名称
      *
      * @var string
@@ -135,10 +140,8 @@ class Master
     protected function schedule()
     {
         return function () {
-            $schedule = new Schedule();
-            $schedule->command('catch:cache')->everyThirtySeconds();
-
-            foreach ($schedule->getCronTask() as $cron) {
+            $kernel = new $this->kernel;
+            foreach ($kernel->tasks() as $cron) {
                 if ($cron->can()) {
                     list($waiting, $process) = $this->hasWaitingProcess();
                     if ($waiting) {
@@ -253,6 +256,8 @@ class Master
         file_put_contents($this->getSaveProcessStatusFile(), '');
 
         $this->createTable();
+
+        $this->kernel = config('catch.schedule.schedule_kernel');
     }
 
     /**

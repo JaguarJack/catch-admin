@@ -73,7 +73,7 @@ return [
         /**
          * 常驻 worker 数量
          */
-        'static_worker_number' => 1,
+        'static_worker_number' => 4,
 
         /**
          * 动态可扩展 worker 最大数量
@@ -99,5 +99,7 @@ return [
              */
             'error_log' => runtime_path('catch/schedule') . 'schedule-error.log',
         ],
+
+        'schedule_kernel' => \catcher\library\ScheduleKernel::class,
     ],
 ];

@@ -48,7 +48,7 @@ trait Store
     public function output()
     {
         // 等待信号输出
-        usleep(500);
+        sleep(1);
 
         return $this->getProcessStatusInfo();
     }
