@@ -111,7 +111,7 @@ class Cron
         if ($this->second) {
             $now = date('s', time());
 
-            return  ($now % 5) == 0;
+            return  ($now % $this->second) == 0;
         }
 
         if ($this->expression) {
