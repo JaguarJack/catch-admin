@@ -11,6 +11,8 @@ use function GuzzleHttp\Psr7\stream_for;
 
 class Compress
 {
+    protected $savePath;
+
     public function __construct()
     {
         if (!extension_loaded('zip')) {
@@ -62,7 +64,7 @@ class Compress
     {
         $response = Http::timeout(5)
                     ->options([
-                        'save_to' => stream_for(fopen(CatchAdmin::directory() . $moduleName .'.zip', 'w+'))
+                        'save_to' => stream_for(fopen($this->savePath, 'w+'))
                     ])
                     ->get($remotePackageUrl);
 
@@ -229,5 +231,20 @@ class Compress
     protected function getModuleBackupPath($moduleName)
     {
         return $backup = runtime_path('module' . DIRECTORY_SEPARATOR . 'backup_'.$moduleName);
+    }
+
+    /**
+     * 保存地址
+     *
+     * @param $path
+     * @return $this
+     * @author JaguarJack <njphper@gmail.com>
+     * @date 2020/7/11
+     */
+    public function savePath($path)
+    {
+        $this->savePath = $path;
+
+        return $this;
     }
 }
