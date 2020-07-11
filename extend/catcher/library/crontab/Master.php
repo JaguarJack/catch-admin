@@ -268,14 +268,9 @@ class Master
      */
     protected function initLog()
     {
-        $log = config('log.channels.file');
-
-        $log['path'] = config('catch.schedule.store_path');
-
         $channels = config('log.channels');
 
-        $channels['schedule'] = $log;
-
+        $channels['schedule'] = config('catch.schedule.log');;
 
         config([
             'channels' => $channels,
