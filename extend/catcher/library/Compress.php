@@ -57,14 +57,13 @@ class Compress
      *
      * @time 2020年04月30日
      * @param $remotePackageUrl
-     * @param $moduleName
      * @return string
      */
-    public function download($moduleName, $remotePackageUrl = '')
+    public function download($remotePackageUrl = '')
     {
-        $response = Http::timeout(5)
+        $response = Http::timeout(10)
                     ->options([
-                        'save_to' => stream_for(fopen($this->savePath, 'w+'))
+                       'save_to' => stream_for(fopen($this->savePath, 'w+'))
                     ])
                     ->get($remotePackageUrl);
 
@@ -80,11 +79,10 @@ class Compress
      */
     public function update($moduleName)
     {
-        $moduleZip = $this->download($moduleName);
         // 备份
         $backupPath = $this->backup($moduleName);
         try {
-            $this->moduleUnzip($moduleName, $moduleZip);
+            $this->moduleUnzip($moduleName, $this->savePath);
         } catch (\Exception $exception) {
             $this->moduleUnzip($moduleName, $backupPath);
             $this->rmDir($this->getModuleBackupPath($moduleName));

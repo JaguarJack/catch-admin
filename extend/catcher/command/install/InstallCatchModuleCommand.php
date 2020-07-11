@@ -27,6 +27,11 @@ class InstallCatchModuleCommand extends Command
 
     protected $moduleZipPath;
 
+    /**
+     * @var Compress
+     */
+    protected $compress;
+
     protected function configure()
     {
       $this->setName('install:module')
@@ -40,8 +45,9 @@ class InstallCatchModuleCommand extends Command
 
         $this->moduleZipPath = $this->installRootPath() . $this->module .'.zip';
 
+        $this->compress = new Compress();
         try {
-            if ($this->download()) {
+            if ($this->download($this->searchModule())) {
                 if ($this->install()) {
                     $this->installComposerPackage();
                     $this->createTable();
@@ -58,23 +64,26 @@ class InstallCatchModuleCommand extends Command
 
     protected function searchModule()
     {
+        $this->output->info('find module zip');
         return 'http://api.catchadmin.com/hello.zip';
     }
 
     /**
      * 下载扩展包
      *
+     * @param $resourceUrl
      * @return bool
      * @author JaguarJack <njphper@gmail.com>
      * @date 2020/7/11
      */
-    protected function download()
+    protected function download($resourceUrl)
     {
-       if (!(new Compress())->savePath($this->moduleZipPath)->download($this->module, $this->searchModule())) {
-           throw new FailedException('download module '.$this->module. ' failed');
-       }
-
-       return true;
+        $this->output->info('download module zip');
+        if (!$this->compress->savePath($this->moduleZipPath)->download($resourceUrl)) {
+            throw new FailedException('download module ' . $this->module . ' failed');
+        }
+        $this->output->info('download module zip successfully');
+        return true;
     }
 
     /**
@@ -91,12 +100,13 @@ class InstallCatchModuleCommand extends Command
             if ($res === true) {
                 $zip->extractTo($this->installRootPath());
                 $zip->close();
-                return true;
             }
+            $this->output->info('install module successfully');
         } else {
-            if (!(new Compress())->update($this->module)) {
+            if (!$this->compress->update($this->module)) {
                 throw new FailedException('install module ' . $this->module . ' failed');
             }
+            $this->output->info('update module successfully');
         }
 
         return true;
@@ -106,16 +116,39 @@ class InstallCatchModuleCommand extends Command
     protected function installComposerPackage()
     {
         try {
-           $moduleInfo = \json_decode(file_get_contents($this->installPath() . $this->module . DIRECTORY_SEPARATOR . 'module.json'), true);
-           $requires = $moduleInfo['requires'];
-           foreach ($requires as $require) {
-               exec(sprintf('composer require "%s"', $require));
-           }
+            if (file_exists($this->installPath() . 'module.json')) {
+                $moduleInfo = \json_decode(file_get_contents($this->installPath() . 'module.json'), true);
+                $requires = $moduleInfo['requires'];
+                if (count($requires)) {
+                    foreach ($requires as $require) {
+                        list($package, $version) = explode(':', $require);
+                        if (!$this->isInstalledProjectComposerPackage($package)) {
+                            exec(sprintf('composer require "%s"', $require));
+                            $this->output->info('install composer package ['.$package.']');
+                        }
+                    }
+                }
+            }
         } catch (\Exception $exception) {
             throw new FailedException($exception->getMessage());
         }
 
         return true;
+    }
+
+    /**
+     * 是否安装
+     *
+     * @param $package
+     * @return array|bool
+     * @author JaguarJack <njphper@gmail.com>
+     * @date 2020/7/11
+     */
+    protected function isInstalledProjectComposerPackage($package)
+    {
+        $composer = \json_decode(file_get_contents(root_path() . 'composer.json'), true);
+
+        return in_array($package, array_keys($composer['require']));
     }
 
     /**
@@ -148,7 +181,7 @@ class InstallCatchModuleCommand extends Command
      */
     protected function rollback()
     {
-        (new Compress())->rmDir($this->installPath() . $this->module);
+        (new Compress())->rmDir($this->installPath());
 
         Console::call('catch-migrate:rollback', [$this->module, '-f']);
     }
