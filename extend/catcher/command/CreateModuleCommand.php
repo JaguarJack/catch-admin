@@ -64,7 +64,7 @@ class CreateModuleCommand extends Command
             $psr4 = $composer['autoload']['psr-4'];
 
             foreach ($psr4 as $namespace => $des) {
-                if ($des === CatchAdmin::NAME) {
+                if ($des === CatchAdmin::$root) {
                     $this->namespaces = $namespace . $this->module . '\\';
                     break;
                 }

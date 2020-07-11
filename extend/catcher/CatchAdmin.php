@@ -5,9 +5,10 @@ use think\helper\Arr;
 
 class CatchAdmin
 {
-    public const NAME = 'catch';
+    public static $root = 'catch';
 
     public const VERSION = '1.0.0';
+
 
     /**
      *
@@ -16,7 +17,7 @@ class CatchAdmin
      */
     public static function directory(): string
     {
-        return app()->getRootPath() . self::NAME . DIRECTORY_SEPARATOR;
+        return app()->getRootPath() . self::$root . DIRECTORY_SEPARATOR;
     }
 
     /**
