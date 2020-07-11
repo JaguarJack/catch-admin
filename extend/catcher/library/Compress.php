@@ -76,7 +76,7 @@ class Compress
      *
      * @time 2020年04月30日
      * @param $moduleName
-     * @return void
+     * @return bool
      */
     public function update($moduleName)
     {
@@ -88,7 +88,10 @@ class Compress
         } catch (\Exception $exception) {
             $this->moduleUnzip($moduleName, $backupPath);
             $this->rmDir($this->getModuleBackupPath($moduleName));
+            return false;
         }
+
+        return true;
     }
 
     /**
@@ -108,7 +111,6 @@ class Compress
         CatchAdmin::makeDirectory($tempExtractToPath);
         // 下载 zip 包
         $res = $zip->open($zipPath);
-
         if ($res === true) {
             $zip->extractTo($tempExtractToPath);
             $zip->close();

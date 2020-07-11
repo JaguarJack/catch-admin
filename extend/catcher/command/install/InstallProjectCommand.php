@@ -329,7 +329,7 @@ class InstallProjectCommand extends Command
  版本: %s
  初始账号: admin@gmail.com
  初始密码: admin                                               
-', CatchAdmin::VERSION, $year));
+', $year, CatchAdmin::VERSION));
         exit(0);
     }
 
