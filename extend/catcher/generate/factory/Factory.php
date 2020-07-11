@@ -89,7 +89,7 @@ abstract class Factory
      * @param $table
      * @return bool
      */
-    protected function hasTableExists($table)
+    public function hasTableExists($table)
     {
         $tables = Db::getConnection()->getTables();
 

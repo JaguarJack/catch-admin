@@ -19,7 +19,7 @@ class SQL extends Factory
             throw new FailedException(sprintf('create table [%s] failed', $params['table']));
         }
 
-        return true;
+        return $params['table'];
     }
 
     /**

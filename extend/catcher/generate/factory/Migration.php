@@ -48,6 +48,6 @@ class Migration extends Factory
             }
         }
 
-        return true;
+        return $file;
     }
 }

@@ -6,7 +6,9 @@ use catcher\exceptions\FailedException;
 use catcher\generate\factory\Controller;
 use catcher\generate\factory\Migration;
 use catcher\generate\factory\Model;
+use catcher\generate\factory\Route;
 use catcher\generate\factory\SQL;
+use think\facade\Db;
 
 class Generator
 {
@@ -24,29 +26,41 @@ class Generator
         [$controller, $model] = $this->parseParams($params);
 
         $message = [];
-        if ($params['create_controller']) {
-            if ((new Controller)->done($controller)) {
+
+        $files = [];
+        $migration = '';
+        $table = null;
+
+        try {
+            if ($params['create_controller']) {
+                $files[] = (new Controller)->done($controller);
                 array_push($message, 'controller created successfully');
             }
-        }
 
-        if ($params['create_table']) {
-            if ((new SQL)->done($model)) {
+            if ($params['create_table']) {
+                $table = (new SQL)->done($model);
                 array_push($message, 'table created successfully');
             }
-        }
 
-        if ($params['create_model']) {
-            if ((new Model)->done($model)) {
+            if ($params['create_model']) {
+                $files[] = (new Model)->done($model);
                 array_push($message, 'model created successfully');
             }
-        }
 
-        if ($params['create_migration']) {
-            if ((new Migration)->done([$controller['module'], $model['table']])) {
+            if ($params['create_migration']) {
+                $migration = (new Migration)->done([$controller['module'], $model['table']]);
                 array_push($message, 'migration created successfully');
             }
+        } catch (\Exception $exception) {
+            $this->rollback($files, $migration, $table);
+            throw new FailedException($exception->getMessage());
         }
+
+        // 只有最后成功才写入 route
+        (new Route())->controller($params['controller'])
+            ->restful($params['restful'])
+            ->methods((new Controller())->parseOtherMethods($params['other_function']))
+            ->done();
 
         return $message;
     }
@@ -114,5 +128,37 @@ class Generator
 
 
         return [$controller, $model];
+    }
+
+
+    /**
+     * 回滚
+     *
+     * @param $files
+     * @param $migration
+     * @param $table
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @author JaguarJack <njphper@gmail.com>
+     * @date 2020/7/11
+     */
+    protected function rollback($files, $migration, $table)
+    {
+        if ((new SQL())->hasTableExists($table)) {
+            Db::query(sprintf('drop table %s', $table));
+        }
+
+        foreach ($files as $file) {
+            unlink($file);
+        }
+
+        if ($migration && unlink($migration)) {
+            $model = new class extends \think\Model {
+                protected $name = 'migrations';
+            };
+
+            $model->order('version', 'desc')->find()->delete();
+        }
     }
 }

@@ -12,13 +12,15 @@ class Model extends Factory
     {
         $content = $this->getContent($params);
 
-        file_put_contents($this->getGeneratePath($params['model']), $content);
+        $modelPath = $this->getGeneratePath($params['model']);
 
-        if (!file_exists($this->getGeneratePath($params['model']))) {
+        file_put_contents($modelPath, $content);
+
+        if (!file_exists($modelPath)) {
             throw new FailedException('create model failed');
         }
 
-        return true;
+        return $modelPath;
     }
 
     /**

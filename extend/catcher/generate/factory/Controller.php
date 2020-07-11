@@ -18,11 +18,9 @@ class Controller extends Factory
     public function done($params)
     {
         // 写入成功之后
-        if (file_put_contents($this->getGeneratePath($params['controller']), $this->getContent($params))) {
-           return (new Route())->controller($params['controller'])
-                         ->restful($params['restful'])
-                         ->methods($this->parseOtherMethods($params['other_function']))
-                         ->done();
+        $controllerPath = $this->getGeneratePath($params['controller']);
+        if (file_put_contents($controllerPath, $this->getContent($params))) {
+               return $controllerPath;
         }
 
         throw new FailedException($params['controller'] . ' generate failed~');
