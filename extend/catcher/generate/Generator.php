@@ -51,16 +51,18 @@ class Generator
                 $migration = (new Migration)->done([$controller['module'], $model['table']]);
                 array_push($message, 'migration created successfully');
             }
+
+            // 只有最后成功才写入 route
+            (new Route())->controller($controller['controller'])
+                ->restful($controller['restful'])
+                ->methods((new Controller())->parseOtherMethods($controller['other_function']))
+                ->done();
+
         } catch (\Exception $exception) {
             $this->rollback($files, $migration, $table);
             throw new FailedException($exception->getMessage());
         }
 
-        // 只有最后成功才写入 route
-        (new Route())->controller($params['controller'])
-            ->restful($params['restful'])
-            ->methods((new Controller())->parseOtherMethods($params['other_function']))
-            ->done();
 
         return $message;
     }
@@ -158,7 +160,8 @@ class Generator
                 protected $name = 'migrations';
             };
 
-            $model->order('version', 'desc')->find()->delete();
+            $migration = $model->order('version', 'desc')->find();
+            $model->where('version', $migration->version)->delete();
         }
     }
 }
