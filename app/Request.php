@@ -14,20 +14,21 @@ class Request extends \think\Request
 {
     protected $auth;
 
-  /**
-   * login user
-   *
-   * @time 2020年01月09日
-   * @return mixed
-   */
-  public function user()
+    /**
+     * login user
+     *
+     * @time 2020年01月09日
+     * @param null $guard
+     * @return mixed
+     */
+  public function user($guard = null)
   {
     if (!$this->auth) {
       $this->auth = new CatchAuth;
     }
 
     try {
-        $user = $this->auth->user();
+        $user = $this->auth->guard($guard ? : config('catch.auth.default.guard'))->user();
     }  catch (\Exception $e) {
         if ($e instanceof TokenExpiredException) {
             throw new FailedException('token 过期', Code::LOGIN_EXPIRED);
