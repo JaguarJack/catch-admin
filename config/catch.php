@@ -39,13 +39,24 @@ return [
             'driver' => 'jwt',
             'provider' => 'admin_users',
         ],
+        // 开发者认证
+        'developer' => [
+            'driver' => 'jwt',
+            'provider' => 'developer',
+        ],
     ],
     // 服务提供
     'providers' => [
+        // 后台用户认证服务
         'admin_users' => [
-            'driver' => 'orm',
+                'driver' => 'orm',
                 'model' =>  \catchAdmin\permissions\model\Users::class,
             ],
+        // 开发这认证服务
+        'developer' => [
+            'driver'=> 'orm',
+            'model' => \catchAdmin\system\model\Developers::class
+            ]
         ],
     ],
 
