@@ -23,8 +23,6 @@ class CatchAuth
     public function __construct()
     {
         $this->auth = config('catch.auth');
-
-        $this->guard = $this->auth['default']['guard'];
     }
 
   /**
@@ -34,7 +32,7 @@ class CatchAuth
    * @param $guard
    * @return $this
    */
-    public function guard($guard): self
+    public function guard($guard)
     {
        $this->guard = $guard;
 
