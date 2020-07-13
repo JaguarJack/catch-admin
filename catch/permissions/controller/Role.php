@@ -96,7 +96,7 @@ class Role extends CatchController
         
         // 更新department
         $hasDepartmentIds = $role->getDepartments()->column('id');
-        $departmentIds = $request->param('departments');
+        $departmentIds = $request->param('departments',[]);
 
         // 已存在部门 IDS
         $existedDepartmentIds = [];
