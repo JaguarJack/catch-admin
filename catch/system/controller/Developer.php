@@ -11,7 +11,8 @@
 
 namespace catchAdmin\system\controller;
 
-use catcher\base\CatchRequest as Request;
+use think\Request as Request;
+use catcher\CatchAuth;
 use catcher\CatchResponse;
 use catcher\base\CatchController;
 use catchAdmin\system\model\Developers as DevelopersModel;
@@ -36,7 +37,20 @@ class Developer extends CatchController
     {
         return CatchResponse::paginate($this->model->getList());
     }
-    
+
+    /**
+     * 开发者认证
+     *
+     * @time 2020年07月13日
+     * @param Request $request
+     * @param CatchAuth $auth
+     * @return mixed
+     */
+    public function authenticate(Request $request, CatchAuth $auth)
+    {
+        return CatchResponse::success($auth->guard('developer')->username('username')->attempt($request->post()));
+    }
+
     /**
      * 保存
      *

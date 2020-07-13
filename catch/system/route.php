@@ -34,3 +34,5 @@ $router->group(function () use ($router){
 
 //developer路由
 $router->resource('developer', '\catchAdmin\system\controller\Developer')->middleware('auth');
+// 开发者认证
+$router->post('developer/authenticate', '\catchAdmin\system\controller\Developer@authenticate');

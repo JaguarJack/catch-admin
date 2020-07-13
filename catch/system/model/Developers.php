@@ -15,7 +15,7 @@ use catcher\base\CatchModel as Model;
 
 class Developers extends Model
 {
-        protected $name = 'developers';
+    protected $name = 'developers';
 
     protected $field = [
         'id', // 
@@ -29,6 +29,11 @@ class Developers extends Model
 		'updated_at', // 更新时间
 		'deleted_at', // 软删除
     ];
-    
+
+
+    public function setPasswordAttr($value)
+    {
+        return password_hash($value, PASSWORD_DEFAULT);
+    }
   
 }
