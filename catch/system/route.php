@@ -31,3 +31,6 @@ $router->group(function () use ($router){
     // 敏感词
     $router->resource('sensitive/word', '\catchAdmin\system\controller\SensitiveWord');
 })->middleware('auth');
+
+//developer路由
+$router->resource('developer', '\catchAdmin\system\controller\Developer')->middleware('auth');
