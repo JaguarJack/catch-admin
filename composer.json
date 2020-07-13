@@ -21,14 +21,12 @@
         "topthink/framework": "6.0.2",
         "topthink/think-orm": "v2.0.31",
         "topthink/think-migration": "^3.0",
-        "thans/tp-jwt-auth": "^1.0",
+        "thans/tp-jwt-auth": "1.1",
         "jaguarjack/think-filesystem-cloud": "dev-master",
         "overtrue/wechat": "^4.2",
-         "ext-json": "*",
         "jaguarjack/migration-generator": "dev-master",
-        "ext-zip": "*",
         "phpoffice/phpspreadsheet": "^1.12",
-        "ext-pcntl": "*"
+        "dragonmantank/cron-expression": "^3.0"
     },
     "require-dev": {
         "topthink/think-trace":"^1.0",
