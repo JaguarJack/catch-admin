@@ -173,6 +173,10 @@ class CatchAuth
    */
     protected function getProvider()
     {
+        if (!isset($this->auth['guards'][$this->guard])) {
+            throw new FailedException('Auth Guard Not Found');
+        }
+
         return $this->auth['providers'][$this->auth['guards'][$this->guard]['provider']];
     }
 
