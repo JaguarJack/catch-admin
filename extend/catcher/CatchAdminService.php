@@ -1,25 +1,6 @@
 <?php
 namespace catcher;
 
-use catcher\command\install\DisableModuleCommand;
-use catcher\command\install\EnableModuleCommand;
-use catcher\command\install\ModuleServiceDiscoverCommand;
-use catcher\command\publish\WechatCommand;
-use catcher\command\Tools\BackupCommand;
-use catcher\command\Tools\CacheTrieCommand;
-use catcher\command\Tools\CompressPackageCommand;
-use catcher\command\CreateModuleCommand;
-use catcher\command\install\InstallProjectCommand;
-use catcher\command\MigrateCreateCommand;
-use catcher\command\MigrateRollbackCommand;
-use catcher\command\MigrateRunCommand;
-use catcher\command\ModelGeneratorCommand;
-use catcher\command\ModuleCacheCommand;
-use catcher\command\SeedRunCommand;
-use catcher\command\Tools\ExportDataCommand;
-use catcher\command\Tools\MakeMenuCommand;
-use catcher\command\worker\ExcelTaskCommand;
-use catcher\command\worker\WsWorkerCommand;
 use catcher\event\LoadModuleRoutes;
 use think\exception\Handle;
 use think\facade\Validate;
