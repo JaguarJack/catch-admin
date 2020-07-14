@@ -23,6 +23,8 @@ class CatchAuth
     public function __construct()
     {
         $this->auth = config('catch.auth');
+
+        $this->guard = $this->auth['default']['guard'];
     }
 
   /**
