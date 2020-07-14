@@ -3,6 +3,8 @@ namespace catcher\generate\factory;
 
 use catcher\exceptions\FailedException;
 use catcher\generate\template\Model as Template;
+use catcher\Utils;
+use Phinx\Util\Util;
 use think\facade\Db;
 use think\helper\Str;
 
@@ -52,7 +54,7 @@ class Model extends Factory
         }
 
         $content = $template->useTrait($extra['soft_delete']) .
-            $template->name($table) .
+            $template->name(str_replace(Utils::tablePrefix(), '', $table)) .
             $template->field($this->parseField($table));
 
         $class = $template->header() .

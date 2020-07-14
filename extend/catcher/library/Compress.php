@@ -4,9 +4,11 @@ namespace catcher\library;
 use catcher\CatchAdmin;
 use catcher\exceptions\FailedException;
 use catcher\facade\Http;
+use Doctrine\DBAL\Types\DateImmutableType;
 use GuzzleHttp\Client;
 use GuzzleHttp\TransferStats;
 use Psr\Http\Message\ResponseInterface;
+use function GuzzleHttp\Psr7\str;
 use function GuzzleHttp\Psr7\stream_for;
 
 class Compress
@@ -34,19 +36,41 @@ class Compress
             throw new FailedException(sprintf('module 【%s】not found~', $moduleName));
         }
 
-        // 获取模块内的所有文件
-        $files = $this->getFilesFromDir(CatchAdmin::directory() . $moduleName);
-
-        $packageZip = new \ZipArchive();
         // zip 打包位置 默认打包在 catch 目录下
         $zipPath = $zipPath ? : CatchAdmin::directory() . $moduleName . '.zip';
+
+        $this->dirToZip(CatchAdmin::directory() . $moduleName, $zipPath);
+
+        return true;
+    }
+
+    /**
+     * 打包 dir
+     *
+     * @time 2020年07月13日
+     * @param $dir
+     * @param $zipPath
+     * @return bool
+     */
+    public function dirToZip($dir, $zipPath)
+    {
+        $packageZip = new \ZipArchive();
+
+        $files = $this->getFilesFromDir($dir);
+
         $packageZip->open($zipPath, \ZipArchive::CREATE);
-        $packageZip->addEmptyDir($moduleName);
+
+        // 获取 dir 目录作为 zip 的根目录
+        $d = explode(DIRECTORY_SEPARATOR, rtrim($dir, DIRECTORY_SEPARATOR));
+
+        $packageZip->addEmptyDir(array_pop($d));
+
         foreach ($files as $file) {
             $baseName = basename($file);
-            $localName = str_replace([CatchAdmin::directory(), $baseName], ['', ''], $file);
+            $localName = str_replace([implode(DIRECTORY_SEPARATOR, $d), $baseName], ['', ''], $file);
             $packageZip->addFile($file, $localName . $baseName);
         }
+
         $packageZip->close();
 
         return true;

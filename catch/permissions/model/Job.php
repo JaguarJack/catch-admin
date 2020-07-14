@@ -1,10 +1,13 @@
 <?php
 namespace catchAdmin\permissions\model;
 
+use catchAdmin\permissions\model\search\JobsSearch;
 use catcher\base\CatchModel;
 
 class Job extends CatchModel
 {
+    use JobsSearch;
+
     protected $name = 'jobs';
     
     protected $field = [

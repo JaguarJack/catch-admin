@@ -54,7 +54,7 @@ class CatchAdmin
      */
     public static function cacheDirectory(): string
     {
-        return self::makeDirectory(app()->getRuntimePath() . self::NAME . DIRECTORY_SEPARATOR);
+        return self::makeDirectory(app()->getRuntimePath() . self::$root . DIRECTORY_SEPARATOR);
     }
 
     /**
@@ -139,6 +139,7 @@ class CatchAdmin
     /**
      *
      * @time 2019年12月12日
+     * @param bool $select
      * @return array
      */
     public static function getModulesInfo($select = true): array
