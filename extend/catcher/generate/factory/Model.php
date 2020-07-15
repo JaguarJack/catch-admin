@@ -1,4 +1,5 @@
 <?php
+
 namespace catcher\generate\factory;
 
 use catcher\exceptions\FailedException;
@@ -74,11 +75,11 @@ class Model extends Factory
      */
     protected function parseField($table)
     {
-        if (!$this->hasTableExists($table)) {
+        if (!$this->hasTableExists(Utils::tablePrefix() . $table)) {
             return false;
         }
 
-        $columns = Db::query('show full columns from ' . $table);
+        $columns = Db::query('show full columns from ' . Utils::tablePrefix() . $table);
 
         $new = [];
         foreach ($columns as $field) {
