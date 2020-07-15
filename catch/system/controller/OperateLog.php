@@ -8,12 +8,6 @@ use catchAdmin\system\model\OperateLog as Log;
 
 class OperateLog extends CatchController
 {
-    protected $model;
-
-    public function __construct(Log $model)
-    {
-        $this->model = $model;
-    }
     /**
      *
      * @time 2020年04月28日
@@ -45,7 +39,7 @@ class OperateLog extends CatchController
      * @throws \Exception
      * @return \think\response\Json
      */
-    public function delete($id)
+    public function delete($id, Log $log)
     {
         $ids = explode(',', $id);
 
@@ -53,6 +47,6 @@ class OperateLog extends CatchController
             return false;
         }
 
-        return CatchResponse::success($this->model->whereIn('id', $ids)->delete());
+        return CatchResponse::success($log->whereIn('id', $ids)->delete());
     }
 }
