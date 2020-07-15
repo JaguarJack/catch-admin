@@ -1,9 +1,9 @@
 <?php
+
 namespace catchAdmin\system\controller;
 
 use catcher\base\CatchController;
 use catcher\CatchResponse;
-use think\facade\Db;
 use catchAdmin\system\model\OperateLog as Log;
 
 class OperateLog extends CatchController
@@ -30,5 +30,23 @@ class OperateLog extends CatchController
     public function empty(Log $log)
     {
         return CatchResponse::success($log->where('id', '>', 0)->delete(), '清空成功');
+    }
+
+    /**
+     * 批量删除
+     * 
+     * @param mixed $id 
+     * @throws \Exception
+     * @return \think\response\Json
+     */
+    public function delete($id, Log $log)
+    {
+        $ids = explode(',', $id);
+
+        if (empty($ids)) {
+            return false;
+        }
+
+        return CatchResponse::success($log->whereIn('id', $ids)->delete());
     }
 }
