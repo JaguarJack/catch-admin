@@ -62,13 +62,7 @@ class DataDictionary extends CatchController
    */
     public function view($table): \think\response\Json
     {
-        $fields = Db::query(' ' . $table);
-
-        array_walk($fields, function (&$item){
-            $item = array_change_key_case($item);
-        });
-
-        return CatchResponse::success($fields);
+        return CatchResponse::success(array_values(Db::getFields($table)));
     }
 
     /**
