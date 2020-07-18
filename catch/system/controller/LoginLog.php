@@ -1,4 +1,5 @@
 <?php
+
 namespace catchAdmin\system\controller;
 
 use catcher\base\CatchController;
@@ -17,7 +18,7 @@ class LoginLog extends CatchController
      */
     public function list(Log $log)
     {
-        return CatchResponse::paginate($log->paginate());
+        return CatchResponse::paginate($log->getList());
     }
 
     /**
