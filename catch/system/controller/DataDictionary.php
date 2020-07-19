@@ -5,6 +5,7 @@ use catcher\base\CatchRequest as Request;
 use catcher\base\CatchController;
 use catcher\CatchResponse;
 use catcher\exceptions\FailedException;
+use catcher\library\BackUpDatabase;
 use think\facade\Console;
 use think\facade\Db;
 use think\Paginator;
@@ -87,10 +88,10 @@ class DataDictionary extends CatchController
      * @throws FailedException
      * @return \think\response\Json
      */
-    public function backup(): \think\response\Json
+    public function backup(BackUpDatabase $backUpDatabase): \think\response\Json
     {
         try {
-            Console::call('backup:data', [trim(implode(',', \request()->post('data')), ','), '-z']);
+            $backUpDatabase->done(trim(implode(',', \request()->post('data')), ','));
         }catch (\Exception $e) {
             throw new FailedException($e->getMessage());
         }
