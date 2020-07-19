@@ -21,8 +21,5 @@ use think\Facade;
  */
 class Http extends Facade
 {
-    protected static function getFacadeClass()
-    {
-        return \catcher\library\client\Http::class;
-    }
+    protected static $alwaysNewInstance = \catcher\library\client\Http::class;
 }

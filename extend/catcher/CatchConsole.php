@@ -10,10 +10,10 @@
 // +----------------------------------------------------------------------
 namespace catcher;
 
-use catcher\library\FileSystem;
+use catcher\library\Composer;
+use catcher\facade\FileSystem;
 use think\App;
 use think\console\Command;
-use function GuzzleHttp\Psr7\str;
 
 class CatchConsole
 {
@@ -36,13 +36,13 @@ class CatchConsole
      */
     public function commands()
     {
-        $commandFiles = (new FileSystem())->allFiles($this->path);
+        $commandFiles = FileSystem::allFiles($this->path);
 
         $commands = [];
 
-        // dd($this->parseNamespace());
+        /*  \Symfony\Component\Finder\SplFileInfo $command */
         foreach ($commandFiles as $command) {
-            if (pathinfo($command, PATHINFO_EXTENSION) == 'php') {
+            if ($command->getExtension() === 'php') {
                 $lastPath = str_replace($this->parseNamespace(), '',pathinfo($command, PATHINFO_DIRNAME));
                 $namespace = $this->namespace . str_replace(DIRECTORY_SEPARATOR, '\\', $lastPath) . '\\';
                 $commandClass = $namespace . pathinfo($command, PATHINFO_FILENAME);
@@ -55,6 +55,12 @@ class CatchConsole
         return $commands;
     }
 
+    /**
+     * 命名空间解析
+     *
+     * @time 2020年07月19日
+     * @return string
+     */
     protected function parseNamespace()
     {
         // 没有设置 namespace 默认使用 extend 目录
@@ -62,11 +68,11 @@ class CatchConsole
             return root_path(). 'extend';
         }
 
-        $composer = \json_decode(file_get_contents(root_path(). 'composer.json'), true);
+        $psr4 = (new Composer())->psr4Autoload();
 
         $rootNamespace = substr($this->namespace, 0, strpos($this->namespace, '\\') + 1);
 
-        return root_path(). $composer['autoload']['psr-4'][$rootNamespace] . DIRECTORY_SEPARATOR .
+        return root_path(). $psr4[$rootNamespace] . DIRECTORY_SEPARATOR .
 
                 str_replace('\\', DIRECTORY_SEPARATOR, substr($this->namespace, strpos($this->namespace, '\\') + 1));
     }
