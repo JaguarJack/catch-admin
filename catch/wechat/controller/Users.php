@@ -10,6 +10,7 @@
  */
 namespace catchAdmin\wechat\controller;
 
+use catchAdmin\wechat\library\SyncWechatUsers;
 use catchAdmin\wechat\repository\WechatUsersRepository;
 use catcher\base\CatchController;
 use catcher\CatchResponse;
@@ -80,13 +81,12 @@ class Users extends CatchController
      * 用户同步
      *
      * @time 2020年06月26日
+     * @param SyncWechatUsers $users
      * @return \think\response\Json
      */
-    public function sync()
+    public function sync(SyncWechatUsers $users)
     {
-        Console::call('sync:users');
-
-        return CatchResponse::success('', 'success');
+        return CatchResponse::success($users->start(), 'success');
     }
 
     public function subscribe()
