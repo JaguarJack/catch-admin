@@ -52,7 +52,7 @@ abstract class ModuleService extends Service
      */
     protected function registerCommands()
     {
-        if (method_exists($this,'loadCommands')) {
+        if (method_exists($this,'loadCommands') && $this->app->runningInConsole()) {
             list($namespace, $path) = $this->loadCommands();
 
             $catchConsole = $this->app['catch_console'];
