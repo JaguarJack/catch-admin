@@ -4,4 +4,5 @@
 /package
 *.log
 .env
+composer.lock
 
