@@ -26,7 +26,8 @@
         "overtrue/wechat": "^4.2",
         "jaguarjack/migration-generator": "dev-master",
         "phpoffice/phpspreadsheet": "^1.12",
-        "dragonmantank/cron-expression": "^3.0"
+        "dragonmantank/cron-expression": "^3.0",
+        "symfony/finder": "^5.1"
     },
     "require-dev": {
         "topthink/think-trace":"^1.0",
