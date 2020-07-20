@@ -55,11 +55,13 @@ abstract class ModuleService extends Service
         if (method_exists($this,'loadCommands') && $this->app->runningInConsole()) {
             list($namespace, $path) = $this->loadCommands();
 
-            $catchConsole = $this->app['catch_console'];
+            if ($this->app->has('catch_console')) {
+                $catchConsole = $this->app['catch_console'];
 
-            $this->commands($catchConsole->setNamespace($namespace)
-                                         ->path($path)
-                                         ->commands());
+                $this->commands($catchConsole->setNamespace($namespace)
+                    ->path($path)
+                    ->commands());
+            }
         }
     }
 
