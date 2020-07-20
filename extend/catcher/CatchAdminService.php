@@ -43,7 +43,7 @@ class CatchAdminService extends Service
      */
     protected function registerCommands(): void
     {
-        if ($this->app->runningInConsole()) {
+        if ($this->app->runningInConsole() && class_exists('Symfony\Component\Finder\Finder')) {
             $catchConsole = new CatchConsole($this->app);
 
             $this->app->bind('catch_console', $catchConsole);
