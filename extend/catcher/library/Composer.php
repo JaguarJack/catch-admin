@@ -19,6 +19,11 @@ class Composer
         return $this->composerContent()['autoload']['psr-4'];
     }
 
+    public function requires()
+    {
+        return $this->composerContent()['require'];
+    }
+
     protected function composerContent()
     {
         return \json_decode(FileSystem::get($this->composerJsonPath()), true);
