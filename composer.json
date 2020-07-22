@@ -27,7 +27,7 @@
         "jaguarjack/migration-generator": "dev-master",
         "phpoffice/phpspreadsheet": "^1.12",
         "dragonmantank/cron-expression": "^3.0",
-        "symfony/finder": "^5.1"
+        "symfony/finder": "^4.4"
     },
     "require-dev": {
         "topthink/think-trace":"^1.0",
