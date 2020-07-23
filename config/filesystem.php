@@ -9,7 +9,7 @@ return [
     'disks'   => [
         'local'  => [
             'type' => 'local',
-            'root' =>  app()->getRootPath() . 'public/images',
+            'root' =>  'upload',
             'domain' => env('API_URL'),
         ],
         'public' => [
