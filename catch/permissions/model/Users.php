@@ -83,4 +83,32 @@ class Users extends CatchModel
 
         return array_unique($permissionIds);
     }
+	
+	 /**
+     * 后台根据用户标识判断用户是否拥有某个权限
+     * @param string $permission_mark
+     * @return bool
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
+     *
+     * 用法  request()->user()->can('permission@create');
+     */
+    public function can($permission_mark = '')
+    {
+        // 超级管理员直接返回true
+        if (Utils::isSuperAdmin()){
+            return true;
+        }
+        // 查询当前用户的权限
+        $permissionIds = $this->getPermissionsBy();
+
+        // 根据mark找对应的id
+        $current = Permissions::where('permission_mark',$permission_mark)->find();
+        if (!$current){
+            return false;
+        }
+        // in_array 判断是否包含
+        return in_array($current['id'],$permissionIds);
+    }
 }
