@@ -85,7 +85,7 @@ class Users extends CatchModel
     }
 	
 	 /**
-     * 后台根据用户标识判断用户是否拥有某个权限
+     * 后台根据权限标识判断用户是否拥有某个权限
      * @param string $permission_mark
      * @return bool
      * @throws \think\db\exception\DataNotFoundException
