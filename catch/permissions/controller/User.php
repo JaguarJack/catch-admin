@@ -84,7 +84,7 @@ class User extends CatchController
     {
         $this->user->storeBy($request->param());
 
-        $this->user->attach($request->param('roles'));
+        $this->user->attachRoles($request->param('roles'));
 
         $this->user->attachJobs($request->param('jobs'));
 
@@ -124,11 +124,11 @@ class User extends CatchController
 
         $user = $this->user->findBy($id);
 
-        $user->detach();
+        $user->detachRoles();
         $user->detachJobs();
 
         if (!empty($request->param('roles'))) {
-            $user->attach($request->param('roles'));
+            $user->attachRoles($request->param('roles'));
         }
         if (!empty($request->param('jobs'))) {
             $user->attachJobs($request->param('jobs'));
@@ -149,7 +149,7 @@ class User extends CatchController
         foreach ($ids as $_id) {
           $user = $this->user->findBy($_id);
           // 删除角色
-          $user->detach();
+          $user->detachRoles();
           // 删除岗位
           $user->detachJobs();
 

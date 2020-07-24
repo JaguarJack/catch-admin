@@ -30,7 +30,7 @@ trait HasRolesTrait
      * @param array $roles
      * @return mixed
      */
-    public function attach(array $roles)
+    public function attachRoles(array $roles)
     {
         if (empty($roles)) {
             return true;
@@ -47,7 +47,7 @@ trait HasRolesTrait
      * @param array $roles
      * @return mixed
      */
-    public function detach(array $roles = [])
+    public function detachRoles(array $roles = [])
     {
         if (empty($roles)) {
             return $this->roles()->detach();

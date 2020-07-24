@@ -42,7 +42,7 @@ class Role extends CatchController
 
         $permissions = $request->param('permissions');
         if (!empty($permissions)) {
-            $this->role->attach(array_unique($permissions));
+            $this->role->attachPermissions(array_unique($permissions));
         }
         if (!empty($request->param('departments'))) {
             $this->role->attachDepartments($request->param('departments'));
@@ -88,10 +88,10 @@ class Role extends CatchController
         $detachIds = array_diff($hasPermissionIds, $existedPermissionIds);
 
         if (!empty($detachIds)) {
-            $role->detach($detachIds);
+            $role->detachPermissions($detachIds);
         }
         if (!empty($attachIds)) {
-            $role->attach(array_unique($attachIds));
+            $role->attachPermissions(array_unique($attachIds));
         }
         
         // 更新department
@@ -136,7 +136,7 @@ class Role extends CatchController
         }
         $role = $this->role->findBy($id);
         // 删除权限
-        $role->detach();
+        $role->detachPermissions();
         // 删除部门关联
         $role->detachDepartments();
         // 删除用户关联
