@@ -4,6 +4,7 @@ namespace catchAdmin\permissions\model;
 use catchAdmin\permissions\model\search\UserSearch;
 use catcher\base\CatchModel;
 use catcher\exceptions\FailedException;
+use catcher\Utils;
 
 class Users extends CatchModel
 {
@@ -94,21 +95,16 @@ class Users extends CatchModel
      *
      * 用法  request()->user()->can('permission@create');
      */
-    public function can($permission_mark = '')
+    public function can($permission_mark)
     {
         // 超级管理员直接返回true
         if (Utils::isSuperAdmin()){
             return true;
         }
         // 查询当前用户的权限
-        $permissionIds = $this->getPermissionsBy();
-
-        // 根据mark找对应的id
-        $current = Permissions::where('permission_mark',$permission_mark)->find();
-        if (!$current){
-            return false;
-        }
-        // in_array 判断是否包含
-        return in_array($current['id'],$permissionIds);
+        return in_array(
+            Permissions::where('permission_mark',$permission_mark)->value('id') ? : 0,
+            $this->getPermissionsBy()
+        );
     }
 }
