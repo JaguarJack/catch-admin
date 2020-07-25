@@ -9,19 +9,36 @@ use think\facade\Filesystem;
 
 class Attachments extends CatchController
 {
-
+    /**
+     * 列表
+     *
+     * @time 2020年07月25日
+     * @param AttachmentsModel $model
+     * @return \think\response\Json
+     */
     public function index(AttachmentsModel $model)
     {
         return CatchResponse::paginate($model->getList());
     }
 
+    /**
+     * 删除
+     *
+     * @time 2020年07月25日
+     * @param $id
+     * @param AttachmentsModel $model
+     * @throws \League\Flysystem\FileNotFoundException
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @return \think\response\Json
+     */
     public function delete($id, AttachmentsModel $model)
     {
-        $ids = Utils::stringToArrayBy($id);
+        $attachments = $model->whereIn('id', Utils::stringToArrayBy($id))->select();
 
-        foreach ($ids as $id) {
-            $attachment = $model->findBy($id);
-            if ($attachment && $model->deleteBy($id)) {
+        if ($model->deleteBy($id)) {
+            foreach ($attachments as $attachment) {
                 Filesystem::delete($attachment->path);
             }
         }

@@ -34,19 +34,13 @@ class OperateLog extends CatchController
 
     /**
      * 批量删除
-     * 
-     * @param mixed $id 
-     * @throws \Exception
+     *
+     * @param mixed $id
+     * @param Log $log
      * @return \think\response\Json
      */
     public function delete($id, Log $log)
     {
-        $ids = explode(',', $id);
-
-        if (empty($ids)) {
-            return false;
-        }
-
-        return CatchResponse::success($log->whereIn('id', $ids)->delete());
+        return CatchResponse::success($log->deleteBy($id));
     }
 }
