@@ -14,5 +14,5 @@ return [
     //JWT hashing algorithm
     'algo'        => env('JWT_ALGO', 'HS256'),
 
-    'blacklist_storage' => thans\jwt\provider\storage\Tp5::class,
+    'blacklist_storage' => thans\jwt\provider\storage\Tp6::class,
 ];

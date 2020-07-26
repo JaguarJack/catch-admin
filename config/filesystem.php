@@ -9,7 +9,7 @@ return [
     'disks'   => [
         'local'  => [
             'type' => 'local',
-            'root' =>  app()->getRootPath() . 'public/images',
+            'root' =>  app()->getRootPath() . 'public'.DIRECTORY_SEPARATOR.'images',
             'domain' => env('API_URL'),
         ],
         'public' => [
