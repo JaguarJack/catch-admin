@@ -2,6 +2,8 @@
 
 namespace catcher\traits\db;
 
+use catcher\Utils;
+
 trait BaseOptionsTrait
 {
     /**
@@ -91,7 +93,7 @@ trait BaseOptionsTrait
      */
     public function deleteBy($id, $force = false)
     {
-        return static::destroy($id, $force);
+        return static::destroy(Utils::stringToArrayBy($id), $force);
     }
 
     /**
