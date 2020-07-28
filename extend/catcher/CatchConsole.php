@@ -46,9 +46,7 @@ class CatchConsole
                 $lastPath = str_replace($this->parseNamespace(), '',pathinfo($command, PATHINFO_DIRNAME));
                 $namespace = $this->namespace . str_replace(DIRECTORY_SEPARATOR, '\\', $lastPath) . '\\';
                 $commandClass = $namespace . pathinfo($command, PATHINFO_FILENAME);
-                if (is_subclass_of($commandClass, Command::class)) {
-                    $commands[] = $commandClass;
-                }
+                $commands[] = $commandClass;
             }
         }
 
