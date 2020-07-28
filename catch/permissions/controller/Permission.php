@@ -91,7 +91,7 @@ class Permission extends CatchController
         ]);
 
         if ($permission->updateBy($id, $params) && $this->permissions->updateBy($permission->id, [
-                'module' => $params['module'],
+                'module' => $params['module'] ? $params['module'] : $permission->module
             ], 'parent_id')) {
             return CatchResponse::success();
         }
