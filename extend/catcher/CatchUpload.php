@@ -27,11 +27,11 @@ class CatchUpload
     public const QIQNIU = 'qiniu';
 
     /**
-     * 本地
+     * 驱动
      *
      * @var string
      */
-    protected $driver = 'local';
+    protected $driver;
 
     /**
      * 本地
@@ -119,7 +119,11 @@ class CatchUpload
      */
     protected function getDriver(): string
     {
-        return $this->driver;
+        if ($this->driver) {
+            return $this->driver;
+        }
+
+        return \config('filesystem.default');
     }
 
     /**
