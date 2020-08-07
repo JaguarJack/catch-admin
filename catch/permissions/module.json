@@ -1,7 +1,7 @@
 {
   "name": "权限管理",
   "alias": "permissions",
-  "description": "全县管理模块",
+  "description": "权限管理模块",
   "version": "1.0.0",
   "keywords": [],
   "order": 2,
