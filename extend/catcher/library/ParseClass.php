@@ -14,6 +14,7 @@ class ParseClass
      * 获取父类方法
      *
      * @return array
+     * @throws \ReflectionException
      */
     public function parentMethods()
     {
@@ -36,6 +37,7 @@ class ParseClass
      * 获取所有方法
      *
      * @return array
+     * @throws \ReflectionException
      */
     public function methods()
     {
@@ -55,6 +57,7 @@ class ParseClass
 
     /**
      * @return mixed
+     * @throws \ReflectionException
      */
     public function onlySelfMethods()
     {
@@ -103,9 +106,7 @@ class ParseClass
      */
     public function setModule($module)
     {
-        $composer = \json_decode(file_get_contents(root_path() . 'composer.json'), true);
-
-        $psr4 = $composer['autoload']['psr-4'];
+        $psr4 = (new Composer())->psr4Autoload();
 
         foreach ($psr4 as $key => $_module) {
             if ($_module == $module) {
