@@ -72,6 +72,8 @@ class CatchScheduleCommand extends Command
     protected function stop(Master $process)
     {
         $process->stop();
+
+        $this->output->info('stop catch schedule successfully');
     }
 
     /**

@@ -16,16 +16,34 @@ use think\facade\Log;
 
 trait Process
 {
+    /**
+     * quit 退出
+     *
+     * @var boolean
+     */
+    protected $quit =false;
+
+    /**
+     * 设置最大内存/256M
+     *
+     * @var [type]
+     */
+    protected $maxMemory = 256 * 1024 * 1024;
+
+    /**
+     * 创建进程
+     *
+     * @return void
+     */
     protected function createProcessCallback()
     {
         return function (\Swoole\Process $process) {
-            $quit = false;
             // 必须使用 pcntl signal 注册捕获
             // Swoole\Process::signal ignalfd 和 EventLoop 是异步 IO，不能用于阻塞的程序中，会导致注册的监听回调函数得不到调度
             // 同步阻塞的程序可以使用 pcntl 扩展提供的 pcntl_signal
             // 安全退出进程
-            pcntl_signal(SIGTERM, function() use (&$quit){
-                $quit = true;
+            pcntl_signal(SIGTERM, function() {
+                $this->quit = true;
             });
 
             pcntl_signal(SIGUSR1, function () use ($process){
@@ -49,8 +67,14 @@ trait Process
                 }
                 pcntl_signal_dispatch();
                 sleep(1);
+
+                // 超过最大内存
+                if (memory_get_usage() > $this->maxMemory) {
+                    $this->quit = true;
+                }
+
                 // 如果收到安全退出的信号，需要在最后任务处理完成之后退出
-                if ($quit) {
+                if ($this->quit) {
                     Log::info('worker quit');
                     $process->exit(0);
                 }
