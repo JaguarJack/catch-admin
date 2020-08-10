@@ -30,16 +30,17 @@ class Zip
      *
      * @time 2020年07月19日
      * @param $zip
-     * @throws \Exception
+     * @param null $flags
      * @return $this
+     * @throws \Exception
      */
-    public function make($zip)
+    public function make($zip, $flags = null)
     {
         if (FileSystem::extension($zip) != self::EXTENSION) {
             throw new \Exception("make zip muse set [zip] extension");
         }
 
-        $this->zipArchive->open($zip, \ZipArchive::CREATE);
+        $this->zipArchive->open($zip, $flags);
 
         return $this;
     }
@@ -113,7 +114,9 @@ class Zip
      */
     public function close()
     {
-        $this->zipArchive->close();
+        if ($this->zipArchive) {
+            $this->zipArchive->close();
+        }
     }
 
 }
