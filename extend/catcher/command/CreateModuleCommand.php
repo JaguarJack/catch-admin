@@ -1,12 +1,15 @@
 <?php
 namespace catcher\command;
 
+use catcher\facade\FileSystem;
+use catcher\library\Composer;
 use catcher\library\Compress;
 use think\console\Command;
 use think\console\Input;
 use think\console\input\Argument;
 use think\console\Output;
 use catcher\CatchAdmin;
+use think\Exception;
 
 class CreateModuleCommand extends Command
 {
@@ -59,9 +62,7 @@ class CreateModuleCommand extends Command
 
             $this->stubDir = __DIR__ . DIRECTORY_SEPARATOR . 'stubs' . DIRECTORY_SEPARATOR;
 
-            $composer = json_decode(file_get_contents($this->app->getRootPath() . 'composer.json'), true);
-
-            $psr4 = $composer['autoload']['psr-4'];
+            $psr4 = (new Composer())->psr4Autoload();
 
             foreach ($psr4 as $namespace => $des) {
                 if ($des === CatchAdmin::$root) {
@@ -88,7 +89,7 @@ class CreateModuleCommand extends Command
      */
     protected function rollback()
     {
-        (new Compress())->rmDir($this->moduleDir);
+        FileSystem::deleteDirectory($this->moduleDir);
     }
 
     /**
@@ -158,14 +159,13 @@ class CreateModuleCommand extends Command
      */
     protected function createService()
     {
-        $service = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'stubs' . DIRECTORY_SEPARATOR . 'service.stub');
+        $service = FileSystem::sharedGet(__DIR__ . DIRECTORY_SEPARATOR . 'stubs' . DIRECTORY_SEPARATOR . 'service.stub');
 
         $content = str_replace(['{NAMESPACE}', '{SERVICE}'],
             [substr($this->namespaces, 0, -1),
                 ucfirst($this->module) . 'Service'], $service);
 
-        file_put_contents($this->moduleDir . ucfirst($this->module) . 'Service.php', $content);
-
+        FileSystem::put($this->moduleDir . ucfirst($this->module) . 'Service.php', $content);
     }
 
     /**
@@ -176,13 +176,13 @@ class CreateModuleCommand extends Command
      */
     protected function createModuleJson()
     {
-        $moduleJson = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'stubs' . DIRECTORY_SEPARATOR . 'module.stub');
+        $moduleJson = FileSystem::sharedGet(__DIR__ . DIRECTORY_SEPARATOR . 'stubs' . DIRECTORY_SEPARATOR . 'module.stub');
 
         $content = str_replace(['{NAME}','{DESCRIPTION}','{MODULE}', '{SERVICE}'],
             [$this->name, $this->description,
                 $this->module,  '\\\\'. str_replace('\\', '\\\\',$this->namespaces . ucfirst($this->module) . 'Service')], $moduleJson);
 
-        file_put_contents($this->moduleDir . 'module.json', $content);
+        FileSystem::put($this->moduleDir . 'module.json', $content);
     }
 
     /**
@@ -193,6 +193,6 @@ class CreateModuleCommand extends Command
      */
     protected function createRoute()
     {
-        file_put_contents($this->moduleDir . 'route.php', file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'stubs' . DIRECTORY_SEPARATOR . 'route.stub'));
+        FileSystem::put($this->moduleDir . 'route.php', file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'stubs' . DIRECTORY_SEPARATOR . 'route.stub'));
     }
 }
