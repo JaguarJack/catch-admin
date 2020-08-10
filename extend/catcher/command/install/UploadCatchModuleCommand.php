@@ -173,7 +173,7 @@ class UploadCatchModuleCommand extends Command
     {
         $composerZip = $this->compressZipPath() . $this->module . '_' . time() . '.zip';
 
-        (new Compress())->dirToZip($this->path, $composerZip);
+        (new Compress())->moduleToZip($this->path, $composerZip);
 
         $this->output->info('compress module ' . $this->module . ' successfully');
         return $composerZip;
@@ -192,7 +192,7 @@ class UploadCatchModuleCommand extends Command
             return root_path($path) . $this->module. DIRECTORY_SEPARATOR;
         }
 
-        return CatchAdmin::moduleSeedsDirectory($this->module);
+        return CatchAdmin::moduleDirectory($this->module);
     }
 
     /**
