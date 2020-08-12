@@ -33,7 +33,7 @@ trait Process
     /**
      * 创建进程
      *
-     * @return void
+     * @return \Closure
      */
     protected function createProcessCallback()
     {
