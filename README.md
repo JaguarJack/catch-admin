@@ -80,17 +80,10 @@ composer create-project jaguarjack/catchadmin:dev-master
 ## 体验地址
 
 [体验地址](http://vue.catchadmin.com)
-- 账号: test@catch.com 
-- 密码: 123456
+- 账号: admin@gmail.com
+- 密码: admin
 
 [catchadmin 文档地址](http://doc.catchadmin.com)
-
-[catchadmin 接口文档地址](http://apidoc.catchadmin.com)
-- 账号：test@catch.com
-- 密码：123456
-
-> 请大家不要随意添加数据，因为没有意义，只看 `catchadmin` 的文档就可以了。
-如果有太多脏数据的话，我会关闭该账号。
 
 ### 系列文章
 如果是刚开始使用 thinkphp6, 以下文章可能会对你有些许帮助，文章基于 RC3 版本。整体架构是不变的。
