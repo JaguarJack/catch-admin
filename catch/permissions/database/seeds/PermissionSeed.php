@@ -734,7 +734,7 @@ class PermissionSeed extends Seeder
         'module' => 'permissions',
         'creator_id' => 1,
         'method' => 'get',
-        'permission_mark' => 'jobs',
+        'permission_mark' => 'job',
         'component' => 'jobs',
         'redirect' => '',
         'hide_children_in_menu' => 2,
