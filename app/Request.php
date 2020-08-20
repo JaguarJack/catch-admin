@@ -3,9 +3,11 @@ namespace app;
 
 // 应用请求对象类
 
+use catchAdmin\permissions\model\Users;
 use catcher\CatchAuth;
 use catcher\Code;
 use catcher\exceptions\FailedException;
+use catcher\exceptions\LoginFailedException;
 use thans\jwt\exception\TokenBlacklistException;
 use thans\jwt\exception\TokenExpiredException;
 use thans\jwt\exception\TokenInvalidException;
@@ -29,6 +31,10 @@ class Request extends \think\Request
 
     try {
         $user = $this->auth->guard($guard ? : config('catch.auth.default.guard'))->user();
+
+        if ($user->status == Users::DISABLE) {
+            throw new LoginFailedException('该用户已被禁用');
+        }
     }  catch (\Exception $e) {
         if ($e instanceof TokenExpiredException) {
             throw new FailedException('token 过期', Code::LOGIN_EXPIRED);
