@@ -56,6 +56,11 @@ class CatchExceptionHandle extends Handle
             $e = new FailedException($e->getMessage(), 10005, $e);
         }
 
+        // 类型错误
+        if ($e instanceof \TypeError) {
+            $e = new FailedException($e->getMessage(), 10005, $e);
+        }
+
         return parent::render($request, $e);
     }
 
