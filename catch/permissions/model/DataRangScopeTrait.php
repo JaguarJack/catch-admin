@@ -57,6 +57,8 @@ trait DataRangScopeTrait
                     $userIds[] = $user->id;
                     break;
                 case Roles::DEPARTMENT_DOWN_DATA:
+                    $userIds = array_merge($userIds, $this->getUserIdsByDepartmentId($this->getAllDepartments()));
+                    break;
                 case Roles::DEPARTMENT_DATA:
                     $userIds = array_merge($userIds, $this->getUserIdsByDepartmentId([$user->department_id]));
                     break;
@@ -83,5 +85,15 @@ trait DataRangScopeTrait
     protected function getUserIdsByDepartmentId(array $id)
     {
         return Users::whereIn('department_id', $id)->column('id');
+    }
+    
+     /**
+     * @return array
+     * 获取部门及部门以下部门
+     * @by qingmang
+     */
+    protected function getAllDepartments(){
+        $sonDepartment = Department::where('parent_id',request()->user()->department_id)->column('id');
+        return array_merge([request()->user()->department_id],$sonDepartment);
     }
 }
