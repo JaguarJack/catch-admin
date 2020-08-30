@@ -31,17 +31,12 @@ class UpdatePermissions extends Migrator
         if ($this->hasTable('permissions')) {
             $table = $this->table('permissions');
 
-            $table->renameColumn('method', 'hidden_children_in_menu')
-                ->addColumn('breadcrumb', 'integer', [
+            $table->renameColumn('method', 'hidden_children_in_menu', 'status')
+                ->addColumn('hidden', 'integer', [
                 'limit' => \Phinx\Db\Adapter\MysqlAdapter::INT_TINY,
                 'default' => 1,
-                'comment' => '是否显示在面包屑 1 显示 2 隐藏',
+                'comment' => '是否在侧边栏隐藏 1 显示 2 隐藏',
                 'after' => 'redirect'])
-                ->addColumn('affix', 'integer', [
-                    'limit' => \Phinx\Db\Adapter\MysqlAdapter::INT_TINY,
-                    'default' => 2,
-                    'comment' => '是否固定在 tag-view 1 固定 2 不固定',
-                    'after' => 'breadcrumb'])
                 ->update();
         }
     }
