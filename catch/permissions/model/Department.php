@@ -35,9 +35,7 @@ class Department extends CatchModel
    */
     public function getList(): array
     {
-        return $this->withoutField(['department_name'])
-                    ->addFields(['department_name as title'])
-                    ->catchSearch()
+        return $this->catchSearch()
                     ->catchOrder()
                     ->select()->toArray();
     }

@@ -31,7 +31,7 @@ class UpdateRoles extends Migrator
         if ($this->hasTable('roles')) {
             $table = $this->table('roles');
 
-            $table->addColumn('identifies', 'string', [
+            $table->addColumn('identify', 'string', [
                             'limit' => 20,
                             'default' => 1,
                             'comment' => '角色的标识，用英文表示，用于后台路由权限',
