@@ -19,12 +19,10 @@ class Permissions extends CatchModel
         'component', // 组件
         'redirect',
         'keepalive',
-        'hide_children_in_menu',
         'creator_id',
         'status',
         'module', // 模块
         'route', // 路由
-        'method', // 请求方法
         'permission_mark', // 权限标识
         'type', // 1 菜单 2 按钮
         'sort', // 排序字段

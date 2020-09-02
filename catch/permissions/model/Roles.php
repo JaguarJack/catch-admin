@@ -21,6 +21,7 @@ class Roles extends CatchModel
     protected $field = [
             'id', // 
 			'role_name', // 角色名
+            'identify', // 身份标识
 			'parent_id', // 父级ID
             'creator_id', // 创建者
             'data_range', // 数据范围

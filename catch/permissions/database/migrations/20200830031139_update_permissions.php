@@ -31,13 +31,9 @@ class UpdatePermissions extends Migrator
         if ($this->hasTable('permissions')) {
             $table = $this->table('permissions');
 
-            $table->renameColumn('method', 'hidden_children_in_menu', 'status')
-                ->addColumn('hidden', 'integer', [
-                'limit' => \Phinx\Db\Adapter\MysqlAdapter::INT_TINY,
-                'default' => 1,
-                'comment' => '是否在侧边栏隐藏 1 显示 2 隐藏',
-                'after' => 'redirect'])
-                ->update();
+            $table->removeColumn('method')
+                  ->removeColumn('hide_children_in_menu')
+                  ->update();
         }
     }
 }
