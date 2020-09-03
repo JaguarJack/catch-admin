@@ -35,7 +35,7 @@ class Developers extends Migrator
 			->addColumn('mobile', 'string', ['limit' => 30,'null' => false,'default' => '','signed' => false,'comment' => '手机号',])
 			->addColumn('id_card', 'string', ['limit' => 50,'null' => false,'default' => '','signed' => false,'comment' => '身份证',])
 			->addColumn('alipay_account', 'string', ['limit' => 100,'null' => false,'default' => '','signed' => false,'comment' => '支付宝账户',])
-			->addColumn('status', 'boolean', ['null' => false,'default' => 1,'signed' => false,'comment' => '1 待认证 1 已认证',])
+			->addColumn('status', 'boolean', ['null' => false,'default' => 1,'signed' => false,'comment' => '1 待认证 2 已认证',])
 			->addColumn('created_at', 'integer', ['limit' => MysqlAdapter::INT_REGULAR,'null' => false,'default' => 0,'signed' => true,'comment' => '创建时间',])
 			->addColumn('updated_at', 'integer', ['limit' => MysqlAdapter::INT_REGULAR,'null' => false,'default' => 0,'signed' => true,'comment' => '更新时间',])
 			->addColumn('deleted_at', 'integer', ['limit' => MysqlAdapter::INT_REGULAR,'null' => false,'default' => 0,'signed' => true,'comment' => '软删除',])

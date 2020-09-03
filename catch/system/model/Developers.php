@@ -11,10 +11,13 @@
 
 namespace catchAdmin\system\model;
 
+use catchAdmin\system\model\search\DeveloperSearch;
 use catcher\base\CatchModel as Model;
 
 class Developers extends Model
 {
+    use DeveloperSearch;
+
     protected $name = 'developers';
 
     protected $field = [
