@@ -10,7 +10,7 @@ class CreateRequest extends CatchRequest
     {
         // TODO: Implement rules() method.
         return [
-            'word|词汇' => 'sensitive_word|unique:'.SensitiveWord::class.',word',
+            'word|词汇' => 'unique:'.SensitiveWord::class.',word',
         ];
     }
 }

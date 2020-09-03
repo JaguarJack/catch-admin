@@ -49,7 +49,7 @@ class User extends CatchController
     {
         $user = $auth->user();
 
-        $roles = $user->getRoles();
+        $roles = $user->getRoles()->column('identify');
 
         $permissionIds = $user->getPermissionsBy($user->id);
         // 缓存用户权限

@@ -5,7 +5,7 @@ use catcher\base\CatchController;
 use catcher\CatchResponse;
 use catchAdmin\system\model\Attachments as AttachmentsModel;
 use catcher\Utils;
-use think\facade\Filesystem;
+use catcher\facade\FileSystem;
 
 class Attachments extends CatchController
 {
@@ -39,7 +39,15 @@ class Attachments extends CatchController
 
         if ($model->deleteBy($id)) {
             foreach ($attachments as $attachment) {
-                Filesystem::delete($attachment->path);
+                if ($attachment->driver == 'local') {
+                    $localPath = config('filesystem.disks.local.root') . DIRECTORY_SEPARATOR;
+                    $path = $localPath . str_replace('\\','\/', $attachment->path);
+                    if (!FileSystem::exists($path)) {
+                        Filesystem::delete($path);
+                    }
+                } else {
+                    Filesystem::delete($attachment->path);
+                }
             }
         }
 

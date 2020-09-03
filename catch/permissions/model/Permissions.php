@@ -69,7 +69,7 @@ class Permissions extends CatchModel
         return parent::whereIn('id', $permissionIds)
                       ->field(['permission_name as title', 'id', 'parent_id',
                           'route', 'icon', 'component', 'redirect', 'module',
-                          'keepalive as keepAlive', 'hide_children_in_menu', 'type', 'permission_mark', 'status'
+                          'keepalive as keepAlive', 'type', 'permission_mark', 'status'
                       ])
                       ->catchOrder()
                       ->select();

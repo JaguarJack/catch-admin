@@ -1,12 +1,15 @@
 <?php
 namespace catchAdmin\system\model;
 
+use catchAdmin\system\model\search\AttachmentsSearch;
 use catcher\base\CatchModel;
 use think\file\UploadedFile;
 use think\Model;
 
 class Attachments extends CatchModel
 {
+    use AttachmentsSearch;
+
     protected $name = 'attachments';
     
     protected $field = [
@@ -28,21 +31,6 @@ class Attachments extends CatchModel
         return $this->order('id', 'desc')
                     ->catchSearch()
                     ->paginate();
-    }
-
-    public function searchFileExtAttr($query, $value, $data)
-    {
-        return $query->where('file_ext', $value);
-    }
-
-    public function searchMimeTypesAttr($query, $value, $data)
-    {
-        return $query->where('mime_type', $value);
-    }
-
-    public function searchDriver($query, $value, $data)
-    {
-        return $query->where('driver', $value);
     }
 
     /**
