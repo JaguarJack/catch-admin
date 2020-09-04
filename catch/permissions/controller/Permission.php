@@ -9,6 +9,7 @@ use catcher\exceptions\FailedException;
 use catcher\library\ParseClass;
 use catcher\Tree;
 use catchAdmin\permissions\model\Permissions;
+use think\helper\Str;
 use think\response\Json;
 
 class Permission extends CatchController
@@ -85,6 +86,32 @@ class Permission extends CatchController
     {
         $permission = $this->permissions->findBy($id);
 
+        if ($permission->parent_id) {
+            $parentPermission = $this->permissions->where('id', $permission->parent_id)->find();
+
+            $params = $request->param();
+            $permissionMark = $params['permission_mark'];
+            if ($parentPermission->parent_id) {
+                if (Str::contains($parentPermission->permission_mark, '@')) {
+                    list($controller, $action) = explode('@', $parentPermission->permission_mark);
+                    $permissionMark = $controller . '@' . $permissionMark;
+                } else {
+                    $permissionMark = $parentPermission->permission_mark .'@'. $permissionMark;
+                }
+            }
+
+            $params['permission_mark'] = $permissionMark;
+
+
+            $this->permissions->where('id',$id)->update(array_merge($params, [
+                'parent_id' => $permission->parent_id,
+                'level'     => $permission->level,
+                'updated_at' => time()
+            ]));
+
+            return CatchResponse::success();
+        }
+
         $params = array_merge($request->param(), [
             'parent_id' => $permission->parent_id,
             'level'     => $permission->level
@@ -136,15 +163,19 @@ class Permission extends CatchController
     {
         $permission = $this->permissions->findBy($id);
 
-        $permission->status = $permission->status == Permissions::ENABLE ? Permissions::DISABLE : Permissions::ENABLE;
+        $hidden = $permission->hidden == Permissions::ENABLE ? Permissions::DISABLE : Permissions::ENABLE;
 
-        if ($permission->save()) {
+        if ($this->permissions->where('id', $id)->update([
+            'hidden' => $hidden,
+            'updated_at' => time()
+        ])) {
             $this->permissions->where('parent_id', $id)->update([
-                'status' => $permission->status,
+                'hidden' => $hidden,
+                'updated_at' => time(),
             ]);
         }
 
-        return CatchResponse::success($permission->save());
+        return CatchResponse::success();
     }
 
     /**
