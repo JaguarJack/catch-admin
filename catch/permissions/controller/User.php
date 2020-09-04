@@ -86,7 +86,9 @@ class User extends CatchController
 
         $this->user->attachRoles($request->param('roles'));
 
-        $this->user->attachJobs($request->param('jobs'));
+        if ($request->param('jobs')) {
+            $this->user->attachJobs($request->param('jobs'));
+        }
 
         return CatchResponse::success('', '添加成功');
     }

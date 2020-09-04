@@ -22,7 +22,7 @@ trait AttachmentsSearch
         return $query->where('mime_type', $value);
     }
 
-    public function searchDriver($query, $value, $data)
+    public function searchDriverAttr($query, $value, $data)
     {
         return $query->where('driver', $value);
     }

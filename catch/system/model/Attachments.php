@@ -30,6 +30,7 @@ class Attachments extends CatchModel
     {
         return $this->order('id', 'desc')
                     ->catchSearch()
+                    ->catchOrder()
                     ->paginate();
     }
 
