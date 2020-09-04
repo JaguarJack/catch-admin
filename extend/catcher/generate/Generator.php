@@ -55,7 +55,7 @@ class Generator
             // 只有最后成功才写入 route
             (new Route())->controller($controller['controller'])
                 ->restful($controller['restful'])
-                ->methods((new Controller())->parseOtherMethods($controller['other_function']))
+                // ->methods((new Controller())->parseOtherMethods($controller['other_function']))
                 ->done();
 
         } catch (\Exception $exception) {
@@ -76,9 +76,9 @@ class Generator
      */
     public function preview($params)
     {
-        $params = \json_decode($params['data'], true);
-
         $type = $params['type'];
+
+        $params = \json_decode($params['data'], true);
 
         [$controller, $model] = $this->parseParams($params);
 
@@ -113,7 +113,7 @@ class Generator
             'model'  => $params['controller']['model'] ?? '',
             'controller' => $params['controller']['controller'] ?? '',
             'restful' => $params['controller']['restful'],
-            'other_function' => $params['controller']['other_function'],
+            // 'other_function' => $params['controller']['other_function'],
         ];
 
         $table = $params['controller']['table'] ?? '';
@@ -124,8 +124,8 @@ class Generator
         $model = [
             'table' => $table,
             'model' => $params['controller']['model'] ?? '',
-            'sql'   => $params['model']['data'],
-            'extra' => $params['model']['extra'],
+            'sql'   => $params['table_fields'],
+            'extra' => $params['table_extra'],
         ];
 
 

@@ -92,13 +92,14 @@ class Controller extends Factory
             }
         }
 
+        /**
         if (!empty($params['other_function'])) {
             $others = $this->parseOtherMethods($params['other_function']);
             $this->methods = array_merge($this->methods, $others);
             foreach ($others as $other) {
                 $content .= $template->otherFunction($other[0], $other[1]);
             }
-        }
+        }*/
 
         return $content;
     }
