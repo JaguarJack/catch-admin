@@ -42,7 +42,7 @@ class DataDictionary extends CatchController
             $tables =  $tables->where('engine', $engine)->values();
         }
 
-        return CatchResponse::paginate(Paginator::make($tables->toArray(), $request->get('limit') ?? 10, $request->get('page') ?? 1, $tables->count(), false, []));
+        return CatchResponse::paginate(Paginator::make(array_slice($tables->toArray(), ($request->get('page') ?? 1) - 1,$request->get('limit') ?? 10), $request->get('limit') ?? 10, $request->get('page') ?? 1, $tables->count(), false, []));
     }
 
   /**

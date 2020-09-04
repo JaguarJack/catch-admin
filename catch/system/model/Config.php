@@ -2,6 +2,7 @@
 namespace catchAdmin\system\model;
 
 use catcher\base\CatchModel;
+use catcher\exceptions\FailedException;
 use thans\jwt\exception\UserNotDefinedException;
 use think\Model;
 
@@ -55,6 +56,47 @@ class Config extends CatchModel
             return true;
         }
 
+        $parent = $data['parent'] ?? false;
+        if (!$parent) {
+            throw new FailedException('父配置丢失');
+        }
+        unset($data['parent']);
+
+        $parentConfig = $this->where('key', $parent)->find();
+        $config = [];
+        foreach ($data as $key => $item) {
+            foreach ($item as $k => $value) {
+                if ($value) {
+                    $config[$key . '.' .$k] = [
+                        'pid' => $parentConfig['id'],
+                        'key' => $key . '.' . $k,
+                        'value' => $value,
+                        'created_at' => time(),
+                        'updated_at' => time(),
+                    ];
+                }
+            }
+        }
+
+        $this->where('pid', $parentConfig->id)
+           ->select()
+           ->each(function ($item) use (&$config){
+               if (isset($config[$item['key']])) {
+                  if ($config[$item['key']]['value'] != $item->value) {
+                      $item['value'] = $config[$item['key']]['value'];
+                      $item->save();
+                  }
+                   unset($config[$item['key']]);
+              }
+           });
+
+        if (count($config)) {
+            return $this->insertAll($config);
+        }
+
+        return true;
+
+
         // 子配置
         if ($data['pid'] ?? false) {
             $config = \json_decode($data['config'], true);
@@ -67,6 +109,7 @@ class Config extends CatchModel
 
                 'k' => 'v'
             ]*/
+    /**
             foreach ($config as $key => $value) {
                 if (empty($value)) {
                     continue;
@@ -136,6 +179,7 @@ class Config extends CatchModel
                     }
                 }
             }
+*/
 
             return true;
         }

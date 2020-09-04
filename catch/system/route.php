@@ -5,8 +5,8 @@ $router->group(function () use ($router) {
     $router->delete('loginLog/empty', '\catchAdmin\system\controller\LoginLog@empty');
     // 操作日志
     $router->get('log/operate', '\catchAdmin\system\controller\OperateLog@list');
-    $router->delete('operateLog/empty', '\catchAdmin\system\controller\OperateLog@empty');
-    $router->delete('operateLog/delete', '\catchAdmin\system\controller\OperateLog@delete');
+    // $router->delete('empty/log/operate', '\catchAdmin\system\controller\OperateLog@empty');
+    $router->delete('log/operate/<id>', '\catchAdmin\system\controller\OperateLog@delete');
 
     // 数据字典
     $router->get('tables', '\catchAdmin\system\controller\DataDictionary@tables');
