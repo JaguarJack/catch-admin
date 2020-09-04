@@ -6,6 +6,7 @@ use catchAdmin\permissions\model\Users;
 use catcher\base\CatchController;
 use catcher\CatchAuth;
 use catcher\CatchResponse;
+use catcher\Code;
 use catcher\exceptions\LoginFailedException;
 use thans\jwt\facade\JWTAuth;
 
@@ -28,7 +29,7 @@ class Index extends CatchController
         $user = $auth->user();
 
         if ($user->status == Users::DISABLE) {
-          throw new LoginFailedException('该用户已被禁用');
+          throw new LoginFailedException('该用户已被禁用', Code::USER_FORBIDDEN);
         }
 
         // 记录用户登录

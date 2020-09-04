@@ -33,7 +33,7 @@ class Request extends \think\Request
         $user = $this->auth->guard($guard ? : config('catch.auth.default.guard'))->user();
 
         if ($user->status == Users::DISABLE) {
-            throw new LoginFailedException('该用户已被禁用');
+            throw new LoginFailedException('该用户已被禁用', Code::USER_FORBIDDEN);
         }
     }  catch (\Exception $e) {
         if ($e instanceof TokenExpiredException) {
@@ -45,7 +45,7 @@ class Request extends \think\Request
         if ($e instanceof TokenInvalidException) {
             throw new FailedException('token 不合法', Code::LOST_LOGIN);
         }
-        throw new FailedException('认证失败: '. $e->getMessage(), Code::LOST_LOGIN);
+        throw new FailedException('认证失败: '. $e->getMessage(), $e->getMessage());
     }
 
     return $user;
