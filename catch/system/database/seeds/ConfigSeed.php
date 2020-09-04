@@ -18,8 +18,8 @@ class ConfigSeed extends Seeder
             [
                 'name' => '基础配置',
                 'pid' => 0,
-                'component' => 'basis',
-                'key' => 'basis',
+                'component' => 'basic',
+                'key' => 'basic',
             ],
             [
                 'name' => '上传配置',
