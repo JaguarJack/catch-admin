@@ -2,7 +2,7 @@
 
 use think\migration\Seeder;
 
-class PermissionSeed extends Seeder
+class WechatMenusSeed extends Seeder
 {
     /**
      * Run Method.

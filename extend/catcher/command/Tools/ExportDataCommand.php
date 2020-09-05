@@ -64,7 +64,11 @@ class ExportDataCommand extends Command
     {
         $stub = file_get_contents(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'stubs' . DIRECTORY_SEPARATOR . 'permissionSeed.stub');
 
-        file_put_contents(CatchAdmin::moduleSeedsDirectory($module) . ucfirst($module) . 'PermissionSeed.php', str_replace('{DATA}', $data, $stub));
+        $class = ucfirst($module) . 'MenusSeed';
+
+        $stub = str_replace('{CLASS}', $class, $stub);
+
+        file_put_contents(CatchAdmin::moduleSeedsDirectory($module) . $class .'.php', str_replace('{DATA}', $data, $stub));
     }
 }
 
