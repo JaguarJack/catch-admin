@@ -67,9 +67,22 @@ class Permission extends CatchController
 
         // 如果是子分类 自动写入父类模块
         $parentId = $params['parent_id'] ?? 0;
-        if ($parentId) {
-            $parent = $this->permissions->findBy($parentId);
-            $params['module'] = $parent->module;
+        // 按钮类型寻找上级
+        if ($params['type'] == Permissions::BTN_TYPE && $parentId) {
+            $permissionMark = $params['permission_mark'];
+            // 查找父级
+            $parentPermission = $this->permissions->findBy($parentId);
+            // 如果父级是顶级 parent_id = 0
+            if ($parentPermission->parent_id) {
+                if (Str::contains($parentPermission->permission_mark, '@')) {
+                    list($controller, $action) = explode('@', $parentPermission->permission_mark);
+                    $permissionMark = $controller . '@' . $permissionMark;
+                } else {
+                    $permissionMark = $parentPermission->permission_mark .'@'. $permissionMark;
+                }
+            }
+            $params['permission_mark'] = $permissionMark;
+            $params['module'] = $parentPermission->module;
         }
 
         return CatchResponse::success($this->permissions->storeBy($params));
@@ -87,7 +100,7 @@ class Permission extends CatchController
         $permission = $this->permissions->findBy($id);
 
         if ($permission->parent_id) {
-            $parentPermission = $this->permissions->where('id', $permission->parent_id)->find();
+            $parentPermission = $this->permissions->findBy($permission->parent_id);
 
             $params = $request->param();
             $permissionMark = $params['permission_mark'];

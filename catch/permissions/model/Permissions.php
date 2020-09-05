@@ -20,7 +20,7 @@ class Permissions extends CatchModel
         'redirect',
         'keepalive',
         'creator_id',
-        'status',
+        'hidden',
         'module', // 模块
         'route', // 路由
         'permission_mark', // 权限标识
@@ -69,7 +69,7 @@ class Permissions extends CatchModel
         return parent::whereIn('id', $permissionIds)
                       ->field(['permission_name as title', 'id', 'parent_id',
                           'route', 'icon', 'component', 'redirect', 'module',
-                          'keepalive as keepAlive', 'type', 'permission_mark', 'status'
+                          'keepalive as keepAlive', 'type', 'permission_mark', 'hidden'
                       ])
                       ->catchOrder()
                       ->select();

@@ -39,8 +39,12 @@ class ExportDataCommand extends Command
                                     ->where('module', $module)
                                     ->select()
                                     ->toArray();
+
+
         } else {
-            $data = Db::name($table)->where('deleted_at', 0)->select()->toArray();
+            $data = Db::name($table)->where('deleted_at', 0)
+                                    ->select()
+                                    ->toArray();
         }
 
         if ($parent) {
