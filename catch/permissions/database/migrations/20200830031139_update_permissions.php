@@ -33,6 +33,7 @@ class UpdatePermissions extends Migrator
 
             $table->removeColumn('method')
                   ->removeColumn('hide_children_in_menu')
+                  ->renameColumn('status', 'hidden')
                   ->update();
         }
     }
