@@ -175,19 +175,7 @@ class Permission extends CatchController
      */
     public function show($id)
     {
-        $permission = $this->permissions->findBy($id);
-
-        $hidden = $permission->hidden == Permissions::ENABLE ? Permissions::DISABLE : Permissions::ENABLE;
-
-        if ($this->permissions->where('id', $id)->update([
-            'hidden' => $hidden,
-            'updated_at' => time()
-        ])) {
-            $this->permissions->where('parent_id', $id)->update([
-                'hidden' => $hidden,
-                'updated_at' => time(),
-            ]);
-        }
+        $this->permissions->show($id);
 
         return CatchResponse::success();
     }

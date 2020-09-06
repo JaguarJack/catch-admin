@@ -99,4 +99,44 @@ class Permissions extends CatchModel
 
         return true;
     }
+
+
+    public function show($id)
+    {
+        $permission = $this->findBy($id);
+
+        // 不能使用改属性判断，模型有该属性，使用数组方式
+        // $permission->hidden
+        $hidden = $permission['hidden'] == Permissions::ENABLE ? Permissions::DISABLE : Permissions::ENABLE;
+
+        $nextLevelIds = $this->getNextLevel([$id]);
+
+        $nextLevelIds[] = $id;
+
+        return $this->whereIn('id', $nextLevelIds)->update([
+            'hidden' => $hidden,
+            'updated_at' => time(),
+        ]);
+    }
+
+    /**
+     * 获取 level ids
+     *
+     * @time 2020年09月06日
+     * @param array $id
+     * @param array $ids
+     * @return array
+     */
+    protected function getNextLevel(array $id, &$ids = [])
+    {
+       $_ids = $this->whereIn('parent_id', $id)
+             ->where('type', self::MENU_TYPE)
+             ->column('id');
+
+       if (count($_ids)) {
+           $ids = array_merge($_ids, $this->getNextLevel($_ids, $ids));
+       }
+
+       return $ids;
+    }
 }
