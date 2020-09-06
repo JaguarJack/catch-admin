@@ -101,7 +101,8 @@ class WechatUsersRepository extends CatchRepository
      */
     public function tag($id, $data)
     {
-        $tagIds = WechatTags::whereIn('name', Utils::stringToArrayBy($data['tag']))->column('tag_id');
+        $tagIds = Utils::stringToArrayBy($data['tag']);
+            // WechatTags::whereIn('name', Utils::stringToArrayBy($data['tag']))->column('tag_id');
 
         $user = $this->findBy($id);
 
@@ -133,6 +134,10 @@ class WechatUsersRepository extends CatchRepository
             }
             $user->hasTags()->saveAll($attachIds);
         }
+
+        WechatUsers::where('id', $id)->update([
+            'tagid_list' => $data['tag'],
+        ]);
 
         return true;
     }
