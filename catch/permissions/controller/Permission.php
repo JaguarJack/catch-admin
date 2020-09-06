@@ -99,10 +99,11 @@ class Permission extends CatchController
     {
         $permission = $this->permissions->findBy($id);
 
-        if ($permission->parent_id) {
+        $params = $request->param();
+        // 按钮类型
+        if ($params['type'] == Permissions::BTN_TYPE && $permission->parent_id) {
             $parentPermission = $this->permissions->findBy($permission->parent_id);
 
-            $params = $request->param();
             $permissionMark = $params['permission_mark'];
             if ($parentPermission->parent_id) {
                 if (Str::contains($parentPermission->permission_mark, '@')) {
@@ -204,14 +205,15 @@ class Permission extends CatchController
     public function getMethods($id, ParseClass $parseClass)
     {
         $permission = Permissions::where('id', $id)->find();
-
         $module = $permission->module;
-
         $controller = explode('@', $permission->permission_mark)[0];
 
-        $methods = $parseClass->setModule('catch')->setRule($module, $controller)->onlySelfMethods();
-
-        return CatchResponse::success($methods);
+        try {
+            $methods = $parseClass->setModule('catch')->setRule($module, $controller)->onlySelfMethods();
+            return CatchResponse::success($methods);
+        }catch (\Exception $e) {
+            return CatchResponse::success([]);
+        }
     }
 }
 

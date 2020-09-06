@@ -2,6 +2,8 @@
 namespace catcher\library;
 
 
+use think\exception\ClassNotFoundException;
+
 class ParseClass
 {
     protected $namespace;
@@ -74,18 +76,23 @@ class ParseClass
        return  $methods;
     }
 
+
     /**
-     * 获取 CLASS
+     * 获取class
      *
-     * @return \ReflectionClass
+     * @time 2020年09月06日
      * @throws \ReflectionException
+     * @return \ReflectionClass
      */
     public function getClass()
     {
+        $class = $this->namespace . $this->module . '\\controller\\'. ucfirst($this->controller);
 
-        return new \ReflectionClass($this->namespace . $this->module . '\\controller\\'.
+        if (class_exists($class)) {
+            return new \ReflectionClass($class);
+        }
 
-          ucfirst($this->controller));
+        throw new ClassNotFoundException($this->controller . ' not found');
     }
 
     /**
