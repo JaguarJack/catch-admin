@@ -247,9 +247,19 @@ class CatchUpload
             $disk = app()->config->get('filesystem.disks');
 
             $uploadConfigs = $configModel->getConfig($upload->id);
+
+            // 重组
+            $_config = [];
             if (!empty($uploadConfigs)) {
+                foreach ($uploadConfigs as $key => $value) {
+                    list($object, $key) = explode('.', $key);
+                    $_config[$object][$key] = $value;
+                }
+            }
+
+            if (!empty($_config)) {
                 // 读取上传可配置数据
-                foreach ($uploadConfigs as $key => &$config) {
+                foreach ($_config as $key => &$config) {
                     // $disk[$key]['type'] = $key;
                     // 腾讯云配置处理
                     if (strtolower($key) == 'qcloud') {
@@ -258,21 +268,21 @@ class CatchUpload
                             'secretKey' => $config['secret_key'] ?? '',
                             'secretId' => $config['secret_id'] ?? '',
                         ];
-                        $readFromCdn = $config['read_from_cdn'] ?? false;
-                        $config['read_from_cdn'] = $readFromCdn ? true : false;
+                        $readFromCdn = $config['read_from_cdn'] ?? 0;
+                        $config['read_from_cdn'] = intval($readFromCdn) == 1;
                     }
                     // OSS 配置
                     if (strtolower($key) == 'oss') {
-                        $isCname = $config['is_cname'] ?? false;
-                        $config['is_cname'] = $isCname ? true : false;
+                        $isCname = $config['is_cname'] ?? 0;
+                        $config['is_cname'] = intval($isCname) == 1;
                     }
                 }
 
                 // 合并数组
-                array_walk($disk, function (&$item, $key) use ($uploadConfigs) {
+                array_walk($disk, function (&$item, $key) use ($_config) {
                     if (!in_array($key, ['public', 'local'])) {
-                        if ($uploadConfigs[$key] ?? false) {
-                            foreach ($uploadConfigs[$key] as $k => $value) {
+                        if ($_config[$key] ?? false) {
+                            foreach ($_config[$key] as $k => $value) {
                                 $item[$k] = $value;
                             }
                         }
