@@ -57,6 +57,10 @@ trait DataRangScopeTrait
                     $userIds[] = $user->id;
                     break;
                 case Roles::DEPARTMENT_DOWN_DATA:
+                    // 查一下下级部门
+                    $departmentIds = Department::where('parent_id', $user->department_id)->column('id');
+                    $userIds = array_merge([$user->id], $this->getUserIdsByDepartmentId($departmentIds));
+                    break;
                 case Roles::DEPARTMENT_DATA:
                     $userIds = array_merge($userIds, $this->getUserIdsByDepartmentId([$user->department_id]));
                     break;
