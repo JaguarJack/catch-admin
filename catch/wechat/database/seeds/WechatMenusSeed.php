@@ -31,14 +31,14 @@ class WechatMenusSeed extends Seeder
     'module' => 'wechat',
     'creator_id' => 1,
     'permission_mark' => 'wechat',
-    'component' => 'routeView',
-    'redirect' => '',
+    'component' => 'layout',
+    'redirect' => '/wechat/menus',
     'hidden' => 1,
     'keepalive' => 1,
     'type' => 1,
     'sort' => 1,
     'created_at' => 1591603025,
-    'updated_at' => 1599289456,
+    'updated_at' => 1599371183,
     'deleted_at' => 0,
     'children' => 
     array (
@@ -58,9 +58,9 @@ class WechatMenusSeed extends Seeder
         'hidden' => 1,
         'keepalive' => 1,
         'type' => 1,
-        'sort' => 1,
+        'sort' => 18,
         'created_at' => 1591603088,
-        'updated_at' => 1599289456,
+        'updated_at' => 1599371183,
         'deleted_at' => 0,
         'children' => 
         array (
@@ -82,7 +82,7 @@ class WechatMenusSeed extends Seeder
             'type' => 2,
             'sort' => 1,
             'created_at' => 1593304908,
-            'updated_at' => 1593589434,
+            'updated_at' => 1599371167,
             'deleted_at' => 0,
           ),
           1 => 
@@ -103,7 +103,7 @@ class WechatMenusSeed extends Seeder
             'type' => 2,
             'sort' => 1,
             'created_at' => 1593304915,
-            'updated_at' => 1593589434,
+            'updated_at' => 1599371167,
             'deleted_at' => 0,
           ),
           2 => 
@@ -124,7 +124,7 @@ class WechatMenusSeed extends Seeder
             'type' => 2,
             'sort' => 1,
             'created_at' => 1593304923,
-            'updated_at' => 1593589434,
+            'updated_at' => 1599371167,
             'deleted_at' => 0,
           ),
           3 => 
@@ -145,7 +145,7 @@ class WechatMenusSeed extends Seeder
             'type' => 2,
             'sort' => 1,
             'created_at' => 1593304929,
-            'updated_at' => 1593589434,
+            'updated_at' => 1599371167,
             'deleted_at' => 0,
           ),
           4 => 
@@ -166,7 +166,7 @@ class WechatMenusSeed extends Seeder
             'type' => 2,
             'sort' => 1,
             'created_at' => 1593304938,
-            'updated_at' => 1593589434,
+            'updated_at' => 1599371167,
             'deleted_at' => 0,
           ),
         ),
@@ -182,14 +182,14 @@ class WechatMenusSeed extends Seeder
         'module' => 'wechat',
         'creator_id' => 1,
         'permission_mark' => 'users',
-        'component' => 'pageView',
+        'component' => 'routerView',
         'redirect' => '',
         'hidden' => 1,
         'keepalive' => 1,
         'type' => 1,
         'sort' => 1,
         'created_at' => 1592624761,
-        'updated_at' => 1599289538,
+        'updated_at' => 1599371697,
         'deleted_at' => 0,
         'children' => 
         array (
@@ -199,7 +199,7 @@ class WechatMenusSeed extends Seeder
             'permission_name' => '微信用户',
             'parent_id' => 75,
             'level' => '66-75',
-            'route' => '/wechat/users',
+            'route' => '/wechat/users/user',
             'icon' => 'user',
             'module' => 'wechat',
             'creator_id' => 1,
@@ -211,7 +211,7 @@ class WechatMenusSeed extends Seeder
             'type' => 1,
             'sort' => 1,
             'created_at' => 1592624799,
-            'updated_at' => 1599289538,
+            'updated_at' => 1599376002,
             'deleted_at' => 0,
             'children' => 
             array (
@@ -233,7 +233,7 @@ class WechatMenusSeed extends Seeder
                 'type' => 2,
                 'sort' => 1,
                 'created_at' => 1593304869,
-                'updated_at' => 1593589434,
+                'updated_at' => 1599376002,
                 'deleted_at' => 0,
               ),
               1 => 
@@ -254,7 +254,7 @@ class WechatMenusSeed extends Seeder
                 'type' => 2,
                 'sort' => 1,
                 'created_at' => 1593304876,
-                'updated_at' => 1593589434,
+                'updated_at' => 1599376002,
                 'deleted_at' => 0,
               ),
               2 => 
@@ -275,7 +275,7 @@ class WechatMenusSeed extends Seeder
                 'type' => 2,
                 'sort' => 1,
                 'created_at' => 1593304884,
-                'updated_at' => 1593589434,
+                'updated_at' => 1599376002,
                 'deleted_at' => 0,
               ),
               3 => 
@@ -296,7 +296,7 @@ class WechatMenusSeed extends Seeder
                 'type' => 2,
                 'sort' => 1,
                 'created_at' => 1593304892,
-                'updated_at' => 1593589434,
+                'updated_at' => 1599376002,
                 'deleted_at' => 0,
               ),
               4 => 
@@ -317,7 +317,7 @@ class WechatMenusSeed extends Seeder
                 'type' => 2,
                 'sort' => 1,
                 'created_at' => 1593304900,
-                'updated_at' => 1593589434,
+                'updated_at' => 1599376002,
                 'deleted_at' => 0,
               ),
             ),
@@ -328,11 +328,11 @@ class WechatMenusSeed extends Seeder
             'permission_name' => '微信标签',
             'parent_id' => 75,
             'level' => '66-75',
-            'route' => '/wechat/tags',
+            'route' => '/wechat/users/tag',
             'icon' => 'el-icon-paperclip',
             'module' => 'wechat',
             'creator_id' => 1,
-            'permission_mark' => 'users@tags',
+            'permission_mark' => 'tags',
             'component' => 'wechatTags',
             'redirect' => '',
             'hidden' => 1,
@@ -340,7 +340,7 @@ class WechatMenusSeed extends Seeder
             'type' => 1,
             'sort' => 1,
             'created_at' => 1592722634,
-            'updated_at' => 1599289538,
+            'updated_at' => 1599376011,
             'deleted_at' => 0,
             'children' => 
             array (
@@ -354,7 +354,7 @@ class WechatMenusSeed extends Seeder
                 'icon' => '',
                 'module' => 'wechat',
                 'creator_id' => 1,
-                'permission_mark' => 'wechatTags@index',
+                'permission_mark' => 'tags@index',
                 'component' => '',
                 'redirect' => '',
                 'hidden' => 1,
@@ -362,7 +362,7 @@ class WechatMenusSeed extends Seeder
                 'type' => 2,
                 'sort' => 1,
                 'created_at' => 1593304575,
-                'updated_at' => 1593589434,
+                'updated_at' => 1599376011,
                 'deleted_at' => 0,
               ),
               1 => 
@@ -375,7 +375,7 @@ class WechatMenusSeed extends Seeder
                 'icon' => '',
                 'module' => 'wechat',
                 'creator_id' => 1,
-                'permission_mark' => 'wechatTags@save',
+                'permission_mark' => 'tags@save',
                 'component' => '',
                 'redirect' => '',
                 'hidden' => 1,
@@ -383,7 +383,7 @@ class WechatMenusSeed extends Seeder
                 'type' => 2,
                 'sort' => 1,
                 'created_at' => 1593304592,
-                'updated_at' => 1593589434,
+                'updated_at' => 1599376011,
                 'deleted_at' => 0,
               ),
               2 => 
@@ -404,7 +404,7 @@ class WechatMenusSeed extends Seeder
                 'type' => 2,
                 'sort' => 1,
                 'created_at' => 1593304830,
-                'updated_at' => 1593589434,
+                'updated_at' => 1599376011,
                 'deleted_at' => 0,
               ),
               3 => 
@@ -425,7 +425,7 @@ class WechatMenusSeed extends Seeder
                 'type' => 2,
                 'sort' => 1,
                 'created_at' => 1593304837,
-                'updated_at' => 1593589434,
+                'updated_at' => 1599376011,
                 'deleted_at' => 0,
               ),
               4 => 
@@ -446,7 +446,7 @@ class WechatMenusSeed extends Seeder
                 'type' => 2,
                 'sort' => 1,
                 'created_at' => 1593304846,
-                'updated_at' => 1593589434,
+                'updated_at' => 1599376011,
                 'deleted_at' => 0,
               ),
               5 => 
@@ -467,7 +467,7 @@ class WechatMenusSeed extends Seeder
                 'type' => 2,
                 'sort' => 1,
                 'created_at' => 1593304859,
-                'updated_at' => 1593589434,
+                'updated_at' => 1599376011,
                 'deleted_at' => 0,
               ),
             ),
@@ -492,7 +492,7 @@ class WechatMenusSeed extends Seeder
         'type' => 1,
         'sort' => 1,
         'created_at' => 1593227704,
-        'updated_at' => 1599289456,
+        'updated_at' => 1599371183,
         'deleted_at' => 0,
         'children' => 
         array (
@@ -621,7 +621,7 @@ class WechatMenusSeed extends Seeder
         'type' => 1,
         'sort' => 1,
         'created_at' => 1593323887,
-        'updated_at' => 1599292185,
+        'updated_at' => 1599371183,
         'deleted_at' => 0,
         'children' => 
         array (

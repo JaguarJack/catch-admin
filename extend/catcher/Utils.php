@@ -1,6 +1,7 @@
 <?php
 namespace catcher;
 
+use catchAdmin\system\model\Config;
 use think\facade\Db;
 use think\helper\Str;
 
@@ -128,5 +129,17 @@ class Utils
     public static function isSuperAdmin()
     {
         return request()->user()->id == config('catch.permissions.super_admin_id');
+    }
+
+    /**
+     * 获取配置
+     *
+     * @time 2020年09月07日
+     * @param $key
+     * @return mixed
+     */
+    public static function config($key)
+    {
+        return Config::where('key', $key)->value('value');
     }
 }

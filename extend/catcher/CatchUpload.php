@@ -45,7 +45,12 @@ class CatchUpload
      */
     protected $path = '';
 
-  /**
+    public function __construct()
+    {
+        $this->initDriver();
+    }
+
+    /**
    * upload files
    *
    * @param UploadedFile $file
@@ -77,6 +82,13 @@ class CatchUpload
         throw new FailedException('Upload Failed, Try Again!');
     }
 
+    /**
+     * 本地路径
+     *
+     * @time 2020年09月07日
+     * @param $path
+     * @return string
+     */
     protected function getLocalPath($path)
     {
         if ($this->getDriver() === self::LOCAL) {
@@ -294,6 +306,21 @@ class CatchUpload
                 ], 'filesystem');
             }
         }
+    }
+
+    /**
+     * 初始化
+     *
+     * @time 2020年09月07日
+     * @return $this
+     */
+    protected function initDriver()
+    {
+        if ($driver = Utils::config('site.upload')) {
+            $this->driver = $driver;
+        }
+
+        return $this;
     }
 
     /**

@@ -52,7 +52,7 @@ class SystemMenusSeed extends Seeder
         'icon' => 'el-icon-copy-document',
         'module' => 'system',
         'creator_id' => 1,
-        'permission_mark' => 'dataDictionary@index',
+        'permission_mark' => 'dataDictionary',
         'component' => 'database',
         'redirect' => '',
         'hidden' => 1,
@@ -60,7 +60,7 @@ class SystemMenusSeed extends Seeder
         'type' => 1,
         'sort' => 8,
         'created_at' => 1587463087,
-        'updated_at' => 1599288737,
+        'updated_at' => 1599362678,
         'deleted_at' => 0,
         'children' => 
         array (
@@ -82,7 +82,7 @@ class SystemMenusSeed extends Seeder
             'type' => 2,
             'sort' => 1,
             'created_at' => 1587463113,
-            'updated_at' => 1591343449,
+            'updated_at' => 1599362691,
             'deleted_at' => 0,
           ),
           1 => 
@@ -103,7 +103,7 @@ class SystemMenusSeed extends Seeder
             'type' => 2,
             'sort' => 10,
             'created_at' => 1587463173,
-            'updated_at' => 1587547118,
+            'updated_at' => 1599362678,
             'deleted_at' => 0,
           ),
           2 => 
@@ -124,7 +124,7 @@ class SystemMenusSeed extends Seeder
             'type' => 2,
             'sort' => 1,
             'created_at' => 1587463201,
-            'updated_at' => 1587547118,
+            'updated_at' => 1599362678,
             'deleted_at' => 0,
           ),
           3 => 
@@ -145,7 +145,7 @@ class SystemMenusSeed extends Seeder
             'type' => 2,
             'sort' => 1,
             'created_at' => 1587463217,
-            'updated_at' => 1587547118,
+            'updated_at' => 1599362678,
             'deleted_at' => 0,
           ),
         ),

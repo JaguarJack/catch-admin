@@ -30,7 +30,7 @@ class PermissionsMenusSeed extends Seeder
     'icon' => 'el-icon-cpu',
     'module' => 'permissions',
     'creator_id' => 1,
-    'permission_mark' => 'permission@index',
+    'permission_mark' => 'permission',
     'component' => 'layout',
     'redirect' => '/permissions/users',
     'hidden' => 1,
@@ -38,7 +38,7 @@ class PermissionsMenusSeed extends Seeder
     'type' => 1,
     'sort' => 100,
     'created_at' => 1587461455,
-    'updated_at' => 1599219097,
+    'updated_at' => 1599362429,
     'deleted_at' => 0,
     'children' => 
     array (
@@ -60,7 +60,7 @@ class PermissionsMenusSeed extends Seeder
         'type' => 1,
         'sort' => 10,
         'created_at' => 1587461597,
-        'updated_at' => 1599116793,
+        'updated_at' => 1599362429,
         'deleted_at' => 0,
         'children' => 
         array (
@@ -244,7 +244,7 @@ class PermissionsMenusSeed extends Seeder
         'icon' => 'el-icon-s-custom',
         'module' => 'permissions',
         'creator_id' => 1,
-        'permission_mark' => 'role@index',
+        'permission_mark' => 'role',
         'component' => 'roles',
         'redirect' => '',
         'hidden' => 1,
@@ -252,7 +252,7 @@ class PermissionsMenusSeed extends Seeder
         'type' => 1,
         'sort' => 9,
         'created_at' => 1587461939,
-        'updated_at' => 1599116793,
+        'updated_at' => 1599362438,
         'deleted_at' => 0,
         'children' => 
         array (
@@ -274,7 +274,7 @@ class PermissionsMenusSeed extends Seeder
             'type' => 2,
             'sort' => 1,
             'created_at' => 1587461984,
-            'updated_at' => 1599030223,
+            'updated_at' => 1599362438,
             'deleted_at' => 0,
           ),
           1 => 
@@ -295,7 +295,7 @@ class PermissionsMenusSeed extends Seeder
             'type' => 2,
             'sort' => 1,
             'created_at' => 1587462007,
-            'updated_at' => 1599030223,
+            'updated_at' => 1599362438,
             'deleted_at' => 0,
           ),
           2 => 
@@ -316,7 +316,7 @@ class PermissionsMenusSeed extends Seeder
             'type' => 2,
             'sort' => 1,
             'created_at' => 1587462021,
-            'updated_at' => 1599030223,
+            'updated_at' => 1599362438,
             'deleted_at' => 0,
           ),
           3 => 
@@ -337,7 +337,7 @@ class PermissionsMenusSeed extends Seeder
             'type' => 2,
             'sort' => 1,
             'created_at' => 1587462040,
-            'updated_at' => 1599030223,
+            'updated_at' => 1599362438,
             'deleted_at' => 0,
           ),
           4 => 
@@ -358,7 +358,7 @@ class PermissionsMenusSeed extends Seeder
             'type' => 2,
             'sort' => 1,
             'created_at' => 1587462058,
-            'updated_at' => 1599030223,
+            'updated_at' => 1599362438,
             'deleted_at' => 0,
           ),
           5 => 
@@ -379,7 +379,7 @@ class PermissionsMenusSeed extends Seeder
             'type' => 2,
             'sort' => 1,
             'created_at' => 1587462070,
-            'updated_at' => 1599030223,
+            'updated_at' => 1599362438,
             'deleted_at' => 0,
           ),
           6 => 
@@ -400,7 +400,7 @@ class PermissionsMenusSeed extends Seeder
             'type' => 2,
             'sort' => 1,
             'created_at' => 1587462094,
-            'updated_at' => 1599030223,
+            'updated_at' => 1599362438,
             'deleted_at' => 0,
           ),
         ),
@@ -415,7 +415,7 @@ class PermissionsMenusSeed extends Seeder
         'icon' => 'el-icon-collection-tag',
         'module' => 'permissions',
         'creator_id' => 1,
-        'permission_mark' => 'permission@index',
+        'permission_mark' => 'permission',
         'component' => 'rules',
         'redirect' => '',
         'hidden' => 1,
@@ -423,7 +423,7 @@ class PermissionsMenusSeed extends Seeder
         'type' => 1,
         'sort' => 8,
         'created_at' => 1587462147,
-        'updated_at' => 1599116793,
+        'updated_at' => 1599362475,
         'deleted_at' => 0,
         'children' => 
         array (
@@ -445,7 +445,7 @@ class PermissionsMenusSeed extends Seeder
             'type' => 2,
             'sort' => 1,
             'created_at' => 1587462205,
-            'updated_at' => 1599030338,
+            'updated_at' => 1599362475,
             'deleted_at' => 0,
           ),
           1 => 
@@ -466,7 +466,7 @@ class PermissionsMenusSeed extends Seeder
             'type' => 2,
             'sort' => 1,
             'created_at' => 1587462232,
-            'updated_at' => 1599030338,
+            'updated_at' => 1599362475,
             'deleted_at' => 0,
           ),
           2 => 
@@ -487,7 +487,7 @@ class PermissionsMenusSeed extends Seeder
             'type' => 2,
             'sort' => 1,
             'created_at' => 1587462250,
-            'updated_at' => 1599030338,
+            'updated_at' => 1599362475,
             'deleted_at' => 0,
           ),
           3 => 
@@ -508,7 +508,7 @@ class PermissionsMenusSeed extends Seeder
             'type' => 2,
             'sort' => 1,
             'created_at' => 1587462273,
-            'updated_at' => 1599220816,
+            'updated_at' => 1599362475,
             'deleted_at' => 0,
           ),
           4 => 
@@ -529,7 +529,7 @@ class PermissionsMenusSeed extends Seeder
             'type' => 2,
             'sort' => 1,
             'created_at' => 1587462284,
-            'updated_at' => 1599030338,
+            'updated_at' => 1599362475,
             'deleted_at' => 0,
           ),
           5 => 
@@ -550,7 +550,7 @@ class PermissionsMenusSeed extends Seeder
             'type' => 2,
             'sort' => 1,
             'created_at' => 1587462296,
-            'updated_at' => 1599030338,
+            'updated_at' => 1599362475,
             'deleted_at' => 0,
           ),
           6 => 
@@ -571,7 +571,7 @@ class PermissionsMenusSeed extends Seeder
             'type' => 2,
             'sort' => 1,
             'created_at' => 1599221913,
-            'updated_at' => 1599222591,
+            'updated_at' => 1599362475,
             'deleted_at' => 0,
           ),
         ),
@@ -594,7 +594,7 @@ class PermissionsMenusSeed extends Seeder
         'type' => 1,
         'sort' => 7,
         'created_at' => 1587462488,
-        'updated_at' => 1599116793,
+        'updated_at' => 1599362429,
         'deleted_at' => 0,
         'children' => 
         array (
@@ -702,7 +702,7 @@ class PermissionsMenusSeed extends Seeder
         'type' => 1,
         'sort' => 1,
         'created_at' => 1587462707,
-        'updated_at' => 1599219794,
+        'updated_at' => 1599362429,
         'deleted_at' => 0,
         'children' => 
         array (
