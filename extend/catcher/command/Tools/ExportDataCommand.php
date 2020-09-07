@@ -30,7 +30,8 @@ class ExportDataCommand extends Command
 
     protected function execute(Input $input, Output $output)
     {
-        $table = Utils::tablePrefix() . $input->getArgument('table');
+        //$table = // Utils::tablePrefix() .
+        $table = $input->getArgument('table');
         $parent = $input->getOption('pid');
         $module = $input->getOption('module');
 
