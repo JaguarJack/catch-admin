@@ -35,10 +35,46 @@
 - [文档地址](https://github.com/catch-admin/document)[个人精力实在有限,希望可以小伙伴们可以一起维护文档]
 ## 预览
 <p align="center">
-    <img src="https://cdn.learnku.com/uploads/images/202005/17/18206/0ECPy72zUZ.png!large">
+    <img src="https://s1.ax1x.com/2020/09/07/wucNXq.md.png">
 </p>
 <p align="center">
-    <img src="https://cdn.learnku.com/uploads/images/202005/17/18206/ngzSU0A9SI.png!large">
+    <img src="https://s1.ax1x.com/2020/09/07/wucm6I.md.png">
+</p>
+<p align="center">
+    <img src="https://s1.ax1x.com/2020/09/07/wucZpd.md.png">
+</p>
+<p align="center">
+    <img src="https://s1.ax1x.com/2020/09/07/wuce1A.md.png">
+</p>
+<p align="center">
+    <img src="https://s1.ax1x.com/2020/09/07/wucnXt.md.png">
+</p>
+<p align="center">
+    <img src="https://s1.ax1x.com/2020/09/07/wucKnP.md.png">
+</p>
+<p align="center">
+    <img src="https://s1.ax1x.com/2020/09/07/wuc3tg.md.png">
+</p>
+<p align="center">
+    <img src="https://s1.ax1x.com/2020/09/07/wucM0f.md.png">
+</p>
+<p align="center">
+    <img src="https://s1.ax1x.com/2020/09/07/wucQ78.md.png">
+</p>
+<p align="center">
+    <img src="https://s1.ax1x.com/2020/09/07/wuc1AS.md.png">
+</p>
+<p align="center">
+    <img src="https://s1.ax1x.com/2020/09/07/wuc8hQ.md.png">
+</p>
+<p align="center">
+    <img src="https://s1.ax1x.com/2020/09/07/wucY1s.md.png">
+</p>
+<p align="center">
+    <img src="https://s1.ax1x.com/2020/09/07/wucJpj.md.png">
+</p>
+<p align="center">
+    <img src="https://s1.ax1x.com/2020/09/07/wuctcn.md.png">
 </p>
 
 ## 环境要求
