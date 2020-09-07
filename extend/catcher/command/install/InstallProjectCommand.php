@@ -13,6 +13,8 @@ class InstallProjectCommand extends Command
 
     protected $databaseLink = [];
 
+    protected $defaultModule = ['permissions', 'system'];
+
     protected function configure()
     {
         $this->setName('catch:install')
@@ -194,22 +196,32 @@ class InstallProjectCommand extends Command
       foreach (CatchAdmin::getModulesDirectory() as $directory) {
         $moduleInfo = CatchAdmin::getModuleInfo($directory);
         if (!empty($moduleInfo) && is_dir(CatchAdmin::moduleMigrationsDirectory($moduleInfo['alias']))) {
-          $output = Console::call('catch-migrate:run', [$moduleInfo['alias']]);
-          $this->output->info(sprintf('module [%s] migrations %s', $moduleInfo['alias'], $output->fetch()));
+          if (in_array($moduleInfo['alias'], $this->defaultModule)) {
+              $output = Console::call('catch-migrate:run', [$moduleInfo['alias']]);
+              $this->output->info(sprintf('module [%s] migrations %s', $moduleInfo['alias'], $output->fetch()));
 
-          $seedOut = Console::call('catch-seed:run', [$moduleInfo['alias']]);
-          $this->output->info(sprintf('module [%s] seeds %s', $moduleInfo['alias'], $seedOut->fetch()));
+              $seedOut = Console::call('catch-seed:run', [$moduleInfo['alias']]);
+              $this->output->info(sprintf('module [%s] seeds %s', $moduleInfo['alias'], $seedOut->fetch()));
+          }
         }
       }
     }
 
+    /**
+     * 回滚数据
+     *
+     * @time 2020年09月07日
+     * @return void
+     */
     protected function migrateRollback()
     {
       foreach (CatchAdmin::getModulesDirectory() as $directory) {
         $moduleInfo = CatchAdmin::getModuleInfo($directory);
         if (!empty($moduleInfo) && is_dir(CatchAdmin::moduleMigrationsDirectory($moduleInfo['alias']))) {
-              $rollbackOut = Console::call('catch-migrate:rollback', [$moduleInfo['alias'], '-f']);
-              // $this->output->info(sprintf('module [%s] [%s] rollback %s', $moduleInfo['alias'], basename($migration), $rollbackOut->fetch()));
+            if (in_array($moduleInfo['alias'], $this->defaultModule)) {
+                $rollbackOut = Console::call('catch-migrate:rollback', [$moduleInfo['alias'], '-f']);
+                // $this->output->info(sprintf('module [%s] [%s] rollback %s', $moduleInfo['alias'], basename($migration), $rollbackOut->fetch()));
+            }
         }
       }
     }
