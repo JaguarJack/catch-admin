@@ -4,7 +4,10 @@
 
 
 <p align="center"><code>CatchAdmin</code>是一款基于<a href="http://www.thinkphp.cn/" target="_blank">thinkphp framework</a>和
-<a href="https://pro.loacg.com/docs/getting-started">ant degisn pro vue</a>二次开发而成的后台管理系统，采用了目前趋势的前后端分离开发模式，后端仅需要提供简洁的 API 数据结构，前端负责呈现数据。目前前端采用数据驱动，大大提高了开发效率。这不仅仅是一个项目，更是后端更新技术栈的一次实践</p>
+<a href="https://github.com/PanJiaChen/vue-element-admin/">element admin</a>二次开发而成后台管理系统。因为 thinkphp 的简单高效，文档齐全。在看了很多 thinkphp 生态中的后台管理系统，发现没有一款合适的前后端分离系统。遂开发了 CatchAdmin。
+完全利用了 thinkphp6 的新版本特性 ServiceProvider，将管理系统模块之间的耦合降到了最低限度。每个模块之间都有独立的 `controller，路由，模型，数据表`。在开发上尽可能将模块之间的影响降到最低，降低了开发上的难度。基于 CatchAdmin 可以开发 cms，CRM，OA 等
+等系统。也封装了很多实用的工具，提升开发体验。
+</p>
 
 <p align="center">
 <a href="http://doc.catchadmin.com/">文档</a> |
@@ -28,54 +31,56 @@
     <img src="https://svg.hamm.cn/badge.svg?key=License&value=Apache-2.0"/>
 </p >
 
+## 功能
+- [x] 用户管理 后台用户管理
+- [x] 部门管理 配置公司的部门结构，支持树形结构
+- [x] 岗位管理 配置后台用户的职务
+- [x] 菜单管理 配置系统菜单，按钮等等
+- [x] 角色管理 配置用户担当的角色，分配权限
+- [x] 数据字典 管理后台表结构
+- [x] 操作日志 后台用户操作记录
+- [x] 登录日志 后台系统用户的登录记录
+- [x] 代码生成 生成 API 端的 CURD 操作
+- [x] 敏感词  支持敏感词配置
+- [x] 附件管理 可管理上传的文件
+- [ ] 微信管理
+
 ## 项目地址
 - [github 地址](https://github.com/yanwenwu/catch-admin)
 - [gitee 地址](https://gitee.com/jaguarjack/catchAdmin)
 - [前端 Vue 项目地址](https://github.com/yanwenwu/catch-admin-vue)
 - [文档地址](https://github.com/catch-admin/document)[个人精力实在有限,希望可以小伙伴们可以一起维护文档]
 ## 预览
-<p align="center">
-    <img src="https://s1.ax1x.com/2020/09/07/wucNXq.md.png">
-</p>
-<p align="center">
-    <img src="https://s1.ax1x.com/2020/09/07/wucm6I.md.png">
-</p>
-<p align="center">
-    <img src="https://s1.ax1x.com/2020/09/07/wucZpd.md.png">
-</p>
-<p align="center">
-    <img src="https://s1.ax1x.com/2020/09/07/wuce1A.md.png">
-</p>
-<p align="center">
-    <img src="https://s1.ax1x.com/2020/09/07/wucnXt.md.png">
-</p>
-<p align="center">
-    <img src="https://s1.ax1x.com/2020/09/07/wucKnP.md.png">
-</p>
-<p align="center">
-    <img src="https://s1.ax1x.com/2020/09/07/wuc3tg.md.png">
-</p>
-<p align="center">
-    <img src="https://s1.ax1x.com/2020/09/07/wucM0f.md.png">
-</p>
-<p align="center">
-    <img src="https://s1.ax1x.com/2020/09/07/wucQ78.md.png">
-</p>
-<p align="center">
-    <img src="https://s1.ax1x.com/2020/09/07/wuc1AS.md.png">
-</p>
-<p align="center">
-    <img src="https://s1.ax1x.com/2020/09/07/wuc8hQ.md.png">
-</p>
-<p align="center">
-    <img src="https://s1.ax1x.com/2020/09/07/wucY1s.md.png">
-</p>
-<p align="center">
-    <img src="https://s1.ax1x.com/2020/09/07/wucJpj.md.png">
-</p>
-<p align="center">
-    <img src="https://s1.ax1x.com/2020/09/07/wuctcn.md.png">
-</p>
+<table>
+    <tr>
+        <td><img src="https://s1.ax1x.com/2020/09/07/wucNXq.md.png"></td>
+        <td><img src="https://s1.ax1x.com/2020/09/07/wucm6I.md.png"></td>
+    </tr>
+    <tr>
+        <td><img src="https://s1.ax1x.com/2020/09/07/wucZpd.md.png"></td>
+        <td><img src="https://s1.ax1x.com/2020/09/07/wuce1A.md.png"></td>
+    </tr>
+    <tr>
+        <td><img src="https://s1.ax1x.com/2020/09/07/wucnXt.md.png"></td>
+        <td><img src="https://s1.ax1x.com/2020/09/07/wucKnP.md.png"></td>
+    </tr>
+    <tr>
+        <td><img src="https://s1.ax1x.com/2020/09/07/wuc3tg.md.png"></td>
+        <td><img src="https://s1.ax1x.com/2020/09/07/wucM0f.md.png"></td>
+    </tr>
+    <tr>
+        <td><img src="https://s1.ax1x.com/2020/09/07/wucQ78.md.png"></td>
+        <td><img src="https://s1.ax1x.com/2020/09/07/wuc1AS.md.png"></td>
+    </tr>
+     <tr>
+        <td><img src="https://s1.ax1x.com/2020/09/07/wuc8hQ.md.png"></td>
+        <td><img src="https://s1.ax1x.com/2020/09/07/wucY1s.md.png"></td>
+    </tr>
+    <tr>
+        <td><img src="https://s1.ax1x.com/2020/09/07/wucJpj.md.png"></td>
+        <td><img src="https://s1.ax1x.com/2020/09/07/wuctcn.md.png"></td>
+    </tr>
+</table>
 
 ## 环境要求
 - php7.1+ (需以下扩展)

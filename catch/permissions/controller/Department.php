@@ -5,6 +5,7 @@ use catcher\base\CatchController;
 use catchAdmin\permissions\model\Department as DepartmentModel;
 use catcher\base\CatchRequest;
 use catcher\CatchResponse;
+use catcher\exceptions\FailedException;
 use catcher\Tree;
 
 class Department extends CatchController
@@ -63,6 +64,10 @@ class Department extends CatchController
    */
     public function delete($id): \think\response\Json
     {
+        if ($this->department->where('parent_id', $id)->find()) {
+            throw new FailedException('存在子部门，无法删除');
+        }
+
         return CatchResponse::success($this->department->deleteBy($id));
     }
 }
