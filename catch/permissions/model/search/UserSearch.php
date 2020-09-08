@@ -1,6 +1,8 @@
 <?php
 namespace catchAdmin\permissions\model\search;
 
+use catchAdmin\permissions\model\Department;
+
 trait UserSearch
 {
     public function searchUsernameAttr($query, $value, $data)
@@ -20,6 +22,8 @@ trait UserSearch
 
     public function searchDepartmentIdAttr($query, $value, $data)
     {
-        return $query->where($this->aliasField('department_id'), $value);
+        $departmentIds = Department::where('parent_id', $value)->column('id');
+        $departmentIds[] = $value;
+        return $query->whereIn($this->aliasField('department_id'), $departmentIds);
     }
 }
