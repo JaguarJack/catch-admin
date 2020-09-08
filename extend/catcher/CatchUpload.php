@@ -51,14 +51,14 @@ class CatchUpload
     }
 
     /**
-   * upload files
-   *
-   * @param UploadedFile $file
-   * @return string
-   * @author JaguarJack
-   * @email njphper@gmail.com
-   * @time 2020/1/25
-   */
+     * upload files
+     *
+     * @param UploadedFile $file
+     * @return string
+     * @author JaguarJack
+     * @email njphper@gmail.com
+     * @time 2020/1/25
+     */
     public function upload(UploadedFile $file): string
     {
         $this->initUploadConfig();
@@ -186,12 +186,12 @@ class CatchUpload
         return $this;
     }
 
-  /**
-   *
-   * @time 2020年01月25日
-   * @param UploadedFile $file
-   * @return array
-   */
+    /**
+     *
+     * @time 2020年01月25日
+     * @param UploadedFile $file
+     * @return array
+     */
     protected function data(UploadedFile $file)
     {
         return [

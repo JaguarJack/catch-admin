@@ -20,8 +20,6 @@
 // +----------------------------------------------------------------------
 namespace catcher\middlewares;
 
-use catcher\exceptions\FailedException;
-use catcher\exceptions\PermissionForbiddenException;
 use think\Middleware;
 use think\Request;
 

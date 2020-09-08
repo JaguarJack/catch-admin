@@ -142,4 +142,16 @@ class Utils
     {
         return Config::where('key', $key)->value('value');
     }
+
+    /**
+     * public path
+     *
+     * @param string $path
+     * @time 2020年09月08日
+     * @return string
+     */
+    public static function publicPath($path = '')
+    {
+        return root_path($path ? 'public/'. $path : 'public');
+    }
 }

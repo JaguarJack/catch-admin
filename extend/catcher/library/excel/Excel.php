@@ -3,10 +3,12 @@ namespace catcher\library\excel;
 
 use catcher\CatchUpload;
 use catcher\exceptions\FailedException;
+use catcher\Utils;
 use PhpOffice\PhpSpreadsheet\Exception;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use think\file\UploadedFile;
+use think\helper\Str;
 
 class Excel
 {
@@ -21,35 +23,54 @@ class Excel
 
     protected $spreadsheet = null;
 
+    protected $extension = 'xlsx';
+
     /**
      * save
      *
      * @time 2020年05月25日
      * @param ExcelContract $excel
      * @param $path
-     * @param null $disk
-     * @return bool
+     * @param string $disk
+     * @return mixed
      * @throws Exception
      */
-    public function save(ExcelContract $excel, $path, $disk = null)
+    public function save(ExcelContract $excel, $path, $disk = 'local')
     {
         $this->excel = $excel;
 
         $this->init();
 
-        Factory::make(pathinfo($path, PATHINFO_EXTENSION))
-                ->setSpreadsheet($this->spreadsheet)
-                ->save($path);
+        !is_dir($path) && mkdir($path, 0777, true);
 
-         if (!file_exists($path)) {
-             throw new FailedException($path . ' generate failed');
+        $file = $path . date('YmdHis').Str::random(6) . '.' .$this->extension;
+        Factory::make($this->extension)
+                ->setSpreadsheet($this->spreadsheet)
+                ->save($file);
+
+         if (!file_exists($file)) {
+             throw new FailedException($file . ' generate failed');
          }
 
-        if ($disk) {
-           $path =  $this->upload($disk, $path);
-        }
+         if ($disk) {
+            $file = $this->upload($disk, $file);
+         }
 
-        return $path;
+         return ['url' => $file];
+    }
+
+    /**
+     * set extension
+     *
+     * @time 2020年09月08日
+     * @param $extension
+     * @return $this
+     */
+    public function setExtension($extension)
+    {
+        $this->extension = $extension;
+
+        return $this;
     }
 
     /**
@@ -219,11 +240,27 @@ class Excel
      */
     protected function upload($disk, $path)
     {
+        if ($disk == 'local') {
+            return $this->local($path);
+        }
         $upload = new CatchUpload;
 
         return ($disk ? $upload->setDriver($disk) : $upload)->upload($this->uploadedFile($path));
     }
 
+    /**
+     * 返回本地下载地址
+     *
+     * @param $path
+     * @time 2020年09月08日
+     * @return mixed
+     */
+    protected function local($path)
+    {
+        return \config('filesystem.disks.local')['domain'] . '/' .
+
+            str_replace('\\', '/', str_replace(Utils::publicPath(), '', $path));
+    }
 
     /**
      *  get uploaded file
