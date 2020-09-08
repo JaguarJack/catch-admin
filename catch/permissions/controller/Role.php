@@ -2,6 +2,7 @@
 namespace catchAdmin\permissions\controller;
 
 use catchAdmin\permissions\model\Permissions;
+use catchAdmin\permissions\model\Roles;
 use catcher\base\CatchRequest as Request;
 use catcher\base\CatchController;
 use catcher\CatchResponse;
@@ -38,14 +39,19 @@ class Role extends CatchController
      */
     public function save(Request $request)
     {
-        $this->role->storeBy($request->param());
+        $params = $request->param();
 
-        $permissions = $request->param('permissions');
+        if (Roles::where('identify', $params['identify'])->find()) {
+            throw new FailedException('角色标识 [' . $params['identify'] . ']已存在');
+        }
+
+        $this->role->storeBy($params);
+        $permissions = $params['permissions'];
         if (!empty($permissions)) {
             $this->role->attachPermissions(array_unique($permissions));
         }
-        if (!empty($request->param('departments'))) {
-            $this->role->attachDepartments($request->param('departments'));
+        if (!empty($params['permissions'])) {
+            $this->role->attachDepartments($params['permissions']);
         }
         // 添加角色
         return CatchResponse::success();
@@ -69,6 +75,10 @@ class Role extends CatchController
      */
     public function update($id, Request $request): Json
     {
+        if (Roles::where('identify', $request->param('identify'))->where('id', '<>', $id)->find()) {
+            throw new FailedException('角色标识 [' . $request->param('identify') . ']已存在');
+        }
+
         $this->role->updateBy($id, $request->param());
         $role = $this->role->findBy($id);
 
