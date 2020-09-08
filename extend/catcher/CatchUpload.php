@@ -92,7 +92,10 @@ class CatchUpload
     protected function getLocalPath($path)
     {
         if ($this->getDriver() === self::LOCAL) {
-            return str_replace(root_path('public'),  '', \config('filesystem.disks.local.root')) . DIRECTORY_SEPARATOR .$path;
+
+            $path = str_replace(root_path('public'),  '', \config('filesystem.disks.local.root')) . DIRECTORY_SEPARATOR .$path;
+
+            return str_replace('\\', '/', $path);
         }
 
         return $path;
