@@ -1,6 +1,7 @@
 <?php
 namespace catchAdmin\permissions\controller;
 
+use catchAdmin\permissions\excel\UserExport;
 use catcher\base\CatchRequest as Request;
 use catchAdmin\permissions\model\Permissions;
 use catchAdmin\permissions\model\Roles;
@@ -11,6 +12,7 @@ use catcher\base\CatchController;
 use catcher\CatchAuth;
 use catcher\CatchCacheKeys;
 use catcher\CatchResponse;
+use catcher\library\excel\Excel;
 use catcher\Tree;
 use catcher\Utils;
 use think\facade\Cache;
@@ -226,5 +228,19 @@ class User extends CatchController
             'roles' => $roles,
             'hasRoles' => $roleIds,
         ]);
+    }
+
+    /**
+     * 导出
+     *
+     * @time 2020年09月08日
+     * @param Excel $excel
+     * @param UserExport $userExport
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     * @return \think\response\Json
+     */
+    public function export(Excel $excel, UserExport $userExport)
+    {
+        return CatchResponse::success($excel->save($userExport, Utils::publicPath('export/users')));
     }
 }

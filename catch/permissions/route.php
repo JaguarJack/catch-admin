@@ -23,4 +23,5 @@ $router->group(function () use ($router){
     $router->put('users/recover/<id>', '\catchAdmin\permissions\controller\User@recover');
     $router->get('users/get/roles', '\catchAdmin\permissions\controller\User@getRoles');
     $router->get('user/info', '\catchAdmin\permissions\controller\User@info');
+    $router->get('user/export', '\catchAdmin\permissions\controller\User@export');
 })->middleware('auth');
