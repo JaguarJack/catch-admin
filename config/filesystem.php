@@ -10,7 +10,7 @@ return [
         'local'  => [
             'type' => 'local',
             'root' =>  app()->getRootPath() . 'public'.DIRECTORY_SEPARATOR.'images',
-            'domain' => env('API_URL'),
+            'domain' => env('app.api_url'),
         ],
         'public' => [
             // 磁盘类型
