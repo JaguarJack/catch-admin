@@ -113,6 +113,12 @@ class InstallProjectCommand extends Command
             return false;
         }
 
+        // 设置 app domain
+        $appDomain = strtolower($this->output->ask($this->input, '👉 first, you should set app domain: '));
+        if (strpos('http://', $appDomain) === false || strpos('https://', $appDomain) === false) {
+            $appDomain = 'http://' . $appDomain;
+        }
+
         $answer = strtolower($this->output->ask($this->input, '🤔️ Did You Need to Set Database information? (Y/N): '));
 
         if ($answer === 'y' || $answer === 'yes') {
@@ -144,7 +150,7 @@ class InstallProjectCommand extends Command
 
             $this->databaseLink = [$host, $database, $username, $password, $port, $charset, $prefix];
 
-            $this->generateEnvFile($host, $database, $username, $password, $port, $charset, $prefix);
+            $this->generateEnvFile($host, $database, $username, $password, $port, $charset, $prefix, $appDomain);
         }
     }
 
@@ -263,13 +269,15 @@ class InstallProjectCommand extends Command
      * @param $port
      * @param $charset
      * @param $prefix
+     * @param $appDomain
      * @return void
      */
-    protected function generateEnvFile($host, $database, $username, $password, $port, $charset, $prefix): void
+    protected function generateEnvFile($host, $database, $username, $password, $port, $charset, $prefix, $appDomain): void
     {
         try {
             $env = \parse_ini_file(root_path() . '.example.env', true);
 
+            $env['APP']['DOMAIN'] = $appDomain;
             $env['DATABASE']['HOSTNAME'] = $host;
             $env['DATABASE']['DATABASE'] = $database;
             $env['DATABASE']['USERNAME'] = $username;
