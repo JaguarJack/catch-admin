@@ -1,10 +1,12 @@
 <?php
 namespace catcher;
 
+use catchAdmin\permissions\model\Users;
 use catcher\exceptions\FailedException;
 use catcher\exceptions\LoginFailedException;
 use thans\jwt\facade\JWTAuth;
 use think\facade\Session;
+use think\helper\Str;
 
 class CatchAuth
 {
@@ -49,24 +51,72 @@ class CatchAuth
    */
     public function attempt($condition)
     {
-        $user = $this->authenticate($condition);
+        try {
+            $user = $this->authenticate($condition);
 
-        if (!$user) {
-            throw new LoginFailedException();
+            if (!$user) {
+                throw new LoginFailedException();
+            }
+            if ($user->status == Users::DISABLE) {
+                throw new LoginFailedException('该用户已被禁用|' . $user->username, Code::USER_FORBIDDEN);
+            }
+
+            if (!password_verify($condition['password'], $user->password)) {
+                throw new LoginFailedException('登录失败|' . $user->username);
+            }
+
+            $token = $this->{$this->getDriver()}($user);
+            $this->afterLoginSuccess($user);
+            // 登录事件
+            $this->loginEvent($user->username);
+            return $token;
+        } catch (\Exception $exception) {
+            $message = $exception->getMessage();
+            if (strpos($message, '|') !== false) {
+                $username = explode('|', $message)[1];
+            } else {
+                $username = $condition['email'];
+            }
+            $this->loginEvent($username, false);
+            throw new LoginFailedException('登录失败', $exception->getCode());
         }
-
-        if (!password_verify($condition['password'], $user->password)) {
-            throw new LoginFailedException();
-        }
-
-        return $this->{$this->getDriver()}($user);
     }
 
-  /**
-   *
-   * @time 2020年01月07日
-   * @return mixed
-   */
+    /**
+     * 用户登录成功后
+     *
+     * @time 2020年09月09日
+     * @param $user
+     * @return void
+     */
+    protected function afterLoginSuccess($user)
+    {
+        $user->last_login_ip = request()->ip();
+        $user->last_login_time = time();
+        $user->save();
+    }
+
+    /**
+     * 登录事件
+     *
+     * @time 2020年09月09日
+     * @param $name
+     * @param bool $success
+     * @return void
+     */
+    protected function loginEvent($name, $success = true)
+    {
+        $params['login_name'] = $name;
+        $params['success'] = $success ? 1 : 2;
+        event('loginLog', $params);
+    }
+
+    /**
+     * user
+     *
+     * @time 2020年09月09日
+     * @return mixed
+     */
     public function user()
     {
         $user = $this->user[$this->guard] ?? null;

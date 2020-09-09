@@ -11,15 +11,13 @@ class LoginLogEvent
     {
         $agent = request()->header('user-agent');
 
-        $username = Users::where('email', $params['email'])->value('username');
-
         app(LoginLog::class)->storeBy([
-            'login_name' => $username ? : $params['email'],
+            'login_name' => $params['login_name'],
             'login_ip'   => request()->ip(),
             'browser'    => $this->getBrowser($agent),
             'os'         => $this->getOs($agent),
             'login_at'   => time(),
-            'status'     => $params['success'] ? 1 : 2,
+            'status'     => $params['success'],
         ]);
     }
 

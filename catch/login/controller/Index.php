@@ -22,29 +22,15 @@ class Index extends CatchController
    */
     public function login(LoginRequest $request, CatchAuth $auth)
     {
-        $params = $request->param();
-
-        $token = $auth->attempt($params);
-
-        $user = $auth->user();
-
-        if ($user->status == Users::DISABLE) {
-          throw new LoginFailedException('该用户已被禁用', Code::USER_FORBIDDEN);
+        try {
+            $params = $request->param();
+            $token = $auth->attempt($params);
+            return CatchResponse::success([
+                'token' => $token,
+            ], '登录成功');
+        } catch (\Exception $exception) {
+           return CatchResponse::fail('登录失败', $exception->getCode());
         }
-
-        // 记录用户登录
-        $user->last_login_ip = request()->ip();
-        $user->last_login_time = time();
-        $user->save();
-
-        // 登录事件
-        $params['success'] = $token;
-
-        event('loginLog', $params);
-
-        return $token ? CatchResponse::success([
-            'token' => $token,
-        ], '登录成功') : CatchResponse::success('', '登录失败');
     }
 
   /**
