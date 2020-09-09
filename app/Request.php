@@ -45,7 +45,7 @@ class Request extends \think\Request
         if ($e instanceof TokenInvalidException) {
             throw new FailedException('token 不合法', Code::LOST_LOGIN);
         }
-        throw new FailedException('认证失败: '. $e->getMessage(), $e->getMessage());
+        throw new FailedException('认证失败: '. $e->getMessage(), $e->getCode());
     }
 
     return $user;
