@@ -37,6 +37,7 @@ class InstallLocalModule
         } else {
             $this->installModuleTables();
             $this->installModuleSeeds();
+            $this->enableModule();
             return true;
         }
     }

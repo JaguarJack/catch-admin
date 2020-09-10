@@ -14,5 +14,5 @@
     "aliases": "wechat",
     "files": [],
     "requires": [],
-    "enable": true
+    "enable": false
 }
