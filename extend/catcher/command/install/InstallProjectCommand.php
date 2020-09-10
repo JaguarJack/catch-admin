@@ -2,6 +2,7 @@
 namespace catcher\command\install;
 
 use catcher\CatchAdmin;
+use catcher\library\InstallLocalModule;
 use think\console\Command;
 use think\console\Input;
 use think\console\input\Option;
@@ -199,17 +200,12 @@ class InstallProjectCommand extends Command
    */
     protected function migrateAndSeeds(): void
     {
-      foreach (CatchAdmin::getModulesDirectory() as $directory) {
-        $moduleInfo = CatchAdmin::getModuleInfo($directory);
-        if (!empty($moduleInfo) && is_dir(CatchAdmin::moduleMigrationsDirectory($moduleInfo['alias']))) {
-          if (in_array($moduleInfo['alias'], $this->defaultModule)) {
-              $output = Console::call('catch-migrate:run', [$moduleInfo['alias']]);
-              $this->output->info(sprintf('module [%s] migrations %s', $moduleInfo['alias'], $output->fetch()));
 
-              $seedOut = Console::call('catch-seed:run', [$moduleInfo['alias']]);
-              $this->output->info(sprintf('module [%s] seeds %s', $moduleInfo['alias'], $seedOut->fetch()));
-          }
-        }
+      foreach ($this->defaultModule as $m) {
+          $module = new InstallLocalModule($m);
+          $module->installModuleTables();
+          $module->installModuleSeeds();
+          $this->output->info('🎉 module [' . $m . '] installed successfully');
       }
     }
 
@@ -221,15 +217,11 @@ class InstallProjectCommand extends Command
      */
     protected function migrateRollback()
     {
-      foreach (CatchAdmin::getModulesDirectory() as $directory) {
-        $moduleInfo = CatchAdmin::getModuleInfo($directory);
-        if (!empty($moduleInfo) && is_dir(CatchAdmin::moduleMigrationsDirectory($moduleInfo['alias']))) {
-            if (in_array($moduleInfo['alias'], $this->defaultModule)) {
-                $rollbackOut = Console::call('catch-migrate:rollback', [$moduleInfo['alias'], '-f']);
-                // $this->output->info(sprintf('module [%s] [%s] rollback %s', $moduleInfo['alias'], basename($migration), $rollbackOut->fetch()));
-            }
+        foreach ($this->defaultModule as $m) {
+            $module = new InstallLocalModule($m);
+            $module->rollbackModuleTable();
+            $this->output->info('🎉' . $m . ' tables rollback successfully');
         }
-      }
     }
 
     /**

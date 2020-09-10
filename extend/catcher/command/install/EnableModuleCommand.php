@@ -12,6 +12,7 @@ namespace catcher\command\install;
 
 use catchAdmin\permissions\model\Permissions;
 use catcher\CatchAdmin;
+use catcher\library\InstallLocalModule;
 use think\console\Command;
 use think\console\Input;
 use think\console\input\Argument;
@@ -33,8 +34,7 @@ class EnableModuleCommand extends Command
         if (empty(CatchAdmin::getModuleInfo(CatchAdmin::directory() .$module))) {
             $output->error("module [$module] not exist");
         } else {
-            CatchAdmin::enableModule($module);
-            app(Permissions::class)->restore(['module' => trim($module)]);
+            (new InstallLocalModule($module))->enableModule();
             $output->info("module [$module] enabled");
         }
     }
