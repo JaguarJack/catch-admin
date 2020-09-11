@@ -20,24 +20,60 @@ class Route extends Factory
         $route = [];
 
         if ($this->restful) {
-            $route[] = sprintf("\$router->resource('%s', '\%s')->middleware('auth')", $this->controllerName, $this->controller);
+            $route[] = sprintf("\$router->resource('%s', '\%s');", $this->controllerName, $this->controller);
         }
 
         if (!empty($this->methods)) {
             foreach ($this->methods as $method) {
-                $route[] = sprintf("\$router->%s('%s/%s', '\%s@%s')->middleware('auth')", $method[1], $this->controllerName, $method[0], $this->controller, $method[0] );
+                $route[] = sprintf("\$router->%s('%s/%s', '\%s@%s');", $method[1], $this->controllerName, $method[0], $this->controller, $method[0] );
             }
         }
 
         $router = $this->getModulePath($this->controller) . DIRECTORY_SEPARATOR . 'route.php';
 
-        $comment = PHP_EOL . '//' . $this->controllerName . '路由' . PHP_EOL;
+        $comment = '// ' . $this->controllerName . '路由';
 
+        array_unshift($route, $comment);
         if (file_exists($router)) {
-            return file_put_contents($router, PHP_EOL . $comment . implode(';'. PHP_EOL , $route) . ';', FILE_APPEND);
+            return file_put_contents($router, $this->parseRoute($router, $route));
         }
 
         return file_put_contents($router, $this->header() . $comment. implode(';'. PHP_EOL , $route) . ';');
+    }
+
+    protected function parseRoute($path, $route)
+    {
+        $file = new \SplFileObject($path);
+        // 保留所有行
+        $lines = [];
+        // 结尾之后的数据
+        $down = [];
+        // 结尾数据
+        $end = '';
+        while (!$file->eof()) {
+            $lines[] = rtrim($file->current(), PHP_EOL);
+            $file->next();
+        }
+
+        while (count($lines)) {
+            $line = array_pop($lines);
+            if (strpos($line, '})') !== false) {
+                $end = $line;
+                break;
+            }
+            array_unshift($down, $line);
+        }
+
+        $router = implode(PHP_EOL, $lines) . PHP_EOL;
+
+        $routes = array_merge($down, $route);
+
+        foreach ($routes as $r) {
+            if ($r) {
+                $router .= "\t" . $r . PHP_EOL;
+            }
+        }
+        return $router .= $end;
     }
 
     /**
