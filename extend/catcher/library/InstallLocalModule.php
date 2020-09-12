@@ -110,9 +110,9 @@ class InstallLocalModule
      * @throws \think\db\exception\ModelNotFoundException
      * @return bool
      */
-    protected function findModuleInPermissions()
+    public function findModuleInPermissions()
     {
-        return Permissions::where('module', $this->module)->find() ? true : false;
+        return Permissions::withTrashed()->where('module', $this->module)->find() ? true : false;
     }
 
     /**

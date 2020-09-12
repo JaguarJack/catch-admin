@@ -11,6 +11,8 @@
 namespace catchAdmin\system;
 
 use catchAdmin\system\events\AttachmentEvent;
+use catcher\command\MigrateRunCommand;
+use catcher\command\SeedRunCommand;
 use catcher\ModuleService;
 
 class SystemService extends ModuleService
@@ -27,5 +29,13 @@ class SystemService extends ModuleService
         return [
             'attachment' => [ AttachmentEvent::class ],
         ];
+    }
+
+    protected function registerCommands()
+    {
+        $this->commands([
+            MigrateRunCommand::class,
+            SeedRunCommand::class,
+        ]);
     }
 }

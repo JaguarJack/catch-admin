@@ -31,9 +31,15 @@ $router->group(function () use ($router) {
 
     // 敏感词
     $router->resource('sensitive/word', '\catchAdmin\system\controller\SensitiveWord');
+
+    //developer路由
+    $router->resource('developer', '\catchAdmin\system\controller\Developer')->middleware('auth');
+    // 开发者认证
+    $router->post('developer/authenticate', '\catchAdmin\system\controller\Developer@authenticate');
+
+    // 模块管理
+    $router->get('modules', '\catchAdmin\system\controller\Module@index');
+    $router->put('modules/<module>', '\catchAdmin\system\controller\Module@disOrEnable');
 })->middleware('auth');
 
-//developer路由
-$router->resource('developer', '\catchAdmin\system\controller\Developer')->middleware('auth');
-// 开发者认证
-$router->post('developer/authenticate', '\catchAdmin\system\controller\Developer@authenticate');
+
