@@ -6,24 +6,26 @@ use catcher\CatchResponse;
 use catcher\CatchAdmin;
 use catcher\library\InstallCatchModule;
 use catcher\library\InstallLocalModule;
+use think\response\Json;
 
 class Module extends CatchController
 {
     /**
      *  模块列表
      *
-     * @return void
+     * @return Json
      */
     public function index()
     {
-        # code...
         $modules = [];
 
         foreach(CatchAdmin::getModulesDirectory() as $d) {
             $modules[] = json_decode(file_get_contents($d . 'module.json'), true);
         }
 
-        array_multisort(array_column($modules, 'order'), SORT_DESC, $modules);
+        $orders = array_column($modules, 'order');
+
+        array_multisort($orders, SORT_DESC, $modules);
 
         return CatchResponse::success($modules);
     }
@@ -33,11 +35,13 @@ class Module extends CatchController
      * 禁用/启用模块
      *
      * @param string $module
-     * @return void
+     * @return Json
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\db\exception\DataNotFoundException
      */
-    public function disOrEnable($module)
+    public function disOrEnable(string $module)
     {
-        # code...
         $moduleInfo = CatchAdmin::getModuleInfo(CatchAdmin::directory() . $module);
 
         $install = new InstallLocalModule($module);
