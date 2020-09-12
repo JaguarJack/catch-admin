@@ -7,7 +7,6 @@ use catcher\CatchResponse;
 use catcher\exceptions\FailedException;
 use catcher\library\BackUpDatabase;
 use think\Collection;
-use think\facade\Console;
 use think\facade\Db;
 use think\Paginator;
 
@@ -24,7 +23,7 @@ class DataDictionary extends CatchController
         $tables = Db::query('show table status');
 
         // 重组数据
-        foreach ($tables as $key => &$table) {
+        foreach ($tables as &$table) {
             $table = array_change_key_case($table);
             $table['index_length'] = $table['index_length'] > 1024 ? intval($table['index_length']/1024) .'MB' : $table['index_length'].'KB';
             $table['data_length'] = $table['data_length'] > 1024 ? intval($table['data_length']/1024) .'MB' : $table['data_length'].'KB';
@@ -41,8 +40,7 @@ class DataDictionary extends CatchController
         if ($engine = $request->get('engine', null)) {
             $tables =  $tables->where('engine', $engine)->values();
         }
-
-        $page = $request->get('page', 1);
+        $page = $request->get('page', 1) ? : 1;
         $limit = $request->get('limit', 10);
 
         return CatchResponse::paginate(Paginator::make(array_slice($tables->toArray(), ($page - 1) * $limit, $limit), $limit, $page, $tables->count(), false, []));
