@@ -34,9 +34,7 @@ $router->group('wechat', function () use ($router){
     });
     // 微信回复管理
     $router->group('official/reply', function () use ($router){
-        $router->get('', '\catchAdmin\wechat\controller\Reply@index');
-        $router->post('', '\catchAdmin\wechat\controller\Reply@save');
-        $router->delete('<id>', '\catchAdmin\wechat\controller\Reply@delete');
+        $router->resource('', '\catchAdmin\wechat\controller\Reply');
         $router->put('enable/<id>', '\catchAdmin\wechat\controller\Reply@disOrEnable');
     });
     // 微信上传

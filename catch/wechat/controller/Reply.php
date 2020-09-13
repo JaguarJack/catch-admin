@@ -37,6 +37,18 @@ class Reply extends CatchController
     }
 
     /**
+     * 读取
+     *
+     * @time 2020年09月13日
+     * @param $id
+     * @return \think\response\Json
+     */
+    public function read($id)
+    {
+       return CatchResponse::success($this->reply->findBy($id));
+    }
+
+    /**
      * 保存
      *
      * @time 2020年06月29日
@@ -48,6 +60,18 @@ class Reply extends CatchController
         return CatchResponse::success($this->reply->storeBy($request->param()));
     }
 
+    /**
+     * 更新
+     *
+     * @time 2020年09月13日
+     * @param $id
+     * @param CatchRequest $request
+     * @return \think\response\Json
+     */
+    public function update($id, CatchRequest $request)
+    {
+        return CatchResponse::success($this->reply->updateBy($id, $request->param()));
+    }
     /**
      * 删除
      *
