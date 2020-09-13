@@ -29,7 +29,9 @@ class Index extends CatchController
                 'token' => $token,
             ], '登录成功');
         } catch (\Exception $exception) {
-           return CatchResponse::fail('登录失败', $exception->getCode());
+           $code = $exception->getCode();
+           return CatchResponse::fail($code == Code::USER_FORBIDDEN ?
+               '该账户已被禁用，请联系管理员' : '登录失败,请检查邮箱和密码', Code::LOGIN_FAILED);
         }
     }
 

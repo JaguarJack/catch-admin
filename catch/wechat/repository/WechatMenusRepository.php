@@ -45,6 +45,9 @@ class WechatMenusRepository extends CatchRepository
      * @time 2020年06月26日
      * @param array $data
      * @return mixed
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\db\exception\DataNotFoundException
      */
     public function storeBy(array $data)
     {
@@ -54,6 +57,8 @@ class WechatMenusRepository extends CatchRepository
 
         $data['parent_id'] = $parentId;
         $data['key'] = $data['type'] . '_' . rand(10000, 999999);
+
+        $data['created_at'] = $data['updated_at'] = time();
 
         if (parent::storeBy($data)) {
             return $this->syncToWechat();
@@ -75,6 +80,8 @@ class WechatMenusRepository extends CatchRepository
      */
     public function updateBy(int $id, array $data)
     {
+        $data['updated_at'] = time();
+
         if (parent::updateBy($id, $data)) {
             return $this->syncToWechat();
         }
