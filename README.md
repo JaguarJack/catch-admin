@@ -31,6 +31,9 @@
     <img src="https://svg.hamm.cn/badge.svg?key=License&value=Apache-2.0"/>
 </p >
 
+## AntDV 版本
+- 请使用 `v1`分支
+
 ## 功能
 - [x] `用户管理` 后台用户管理
 - [x] `部门管理` 配置公司的部门结构，支持树形结构
@@ -153,7 +156,6 @@ composer create-project jaguarjack/catchadmin:dev-master
 - [top-think/think](https://github.com/top-think/think)
 - [element-admin](https://panjiachen.gitee.io/vue-element-admin-site/zh/)
 - [thans/tp-jwt-auth](https://packagist.org/packages/thans/tp-jwt-auth)
-- [workerman/workerman](https://github.com/walkor/Workerman)
 - [jaguarjack/think-filesystem-cloud](https://github.com/yanwenwu/think-filesystem-cloud)
 - [overtrue/wechat](https://github.com/overtrue/wechat)
 - [jaguarjack/migration-generator](https://github.com/yanwenwu/migration-generator)
