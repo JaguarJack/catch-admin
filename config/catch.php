@@ -78,31 +78,23 @@ return [
     ],
 
     /**
-     * 任务调度配置
+     *
+     * 定时任务配置
+     *
      */
-    'schedule' => [
+    'crontab' => [
         /**
-         * 常驻 worker 数量
+         * 存储目录
          */
-        'static_worker_number' => 4,
+        'store_path' => runtime_path('catch/crontab'),
 
         /**
-         * 动态可扩展 worker 最大数量
+         * 主进程 pid 存储
          */
-        'max_worker_number' => 10,
+        'master_pid_file' => runtime_path('catch/crontab') . 'master.pid',
 
         /**
-         * 存储位置
-         */
-        'store_path' => runtime_path('catch/schedule'),
-
-        /**
-         * 主进程 ID
-         */
-        'master_pid_file' => runtime_path('catch/schedule') . 'master.pid',
-
-        /**
-         * 日志记录
+         * 日志配置
          */
         'log' => [
             // 日志记录方式
@@ -127,6 +119,9 @@ return [
             'realtime_write' => false,
         ],
 
-        'schedule_kernel' => \catcher\library\ScheduleKernel::class,
+        /**
+         * crontab 任务命名空间
+         */
+        'task_namespace' => '',
     ],
 ];
