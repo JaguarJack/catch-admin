@@ -159,7 +159,11 @@ class CatchQuery extends Query
               $condition .= '%';
         }
 
-        return parent::whereLike($this->getAlias() . '.' . $field, $condition, $logic);
+        if (strpos($field, '.') === false) {
+            $field = $this->getAlias() . '.' . $field;
+        }
+
+        return parent::whereLike($field, $condition, $logic);
     }
 
   /**
