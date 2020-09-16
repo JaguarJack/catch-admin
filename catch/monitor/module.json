@@ -1,0 +1,15 @@
+{
+    "name": "系统监控",
+    "alias": "monitor",
+    "description": "系统监控模块",
+    "version": "1.0.0",
+    "keywords": [],
+    "order": 0,
+    "services": [
+        "\\catchAdmin\\monitor\\MonitorService"
+    ],
+    "aliases": [],
+    "files": [],
+    "requires": [],
+    "enable": false
+}
