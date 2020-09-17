@@ -16,8 +16,8 @@ class CacheTrieCommand extends Command
     protected function configure()
     {
         // 指令配置
-        $this->setName('cache:trie')
-            ->setDescription('cache trie');
+        $this->setName('cache:sensitiveWord')
+            ->setDescription('cache sensitive word');
     }
 
     protected function execute(Input $input, Output $output)
