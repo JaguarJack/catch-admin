@@ -19,15 +19,19 @@
     "require": {
         "php": ">=7.1.0",
         "topthink/framework": "6.0.2",
-        "topthink/think-orm": "v2.0.31",
+        "topthink/think-orm": "2.0.33",
         "topthink/think-migration": "^3.0",
         "thans/tp-jwt-auth": "1.1",
         "jaguarjack/think-filesystem-cloud": "dev-master",
         "overtrue/wechat": "^4.2",
-        "jaguarjack/migration-generator": "dev-master",
         "phpoffice/phpspreadsheet": "^1.12",
         "dragonmantank/cron-expression": "^3.0",
-        "symfony/finder": "^4.4"
+        "symfony/finder": "^4.4",
+        "ext-posix": "*",
+        "ext-pcntl": "*",
+        "ext-json": "*",
+        "overtrue/easy-sms": "^1.1",
+        "jaguarjack/migration-generator": "dev-master"
     },
     "require-dev": {
         "topthink/think-trace":"^1.0",
