@@ -14,11 +14,21 @@ trait BaseOptionsTrait
      */
     public function getList()
     {
+        // 不分页
+        if (property_exists($this, 'paginate') && $this->paginate === false) {
+            return $this->catchSearch()
+                ->field('*')
+                ->catchOrder()
+                ->creator()
+                ->select();
+        }
+
+        // 分页列表
         return $this->catchSearch()
-                    ->field('*')
-                    ->catchOrder()
-                    ->creator()
-                    ->paginate();
+            ->field('*')
+            ->catchOrder()
+            ->creator()
+            ->paginate();
     }
 
     /**
@@ -93,7 +103,7 @@ trait BaseOptionsTrait
      */
     public function deleteBy($id, $force = false)
     {
-        return static::destroy(Utils::stringToArrayBy($id), $force);
+        return static::destroy(is_array($id) ? $id : Utils::stringToArrayBy($id), $force);
     }
 
     /**
