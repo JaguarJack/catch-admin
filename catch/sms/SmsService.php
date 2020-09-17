@@ -2,18 +2,22 @@
 // +----------------------------------------------------------------------
 // | CatchAdmin [Just Like ～ ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2017~2020 http://catchadmin.com All rights reserved.
+// | Copyright (c) 2017~{$year} http://catchadmin.com All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( https://github.com/yanwenwu/catch-admin/blob/master/LICENSE.txt )
 // +----------------------------------------------------------------------
 // | Author: JaguarJack [ njphper@gmail.com ]
 // +----------------------------------------------------------------------
-namespace catchAdmin\sms\model\search;
 
-trait SmsTemplateSearch
+namespace catchAdmin\sms;
+
+use catcher\ModuleService;
+
+class SmsService extends ModuleService
 {
-    public function searchOperatorAttr($query, $value, $data)
+    public function loadRouteFrom()
     {
-        return $query->where('operator', $value);
+        // TODO: Implement loadRouteFrom() method.
+        return __DIR__ . DIRECTORY_SEPARATOR . 'route.php';
     }
 }
