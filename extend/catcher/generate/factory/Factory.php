@@ -91,7 +91,7 @@ abstract class Factory
      */
     public function hasTableExists($table)
     {
-        $tables = Db::getConnection()->getTables();
+        $tables = Db::connect()->getTables();
 
         return in_array($table, $tables) ? $table : false;
     }

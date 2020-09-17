@@ -52,15 +52,17 @@ class Generator
                 array_push($message, 'migration created successfully');
             }
 
-            // 只有最后成功才写入 route
-            (new Route())->controller($controller['controller'])
-                ->restful($controller['restful'])
-                // ->methods((new Controller())->parseOtherMethods($controller['other_function']))
-                ->done();
+            // 只有创建了 Controller 最后成功才写入 route
+            if ($params['create_controller']) {
+                (new Route())->controller($controller['controller'])
+                    ->restful($controller['restful'])
+                    // ->methods((new Controller())->parseOtherMethods($controller['other_function']))
+                    ->done();
+            }
 
         } catch (\Exception $exception) {
             $this->rollback($files, $migration, $table);
-            throw new FailedException($exception->getMessage());
+            throw new FailedException($exception->getFile() . $exception->getLine() . $exception->getMessage());
         }
 
 
