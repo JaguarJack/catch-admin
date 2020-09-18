@@ -47,35 +47,8 @@ class CatchRequest extends Request
               $validate->batch($this->batch);
             }
 
-            /**
-             * // 场景设置验证
-             * if (property_exists($this, 'scene') && !empty($this->scene)) {
-             * foreach ($this->scene as $scene => $rules) {
-             * $validate->scene($scene);
-             * // 只限制字段
-             * if (!isset($rules['only'])) {
-             * $validate->only($rules);
-             * } else {
-             * $validate->only($rules['only']);
-             * // 新增规则
-             * if (isset($rules['append'])) {
-             * foreach ($rules['append'] as $field => $rule) {
-             * $validate->append($field, $rule);
-             * }
-             * }
-             * // 移除规则
-             * if (isset($rules['remove'])) {
-             * foreach ($rules['remove'] as $field => $rule) {
-             * $validate->remove($field, $rule);
-             * }
-             * }
-             * }
-             *
-             * }
-             * }**/
-
             // 验证
-            if (!$validate->check(request()->param(), $this->rules())) {
+            if (!$validate->message($this->message())->check(request()->param(), $this->rules())) {
               throw new FailedException($validate->getError());
             }
           } catch (\Exception $e) {
