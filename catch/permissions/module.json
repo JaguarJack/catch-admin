@@ -4,7 +4,7 @@
   "description": "权限管理模块",
   "version": "1.0.0",
   "keywords": [],
-  "order": 2,
+  "order": 100,
   "services": [
     "\\catchAdmin\\permissions\\PermissionService"
   ],

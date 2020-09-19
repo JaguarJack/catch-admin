@@ -4,7 +4,7 @@
   "description": "login 模块",
   "version": "1.0.0",
   "keywords": [],
-  "order": 1,
+  "order": 100,
   "services": [
     "\\catchAdmin\\login\\LoginService"
   ],
