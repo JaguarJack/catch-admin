@@ -89,11 +89,13 @@ trait RegisterSignal
                 $crontabs = Crontab::where('status', Crontab::ENABLE)
                             ->where('tactics', '<>', Crontab::EXECUTE_FORBIDDEN)
                             ->select()->toArray();
+
                 // 任务
                 foreach ($crontabs as $crontab) {
-                    $can = CronExpression::factory(trim($crontab['cron']))
+                    $can = date('Y-m-d H:i', CronExpression::factory(trim($crontab['cron']))
                                 ->getNextRunDate(date('Y-m-d H:i:s'), 0 , true)
-                                ->getTimestamp() == time();
+                                ->getTimestamp()) == date('Y-m-d H:i', time());
+
                     if ($can) {
                         // 如果任务只执行一次 之后禁用该任务
                         if ($crontab['tactics'] === Crontab::EXECUTE_ONCE) {
