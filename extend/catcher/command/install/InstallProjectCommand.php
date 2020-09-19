@@ -339,8 +339,8 @@ class InstallProjectCommand extends Command
 |                                                              |   
  \ __ __ __ __ _ __ _ __ enjoy it ! _ __ __ __ __ __ __ ___ _ @ 2017 ～ %s
  版本: %s
- 初始账号: admin@gmail.com
- 初始密码: admin                                               
+ 初始账号: catch@admin.com
+ 初始密码: catchadmin                                             
 ', $year, CatchAdmin::VERSION));
         exit(0);
     }

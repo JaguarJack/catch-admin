@@ -7,7 +7,7 @@ class CatchAdmin
 {
     public static $root = 'catch';
 
-    public const VERSION = '1.0.0';
+    public const VERSION = '2.1.0';
 
 
     /**
