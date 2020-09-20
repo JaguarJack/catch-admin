@@ -16,7 +16,7 @@ class UpdateRequest extends CatchRequest
         ];
     }
 
-    protected function message(): array
+    protected function message()
     {
         // TODO: Implement message() method.
     }
