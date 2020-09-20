@@ -50,9 +50,9 @@ abstract class CatchCronTask
             return true;
         } catch (\Throwable $e) {
             $this->dealWithException($e);
-            echo 'File:' . $e->getFile() . ', Lines: '. $e->getLine() .'行，Exception Message: ' . $e->getMessage() . PHP_EOL;
+            echo sprintf('[%s]: ', date('Y-m-d H:i:s')) . 'File:' . $e->getFile() . ', Lines: '. $e->getLine() .'行，Exception Message: ' . $e->getMessage() . PHP_EOL;
             // 输出堆栈信息
-            echo $e->getTraceAsString() . PHP_EOL;
+            echo sprintf('[%s]: ', date('Y-m-d H:i:s')) . $e->getTraceAsString() . PHP_EOL;
             // 日志记录
             $this->recordLog($startAt, 'File:' . $e->getFile() . ', Lines: '. $e->getLine() .'行，Exception Message: ' . $e->getMessage());
             $this->exceptionHappenTimes += 1;

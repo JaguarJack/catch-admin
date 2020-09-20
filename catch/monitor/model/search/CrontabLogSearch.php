@@ -24,7 +24,7 @@ trait CrontabLogSearch
 
     public function searchStatusAttr($query, $value, $data)
     {
-        return $query->where('status', $value);
+        return $query->where('crontab_log.status', $value);
     }
 
     public function searchStartAtAttr($query, $value, $data)

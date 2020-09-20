@@ -154,7 +154,7 @@ class Master
             }
         } catch (\Throwable $exception) {
             // todo
-            echo $exception->getMessage();
+            echo sprintf('[%s]: ', date('Y-m-d H:i:s')) . $exception->getMessage();
         }
     }
 
