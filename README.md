@@ -110,8 +110,7 @@ curl -sS https://install.phpcomposer.com/installer | php
 
 composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/
 
-composer install
-
+composer install --ignore-platform-reqs
 ```
 - composer 安装
 ```shell
@@ -127,8 +126,8 @@ composer create-project jaguarjack/catchadmin:dev-master
 ## 体验地址
 
 [体验地址](http://vue.catchadmin.com)
-- 账号: admin@gmail.com
-- 密码: admin
+- 账号: catch@admin.com
+- 密码: catchadmin
 
 [catchadmin 文档地址](http://doc.catchadmin.com)
 
