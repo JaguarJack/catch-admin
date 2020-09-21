@@ -21,6 +21,7 @@ $router->group(function () use ($router){
     // 切换状态
     $router->put('users/switch/status/<id>', '\catchAdmin\permissions\controller\User@switchStatus');
     $router->put('users/recover/<id>', '\catchAdmin\permissions\controller\User@recover');
+    $router->put('users/profile', '\catchAdmin\permissions\controller\User@profile');
     $router->get('users/get/roles', '\catchAdmin\permissions\controller\User@getRoles');
     $router->get('user/info', '\catchAdmin\permissions\controller\User@info');
     $router->get('user/export', '\catchAdmin\permissions\controller\User@export');

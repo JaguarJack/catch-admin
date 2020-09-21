@@ -243,4 +243,16 @@ class User extends CatchController
     {
         return CatchResponse::success($excel->save($userExport, Utils::publicPath('export/users')));
     }
+
+    /**
+     * 更新个人信息
+     *
+     * @time 2020年09月20日
+     * @param Request $request
+     * @return \think\response\Json
+     */
+    public function profile(Request $request)
+    {
+       return CatchResponse::success($this->user->updateBy($request->user()->id, $request->param()));
+    }
 }

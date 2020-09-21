@@ -19,6 +19,7 @@ class Users extends CatchModel
 			'username', // 用户名
 			'password', // 用户密码
 			'email', // 邮箱 登录
+            'avatar', // 头像
             'creator_id', // 创建者ID
             'department_id', // 部门ID
 			'status', // 用户状态 1 正常 2 禁用
