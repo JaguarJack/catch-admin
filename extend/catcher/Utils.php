@@ -75,8 +75,18 @@ class Utils
                 unset($value['children']);
             }
 
-            $id = Db::name($table)->insertGetId($value);
+            // 首先查询是否存在
+            $menu = Db::name($table)
+                        ->where('permission_name', $value['permission_name'])
+                        ->where('module', $value['module'])
+                        ->where('permission_mark', $value['permission_mark'])
+                        ->find();
 
+            if (!empty($menu)) {
+                $id = $menu['id'];
+            } else {
+                $id = Db::name($table)->insertGetId($value);
+            }
             if ($children) {
                 foreach ($children as &$v) {
                     $v[$pid] = $id;
