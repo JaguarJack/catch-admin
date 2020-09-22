@@ -40,6 +40,9 @@ $router->group(function () use ($router) {
     // 模块管理
     $router->get('modules', '\catchAdmin\system\controller\Module@index');
     $router->put('modules/<module>', '\catchAdmin\system\controller\Module@disOrEnable');
+    $router->put('cache/modules', '\catchAdmin\system\controller\Module@cache');
+    $router->delete('clear/modules', '\catchAdmin\system\controller\Module@clear');
+
 })->middleware('auth');
 
 

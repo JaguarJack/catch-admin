@@ -127,7 +127,9 @@ class CatchAdminService extends Service
      */
     protected function registerServices()
     {
-        $services = CatchAdmin::getEnabledService();
+        $services = file_exists(CatchAdmin::getCacheServicesFile()) ?
+            include CatchAdmin::getCacheServicesFile() :
+            CatchAdmin::getEnabledService();
 
         foreach ($services as $service) {
             if (class_exists($service)) {

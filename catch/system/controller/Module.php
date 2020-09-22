@@ -53,4 +53,28 @@ class Module extends CatchController
 
         return CatchResponse::success();
     }
+
+    /**
+     * 缓存
+     *
+     * @time 2020年09月21日
+     * @return Json
+     */
+    public function cache()
+    {
+        return CatchResponse::success(CatchAdmin::cacheServices());
+    }
+
+    /**
+     * 清理缓存
+     *
+     * @time 2020年09月21日
+     * @return Json
+     */
+    public function clear()
+    {
+        return !file_exists(CatchAdmin::getCacheServicesFile()) ?
+            CatchResponse::fail('模块没有缓存') :
+            CatchResponse::success(unlink(CatchAdmin::getCacheServicesFile()));
+    }
 }

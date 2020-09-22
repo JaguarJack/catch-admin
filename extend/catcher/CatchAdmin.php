@@ -377,7 +377,7 @@ class CatchAdmin
     public static function cacheServices()
     {
         return file_put_contents(self::getCacheServicesFile(), "<?php\r\n return "
-            . var_export(self::getModuleServices(), true) . ';');
+            . var_export(self::getEnabledService(), true) . ';');
     }
 
     /**
@@ -425,7 +425,7 @@ class CatchAdmin
      * @time 2019年11月30日
      * @return mixed
      */
-    protected static function getCacheServicesFile()
+    public static function getCacheServicesFile()
     {
         return self::cacheDirectory() . 'services.php';
     }
