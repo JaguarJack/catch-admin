@@ -23,10 +23,8 @@ class Index extends CatchController
     public function login(LoginRequest $request, CatchAuth $auth)
     {
         try {
-            $params = $request->param();
-            $token = $auth->attempt($params);
             return CatchResponse::success([
-                'token' => $token,
+                'token' => $auth->attempt($request->param()),
             ], '登录成功');
         } catch (\Exception $exception) {
            $code = $exception->getCode();
