@@ -227,7 +227,11 @@ class CatchAdmin
 
         $info['enable'] = true;
 
-        file_put_contents($moduleJson, \json_encode($info, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE));
+        if (!is_writeable($moduleJson)) {
+            chmod($moduleJson, 666);
+        }
+
+        file_put_contents($moduleJson, \json_encode($info, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
 
         return true;
     }
@@ -250,6 +254,10 @@ class CatchAdmin
         $info = \json_decode(file_get_contents($moduleJson), true);
 
         $info['enable'] = false;
+
+        if (!is_writeable($moduleJson)) {
+            chmod($moduleJson, 666);
+        }
 
         file_put_contents($moduleJson, \json_encode($info, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE));
 
