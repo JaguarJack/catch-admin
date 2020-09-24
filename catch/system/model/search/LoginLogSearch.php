@@ -4,18 +4,13 @@ namespace catchAdmin\system\model\search;
 
 trait LoginLogSearch
 {
-    public function searchLoginNameAttr($query, $value, $data)
+    public function searchStartAtAttr($query, $value, $data)
     {
-        return $query->whereLike('login_name', $value);
+        return $query->whereTime('login_at', '>=', strtotime($value));
     }
 
-    public function searchLoginIpAttr($query, $value, $data)
+    public function searchEndAtAttr($query, $value, $data)
     {
-        return $query->whereLike('login_ip', $value);
-    }
-
-    public function searchLoginAtAttr($query, $value, $data)
-    {
-        return $query->whereTime('login_at', 'between', $value);
+        return $query->whereTime('login_at', '<=', strtotime($value));
     }
 }
