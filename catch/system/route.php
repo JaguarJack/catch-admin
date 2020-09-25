@@ -2,7 +2,7 @@
 $router->group(function () use ($router) {
     // 登录日志
     $router->get('log/login', '\catchAdmin\system\controller\LoginLog@list');
-    $router->delete('loginLog/empty', '\catchAdmin\system\controller\LoginLog@empty');
+    $router->delete('log/login/<id>', '\catchAdmin\system\controller\LoginLog@empty');
     // 操作日志
     $router->get('log/operate', '\catchAdmin\system\controller\OperateLog@list');
     // $router->delete('empty/log/operate', '\catchAdmin\system\controller\OperateLog@empty');
