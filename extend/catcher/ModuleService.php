@@ -28,7 +28,9 @@ abstract class ModuleService extends Service
 
         $this->registerEvents();
 
-        $this->registerCommands();;
+        $this->registerCommands();
+
+        $this->registerConfig();
     }
 
     /**
@@ -41,6 +43,19 @@ abstract class ModuleService extends Service
     {
         if (method_exists($this, 'loadEvents')) {
             $this->app->event->listenEvents($this->loadEvents());
+        }
+    }
+
+    /**
+     * register config
+     *
+     * @time 2020年09月25日
+     * @return void
+     */
+    protected function registerConfig()
+    {
+        if (method_exists($this, 'loadConfig')) {
+            $this->app->config->set(array_merge($this->app->config->get('catch'), $this->loadConfig()), 'catch');
         }
     }
 
