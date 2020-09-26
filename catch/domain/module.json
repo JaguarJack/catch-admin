@@ -1,0 +1,15 @@
+{
+    "name": "域名管理",
+    "alias": "domain",
+    "description": "域名，阿里云，腾讯云",
+    "version": "1.0.0",
+    "keywords": [],
+    "order": 0,
+    "services": [
+        "\\catchAdmin\\domain\\DomainService"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": [],
+    "enable": true
+}
