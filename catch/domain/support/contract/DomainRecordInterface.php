@@ -16,9 +16,12 @@ interface DomainRecordInterface
 
     public function store(array $params);
 
-    public function delete(array $params);
+    public function delete($recordId);
 
     public function read(array $params);
 
-    public function update(array $params);
+    public function update($recordId, array $params);
+
+    public function enable($recordId, $status);
+
 }

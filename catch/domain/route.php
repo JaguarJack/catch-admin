@@ -10,9 +10,14 @@
 // +----------------------------------------------------------------------
 
 // you should use `$router`
+use catchAdmin\domain\controller\DomainRecord;
+
 $router->group(function () use ($router){
     // 域名管理
-    $router->resource('domain',  '\catchAdmin\domain\controller\Domain');
+    $router->get('domain',  '\catchAdmin\domain\controller\Domain@index');
+    $router->get('domain/<name>',  '\catchAdmin\domain\controller\Domain@read');
     // 域名解析管理
+    $router->resource('record/domain', DomainRecord::class);
+    $router->put('record/domain/<id>/<status>', '\catchAdmin\domain\controller\DomainRecord@enable');
 })->middleware('auth');
 

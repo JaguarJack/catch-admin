@@ -19,7 +19,14 @@ trait ApiTrait
     {
         $name = config('catch.domains.default');
 
-        return Http::query(CommonParams::{$name}($params))
-            ->get(config('catch.domains.' . $name . '.api_domain'))->json();
+        $apiDomain = config('catch.domains.' . $name . '.api_domain');
+
+        if (strpos($apiDomain, 'https') === false &&
+        strpos($apiDomain, 'http') === false) {
+            $apiDomain = 'https://' . $apiDomain . '/v2/index.php';
+        }
+
+        return Http::ignoreSsl()->query(CommonParams::{$name}($params))
+            ->get($apiDomain)->json();
     }
 }

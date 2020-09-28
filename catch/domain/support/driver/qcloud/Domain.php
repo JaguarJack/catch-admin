@@ -8,7 +8,7 @@
 // +----------------------------------------------------------------------
 // | Author: JaguarJack [ njphper@gmail.com ]
 // +----------------------------------------------------------------------
-namespace catchAdmin\domain\support\driver\aliyun;
+namespace catchAdmin\domain\support\driver\qcloud;
 
 use catchAdmin\domain\support\contract\DomainActionInterface;
 use catchAdmin\domain\support\driver\ApiTrait;
@@ -20,14 +20,15 @@ class Domain implements DomainActionInterface
 
     public function getList(array $params)
     {
+        $offset = ($params['page'] ?? 1) - 1;
+        $length = $params['limit'] ?? 10;
+
         // TODO: Implement getList() method.
-       return Transformer::aliyunDomainPaginate($this->get([
-            'Action' => 'DescribeDomains',
-            'StarMark' => true,
-            'SearchModel' => 'LIKE',
-            'PageNumber' => $params['page'] ?? 1,
-            'PageSize' => $params['limit'] ?? 20,
-        ]));
+       return Transformer::qcloudDomainPaginate($this->get([
+            'Action' => 'DomainList',
+            'offset' => $offset,
+            'length' => $length
+        ]), $offset, $length);
     }
 
     public function store(array $params)

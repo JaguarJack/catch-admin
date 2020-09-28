@@ -12,7 +12,9 @@
 namespace catchAdmin\domain;
 
 use catchAdmin\domain\support\contract\DomainActionInterface;
+use catchAdmin\domain\support\contract\DomainRecordInterface;
 use catchAdmin\domain\support\driver\aliyun\Domain;
+use catchAdmin\domain\support\driver\aliyun\DomainRecord;
 use catcher\ModuleService;
 
 class DomainService extends ModuleService
@@ -29,22 +31,23 @@ class DomainService extends ModuleService
         return require __DIR__ . DIRECTORY_SEPARATOR . 'config.php';
     }
 
+    /**
+     * @return string
+     */
     public function loadRouteFrom()
     {
         // TODO: Implement loadRouteFrom() method.
         return __DIR__ . DIRECTORY_SEPARATOR . 'route.php';
     }
 
+    /**
+     *
+     */
     protected function registerInstance()
     {
         $default = config('catch.domains.default');
-
-        switch ($default) {
-            case 'aliyun':
-                $this->app->instance(DomainActionInterface::class, new Domain);
-                break;
-            default:
-                break;
-        }
+       
+        $this->app->instance(DomainActionInterface::class, $this->app->make(__NAMESPACE__ . '\\support\\driver\\' . $default . '\Domain'));
+        $this->app->instance(DomainRecordInterface::class, $this->app->make(__NAMESPACE__ . '\\support\\driver\\' . $default . '\DomainRecord'));
     }
 }

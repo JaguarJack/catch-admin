@@ -8,7 +8,7 @@
 // +----------------------------------------------------------------------
 // | Author: JaguarJack [ njphper@gmail.com ]
 // +----------------------------------------------------------------------
-namespace catchAdmin\domain\support\driver\aliyun;
+namespace catchAdmin\domain\support\driver\qcloud;
 
 use catchAdmin\domain\support\contract\DomainRecordInterface;
 use catchAdmin\domain\support\driver\ApiTrait;
@@ -27,34 +27,22 @@ class DomainRecord implements DomainRecordInterface
     public function getList(array $params)
     {
         $data = [
-            'Action' => 'DescribeDomainRecords',
-            'DomainName' => $params['name'],
-            'PageNumber' => $params['page'] ?? 1,
-            'PageSize' => $params['limit'] ?? 20,
+            'Action' => 'RecordList',
+            'domain' => $params['name'],
+            'offset' => ($params['page'] ?? 1) - 1,
+            'length' => $params['limit'] ?? 10,
         ];
 
         if ($params['rr']) {
-            $data['RRKeyWord'] = $params['rr'];
+            $data['subDomain'] = $params['rr'];
         }
 
         if ($params['type']) {
-            $data['TypeKeyWord'] = $params['type'];
-        }
-
-        if ($params['value']) {
-            $data['ValueKeyWord'] = $params['value'];
-        }
-
-        if ($params['line']) {
-            $data['Line'] = $params['line'];
-        }
-
-        if ($params['status']) {
-            $data['Status'] = $params['status'];
+            $data['recordType'] = $params['type'];
         }
 
         // TODO: Implement getList() method.
-        return Transformer::aliyunDomainRecordPaginate($this->get($data));
+        return Transformer::qcloudDomainRecordPaginate($this->get($data), $data['offset'], $data['length']);
     }
 
     /**
@@ -68,13 +56,13 @@ class DomainRecord implements DomainRecordInterface
     {
         // TODO: Implement add() method.
         return $this->get([
-            'Action' => 'AddDomainRecord',
-            'DomainName' => $params['name'],
-            'RR' => $params['rr'],
-            'Type' => $params['type'],
-            'Value' => $params['value'],
-            'Line' => $params['line'],
-            'TTL' => $params['ttl'],
+            'Action' => 'RecordCreate',
+            'domain' => $params['name'],
+            'subDomain' => $params['rr'],
+            'recordType' => $params['type'],
+            'value' => $params['value'],
+            'recordLine' => $params['line'],
+            'ttl' => $params['ttl'],
         ]);
     }
 
@@ -88,23 +76,8 @@ class DomainRecord implements DomainRecordInterface
     {
         // TODO: Implement delete() method.
         return $this->get([
-            'Action' => 'DeleteDomainRecord',
-            'RecordId' => $recordId
-        ]);
-    }
-
-    /**
-     * 获取解析记录
-     *
-     * @param array $params
-     * @return array
-     */
-    public function read(array $params)
-    {
-        // TODO: Implement info() method.
-        return $this->get([
-            'Action' => 'DescribeDomainRecord',
-            'RecordId' => $params['record_id'],
+            'Action' => 'RecordDelete',
+            'recordId' => $recordId
         ]);
     }
 
@@ -119,13 +92,13 @@ class DomainRecord implements DomainRecordInterface
     {
         // TODO: Implement update() method.
         return $this->get([
-            'Action' => 'UpdateDomainRecord',
-            'RecordId' => $recordId,
-            'RR' => $params['rr'],
-            'Type' => $params['type'],
-            'Value' => $params['value'],
-            'Line' => $params['line'],
-            'TTL' => $params['ttl'],
+            'Action' => 'RecordModify',
+            'recordId' => $recordId,
+            'subDomain' => $params['rr'],
+            'recordType' => $params['type'],
+            'value' => $params['value'],
+            'recordLine' => $params['line'],
+            'ttl' => $params['ttl'],
         ]);
     }
 
@@ -139,9 +112,14 @@ class DomainRecord implements DomainRecordInterface
     public function enable($recordId, $status)
     {
         return $this->get([
-            'Action' => 'SetDomainRecordStatus',
-            'RecordId' => $recordId,
-            'Status' => ucfirst(strtolower($status))
+            'Action' => 'RecordStatus',
+            'recordId' => $recordId,
+            'Status' => strtolower($status)
         ]);
+    }
+
+    public function read(array $params)
+    {
+        // TODO: Implement read() method.
     }
 }

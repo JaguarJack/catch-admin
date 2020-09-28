@@ -8,6 +8,9 @@
 // +----------------------------------------------------------------------
 // | Author: JaguarJack [ njphper@gmail.com ]
 // +----------------------------------------------------------------------
+
+use think\facade\Env;
+
 return [
     'domains' => [
         // 默认阿里云
@@ -20,9 +23,9 @@ return [
         'aliyun' => [
             'api_domain' => 'http://alidns.aliyuncs.com',
 
-            'access_key' => 'LTAI4G2JF2iiJEfnQYm4vhvr',
+            'access_key' => Env::get('aliyun.access_key', ''),
 
-            'access_secret' => 'YDe2sff7uDN1nRPdfvVAFCW6lLaOrC',
+            'access_secret' =>  Env::get('aliyun.access_secret', ''),
         ],
 
         /**
@@ -30,8 +33,11 @@ return [
          *
          */
         'qcloud' => [
-            'access_key' => '',
-            'access_secret' => '',
+            'api_domain' => 'cns.api.qcloud.com',
+
+            'access_key' => Env::get('qcloud.access_key', ''),
+
+            'access_secret' => Env::get('qcloud.access_secret', ''),
         ]
     ]
 ];

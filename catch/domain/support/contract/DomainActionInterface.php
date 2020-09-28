@@ -18,5 +18,5 @@ interface DomainActionInterface
 
     public function delete(array $params);
 
-    public function read(array $params);
+    public function read($name);
 }
