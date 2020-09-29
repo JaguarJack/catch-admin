@@ -2,6 +2,8 @@
 
 namespace catchAdmin\system\model\search;
 
+use catchAdmin\permissions\model\Users;
+
 trait OperateLogSearch
 {
     public function searchModuleAttr($query, $value, $data)
@@ -16,7 +18,7 @@ trait OperateLogSearch
 
     public function searchCreatorAttr($query, $value, $data)
     {
-        return $query->where('username', $value);
+        return $query->whereLike(app(Users::class)->getTable() . '.username', $value);
     }
 
     public function searchCreateAtAttr($query, $value, $data)
