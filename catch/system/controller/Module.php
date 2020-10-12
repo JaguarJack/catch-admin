@@ -7,6 +7,7 @@ use catcher\CatchResponse;
 use catcher\CatchAdmin;
 use catcher\library\InstallCatchModule;
 use catcher\library\InstallLocalModule;
+use catcher\Utils;
 use think\response\Json;
 
 class Module extends CatchController
@@ -30,9 +31,11 @@ class Module extends CatchController
 
         array_multisort($orders, SORT_DESC, $modules);
 
-        foreach ($modules as $k => $module) {
-            if (!in_array($module['alias'], $hasModules)) {
-                unset($modules[$k]);
+        if (!Utils::isSuperAdmin()) {
+            foreach ($modules as $k => $module) {
+                if (!in_array($module['alias'], $hasModules)) {
+                    unset($modules[$k]);
+                }
             }
         }
 
