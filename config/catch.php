@@ -22,6 +22,14 @@ return [
         *
         */
         'super_admin_id' => 1,
+
+        /**
+         * 方法认证标记
+         *
+         * 尽量使用唯以字符
+         *
+         */
+        'method_auth_mark' => '@CatchAuth'
     ],
     /**
     *  auth 认证

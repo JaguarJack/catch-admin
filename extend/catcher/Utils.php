@@ -119,6 +119,25 @@ class Utils
         return [$module, $controllerName, $action];
     }
 
+
+    /**
+     * get controller & action
+     *
+     * @time 2020年10月12日
+     * @param $rule
+     * @return false|string[]
+     * @throws \ReflectionException
+     */
+    public static function isMethodNeedAuth($rule)
+    {
+        list($controller, $action) = explode(Str::contains($rule, '@') ? '@' : '/', $rule);
+
+        $docComment = (new \ReflectionClass($controller))->getMethod($action)->getDocComment();
+
+        return strpos($docComment, config('catch.permissions.method_auth_mark')) !== false;
+    }
+
+
     /**
      * 表前缀
      *

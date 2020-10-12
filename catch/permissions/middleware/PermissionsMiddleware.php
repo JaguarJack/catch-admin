@@ -32,6 +32,7 @@ class PermissionsMiddleware
 
         // 模块忽略
         [$module, $controller, $action] = Utils::parseRule($rule);
+
         // toad
         if (in_array($module, $this->ignoreModule())) {
             return $next($request);
@@ -42,11 +43,11 @@ class PermissionsMiddleware
             throw new PermissionForbiddenException('Login is invalid', Code::LOST_LOGIN);
         }
         // 超级管理员
-        if ($request->user()->id === config('catch.permissions.super_admin_id')) {
+        if (Utils::isSuperAdmin()) {
             return $next($request);
         }
         // Get 请求
-        if ($request->isGet() && config('catch.permissions.is_allow_get')) {
+        if ($this->allowGet($request)) {
             return $next($request);
         }
         // 判断权限
@@ -105,5 +106,22 @@ class PermissionsMiddleware
             'creator_id' => $creatorId,
             'permission' => $permission,
         ]);
+    }
+
+    /**
+     * get allow
+     *
+     * @time 2020年10月12日
+     * @param $request
+     * @return bool
+     * @throws \ReflectionException
+     */
+    protected function allowGet($request)
+    {
+        if (Utils::isMethodNeedAuth($request->rule()->getName())) {
+            return false;
+        }
+
+        return $request->isGet() && config('catch.permissions.is_allow_get');
     }
 }
