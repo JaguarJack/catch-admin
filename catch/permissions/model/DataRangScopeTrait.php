@@ -13,7 +13,7 @@ trait DataRangScopeTrait
      * @author JaguarJack <njphper@gmail.com>
      * @date 2020/6/6
      */
-    protected function dataRange($roles)
+    public function dataRange($roles = [])
     {
         if (Utils::isSuperAdmin()) {
             return $this;
@@ -43,6 +43,10 @@ trait DataRangScopeTrait
         $isAll = false;
 
         $user = request()->user();
+
+        if (empty($roles)) {
+            $roles = $user->getRoles();
+        }
 
         foreach ($roles as $role) {
             switch ($role->data_range) {
