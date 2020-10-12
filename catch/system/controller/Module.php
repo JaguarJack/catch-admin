@@ -1,6 +1,7 @@
 <?php
 namespace catchAdmin\system\controller;
 
+use catchAdmin\permissions\model\Permissions;
 use catcher\base\CatchController;
 use catcher\CatchResponse;
 use catcher\CatchAdmin;
@@ -23,13 +24,20 @@ class Module extends CatchController
             $modules[] = json_decode(file_get_contents($d . 'module.json'), true);
         }
 
+        $hasModules = array_unique(Permissions::whereIn('id', request()->user()->getPermissionsBy())->column('module'));
+
         $orders = array_column($modules, 'order');
 
         array_multisort($orders, SORT_DESC, $modules);
 
-        return CatchResponse::success($modules);
-    }
+        foreach ($modules as $k => $module) {
+            if (!in_array($module['alias'], $hasModules)) {
+                unset($modules[$k]);
+            }
+        }
 
+        return CatchResponse::success(array_values($modules));
+    }
 
     /**
      * 禁用/启用模块
