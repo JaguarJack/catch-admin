@@ -42,7 +42,7 @@ class Attachments extends CatchController
                 if ($attachment->driver == 'local') {
                     $localPath = config('filesystem.disks.local.root') . DIRECTORY_SEPARATOR;
                     $path = $localPath . str_replace('\\','\/', $attachment->path);
-                    if (!FileSystem::exists($path)) {
+                    if (FileSystem::exists($path)) {
                         Filesystem::delete($path);
                     }
                 } else {
