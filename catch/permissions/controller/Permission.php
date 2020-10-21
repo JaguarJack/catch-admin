@@ -47,9 +47,9 @@ class Permission extends CatchController
         // 子节点的 key
         $children = $request->param('actionList') ?? 'children';
         // 返回树结构
-        return CatchResponse::success(Tree::done($menuList->each(function (&$item) use ($buttonList, $children){
+        return CatchResponse::success($menuList->each(function (&$item) use ($buttonList, $children){
             $item[$children] = $buttonList[$item['id']] ?? [];
-        })->toArray()));
+        })->toTree());
     }
 
   /**

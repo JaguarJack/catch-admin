@@ -3,6 +3,7 @@ namespace catchAdmin\permissions\model;
 
 use catchAdmin\permissions\model\search\DepartmentSearch;
 use catcher\base\CatchModel;
+use think\db\exception\DbException;
 
 class Department extends CatchModel
 {
@@ -29,14 +30,13 @@ class Department extends CatchModel
    * 列表数据
    *
    * @time 2020年01月09日
-   * @param $params
    * @return array
-   * @throws \think\db\exception\DbException
+   * @throws DbException
    */
     public function getList(): array
     {
         return $this->catchSearch()
                     ->catchOrder()
-                    ->select()->toArray();
+                    ->select()->toTree();
     }
 }

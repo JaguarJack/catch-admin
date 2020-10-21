@@ -37,7 +37,7 @@ class Roles extends CatchModel
         return $this->catchSearch()
                     ->order('id', 'desc')
                     ->select()
-                    ->toArray();
+                    ->toTree();
     }
 
     /**

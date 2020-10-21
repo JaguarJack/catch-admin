@@ -27,7 +27,7 @@ class Department extends CatchController
    */
     public function index(): \think\response\Json
     {
-        return CatchResponse::success(Tree::done($this->department->getList()));
+        return CatchResponse::success($this->department->getList());
     }
 
   /**

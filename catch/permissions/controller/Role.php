@@ -27,7 +27,7 @@ class Role extends CatchController
    */
     public function index()
     {
-      return CatchResponse::success(Tree::done($this->role->getList()));
+      return CatchResponse::success($this->role->getList());
     }
 
     /**
