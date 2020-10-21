@@ -4,6 +4,7 @@ namespace catcher;
 use catcher\library\excel\CatchExcel;
 use catcher\library\excel\Excel;
 use catcher\library\excel\ExcelContract;
+use think\facade\Cache;
 use think\model\Collection;
 
 class CatchModelCollection extends Collection
@@ -66,5 +67,20 @@ class CatchModelCollection extends Collection
         }
 
         return (new Excel)->save($excel, $path, $disk);
+    }
+
+    /**
+     * 缓存 collection
+     *
+     * @time 2020年10月21日
+     * @param $key
+     * @param int $ttl
+     * @param string $store
+     * @return bool
+     * @throws \Psr\SimpleCache\InvalidArgumentException
+     */
+    public function cache($key, int $ttl = 0, string $store = 'redis')
+    {
+        return Cache::store($store)->set($key, $this->items, $ttl);
     }
 }
