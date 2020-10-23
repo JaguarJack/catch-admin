@@ -72,6 +72,7 @@ class SQL extends Factory
             $createSql .= $this->index;
         }
         $createSql = rtrim($createSql, ',' . PHP_EOL);
+
         // 创建表 SQL
         return $this->createTable($params['table'], $createSql, $extra['engine'], 'utf8mb4', $extra['comment']);
     }
@@ -104,7 +105,9 @@ class SQL extends Factory
         if (!$sql['nullable']) {
             $_sql[] = 'not null';
             if ($default == '' || $default === '') {
-                $_sql[] = ' default \'\'';
+                if (!$this->doNotNeedDefaultValueType($sql['type'])) {
+                    $_sql[] = ' default \'\'';
+                }
             } else {
                 if (strpos('int', $sql['type']) === false) {
                     $_sql[] = ' default ' . (int)$default ;
@@ -116,7 +119,6 @@ class SQL extends Factory
 
         // 字段注释
         $_sql[] = $sql['comment'] ? sprintf('comment \'%s\'', $sql['comment']) : '';
-
 
         return implode(' ', $_sql) . ','. PHP_EOL;
     }
@@ -142,7 +144,7 @@ class SQL extends Factory
     protected function parseCreatedAt()
     {
         return sprintf('`created_at` int unsigned not null default 0 comment \'%s\',', '创建时间') . PHP_EOL .
-             sprintf('`updated_at` int unsigned not null default 0 comment \'%s\',', '更新时间') . PHP_EOL;
+            sprintf('`updated_at` int unsigned not null default 0 comment \'%s\',', '更新时间') . PHP_EOL;
     }
 
     /**
@@ -181,8 +183,8 @@ class SQL extends Factory
     protected function createTable($table, $sql, $engine='InnoDB', $charset = 'utf8mb4', $comment = '')
     {
         return sprintf('create table `%s`(' . PHP_EOL.
-                        '%s)'.PHP_EOL .
-                        'engine=%s default charset=%s comment=\'%s\'', $table, $sql, $engine, $charset, $comment);
+            '%s)'.PHP_EOL .
+            'engine=%s default charset=%s comment=\'%s\'', $table, $sql, $engine, $charset, $comment);
     }
 
     /**
@@ -204,5 +206,22 @@ class SQL extends Factory
         } elseif ($index == 'spatial') {
             $this->index .= "spatial index spatial_$field($field),". PHP_EOL;
         }
+    }
+
+
+    /**
+     * 不需要默认值
+     *
+     * @param string $type
+     * @time 2020年10月23日
+     * @return  bool
+     */
+    protected function doNotNeedDefaultValueType(string $type)
+    {
+        return in_array($type, [
+            'blob', 'text', 'geometry', 'json',
+            'tinytext', 'mediumtext', 'longtext',
+            'tinyblob', 'mediumblob', 'longblob'
+        ]);
     }
 }
