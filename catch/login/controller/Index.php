@@ -12,33 +12,95 @@ use thans\jwt\facade\JWTAuth;
 
 class Index extends CatchController
 {
-  /**
-   * 登陆
-   *
-   * @time 2019年11月28日
-   * @param LoginRequest $request
-   * @param CatchAuth $auth
-   * @return bool|string
-   */
+    /**
+     * 登陆
+     *
+     * @time 2019年11月28日
+     * @param LoginRequest $request
+     * @param CatchAuth $auth
+     * @return bool|string
+     */
     public function login(LoginRequest $request, CatchAuth $auth)
     {
+        $condition = $request->param();
+
         try {
+            $token = $auth->attempt($condition);
+
+            $user = $auth->user();
+
+            $this->afterLoginSuccess($user);
+            // 登录事件
+            $this->loginEvent($user->username);
+
             return CatchResponse::success([
-                'token' => $auth->attempt($request->param()),
+                'token' => $token,
             ], '登录成功');
         } catch (\Exception $exception) {
-           $code = $exception->getCode();
-           return CatchResponse::fail($code == Code::USER_FORBIDDEN ?
-               '该账户已被禁用，请联系管理员' : '登录失败,请检查邮箱和密码', Code::LOGIN_FAILED);
+            $this->detailWithLoginFailed($exception, $condition);
+            $code = $exception->getCode();
+            return CatchResponse::fail($code == Code::USER_FORBIDDEN ?
+                '该账户已被禁用，请联系管理员' : '登录失败,请检查邮箱和密码', Code::LOGIN_FAILED);
         }
     }
 
-  /**
-   * 登出
-   *
-   * @time 2019年11月28日
-   * @return \think\response\Json
-   */
+    /**
+     * 处理登录失败
+     *
+     * @time 2020年10月26日
+     * @param $exception
+     * @param $condition
+     * @return void
+     */
+    protected function detailWithLoginFailed($exception, $condition)
+    {
+        $message = $exception->getMessage();
+
+        if (strpos($message, '|') !== false) {
+            $username = explode('|', $message)[1];
+        } else {
+            $username = $condition['email'];
+        }
+
+        $this->loginEvent($username, false);
+    }
+
+    /**
+     * 用户登录成功后
+     *
+     * @time 2020年09月09日
+     * @param $user
+     * @return void
+     */
+    protected function afterLoginSuccess($user)
+    {
+        $user->last_login_ip = request()->ip();
+        $user->last_login_time = time();
+        $user->save();
+    }
+
+    /**
+     * 登录事件
+     *
+     * @time 2020年09月09日
+     * @param $name
+     * @param bool $success
+     * @return void
+     */
+    protected function loginEvent($name, $success = true)
+    {
+        $params['login_name'] = $name;
+        $params['success'] = $success ? 1 : 2;
+        event('loginLog', $params);
+    }
+
+
+    /**
+     * 登出
+     *
+     * @time 2019年11月28日
+     * @return \think\response\Json
+     */
     public function logout(): \think\response\Json
     {
         return CatchResponse::success();
