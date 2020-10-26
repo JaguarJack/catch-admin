@@ -49,7 +49,10 @@ class CatchRequest extends Request
             }
 
             // 验证
-            $message = $this->message();
+            $message = [];
+            if (method_exists($this, 'message')) {
+                $message = $this->message();
+            }
             if (!$validate->message(empty($message) ? [] : $message)->check(request()->param(), $this->rules())) {
               throw new FailedException($validate->getError());
             }
