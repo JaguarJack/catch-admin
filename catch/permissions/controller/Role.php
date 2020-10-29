@@ -9,12 +9,13 @@ use catcher\CatchResponse;
 use catcher\exceptions\FailedException;
 use catcher\Tree;
 use think\response\Json;
+use catchAdmin\permissions\model\Roles as RoleModel;
 
 class Role extends CatchController
 {
     protected $role;
 
-    public function __construct(\catchAdmin\permissions\model\Roles $role)
+    public function __construct(RoleModel $role)
     {
         $this->role = $role;
     }
@@ -22,7 +23,6 @@ class Role extends CatchController
   /**
    *
    * @time 2019年12月09日
-   * @param Request $request
    * @return string
    */
     public function index()
@@ -50,9 +50,7 @@ class Role extends CatchController
         if (!empty($permissions)) {
             $this->role->attachPermissions(array_unique($permissions));
         }
-        if (!empty($params['permissions'])) {
-            $this->role->attachDepartments($params['permissions']);
-        }
+
         // 添加角色
         return CatchResponse::success();
     }
@@ -61,7 +59,6 @@ class Role extends CatchController
     {
       $role = $this->role->findBy($id);
       $role->permissions = $role->getPermissions();
-      $role->departments = $role->getDepartments();
       return CatchResponse::success($role);
     }
 
@@ -103,28 +100,6 @@ class Role extends CatchController
         if (!empty($attachIds)) {
             $role->attachPermissions(array_unique($attachIds));
         }
-        
-        // 更新department
-        $hasDepartmentIds = $role->getDepartments()->column('id');
-        $departmentIds = $request->param('departments',[]);
-
-        // 已存在部门 IDS
-        $existedDepartmentIds = [];
-        foreach ($hasDepartmentIds as $hasDepartmentId) {
-            if (in_array($hasDepartmentId, $departmentIds)) {
-                $existedDepartmentIds[] = $hasDepartmentId;
-            }
-        }
-
-        $attachDepartmentIds = array_diff($departmentIds, $existedDepartmentIds);
-        $detachDepartmentIds = array_diff($hasDepartmentIds, $existedDepartmentIds);
-
-        if (!empty($detachDepartmentIds)) {
-            $role->detachDepartments($detachDepartmentIds);
-        }
-        if (!empty($attachDepartmentIds)) {
-            $role->attachDepartments(array_unique($attachDepartmentIds));
-        }
 
         return CatchResponse::success();
     }
@@ -147,8 +122,6 @@ class Role extends CatchController
         $role = $this->role->findBy($id);
         // 删除权限
         $role->detachPermissions();
-        // 删除部门关联
-        $role->detachDepartments();
         // 删除用户关联
         $role->users()->detach();
         // 删除
