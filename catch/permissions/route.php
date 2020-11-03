@@ -11,11 +11,10 @@ $router->group(function () use ($router){
 
     // 部门
     $router->resource('departments', '\catchAdmin\permissions\controller\Department');
+    // 所有职位
+    $router->get('jobs/all', '\catchAdmin\permissions\controller\Job@getAll');
     // 岗位
     $router->resource('jobs', '\catchAdmin\permissions\controller\Job');
-
-    $router->get('jobs/all', '\catchAdmin\permissions\controller\Job@getAll');
-
     // 用户
     $router->resource('users', '\catchAdmin\permissions\controller\User');
     // 切换状态
