@@ -230,4 +230,32 @@ class CatchQuery extends Query
 
         return $this;
     }
+
+    /**
+     * 字段增加
+     *
+     * @time 2020年11月04日
+     * @param $field
+     * @param int $amount
+     * @throws \think\db\exception\DbException
+     * @return int
+     */
+    public function increment($field, $amount = 1)
+    {
+        return $this->inc($field, $amount)->update();
+    }
+
+    /**
+     * 字段减少
+     *
+     * @time 2020年11月04日
+     * @param $field
+     * @param int $amount
+     * @throws \think\db\exception\DbException
+     * @return int
+     */
+    public function decrement($field, $amount = 1)
+    {
+        return $this->dec($field, $amount)->update();
+    }
 }
