@@ -22,8 +22,10 @@ trait UserSearch
 
     public function searchDepartmentIdAttr($query, $value, $data)
     {
-        $departmentIds = Department::where('parent_id', $value)->column('id');
-        $departmentIds[] = $value;
+        $departmentIds = Department::getAllChildrenIds([$value]);
+
+        $departmentIds[] = intval($value);
+
         return $query->whereIn($this->aliasField('department_id'), $departmentIds);
     }
 }
