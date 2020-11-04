@@ -1,7 +1,6 @@
 <?php
 namespace catcher;
 
-use catcher\library\excel\CatchExcel;
 use catcher\library\excel\Excel;
 use catcher\library\excel\ExcelContract;
 use think\facade\Cache;
@@ -82,5 +81,29 @@ class CatchModelCollection extends Collection
     public function cache($key, int $ttl = 0, string $store = 'redis')
     {
         return Cache::store($store)->set($key, $this->items, $ttl);
+    }
+
+    /**
+     * 获取当前级别下的所有子级
+     *
+     * @time 2020年11月04日
+     * @param array $ids
+     * @param string $parentFields
+     * @param string $column
+     * @return array
+     */
+    public function getAllChildrenIds(array $ids, $parentFields = 'parent_id', $column = 'id')
+    {
+        array_walk($ids, function (&$item){
+            $item = intval($item);
+        });
+
+        $childDepartmentIds = $this->whereIn($parentFields, $ids)->column($column);
+
+        if (!empty($childDepartmentIds)) {
+            $childDepartmentIds = array_merge($childDepartmentIds, $this->getAllChildrenIds($childDepartmentIds));
+        }
+
+        return $childDepartmentIds;
     }
 }
