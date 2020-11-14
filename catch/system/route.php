@@ -28,6 +28,7 @@ $router->group(function () use ($router) {
     // 代码生成
     $router->post('generate', '\catchAdmin\system\controller\Generate@save');
     $router->post('generate/preview', '\catchAdmin\system\controller\Generate@preview'); // 预览
+    $router->post('generate/create/module', '\catchAdmin\system\controller\Generate@createModule'); // 创建模块
 
     // 敏感词
     $router->resource('sensitive/word', '\catchAdmin\system\controller\SensitiveWord');
