@@ -58,8 +58,7 @@ class Composer
     {
         $packages = array_merge($this->requires(), $this->requireDev());
 
-
-        return in_array($name, $packages);
+        return in_array($name, array_keys($packages));
     }
 
     /**

@@ -86,9 +86,8 @@ class Controller extends Factory
                                     }
 
                                     $class->addProperty(
-                                        (new Property($asModel))->public()
+                                        (new Property($asModel))->protected()
                                     );
-
                                 })
                                 ->getContent();
     }

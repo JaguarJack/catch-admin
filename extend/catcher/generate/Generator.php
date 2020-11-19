@@ -97,7 +97,7 @@ class Generator
 
         switch ($type) {
             case 'controller':
-                return (new Controller())->dones();
+                return (new Controller())->getContent($controller);
             case 'model':
                 return (new Model())->getContent($model);
             default:
