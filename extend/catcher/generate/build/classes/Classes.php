@@ -1,17 +1,27 @@
 <?php
-namespace catcher\generate\classes;
+namespace catcher\generate\build\classes;
 
-class Classes extends Iteration
+use PhpParser\BuilderFactory;
+
+class Classes
 {
+    protected $classBuild;
+
+    public function __construct(string $name)
+    {
+        $this->classBuild = (new BuilderFactory())->class($name);
+    }
+
     /**
+     * 设置 comment
      *
-     * @time 2020年11月17日
-     * @param $name
+     * @time 2020年11月19日
+     * @param string $comment
      * @return $this
      */
-    public function name($name)
+    public function docComment($comment="\r\n")
     {
-        $this->data['name'] = $name;
+        $this->classBuild->setDocComment($comment);
 
         return $this;
     }
@@ -23,7 +33,7 @@ class Classes extends Iteration
      */
     public function extend($extend)
     {
-        $this->data['extend'] = $extend;
+        $this->classBuild->extend($extend);
 
         return $this;
     }
@@ -33,9 +43,9 @@ class Classes extends Iteration
      * @param $interfaces
      * @return $this
      */
-    public function interfaces($interfaces)
+    public function implement($interfaces)
     {
-        $this->data['interfaces'] = $interfaces;
+        $this->classBuild->implement($interfaces);
 
         return $this;
     }
@@ -44,9 +54,9 @@ class Classes extends Iteration
      * @time 2020年11月17日
      * @return $this
      */
-    public function isAbstract()
+    public function abstract()
     {
-        $this->data['type'] = 'Abstract';
+        $this->classBuild->makeAbstract();
 
         return $this;
     }
@@ -55,21 +65,36 @@ class Classes extends Iteration
      * @time 2020年11月17日
      * @return $this
      */
-    public function isFinal()
+    public function final()
     {
-        $this->data['type'] = 'Final';
+        $this->classBuild->makeFinal();
 
         return $this;
     }
 
-    /**
-     * @time 2020年11月17日
-     * @param $type
-     * @param $param
-     * @return void
-     */
-    public function construct($type, $param)
+    public function build()
     {
-        $this->data['construct'][] = [$type, $param];
+        return $this->classBuild;
+    }
+
+    public function addMethod(Methods $method)
+    {
+        $this->classBuild->addStmt($method->build());
+
+        return $this;
+    }
+
+    public function addProperty(Property $property)
+    {
+        $this->classBuild->addStmt($property->build());
+
+        return $this;
+    }
+
+    public function addTrait(Traits $trait)
+    {
+        $this->classBuild->addStmt($trait->build());
+
+        return $this;
     }
 }

@@ -1,55 +1,43 @@
 <?php
-namespace catcher\generate\classes;
+namespace catcher\generate\build\classes;
 
-class Methods extends Iteration
+use catcher\generate\build\traits\CatchMethodReturn;
+use PhpParser\BuilderFactory;
+use PhpParser\Node\Expr\Assign;
+use PhpParser\Node\Expr\PropertyFetch;
+use PhpParser\Node\Expr\Variable;
+use PhpParser\Node\Identifier;
+use PhpParser\Node\Stmt\Expression;
+
+class Methods
 {
-    protected $method = [];
 
-    /**
-     * set method name
-     *
-     * @time 2020年11月16日
-     * @param string $method
-     * @return $this
-     */
-    public function name(string $method)
+    use CatchMethodReturn;
+
+    protected $methodBuild;
+
+    public function __construct(string $name)
     {
-        $this->method['name'] = $method;
+        $this->methodBuild = (new BuilderFactory())->method($name);
+    }
+
+    public function public()
+    {
+        $this->methodBuild->makePublic();
 
         return $this;
     }
 
-    /**
-     * set visible
-     *
-     * @time 2020年11月16日
-     * @param string $visibility
-     * @return $this
-     */
-    public function visible(string $visibility)
+    public function protected()
     {
-        $this->method['visible'] = $visibility;
+        $this->methodBuild->makeProtected();
 
         return $this;
     }
 
-    public function makePublic()
+    public function private()
     {
-        $this->method['visible'] = 'public';
-
-        return $this;
-    }
-
-    public function makeProtected()
-    {
-        $this->method['visible'] = 'protected';
-
-        return $this;
-    }
-
-    public function makePrivate()
-    {
-        $this->method['visible'] = 'private';
+        $this->methodBuild->makePrivate();
 
         return $this;
     }
@@ -65,25 +53,45 @@ class Methods extends Iteration
      */
     public function param($param, $type = null, $default = null)
     {
-        $this->method['params'][] = [
-            'type' => $type,
-            'param' => $param,
-            'default' => $default,
-        ];
+        $param  = (new BuilderFactory())->param($param);
+
+        if ($type) {
+            $param = $param->setType($type);
+        }
+
+        if ($default) {
+            $param = $param->setDefault($default);
+        }
+
+        $this->methodBuild->addParam(
+           $param
+        );
 
         return $this;
     }
 
     /**
-     * 返回内容
+     * 定义
      *
-     * @time 2020年11月17日
-     * @param $return
+     * @time 2020年11月18日
+     * @param $variable
+     * @param $value
      * @return $this
      */
-    public function return($return)
+    public function declare($variable, $value)
     {
-        $this->method['return'] = $return;
+        $smt = new Expression(
+            new Assign(
+                new PropertyFetch(
+                    new Variable('this'),
+                    new Identifier($variable)
+                ),
+                new Variable($value)
+            )
+        );
+
+        $this->methodBuild->addStmt($smt);
+
         return $this;
     }
 
@@ -91,12 +99,12 @@ class Methods extends Iteration
      * 返回值
      *
      * @time 2020年11月16日
-     * @param $return
+     * @param $returnType
      * @return $this
      */
-    public function returnType($return)
+    public function returnType($returnType)
     {
-        $this->method['return'] = $return;
+        $this->methodBuild->setReturnType($returnType);
 
         return $this;
     }
@@ -109,9 +117,9 @@ class Methods extends Iteration
      * @param $comment
      * @return $this
      */
-    public function docComment($comment)
+    public function docComment(string $comment)
     {
-        $this->method['comment'] = $comment;
+        $this->methodBuild->setDocComment($comment);
 
         return $this;
     }
@@ -124,7 +132,7 @@ class Methods extends Iteration
      */
     public function toAbstract()
     {
-        $this->method['type'] = 'Abstract';
+        $this->methodBuild->makeAbstract();
 
         return $this;
     }
@@ -137,23 +145,14 @@ class Methods extends Iteration
      */
     public function toFinal()
     {
-        $this->method['type'] = 'Final';
+        $this->methodBuild->makeFinal();
 
         return $this;
     }
 
-    /**
-     * join
-     *
-     * @time 2020年11月17日
-     * @return $this
-     */
-    public function join()
+
+    public function build()
     {
-        $this->data[] = $this->method;
-
-        $this->method = [];
-
-        return $this;
+        return $this->methodBuild;
     }
 }

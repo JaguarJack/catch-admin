@@ -1,23 +1,29 @@
 <?php
 
-namespace catcher\generate\classes;
+namespace catcher\generate\build\classes;
 
-use think\helper\Str;
+use PhpParser\BuilderFactory;
 
-class Uses extends Iteration
+class Uses
 {
-    protected $uses;
-
-    public function __construct($uses)
+    public function name(string $name, string $as = '')
     {
-        $delimiter = ' as ';
+        $build = (new BuilderFactory())->use($name);
 
-        foreach ($uses as $key => $use) {
-            if (Str::contains($use, $delimiter)) {
-                $uses[$key] = explode($delimiter, $use);
-            }
+        if ($as) {
+            $build->as($as);
         }
 
-        $this->data = $uses;
+        return $build;
+    }
+
+    public function function(string $function)
+    {
+        return (new BuilderFactory())->useFunction($function);
+    }
+
+    public function const(string $const)
+    {
+        return (new BuilderFactory())->useConst($const);
     }
 }

@@ -1,37 +1,88 @@
 <?php
-namespace catcher\generate\classes;
+namespace catcher\generate\build\classes;
 
-class Traits extends Iteration
+use PhpParser\BuilderFactory;
+
+class Traits
 {
-    protected $trait = [];
+    protected $traitBuild;
 
-    public function name($name)
+    protected $build;
+
+    public function use(...$names)
     {
-        if (!empty($this->trait)) {
-            $this->data[] = $this->trait;
+        $this->build = new BuilderFactory;
 
-            $this->trait = [];
-
-            return $this;
-        }
-
-        $this->trait['name'] = $name;
+        $this->traitBuild = call_user_func_array([$this->build, 'useTrait'], $names);
 
         return $this;
     }
 
-    public function adaptation($name)
+    public function and($name)
     {
-        $this->trait['adaptation'] = $name;
+        $this->traitBuild->and($name);
+
+        return $this;
     }
 
+    /**
+     * with
+     *
+     * @time 2020年11月19日
+     * @param \Closure|null $closure
+     * @return $this
+     */
+    public function with(\Closure $closure = null)
+    {
+        if ($closure instanceof \Closure) {
+            $this->traitBuild->withe($closure($this));
+
+            return $this;
+        }
+
+        return $this;
+    }
+
+    /**
+     * @time 2020年11月19日
+     * @param $name
+     * @param null $method
+     * @return $this
+     */
+    public function adaptation($name, $method = null)
+    {
+        $this->build = $this->build->traitUseAdaptation($name. $method);
+
+        return $this;
+    }
+
+    /**
+     * @time 2020年11月19日
+     * @param $name
+     * @return $this
+     */
+    public function as($name)
+    {
+        $this->build->as($name);
+
+        return $this;
+    }
+
+
+    /**
+     * @time 2020年11月19日
+     * @param $name
+     * @return $this
+     */
     public function insteadof($name)
     {
-        $this->trait['insteadof'] = $name;
+        $this->build->insteadof($name);
+
+        return $this;
     }
 
-    public function as($as)
+    public function build()
     {
-        $this->trait['as'] = $as;
+        return $this->traitBuild;
     }
 }

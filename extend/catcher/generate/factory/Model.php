@@ -2,21 +2,34 @@
 namespace catcher\generate\factory;
 
 use catcher\exceptions\FailedException;
-use catcher\generate\template\Model as Template;
-use catcher\Utils;
-use Phinx\Util\Util;
+use catcher\facade\FileSystem;
+use catcher\generate\build\CatchBuild;
+use catcher\generate\build\classes\Classes;
+use catcher\generate\build\classes\Property;
+use catcher\generate\build\classes\Traits;
+use catcher\generate\build\classes\Uses;
+use catcher\generate\build\types\Arr;
+use catcher\traits\db\BaseOptionsTrait;
+use catcher\traits\db\ScopeTrait;
 use think\facade\Db;
 use think\helper\Str;
 
 class Model extends Factory
 {
+    /**
+     * done
+     *
+     * @time 2020年11月19日
+     * @param $params
+     * @return string
+     */
     public function done($params)
     {
         $content = $this->getContent($params);
 
         $modelPath = $this->getGeneratePath($params['model']);
 
-        file_put_contents($modelPath, $content);
+        FileSystem::put($modelPath, $content);
 
         if (!file_exists($modelPath)) {
             throw new FailedException('create model failed');
@@ -34,9 +47,6 @@ class Model extends Factory
      */
     public function getContent($params)
     {
-        // TODO: Implement done() method.
-        $template = new Template();
-
         $extra = $params['extra'];
 
         $table = $params['table'];
@@ -53,43 +63,31 @@ class Model extends Factory
             throw new FailedException('model name not set');
         }
 
-        $content = $template->useTrait($extra['soft_delete']) .
-            $template->name(str_replace(Utils::tablePrefix(), '', $table)) .
-            $template->field($this->parseField($table));
+        $softDelete = $extra['soft_delete'];
 
-        $class = $template->header() .
-            $template->nameSpace($namespace) .
-            $template->uses($extra['soft_delete']) .
-            $template->createModel($modelName, $table);
+        return (new CatchBuild)->namespace($namespace)
+                        ->use((new Uses())->name('catcher\base\CatchModel', 'Model'))
+                        ->when(!$softDelete, function (CatchBuild $build){
+                            $build->use((new Uses())->name(BaseOptionsTrait::class));
+                            $build->use((new Uses())->name(ScopeTrait::class));
+                        })
+                        ->class((new Classes($modelName))->extend('Model')->docComment(),
+                            function (Classes $class) use ($softDelete, $table) {
+                            if (!$softDelete) {
+                                $class->addTrait(
+                                    (new Traits())->use('BaseOptionsTrait', 'ScopeTrait')
+                                );
+                            }
 
-        return str_replace('{CONTENT}', $content, $class);
-    }
+                            $class->addProperty(
+                                (new Property('name'))->default($table)->docComment('// 表名')
+                            );
 
-    /**
-     * parse field
-     *
-     * @time 2020年04月28日
-     * @param $table
-     * @return string
-     */
-    protected function parseField($table)
-    {
-        if (!$this->hasTableExists($table)) {
-            return false;
-        }
-
-        $columns = Db::query('show full columns from ' . $table);
-
-        $new = [];
-        foreach ($columns as $field) {
-            $new[$field['Field']] = $field['Comment'];
-        }
-
-        $fields = [];
-        foreach ($new as $field => $comment) {
-            $fields[] = sprintf("'%s', // %s", $field, $comment);
-        }
-
-        return implode("\r\n\t\t", $fields);
+                            $class->addProperty(
+                                (new Property('field'))->default(
+                                    (new Arr)->build(Db::getFields($table))
+                                )->docComment('// 数据库字段映射')
+                            );
+                        })->getContent();
     }
 }

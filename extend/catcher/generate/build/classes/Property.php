@@ -3,7 +3,7 @@ namespace catcher\generate\build\classes;
 
 use PhpParser\BuilderFactory;
 
-class Properties
+class Property
 {
     protected $propertyBuild;
 
@@ -89,7 +89,7 @@ class Properties
 
         return $this;
     }
-    
+
     public function build()
     {
         return $this->propertyBuild;

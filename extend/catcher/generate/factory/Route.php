@@ -1,6 +1,7 @@
 <?php
 namespace catcher\generate\factory;
 
+use catcher\facade\FileSystem;
 use catcher\generate\template\Content;
 
 class Route extends Factory
@@ -34,11 +35,12 @@ class Route extends Factory
         $comment = '// ' . $this->controllerName . '路由';
 
         array_unshift($route, $comment);
+
         if (file_exists($router)) {
-            return file_put_contents($router, $this->parseRoute($router, $route));
+            return FileSystem::put($router, $this->parseRoute($router, $route));
         }
 
-        return file_put_contents($router, $this->header() . $comment. implode(';'. PHP_EOL , $route) . ';');
+        return FileSystem::put($router, $this->header() . $comment. implode(';'. PHP_EOL , $route) . ';');
     }
 
     protected function parseRoute($path, $route)

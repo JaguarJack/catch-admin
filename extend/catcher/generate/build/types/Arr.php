@@ -1,20 +1,28 @@
 <?php
 namespace catcher\generate\build\types;
 
+use PhpParser\Comment\Doc;
 use PhpParser\Node\Expr\ArrayItem;
 use PhpParser\Node\Scalar\String_;
+use PhpParser\Node\Expr\Array_;
 
-class Array_
+class Arr
 {
-    public function build($array)
+    public function build($fields)
     {
         $items = [];
 
-        foreach ($array as $item) {
-            $items[] = new ArrayItem(new String_($item));
+        foreach ($fields as $field) {
+            $arrItem = new ArrayItem(new String_($field['name']));
+            if ($field['comment']) {
+                $arrItem->setDocComment(
+                    new Doc('// ' . $field['comment'])
+                );
+            }
+            $items[] = $arrItem;
 
         }
 
-        return new \PhpParser\Node\Expr\Array_($items);
+        return new Array_($items);
     }
 }
