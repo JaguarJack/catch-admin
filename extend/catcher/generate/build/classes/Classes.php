@@ -97,4 +97,21 @@ class Classes
 
         return $this;
     }
+
+    /**
+     * when
+     *
+     * @time 2020年11月19日
+     * @param $condition
+     * @param \Closure $closure
+     * @return $this
+     */
+    public function when($condition, \Closure $closure)
+    {
+        if ($condition) {
+            $closure($this);
+        }
+
+        return $this;
+    }
 }

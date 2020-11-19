@@ -83,11 +83,13 @@ class Model extends Factory
                                 (new Property('name'))->default($table)->docComment('// 表名')
                             );
 
-                            $class->addProperty(
-                                (new Property('field'))->default(
-                                    (new Arr)->build(Db::getFields($table))
-                                )->docComment('// 数据库字段映射')
-                            );
+                            $class->when($this->hasTableExists($table), function ($class) use ($table){
+                                $class->addProperty(
+                                    (new Property('field'))->default(
+                                        (new Arr)->build(Db::getFields($table))
+                                    ))->docComment('// 数据库字段映射');
+                            });
+
                         })->getContent();
     }
 }
