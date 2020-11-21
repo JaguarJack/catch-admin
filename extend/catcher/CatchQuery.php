@@ -118,7 +118,8 @@ class CatchQuery extends Query
 
         foreach ($params as $field => $value) {
             $method = 'search' . Str::studly($field) . 'Attr';
-            if ($value !== null && method_exists($this->model, $method)) {
+            // value in [null, '']
+            if ($value !== null && $value !== '' && method_exists($this->model, $method)) {
                 $this->model->$method($this, $value, $params);
             }
         }
