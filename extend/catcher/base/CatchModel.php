@@ -33,4 +33,16 @@ abstract class CatchModel extends \think\Model
     public const ENABLE = 1;
     // 禁用
     public const DISABLE = 2;
+
+    /**
+     * 是否有 field
+     *
+     * @time 2020年11月23日
+     * @param string $field
+     * @return bool
+     */
+    public function hasField(string $field)
+    {
+        return property_exists($this, 'field') ? in_array($field, $this->field) : false;
+    }
 }
