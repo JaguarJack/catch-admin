@@ -80,7 +80,7 @@ class RateLimiter
      *
      *
      * @time 2020年07月02日
-d     * @return void
+     * @return void
      */
     protected function addTokens()
     {
@@ -154,7 +154,7 @@ d     * @return void
     {
         $currentTime = \time();
 
-        $lastAddTokenTime = $this->getRedis()->get($this->key. $this->addTokenTimeKey);
+        $lastAddTokenTime = $this->getRedis()->get($this->key . $this->addTokenTimeKey);
 
         // 如果是满的 则不添加
         if ($this->tokens() == $this->capacity) {
@@ -172,6 +172,6 @@ d     * @return void
      */
     protected function rememberAddTokenTime()
     {
-        $this->getRedis()->set($this->key. $this->addTokenTimeKey, time());
+        $this->getRedis()->set($this->key . $this->addTokenTimeKey, time());
     }
 }
