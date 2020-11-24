@@ -118,7 +118,8 @@ class CatchQuery extends Query
 
         foreach ($params as $field => $value) {
             $method = 'search' . Str::studly($field) . 'Attr';
-            if ($value && method_exists($this->model, $method)) {
+            // value in [null, '']
+            if ($value !== null && $value !== '' && method_exists($this->model, $method)) {
                 $this->model->$method($this, $value, $params);
             }
         }
@@ -229,5 +230,33 @@ class CatchQuery extends Query
         $this->field(sprintf('%s as %s', $callable()->buildSql(), $as));
 
         return $this;
+    }
+
+    /**
+     * 字段增加
+     *
+     * @time 2020年11月04日
+     * @param $field
+     * @param int $amount
+     * @throws \think\db\exception\DbException
+     * @return int
+     */
+    public function increment($field, $amount = 1)
+    {
+        return $this->inc($field, $amount)->update();
+    }
+
+    /**
+     * 字段减少
+     *
+     * @time 2020年11月04日
+     * @param $field
+     * @param int $amount
+     * @throws \think\db\exception\DbException
+     * @return int
+     */
+    public function decrement($field, $amount = 1)
+    {
+        return $this->dec($field, $amount)->update();
     }
 }

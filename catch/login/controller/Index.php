@@ -29,7 +29,7 @@ class Index extends CatchController
 
             $user = $auth->user();
 
-            $this->afterLoginSuccess($user);
+            $this->afterLoginSuccess($user, $token);
             // 登录事件
             $this->loginEvent($user->username);
 
@@ -70,12 +70,16 @@ class Index extends CatchController
      *
      * @time 2020年09月09日
      * @param $user
+     * @param $token
      * @return void
      */
-    protected function afterLoginSuccess($user)
+    protected function afterLoginSuccess($user, $token)
     {
         $user->last_login_ip = request()->ip();
         $user->last_login_time = time();
+        if ($user->hasField('remember_token')) {
+            $user->remember_token = $token;
+        }
         $user->save();
     }
 

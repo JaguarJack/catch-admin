@@ -1,13 +1,34 @@
 <?php
 namespace catcher\generate\factory;
 
+use catcher\CatchAdmin;
 use catcher\exceptions\FailedException;
-use catcher\generate\template\Controller as Template;
+use catcher\facade\FileSystem;
+use catcher\generate\build\classes\Methods;
+use catcher\generate\build\CatchBuild;
+use catcher\generate\build\classes\Classes;
+use catcher\generate\build\classes\Property;
+use catcher\generate\build\classes\Uses;
+use PhpParser\BuilderFactory;
+use PhpParser\Node\Expr\Closure;
+use PhpParser\Node\Expr\ClosureUse;
+use PhpParser\PrettyPrinter\Standard;
 use think\helper\Str;
+use PhpParser\Error;
+use PhpParser\NodeDumper;
+use PhpParser\ParserFactory;
+use PhpParser\PrettyPrinter;
+use PhpParser\Node;
 
 class Controller extends Factory
 {
     protected $methods = [];
+
+    protected $uses = [
+        'catcher\base\CatchRequest as Request',
+        'catcher\CatchResponse',
+        'catcher\base\CatchController'
+    ];
 
     /**
      *
@@ -19,8 +40,9 @@ class Controller extends Factory
     {
         // 写入成功之后
         $controllerPath = $this->getGeneratePath($params['controller']);
-        if (file_put_contents($controllerPath, $this->getContent($params))) {
-               return $controllerPath;
+
+        if (FileSystem::put($controllerPath, $this->getContent($params))) {
+            return $controllerPath;
         }
 
         throw new FailedException($params['controller'] . ' generate failed~');
@@ -39,109 +61,135 @@ class Controller extends Factory
             throw new FailedException('params has lost～');
         }
 
-        $template = new Template();
         // parse controller
         [$className, $namespace] = $this->parseFilename($params['controller']);
+
+        [$model, $modelNamespace] = $this->parseFilename($params['model']);
+
+        $asModel = lcfirst(Str::contains($model, 'Model') ? : $model . 'Model');
+
         if (!$className) {
             throw new FailedException('未填写控制器名称');
         }
-        
-        // parse model
-        [$model, $modelNamespace] = $this->parseFilename($params['model']);
 
-        $use = implode(';',[
-                'use ' . $params['model'] .' as '. $model . 'Model',
-            ]) . ';';
+        $use = new Uses();
+        $class = new Classes($className);
 
-        $content =  $template->header() .
-            $template->nameSpace($namespace) .
-            str_replace('{USE}', $model ? $use : '', $template->uses())  .
-            $template->createClass($className);
+        return (new CatchBuild())->namespace($namespace)
+                                ->use($use->name('catcher\base\CatchRequest', 'Request'))
+                                ->use($use->name('catcher\CatchResponse'))
+                                ->use($use->name('catcher\base\CatchController'))
+                                ->use($use->name($modelNamespace . '\\' . ucfirst($model), $asModel))
+                                ->class($class->extend('CatchController')->docComment(), function (Classes $class) use ($asModel) {
+                                    foreach ($this->getMethods($asModel) as $method) {
+                                        $class->addMethod($method);
+                                    }
 
-        return str_replace('{CONTENT}', ($model ? $template->construct($model.'Model') : '') . rtrim($this->content($params, $template), "\r\n"), $content);
+                                    $class->addProperty(
+                                        (new Property($asModel))->protected()
+                                    );
+                                })
+                                ->getContent();
     }
 
+
     /**
-     * parse use
+     * 方法集合
      *
-     * @time 2020年04月28日
-     * @param $params
-     * @return string
+     * @time 2020年11月19日
+     * @param $model
+     * @return array
      */
-    protected function parseUse($params)
+    protected function getMethods($model)
     {
+        $date = date('Y年m月d日 H:i');
 
-    }
-    /**
-     * content
-     *
-     * @time 2020年04月27日
-     * @param $params
-     * @param $template
-     * @return string
-     */
-    protected function content($params, $template)
-    {
-        $content = '';
 
-        if ($params['restful']) {
-            $methods = $this->restful();
-            $this->methods = array_merge($this->methods, $methods);
-            foreach ($methods as $method) {
-                $content .= $template->{$method[0]}();
-            }
-        }
-
-        /**
-        if (!empty($params['other_function'])) {
-            $others = $this->parseOtherMethods($params['other_function']);
-            $this->methods = array_merge($this->methods, $others);
-            foreach ($others as $other) {
-                $content .= $template->otherFunction($other[0], $other[1]);
-            }
-        }*/
-
-        return $content;
-    }
-
-    /**
-     * parse $method
-     * class_method/http_method
-     * @time 2020年04月27日
-     * @param $methods
-     * @return false|string[]
-     */
-    public function parseOtherMethods($methods)
-    {
-        $_methods = [];
-
-        foreach ($methods as $method) {
-            if (Str::contains($method, '/')) {
-                $_methods[] = explode('/', $method);
-            } else {
-                // 默认使用 Get 方式
-                $_methods[] = [$method, 'get'];
-            }
-        }
-
-        return $_methods;
-    }
-
-    /**
-     * restful 路由
-     *
-     * @time 2020年04月27日
-     * @return \string[][]
-     */
-    public function restful()
-    {
         return [
-            ['index', 'get'],
-            ['save', 'post'],
-            ['read', 'get'],
-            ['update', 'put'],
-            ['delete', 'delete'],
+            (new Methods('__construct'))
+                ->public()
+                ->param($model, ucfirst($model))
+                ->docComment("\r\n")
+                ->declare($model, $model),
+
+            (new Methods('index'))->public()
+                ->param('request', 'Request')
+                ->docComment(
+                    <<<TEXT
+
+/**
+ * 列表
+ * @time $date
+ * @param Request \$request 
+ */
+TEXT
+                )
+                ->returnType('\think\Response')->index($model),
+
+            (new Methods('save'))
+                ->public()
+                ->param('request', 'Request')
+                ->docComment(
+                    <<<TEXT
+
+/**
+ * 保存信息
+ * @time $date
+ * @param Request \$request 
+ */
+TEXT
+                )
+                ->returnType('\think\Response')
+                ->save($model),
+
+
+            (new Methods('read'))->public()
+                ->param('id')
+                ->docComment(
+                    <<<TEXT
+
+/**
+ * 读取
+ * @time $date
+ * @param \$id 
+ */
+TEXT
+
+                )
+                ->returnType('\think\Response')->read($model),
+
+
+            (new Methods('update'))->public()
+                ->param('request', 'Request')
+                ->param('id')
+                ->docComment(
+                    <<<TEXT
+
+/**
+ * 更新
+ * @time $date
+ * @param Request \$request 
+ * @param \$id
+ */
+TEXT
+                )
+                ->returnType('\think\Response')->update($model),
+
+
+            (new Methods('delete'))->public()
+                ->param('id')
+                ->docComment(
+                    <<<TEXT
+
+/**
+ * 删除
+ * @time $date
+ * @param \$id
+ */
+TEXT
+                )
+                ->returnType('\think\Response')->delete($model),
+
         ];
     }
-
 }

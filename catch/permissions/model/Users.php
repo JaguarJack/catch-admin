@@ -20,6 +20,7 @@ class Users extends CatchModel
 			'password', // 用户密码
 			'email', // 邮箱 登录
             'avatar', // 头像
+            'remember_token',
             'creator_id', // 创建者ID
             'department_id', // 部门ID
 			'status', // 用户状态 1 正常 2 禁用
@@ -28,7 +29,6 @@ class Users extends CatchModel
 			'created_at', // 创建时间
 			'updated_at', // 更新时间
 			'deleted_at', // 删除状态，0未删除 >0 已删除
-			   
     ];
 
     /**

@@ -14,22 +14,71 @@ use catcher\facade\FileSystem;
 
 class Composer
 {
+    /**
+     * psr4
+     *
+     * @time 2020年11月19日
+     * @return mixed
+     */
     public function psr4Autoload()
     {
-        return $this->composerContent()['autoload']['psr-4'];
+        return $this->content()['autoload']['psr-4'];
     }
 
+    /**
+     * require
+     *
+     * @time 2020年11月19日
+     * @return mixed
+     */
     public function requires()
     {
-        return $this->composerContent()['require'];
+        return $this->content()['require'];
     }
 
-    protected function composerContent()
+    /**
+     * require dev
+     *
+     * @time 2020年11月19日
+     * @return mixed
+     */
+    public function requireDev()
     {
-        return \json_decode(FileSystem::get($this->composerJsonPath()), true);
+        return $this->content()['require-dev'];
     }
 
-    protected function composerJsonPath()
+    /**
+     * composer has package
+     *
+     * @time 2020年11月19日
+     * @param $name
+     * @return bool
+     */
+    public function hasPackage($name)
+    {
+        $packages = array_merge($this->requires(), $this->requireDev());
+
+        return in_array($name, array_keys($packages));
+    }
+
+    /**
+     * composer content
+     *
+     * @time 2020年11月19日
+     * @return mixed
+     */
+    protected function content()
+    {
+        return \json_decode(FileSystem::sharedGet($this->path()), true);
+    }
+
+    /**
+     * composer path
+     *
+     * @time 2020年11月19日
+     * @return string
+     */
+    protected function path()
     {
         return root_path() . 'composer.json';
     }

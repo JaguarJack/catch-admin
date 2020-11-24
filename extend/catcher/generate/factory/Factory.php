@@ -42,7 +42,7 @@ abstract class Factory
 
         CatchAdmin::makeDirectory($filePath);
 
-        return $filePath . DIRECTORY_SEPARATOR . $filename . '.php';
+        return $filePath . DIRECTORY_SEPARATOR . ucfirst($filename ). '.php';
     }
 
     /**

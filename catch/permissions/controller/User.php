@@ -8,6 +8,7 @@ use catchAdmin\permissions\model\Roles;
 use catchAdmin\permissions\model\Users;
 use catchAdmin\permissions\request\CreateRequest;
 use catchAdmin\permissions\request\UpdateRequest;
+use catchAdmin\permissions\request\ProfileRequest;
 use catcher\base\CatchController;
 use catcher\CatchAuth;
 use catcher\CatchCacheKeys;
@@ -69,15 +70,6 @@ class User extends CatchController
 
     /**
      *
-     * @time 2019年12月06日
-     * @throws \Exception
-     * @return string
-     */
-    public function create()
-    {}
-
-    /**
-     *
      * @param CreateRequest $request
      * @time 2019年12月06日
      * @return \think\response\Json
@@ -109,12 +101,6 @@ class User extends CatchController
         return CatchResponse::success($user);
     }
 
-    /**
-     * @param $id
-     * @return string
-     * @throws \Exception
-     */
-    public function edit($id){}
     /**
      *
      * @time 2019年12月04日
@@ -248,10 +234,10 @@ class User extends CatchController
      * 更新个人信息
      *
      * @time 2020年09月20日
-     * @param Request $request
+     * @param ProfileRequest $request
      * @return \think\response\Json
      */
-    public function profile(Request $request)
+    public function profile(ProfileRequest $request)
     {
        return CatchResponse::success($this->user->updateBy($request->user()->id, $request->param()));
     }

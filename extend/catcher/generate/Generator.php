@@ -8,10 +8,14 @@ use catcher\generate\factory\Migration;
 use catcher\generate\factory\Model;
 use catcher\generate\factory\Route;
 use catcher\generate\factory\SQL;
+use catcher\library\Composer;
 use think\facade\Db;
 
 class Generator
 {
+
+    const NEED_PACKAGE = 'nikic/php-parser';
+
     /**
      * generate
      *
@@ -21,6 +25,13 @@ class Generator
      */
     public function done($params)
     {
+        // 判断是否安装了扩展包
+        if (!(new Composer)->hasPackage(self::NEED_PACKAGE)) {
+            throw new FailedException(
+                sprintf('you must use [ composer require --dev %s]', self::NEED_PACKAGE)
+            );
+        }
+
         $params = \json_decode($params['data'], true);
 
         [$controller, $model] = $this->parseParams($params);

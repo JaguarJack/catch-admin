@@ -20,10 +20,20 @@ trait UserSearch
         return $query->where($this->aliasField('status'), $value);
     }
 
+    /**
+     * 查询部门下的用户
+     *
+     * @time 2020年11月04日
+     * @param $query
+     * @param $value
+     * @param $data
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @return mixed
+     */
     public function searchDepartmentIdAttr($query, $value, $data)
     {
-        $departmentIds = Department::where('parent_id', $value)->column('id');
-        $departmentIds[] = $value;
-        return $query->whereIn($this->aliasField('department_id'), $departmentIds);
+        return $query->whereIn($this->aliasField('department_id'), Department::getChildrenDepartmentIds($value));
     }
 }

@@ -261,20 +261,11 @@ class CatchUpload
         if ($upload) {
             $disk = app()->config->get('filesystem.disks');
 
-            $uploadConfigs = $configModel->getConfig($upload->id);
+            $uploadConfigs = $configModel->getConfig($upload->component);
 
-            // 重组
-            $_config = [];
             if (!empty($uploadConfigs)) {
-                foreach ($uploadConfigs as $key => $value) {
-                    list($object, $key) = explode('.', $key);
-                    $_config[$object][$key] = $value;
-                }
-            }
-
-            if (!empty($_config)) {
                 // 读取上传可配置数据
-                foreach ($_config as $key => &$config) {
+                foreach ($uploadConfigs as $key => &$config) {
                     // $disk[$key]['type'] = $key;
                     // 腾讯云配置处理
                     if (strtolower($key) == 'qcloud') {
@@ -294,18 +285,19 @@ class CatchUpload
                 }
 
                 // 合并数组
-                array_walk($disk, function (&$item, $key) use ($_config) {
+                array_walk($disk, function (&$item, $key) use ($uploadConfigs) {
                     if (!in_array($key, ['public', 'local'])) {
-                        if ($_config[$key] ?? false) {
-                            foreach ($_config[$key] as $k => $value) {
+                        if ($uploadConfigs[$key] ?? false) {
+                            foreach ($uploadConfigs[$key] as $k => $value) {
                                 $item[$k] = $value;
                             }
                         }
                     }
                 });
+
                 // 重新分配配置
                 app()->config->set([
-                    'disk' => $disk,
+                    'disks' => $disk,
                 ], 'filesystem');
             }
         }

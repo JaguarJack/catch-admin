@@ -39,4 +39,23 @@ class Department extends CatchModel
                     ->catchOrder()
                     ->select()->toTree();
     }
+
+    /**
+     * 获取子部门IDS
+     *
+     * @time 2020年11月04日
+     * @param $id
+     * @throws DbException
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @return mixed
+     */
+    public static function getChildrenDepartmentIds($id)
+    {
+        $departmentIds = Department::field(['id', 'parent_id'])->select()->getAllChildrenIds([$id]);
+
+        $departmentIds[] = $id;
+
+        return $departmentIds;
+    }
 }
