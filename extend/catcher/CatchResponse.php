@@ -1,9 +1,9 @@
 <?php
+declare(strict_types=1);
 
 namespace catcher;
 
 use think\Paginator;
-use think\Response;
 use think\response\Json;
 
 class CatchResponse
@@ -19,11 +19,11 @@ class CatchResponse
    */
   public static function success($data = [], $msg = 'success', $code = Code::SUCCESS): Json
   {
-    return json([
-      'code'    => $code,
-      'message' => $msg,
-      'data'    => $data,
-    ]);
+        return json([
+          'code'    => $code,
+          'message' => $msg,
+          'data'    => $data,
+        ]);
   }
 
   /**
@@ -35,14 +35,14 @@ class CatchResponse
    */
   public static function paginate(Paginator $list)
   {
-    return json([
-      'code'    => Code::SUCCESS,
-      'message' => 'success',
-      'count'   => $list->total(),
-      'current' => $list->currentPage(),
-      'limit'   => $list->listRows(),
-      'data'    => $list->getCollection(),
-    ]);
+        return json([
+          'code'    => Code::SUCCESS,
+          'message' => 'success',
+          'count'   => $list->total(),
+          'current' => $list->currentPage(),
+          'limit'   => $list->listRows(),
+          'data'    => $list->getCollection(),
+        ]);
   }
 
   /**
@@ -55,9 +55,9 @@ class CatchResponse
    */
   public static function fail($msg = '', $code = Code::FAILED): Json
   {
-    return json([
-        'code' => $code,
-        'message'  => $msg,
-    ]);
+        return json([
+            'code' => $code,
+            'message'  => $msg,
+        ]);
   }
 }

@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * @filename  ProgressBar.php
  * @createdAt 2020/6/20

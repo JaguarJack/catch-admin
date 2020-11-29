@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * @filename  CacheKeys.php
  * @createdAt 2020/1/17
