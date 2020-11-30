@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * @filename  WechatResponseException.php
  * @createdAt 2020/6/21

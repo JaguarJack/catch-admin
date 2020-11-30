@@ -1,6 +1,8 @@
 <?php
-namespace catcher\library;
 
+declare(strict_types=1);
+
+namespace catcher\library;
 
 use think\exception\ClassNotFoundException;
 

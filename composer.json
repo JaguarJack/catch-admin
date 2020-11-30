@@ -29,7 +29,8 @@
         "symfony/finder": "^4.4",
         "ext-json": "*",
         "overtrue/easy-sms": "^1.1",
-        "jaguarjack/migration-generator": "dev-master"
+        "jaguarjack/migration-generator": "dev-master",
+        "lcobucci/jwt": "3.3"
     },
     "require-dev": {
         "topthink/think-trace": "^1.0",

@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 // +----------------------------------------------------------------------
 // | CatchAdmin [Just Like ～ ]
 // +----------------------------------------------------------------------
@@ -12,6 +14,7 @@ namespace catcher;
 
 use catcher\library\Composer;
 use catcher\facade\FileSystem;
+use Symfony\Component\Finder\SplFileInfo;
 use think\App;
 use think\console\Command;
 
@@ -40,12 +43,12 @@ class CatchConsole
 
         $commands = [];
 
-        /*  \Symfony\Component\Finder\SplFileInfo $command */
+        /* \Symfony\Component\Finder\SplFileInfo $command */
         foreach ($commandFiles as $command) {
             if ($command->getExtension() === 'php') {
-                $lastPath = str_replace($this->parseNamespace(), '',pathinfo($command, PATHINFO_DIRNAME));
+                $lastPath = str_replace($this->parseNamespace(), '', pathinfo($command->getPathname(), PATHINFO_DIRNAME));
                 $namespace = $this->namespace . str_replace(DIRECTORY_SEPARATOR, '\\', $lastPath) . '\\';
-                $commandClass = $namespace . pathinfo($command, PATHINFO_FILENAME);
+                $commandClass = $namespace . pathinfo($command->getPathname(), PATHINFO_FILENAME);
                 $commands[] = $commandClass;
             }
         }

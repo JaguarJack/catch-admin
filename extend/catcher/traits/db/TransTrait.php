@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace catcher\traits\db;
 
 use think\facade\Db;

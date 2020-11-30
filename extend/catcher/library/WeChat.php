@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * @filename WeChat.php
  * @date     2020/6/7
