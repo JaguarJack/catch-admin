@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace catcher\library;
 
 use think\exception\ClassNotFoundException;
@@ -85,7 +88,7 @@ class ParseClass
      */
     public function getClass()
     {
-        $class = $this->namespace . $this->module . '\\controller\\'. ucfirst($this->controller);
+        $class = $this->namespace . $this->module . '\\controller\\' . ucfirst($this->controller);
 
         if (class_exists($class)) {
             return new \ReflectionClass($class);

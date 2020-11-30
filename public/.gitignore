@@ -1,0 +1,9 @@
+/.idea
+/.vscode
+/vendor
+/package
+*.log
+.env
+images
+static
+index.html

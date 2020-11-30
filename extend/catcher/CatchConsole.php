@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 // +----------------------------------------------------------------------
 // | CatchAdmin [Just Like ～ ]
 // +----------------------------------------------------------------------
@@ -12,6 +15,7 @@ namespace catcher;
 
 use catcher\library\Composer;
 use catcher\facade\FileSystem;
+use Symfony\Component\Finder\SplFileInfo;
 use think\App;
 use think\console\Command;
 
@@ -40,12 +44,12 @@ class CatchConsole
 
         $commands = [];
 
-        /*  \Symfony\Component\Finder\SplFileInfo $command */
+        /* \Symfony\Component\Finder\SplFileInfo $command */
         foreach ($commandFiles as $command) {
             if ($command->getExtension() === 'php') {
-                $lastPath = str_replace($this->parseNamespace(), '', pathinfo($command, PATHINFO_DIRNAME));
+                $lastPath = str_replace($this->parseNamespace(), '', pathinfo($command->getPathname(), PATHINFO_DIRNAME));
                 $namespace = $this->namespace . str_replace(DIRECTORY_SEPARATOR, '\\', $lastPath) . '\\';
-                $commandClass = $namespace . pathinfo($command, PATHINFO_FILENAME);
+                $commandClass = $namespace . pathinfo($command->getPathname(), PATHINFO_FILENAME);
                 $commands[] = $commandClass;
             }
         }
@@ -63,16 +67,16 @@ class CatchConsole
     {
         // 没有设置 namespace 默认使用 extend 目录
         if (!$this->namespace) {
-            return root_path(). 'extend';
+            return root_path() . 'extend';
         }
 
         $psr4 = (new Composer())->psr4Autoload();
 
         $rootNamespace = substr($this->namespace, 0, strpos($this->namespace, '\\') + 1);
 
-        return root_path(). $psr4[$rootNamespace] . DIRECTORY_SEPARATOR .
+        return root_path() . $psr4[$rootNamespace] . DIRECTORY_SEPARATOR .
 
-                str_replace('\\', DIRECTORY_SEPARATOR, substr($this->namespace, strpos($this->namespace, '\\') + 1));
+            str_replace('\\', DIRECTORY_SEPARATOR, substr($this->namespace, strpos($this->namespace, '\\') + 1));
     }
 
     /**

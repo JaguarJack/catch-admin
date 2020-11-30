@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @filename WeChat.php
  * @date     2020/6/7
@@ -8,6 +11,7 @@
  * @copyright By CatchAdmin
  * @license  https://github.com/yanwenwu/catch-admin/blob/master/LICENSE.txt
  */
+
 namespace catcher\library;
 
 use catcher\exceptions\WechatResponseException;
@@ -38,8 +42,8 @@ class WeChat
      * @return mixed
      */
     public static function __callStatic($name, $arguments)
-    {// TODO: Implement __callStatic() method.
-        return Factory::{$name}(\config('wechat.'. Str::snake($name)));
+    { // TODO: Implement __callStatic() method.
+        return Factory::{$name}(\config('wechat.' . Str::snake($name)));
     }
 
     /**
@@ -53,7 +57,7 @@ class WeChat
     public function __call($name, $arguments)
     {
         // TODO: Implement __call() method.
-        return Factory::{$name}(\config('wechat.'. Str::snake($name)));
+        return Factory::{$name}(\config('wechat.' . Str::snake($name)));
     }
 
     /**
