@@ -1,5 +1,5 @@
 <?php
-declare (strict_types = 1);
+declare(strict_types = 1);
 
 namespace catcher\command\Tools;
 
@@ -21,13 +21,14 @@ class MakeMenuCommand extends Command
             ->addArgument('menu', Argument::REQUIRED, '菜单名称')
             ->addArgument('path', Argument::REQUIRED, '前端路由地址')
             ->addArgument('component', Argument::REQUIRED, '前端组件名称')
-            ->setDescription(<<<DES
+            ->setDescription(
+                <<<DES
 controller: 完整的控制器名称,eg:catchAdmin\\permissions\\controller\\User
 menu: 菜单名称 
 path: 前端路由地址
 component: 前端组件名称
 DES
-);
+            );
     }
 
     protected function execute(Input $input, Output $output)
@@ -103,8 +104,6 @@ DES
         }
         //dd($reflectClass->getMethods());
        // dd($this->app->make($arguments['controller'])->methods());
-
-
     }
 
 
@@ -163,4 +162,3 @@ DES
         ];
     }
 }
-

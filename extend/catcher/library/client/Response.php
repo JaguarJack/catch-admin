@@ -1,7 +1,6 @@
 <?php
 namespace catcher\library\client;
 
-
 use GuzzleHttp\Promise\Promise;
 
 /**

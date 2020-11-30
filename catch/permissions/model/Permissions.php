@@ -1,4 +1,5 @@
 <?php
+
 namespace catchAdmin\permissions\model;
 
 use catchAdmin\permissions\model\search\PermissionsSearch;
@@ -10,7 +11,7 @@ class Permissions extends CatchModel
     use PermissionsSearch;
 
     protected $name = 'permissions';
-    
+
     protected $field = [
         'id', //
         'permission_name', // 菜单名称
@@ -23,6 +24,7 @@ class Permissions extends CatchModel
         'hidden',
         'module', // 模块
         'route', // 路由
+        'url', // url地址
         'permission_mark', // 权限标识
         'type', // 1 菜单 2 按钮
         'sort', // 排序字段
@@ -42,11 +44,11 @@ class Permissions extends CatchModel
     public function getList($isMenu = false)
     {
         return $this->catchSearch()
-                    ->catchOrder()
-                    ->when($isMenu, function ($query){
-                        $query->where('type', self::MENU_TYPE);
-                    })
-                    ->select();
+            ->catchOrder()
+            ->when($isMenu, function ($query) {
+                $query->where('type', self::MENU_TYPE);
+            })
+            ->select();
     }
 
     public function roles(): \think\model\relation\BelongsToMany
@@ -54,25 +56,26 @@ class Permissions extends CatchModel
         return $this->belongsToMany(Roles::class, 'role_has_permissions', 'role_id', 'permission_id');
     }
 
-  /**
-   * 获取当前用户权限
-   *
-   * @time 2020年01月14日
-   * @param array $permissionIds
-   * @return \think\Collection
-   * @throws \think\db\exception\DbException
-   * @throws \think\db\exception\ModelNotFoundException
-   * @throws \think\db\exception\DataNotFoundException
-   */
+    /**
+     * 获取当前用户权限
+     *
+     * @time 2020年01月14日
+     * @param array $permissionIds
+     * @return \think\Collection
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\db\exception\DataNotFoundException
+     */
     public static function getCurrentUserPermissions(array $permissionIds): \think\Collection
     {
         return parent::whereIn('id', $permissionIds)
-                      ->field(['permission_name as title', 'id', 'parent_id',
-                          'route', 'icon', 'component', 'redirect', 'module',
-                          'keepalive as keepAlive', 'type', 'permission_mark', 'hidden'
-                      ])
-                      ->catchOrder()
-                      ->select();
+            ->field([
+                'permission_name as title', 'id', 'parent_id',
+                'route', 'url', 'icon', 'component', 'redirect', 'module',
+                'keepalive as keepAlive', 'type', 'permission_mark', 'hidden'
+            ])
+            ->catchOrder()
+            ->select();
     }
 
     /**
@@ -129,14 +132,14 @@ class Permissions extends CatchModel
      */
     protected function getNextLevel(array $id, &$ids = [])
     {
-       $_ids = $this->whereIn('parent_id', $id)
-             ->where('type', self::MENU_TYPE)
-             ->column('id');
+        $_ids = $this->whereIn('parent_id', $id)
+            ->where('type', self::MENU_TYPE)
+            ->column('id');
 
-       if (count($_ids)) {
-           $ids = array_merge($_ids, $this->getNextLevel($_ids, $ids));
-       }
+        if (count($_ids)) {
+            $ids = array_merge($_ids, $this->getNextLevel($_ids, $ids));
+        }
 
-       return $ids;
+        return $ids;
     }
 }

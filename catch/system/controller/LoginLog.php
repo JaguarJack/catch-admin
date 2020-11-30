@@ -22,7 +22,7 @@ class LoginLog extends CatchController
 
     /**
      * 清空
-     * 
+     *
      * @time 2020年04月28日
      * @param Log $log
      * @param $id

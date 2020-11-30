@@ -1,4 +1,5 @@
 <?php
+
 namespace catchAdmin\permissions\request;
 
 use catchAdmin\permissions\model\Users;
@@ -11,8 +12,8 @@ class UpdateRequest extends CatchRequest
         // TODO: Implement rules() method.
         return [
             'username|用户名' => 'require|max:20',
-            'password|密码' => 'sometimes|min:5|max:12',
-            'email|邮箱'    => 'require|email|unique:'.Users::class,
+            'password|密码' => 'require|min:5|max:12',
+            'account|账号'    => 'require|unique:' . Users::class,
         ];
     }
 }

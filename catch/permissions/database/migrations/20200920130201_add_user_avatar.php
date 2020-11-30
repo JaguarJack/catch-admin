@@ -44,7 +44,8 @@ class AddUserAvatar extends Migrator
                 'limit' => 255,
                 'default' => '',
                 'comment' => '用户头像',
-                'after' => 'email'])
+                'after' => 'account'
+            ])
                 ->update();
         }
     }

@@ -35,8 +35,7 @@ class CatchModelCollection extends Collection
      */
     public function export($header, $path = '', $disk = 'local')
     {
-        $excel = new Class($header, $this->items) implements ExcelContract
-        {
+        $excel = new class($header, $this->items) implements ExcelContract {
             protected $headers;
 
             protected $sheets;
@@ -94,7 +93,7 @@ class CatchModelCollection extends Collection
      */
     public function getAllChildrenIds(array $ids, $parentFields = 'parent_id', $column = 'id')
     {
-        array_walk($ids, function (&$item){
+        array_walk($ids, function (&$item) {
             $item = intval($item);
         });
 

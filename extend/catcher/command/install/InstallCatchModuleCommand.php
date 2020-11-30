@@ -29,7 +29,7 @@ class InstallCatchModuleCommand extends Command
 {
     protected function configure()
     {
-      $this->setName('catch-install:module')
+        $this->setName('catch-install:module')
            ->addArgument('module', Argument::REQUIRED, 'module name')
            ->addOption('app', '-app', Option::VALUE_NONE, 'module install at [app] path')
            ->setDescription('install catch module');

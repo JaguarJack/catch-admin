@@ -1,17 +1,17 @@
 <?php
 
 return [
-        /**
+    /**
         * set domain if you need
         *
         */
-        'domain' => '',
+    'domain' => '',
 
-        /**
+    /**
         * 权限配置
         *
         */
-        'permissions' => [
+    'permissions' => [
         /**
         * get 请求不验证
         */
@@ -29,7 +29,7 @@ return [
          * 尽量使用唯以字符
          *
          */
-        'method_auth_mark' => '@CatchAuth'
+        'method_auth_mark' => '@little'
     ],
     /**
     *  auth 认证
@@ -38,32 +38,42 @@ return [
     'auth' => [
         // 默认
         'default' => [
-        'guard' => 'admin',
-    ],
-    // 门面设置
-    'guards' => [
-        // admin 认证
-        'admin' => [
-            'driver' => 'jwt',
-            'provider' => 'admin_users',
+            'guard' => 'admin',
         ],
-        // 开发者认证
-        'developer' => [
-            'driver' => 'jwt',
-            'provider' => 'developer',
+        // 门面设置
+        'guards' => [
+            // admin 认证
+            'admin' => [
+                'driver' => 'jwt',
+                'provider' => 'admin_users',
+            ],
+            // 开发者认证
+            'developer' => [
+                'driver' => 'jwt',
+                'provider' => 'developer',
+            ],
+            // 会员认证
+            'member' => [
+                'driver' => 'jwt',
+                'provider' => 'member',
+            ],
         ],
-    ],
-    // 服务提供
-    'providers' => [
-        // 后台用户认证服务
-        'admin_users' => [
+        // 服务提供
+        'providers' => [
+            // 后台用户认证服务
+            'admin_users' => [
                 'driver' => 'orm',
                 'model' =>  \catchAdmin\permissions\model\Users::class,
             ],
-        // 开发这认证服务
-        'developer' => [
-            'driver'=> 'orm',
-            'model' => \catchAdmin\system\model\Developers::class
+            // 开发着认证服务
+            'developer' => [
+                'driver' => 'orm',
+                'model' => \catchAdmin\system\model\Developers::class
+            ],
+            // 会员认证认证服务
+            'member' => [
+                'driver' => 'orm',
+                'model' => \catchAdmin\system\model\Developers::class
             ]
         ],
     ],

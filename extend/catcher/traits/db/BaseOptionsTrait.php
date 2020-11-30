@@ -9,6 +9,119 @@ use think\Collection;
 trait BaseOptionsTrait
 {
     /**
+     * 允许更新字段
+     *
+     * @return void
+     */
+    public function allow_field()
+    {
+        $fields =  $this->getFields();
+        $allow_field = [];
+        foreach ($fields as $field) {
+            $item = explode('|', $field['comment']);
+            if (isset($item[3]) && !is_empty($item[3])) {
+                $allow_field[] =  $field['name'];
+            }
+        }
+        return $allow_field;
+    }
+    /**
+     * 查询CURD布局
+     *
+     * @time 2020年04月28日
+     * @return mixed
+     */
+    public function getLayout()
+    {
+        $fields =  $this->getFields();
+        $table = [];
+        $form = [];
+        $edit_form = [];
+        $form_rules = [];
+        $edit_rules = [];
+        $topSearch = [];
+        $items = [];
+        // return  $fields;
+        foreach ($fields as $field) {
+            $item = explode('|', $field['comment']);
+            $items[] = count($item);
+            $type = 'text';
+            if (strpos($field['type'], 'char') !== false || strpos($field['type'], 'text') !== false)
+                $type = 'input';
+            if (strpos($field['name'], '_time') !== false)
+                $type = 'date';
+            if (strpos($field['name'], '_img') !== false)
+                $type = 'upload-image';
+            if ($field['name'] == "id" || strpos($field['name'], '_at') !== false || strpos($field['type'], 'decimal') !== false)
+                $type = 'text';
+            if (strpos($field['name'], 'password_safety') !== false)
+                continue;
+            if (strpos($field['name'], 'status') !== false || strpos($field['name'], 'is_') !== false)
+                $type = 'switch';
+            if (count($item) >= 2) {
+                if (isset($item[1]) && !is_empty($item[1])) {
+                    $table[$field['name']] = [
+                        'label' => $item[0],
+                        'sortable' => true,
+                        'type' => $type,
+                    ];
+                }
+                if (isset($item[2]) && !is_empty($item[2])) {
+                    $form[$field['name']] = [
+                        'label' => $item[0],
+                        'type' => $type,
+                    ];
+                    $form_rules[$field['name']] = [
+                        'message' => $item[0],
+                        'required' => $field['notnull'],
+                    ];
+                }
+                if (isset($item[3]) && !is_empty($item[3])) {
+                    $edit_form[$field['name']] = [
+                        'label' => $item[0],
+                        'type' => $type,
+                    ];
+                    $edit_rules[$field['name']] = [
+                        'message' => $item[0],
+                        'required' => $field['notnull'],
+                    ];
+                }
+                if (isset($item[4]) && !is_empty($item[4])) {
+                    $array = [
+                        'text' =>    $item[0],
+                        'type' => $item[4],
+                        'value' =>    $field['name'],
+                    ];
+                    if ($item[4] == "select") {
+                        $array['options'] = [
+                            [
+                                'text' => "否",
+                                'type' => "danger",
+                                'value' => 0,
+                            ], [
+                                'text' => "是",
+                                'type' => "success",
+                                'value' => 1,
+                            ]
+                        ];
+                    }
+                    $topSearch[] = $array;
+                }
+            }
+        }
+        $layout = [
+            'tableDesc' => $table,
+            'formDesc' => $form,
+            'editDesc' => $edit_form,
+            'formRules' => $form_rules,
+            'editRules' => $edit_rules,
+            'topButtons' => [],
+            'rightButtons' => [],
+            'topSearch' => $topSearch,
+        ];
+        return $layout;
+    }
+    /**
      * 查询列表
      *
      * @time 2020年04月28日
@@ -61,17 +174,17 @@ trait BaseOptionsTrait
 
         return $model->{$this->getPk()};
     }
-  /**33
-   *
-   * @time 2019年12月03日
-   * @param $id
-   * @param $data
-   * @param string $field
-   * @return bool
-   */
+    /**
+     *
+     * @time 2019年12月03日
+     * @param $id
+     * @param $data
+     * @param string $field
+     * @return bool
+     */
     public function updateBy($id, $data, $field = ''): bool
     {
-        if (static::update($data, [$field ? : $this->getPk() => $id], $this->field)) {
+        if (static::update($data, [$field ?: $this->getPk() => $id], $this->field)) {
             return true;
         }
 
@@ -147,24 +260,24 @@ trait BaseOptionsTrait
         return static::onlyTrashed()->find($id)->restore();
     }
 
-  /**
-   * 获取删除字段
-   *
-   * @time 2020年01月13日
-   * @return mixed
-   */
+    /**
+     * 获取删除字段
+     *
+     * @time 2020年01月13日
+     * @return mixed
+     */
     public function getDeleteAtField()
     {
-      return $this->deleteTime;
+        return $this->deleteTime;
     }
 
-  /**
-   * 别名
-   *
-   * @time 2020年01月13日
-   * @param $field
-   * @return string
-   */
+    /**
+     * 别名
+     *
+     * @time 2020年01月13日
+     * @param $field
+     * @return string
+     */
     public function aliasField($field): string
     {
         return sprintf('%s.%s', $this->getTable(), $field);
@@ -178,7 +291,7 @@ trait BaseOptionsTrait
      * @param string $field
      * @return mixed
      */
-    public function disOrEnable($id, $field='status')
+    public function disOrEnable($id, $field = 'status')
     {
         $model = $this->findBy($id);
 

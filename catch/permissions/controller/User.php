@@ -1,4 +1,5 @@
 <?php
+
 namespace catchAdmin\permissions\controller;
 
 use catchAdmin\permissions\excel\UserExport;
@@ -24,7 +25,7 @@ class User extends CatchController
 
     public function __construct(Users $user)
     {
-       $this->user = $user;
+        $this->user = $user;
     }
 
     /**
@@ -38,34 +39,48 @@ class User extends CatchController
         return CatchResponse::paginate($this->user->getList());
     }
 
-  /**
-   * 获取用户信息
-   *
-   * @time 2020年01月07日
-   * @param CatchAuth $auth
-   * @throws \think\db\exception\DataNotFoundException
-   * @throws \think\db\exception\DbException
-   * @throws \think\db\exception\ModelNotFoundException
-   * @return \think\response\Json
-   */
+    /**
+     * 获取用户信息
+     *
+     * @time 2020年01月07日
+     * @param CatchAuth $auth
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @return \think\response\Json
+     */
     public function info(CatchAuth $auth)
     {
-        $user = $auth->user();
+        try {
+            $user = $auth->user();
+            $roles = $user->getRoles()->column('identify');
 
-        $roles = $user->getRoles()->column('identify');
+            $permissionIds = $user->getPermissionsBy($user->id);
+            // 缓存用户权限
+            Cache::set(CatchCacheKeys::USER_PERMISSIONS . $user->id, $permissionIds);
 
-        $permissionIds = $user->getPermissionsBy($user->id);
-        // 缓存用户权限
-        Cache::set(CatchCacheKeys::USER_PERMISSIONS . $user->id, $permissionIds);
+            $user->permissions = Permissions::getCurrentUserPermissions($permissionIds);
 
-        $user->permissions = Permissions::getCurrentUserPermissions($permissionIds);
+            $user->roles = $roles;
 
-        $user->roles = $roles;
-
-        // 用户数据权限
-        // $user->data_range = Roles::getDepartmentUserIdsBy($roles);
-
-        return CatchResponse::success($user);
+            // 用户数据权限
+            // $user->data_range = Roles::getDepartmentUserIdsBy($roles);
+            return CatchResponse::success($user);
+        } catch (\Exception $exception) {
+            $user = $auth->guard('developer')->user();
+            // return json($user);
+            // $roles = $user->getRoles()->column('identify');
+            // $permissionIds = $user->getPermissionsBy($user->id);
+            // // 缓存用户权限
+            // Cache::set(CatchCacheKeys::USER_PERMISSIONS . $user->id, $permissionIds);
+            // $user->permissions = Permissions::getCurrentUserPermissions($permissionIds);
+            // $user->roles = $roles;
+            // 用户数据权限
+            // $user->data_range = Roles::getDepartmentUserIdsBy($roles);
+            // return json($user);
+            return CatchResponse::success($user);
+        } catch (\Exception $exception) {
+        }
     }
 
     /**
@@ -137,13 +152,13 @@ class User extends CatchController
         $ids = Utils::stringToArrayBy($id);
 
         foreach ($ids as $_id) {
-          $user = $this->user->findBy($_id);
-          // 删除角色
-          $user->detachRoles();
-          // 删除岗位
-          $user->detachJobs();
+            $user = $this->user->findBy($_id);
+            // 删除角色
+            $user->detachRoles();
+            // 删除岗位
+            $user->detachJobs();
 
-          $this->user->deleteBy($_id);
+            $this->user->deleteBy($_id);
         }
 
         return CatchResponse::success();
@@ -160,12 +175,11 @@ class User extends CatchController
         $ids = Utils::stringToArrayBy($id);
 
         foreach ($ids as $_id) {
+            $user = $this->user->findBy($_id);
 
-          $user = $this->user->findBy($_id);
-
-          $this->user->updateBy($_id, [
-            'status' => $user->status == Users::ENABLE ? Users::DISABLE : Users::ENABLE,
-          ]);
+            $this->user->updateBy($_id, [
+                'status' => $user->status == Users::ENABLE ? Users::DISABLE : Users::ENABLE,
+            ]);
         }
 
         return CatchResponse::success([], '操作成功');
@@ -182,13 +196,13 @@ class User extends CatchController
      */
     public function recover($id): \think\response\Json
     {
-       $trashedUser = $this->user->findBy($id, ['*'], true);
+        $trashedUser = $this->user->findBy($id, ['*'], true);
 
-       if ($this->user->where('email', $trashedUser->email)->find()) {
-           return CatchResponse::fail(sprintf('该恢复用户的邮箱 [%s] 已被占用', $trashedUser->email));
-       }
+        if ($this->user->where('account', $trashedUser->account)->find()) {
+            return CatchResponse::fail(sprintf('该恢复用户的账号 [%s] 已被占用', $trashedUser->account));
+        }
 
-       return CatchResponse::success($this->user->recover($id));
+        return CatchResponse::success($this->user->recover($id));
     }
 
     /**
@@ -239,6 +253,6 @@ class User extends CatchController
      */
     public function profile(ProfileRequest $request)
     {
-       return CatchResponse::success($this->user->updateBy($request->user()->id, $request->param()));
+        return CatchResponse::success($this->user->updateBy($request->user()->id, $request->param()));
     }
 }

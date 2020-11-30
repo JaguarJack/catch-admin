@@ -1,7 +1,7 @@
 <?php
 namespace catcher\validates;
 
-interface  ValidateInterface
+interface ValidateInterface
 {
     public function type(): string ;
 

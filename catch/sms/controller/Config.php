@@ -29,7 +29,7 @@ class Config extends CatchController
      * 列表
      *
      * @time 2020/09/16 17:28
-     *  
+     *
      * @return \think\Response
      */
     public function index()
@@ -41,7 +41,7 @@ class Config extends CatchController
      * 保存
      *
      * @time 2020/09/16 17:28
-     * @param Request Request 
+     * @param Request Request
      * @return \think\Response
      */
     public function save(Request $request)
@@ -53,19 +53,19 @@ class Config extends CatchController
      * 读取
      *
      * @time 2020/09/16 17:28
-     * @param $id 
+     * @param $id
      * @return \think\Response
      */
     public function read($id)
     {
-       return CatchResponse::success($this->model->findBy($id));
+        return CatchResponse::success($this->model->findBy($id));
     }
     
     /**
      * 更新
      *
      * @time 2020/09/16 17:28
-     * @param Request $request 
+     * @param Request $request
      * @return \think\Response
      */
     public function update(Request $request, $id)
@@ -77,13 +77,11 @@ class Config extends CatchController
      * 删除
      *
      * @time 2020/09/16 17:28
-     * @param $id 
+     * @param $id
      * @return \think\Response
      */
     public function delete($id)
     {
         return CatchResponse::success($this->model->deleteBy($id));
     }
-    
-    
 }

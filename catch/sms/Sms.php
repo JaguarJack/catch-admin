@@ -181,11 +181,10 @@ class Sms
             if ($c) {
                 $c->hasConfig()
                     ->select()
-                    ->each(function ($item) use (&$gatewaysConfig, $gate){
-                         $gatewaysConfig[$gate][$item['key']] = $item['value'];
+                    ->each(function ($item) use (&$gatewaysConfig, $gate) {
+                        $gatewaysConfig[$gate][$item['key']] = $item['value'];
                     });
             }
-
         }
 
         return $gatewaysConfig;

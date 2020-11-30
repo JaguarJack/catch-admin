@@ -71,7 +71,6 @@ trait RegisterSignal
     protected function waitWorkersExit()
     {
         Process::signal(SIGCHLD, function ($signal) {
-
         });
     }
 
@@ -93,7 +92,7 @@ trait RegisterSignal
                 // 任务
                 foreach ($crontabs as $crontab) {
                     $can = date('Y-m-d H:i', CronExpression::factory(trim($crontab['cron']))
-                                ->getNextRunDate(date('Y-m-d H:i:s'), 0 , true)
+                                ->getNextRunDate(date('Y-m-d H:i:s'), 0, true)
                                 ->getTimestamp()) == date('Y-m-d H:i', time());
 
                     if ($can) {
@@ -116,7 +115,7 @@ trait RegisterSignal
                 $process->exit();
             });
 
-           $process->start();
+            $process->start();
 
             Process::alarm($this->interval);
         });
@@ -154,5 +153,3 @@ trait RegisterSignal
         });
     }
 }
-
-

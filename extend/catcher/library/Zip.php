@@ -59,7 +59,6 @@ class Zip
             foreach ($files as $file) {
                 $this->zipArchive->addFile($file->getPathname(), $this->folder . $file->getRelativePathname());
             }
-
         } else {
             foreach ($files as $file) {
                 $this->zipArchive->addFile($file->getPathname(), $this->folder . $file->getPathname());
@@ -118,5 +117,4 @@ class Zip
             $this->zipArchive->close();
         }
     }
-
 }

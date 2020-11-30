@@ -55,7 +55,7 @@ class PermissionsMiddleware
                         $this->getPermission($module, $controller, $action);
 
         if (!$permission || !in_array($permission->id, Cache::get(CatchCacheKeys::USER_PERMISSIONS . $user->id))) {
-          throw new PermissionForbiddenException();
+            throw new PermissionForbiddenException();
         }
 
         return $next($request);

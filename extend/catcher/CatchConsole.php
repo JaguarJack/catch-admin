@@ -43,7 +43,7 @@ class CatchConsole
         /*  \Symfony\Component\Finder\SplFileInfo $command */
         foreach ($commandFiles as $command) {
             if ($command->getExtension() === 'php') {
-                $lastPath = str_replace($this->parseNamespace(), '',pathinfo($command, PATHINFO_DIRNAME));
+                $lastPath = str_replace($this->parseNamespace(), '', pathinfo($command, PATHINFO_DIRNAME));
                 $namespace = $this->namespace . str_replace(DIRECTORY_SEPARATOR, '\\', $lastPath) . '\\';
                 $commandClass = $namespace . pathinfo($command, PATHINFO_FILENAME);
                 $commands[] = $commandClass;
@@ -102,5 +102,4 @@ class CatchConsole
 
         return $this;
     }
-
 }

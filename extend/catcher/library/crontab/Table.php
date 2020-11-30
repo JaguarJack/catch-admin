@@ -31,7 +31,6 @@ trait Table
         $this->table->column('deal_tasks', STable::TYPE_INT, 4);
         $this->table->column('errors', STable::TYPE_INT, 4);
         $this->table->create();
-
     }
 
 

@@ -30,7 +30,7 @@ class RolesSeed extends Seeder
             'creator_id' => 1,
         ]);
 
-        \think\facade\Db::name( 'user_has_roles')->insert([
+        \think\facade\Db::name('user_has_roles')->insert([
             'role_id' => 1,
             'uid' => 1,
         ]);

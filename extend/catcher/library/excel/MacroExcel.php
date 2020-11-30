@@ -127,7 +127,6 @@ trait MacroExcel
     protected function setTitle()
     {
         if (method_exists($this->excel, 'setTitle')) {
-
             [$cells, $title, $style] = $this->excel->setTitle();
 
             $this->getWorksheet()
@@ -136,7 +135,6 @@ trait MacroExcel
                  ->getStyle($cells) // 设置样式
                  ->getAlignment()
                  ->setHorizontal($style);
-
         }
     }
 

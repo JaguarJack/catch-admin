@@ -5,5 +5,4 @@ use think\Validate;
 
 class CatchValidate extends Validate
 {
-  
 }

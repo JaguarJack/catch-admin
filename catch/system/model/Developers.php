@@ -21,16 +21,16 @@ class Developers extends Model
     protected $name = 'developers';
 
     protected $field = [
-        'id', // 
-		'username', // 用户名
-		'password', // 密码
-		'mobile', // 手机号
-		'id_card', // 身份证
-		'alipay_account', // 支付宝账户
-		'status', // 1 待认证 1 已认证
-		'created_at', // 创建时间
-		'updated_at', // 更新时间
-		'deleted_at', // 软删除
+        'id', //
+        'username', // 用户名
+        'password', // 密码
+        'mobile', // 手机号
+        'id_card', // 身份证
+        'alipay_account', // 支付宝账户
+        'status', // 1 待认证 1 已认证
+        'created_at', // 创建时间
+        'updated_at', // 更新时间
+        'deleted_at', // 软删除
     ];
 
 
@@ -38,5 +38,4 @@ class Developers extends Model
     {
         return password_hash($value, PASSWORD_DEFAULT);
     }
-  
 }

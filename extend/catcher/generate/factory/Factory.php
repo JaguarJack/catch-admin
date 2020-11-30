@@ -6,7 +6,7 @@ use think\facade\Db;
 
 abstract class Factory
 {
-   abstract public function done($param);
+    abstract public function done($param);
 
     /**
      * parse psr4 path
@@ -42,7 +42,7 @@ abstract class Factory
 
         CatchAdmin::makeDirectory($filePath);
 
-        return $filePath . DIRECTORY_SEPARATOR . ucfirst($filename ). '.php';
+        return $filePath . DIRECTORY_SEPARATOR . ucfirst($filename). '.php';
     }
 
     /**

@@ -14,5 +14,4 @@ class UpdateRequest extends CatchRequest
             'word|词汇' => 'sensitive_word|unique:'.SensitiveWord::class.',word,'.$id,
         ];
     }
-
 }

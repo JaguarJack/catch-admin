@@ -1,4 +1,5 @@
 <?php
+
 namespace catcher;
 
 use think\helper\Arr;
@@ -65,7 +66,7 @@ class CatchAdmin
      */
     public static function backupDirectory(): string
     {
-        return self::makeDirectory(self::cacheDirectory() . 'backup' .DIRECTORY_SEPARATOR);
+        return self::makeDirectory(self::cacheDirectory() . 'backup' . DIRECTORY_SEPARATOR);
     }
 
     /**
@@ -76,7 +77,7 @@ class CatchAdmin
      */
     public static function moduleMigrationsDirectory($module): string
     {
-        return self::directory() . $module . DIRECTORY_SEPARATOR . 'database' . DIRECTORY_SEPARATOR. 'migrations' . DIRECTORY_SEPARATOR;
+        return self::directory() . $module . DIRECTORY_SEPARATOR . 'database' . DIRECTORY_SEPARATOR . 'migrations' . DIRECTORY_SEPARATOR;
     }
 
     /**
@@ -87,7 +88,7 @@ class CatchAdmin
      */
     public static function moduleSeedsDirectory($module): string
     {
-        $seedPath = self::directory() . $module . DIRECTORY_SEPARATOR . 'database' . DIRECTORY_SEPARATOR. 'seeds' . DIRECTORY_SEPARATOR;
+        $seedPath = self::directory() . $module . DIRECTORY_SEPARATOR . 'database' . DIRECTORY_SEPARATOR . 'seeds' . DIRECTORY_SEPARATOR;
 
         self::makeDirectory($seedPath);
 
@@ -259,7 +260,7 @@ class CatchAdmin
             chmod($moduleJson, 666);
         }
 
-        file_put_contents($moduleJson, \json_encode($info, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE));
+        file_put_contents($moduleJson, \json_encode($info, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
 
         return true;
     }
@@ -294,7 +295,7 @@ class CatchAdmin
     public static function getModuleInfo($module)
     {
         if (file_exists($module . DIRECTORY_SEPARATOR . 'module.json')) {
-            return \json_decode(file_get_contents($module. DIRECTORY_SEPARATOR . 'module.json'), true);
+            return \json_decode(file_get_contents($module . DIRECTORY_SEPARATOR . 'module.json'), true);
         }
         return [];
     }
@@ -371,7 +372,7 @@ class CatchAdmin
         $routes = '';
 
         foreach (self::getModuleRoutes() as $route) {
-            $routes .= trim(str_replace('<?php', '',  file_get_contents($route))) . PHP_EOL;
+            $routes .= trim(str_replace('<?php', '', file_get_contents($route))) . PHP_EOL;
         }
 
         return file_put_contents(self::getCacheRoutesFile(), "<?php\r\n " . $routes);
@@ -447,7 +448,4 @@ class CatchAdmin
     {
         return self::cacheDirectory() . 'routes.php';
     }
-
 }
-
-

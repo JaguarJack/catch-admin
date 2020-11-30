@@ -146,7 +146,7 @@ class Master
                     list($waiting, $process) = $this->hasWaitingProcess();
                     if ($waiting) {
                         // 向 process 投递 cron
-                       $process->push(serialize($cron));
+                        $process->push(serialize($cron));
                     } else {
                         // 创建临时 process 处理，处理完自动销毁
                         $this->createProcess($cron);
@@ -215,7 +215,6 @@ class Master
     protected function initProcesses()
     {
         for ($i = 0; $i < $this->staticNum; $i++) {
-
             $process = $this->createStaticProcess();
             // $worker->name("[$i+1]catch-worker");
 
@@ -270,7 +269,8 @@ class Master
     {
         $channels = config('log.channels');
 
-        $channels['schedule'] = config('catch.schedule.log');;
+        $channels['schedule'] = config('catch.schedule.log');
+        ;
 
         config([
             'channels' => $channels,

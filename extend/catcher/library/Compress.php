@@ -58,7 +58,7 @@ class Compress
                     ])
                     ->get($remotePackageUrl);
 
-       return $response->ok();
+        return $response->ok();
     }
 
     /**
@@ -158,7 +158,7 @@ class Compress
                 // md5 校验 文件是否修改过
                 if (md5_file($originModuleFile) != md5_file($fileSystem->getPathname())) {
                     if (!copy($fileSystem->getPathname(), $originModuleFile)) {
-                       throw new FailedException('更新失败');
+                        throw new FailedException('更新失败');
                     }
                 }
             }

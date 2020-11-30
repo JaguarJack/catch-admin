@@ -42,11 +42,11 @@ trait Process
             // Swoole\Process::signal ignalfd 和 EventLoop 是异步 IO，不能用于阻塞的程序中，会导致注册的监听回调函数得不到调度
             // 同步阻塞的程序可以使用 pcntl 扩展提供的 pcntl_signal
             // 安全退出进程
-            pcntl_signal(SIGTERM, function() {
+            pcntl_signal(SIGTERM, function () {
                 $this->quit = true;
             });
 
-            pcntl_signal(SIGUSR1, function () use ($process){
+            pcntl_signal(SIGUSR1, function () use ($process) {
                 // todo
                 $this->updateTask($process->pid);
             });

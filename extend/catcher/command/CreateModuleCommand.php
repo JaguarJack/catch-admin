@@ -34,7 +34,7 @@ class CreateModuleCommand extends Command
     protected function configure()
     {
         $this->setName('create:module')
-            ->addArgument('module', Argument::REQUIRED,  'module name')
+            ->addArgument('module', Argument::REQUIRED, 'module name')
             ->setDescription('create module service');
     }
 
@@ -131,8 +131,7 @@ class CreateModuleCommand extends Command
      */
     protected function createDir()
     {
-        foreach ($this->modulePath() as $path)
-        {
+        foreach ($this->modulePath() as $path) {
             CatchAdmin::makeDirectory($path);
         }
     }
@@ -161,9 +160,12 @@ class CreateModuleCommand extends Command
     {
         $service = FileSystem::sharedGet(__DIR__ . DIRECTORY_SEPARATOR . 'stubs' . DIRECTORY_SEPARATOR . 'service.stub');
 
-        $content = str_replace(['{NAMESPACE}', '{SERVICE}'],
+        $content = str_replace(
+            ['{NAMESPACE}', '{SERVICE}'],
             [substr($this->namespaces, 0, -1),
-                ucfirst($this->module) . 'Service'], $service);
+                ucfirst($this->module) . 'Service'],
+            $service
+        );
 
         FileSystem::put($this->moduleDir . ucfirst($this->module) . 'Service.php', $content);
     }
@@ -178,9 +180,12 @@ class CreateModuleCommand extends Command
     {
         $moduleJson = FileSystem::sharedGet(__DIR__ . DIRECTORY_SEPARATOR . 'stubs' . DIRECTORY_SEPARATOR . 'module.stub');
 
-        $content = str_replace(['{NAME}','{DESCRIPTION}','{MODULE}', '{SERVICE}'],
+        $content = str_replace(
+            ['{NAME}','{DESCRIPTION}','{MODULE}', '{SERVICE}'],
             [$this->name, $this->description,
-                $this->module,  '\\\\'. str_replace('\\', '\\\\',$this->namespaces . ucfirst($this->module) . 'Service')], $moduleJson);
+                $this->module,  '\\\\'. str_replace('\\', '\\\\', $this->namespaces . ucfirst($this->module) . 'Service')],
+            $moduleJson
+        );
 
         FileSystem::put($this->moduleDir . 'module.json', $content);
     }

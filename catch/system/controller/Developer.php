@@ -30,7 +30,7 @@ class Developer extends CatchController
      * 列表
      *
      * @time 2020/07/13 15:26
-     *  
+     *
      * @return \think\Response
      */
     public function index()
@@ -55,7 +55,7 @@ class Developer extends CatchController
      * 保存
      *
      * @time 2020/07/13 15:26
-     * @param Request Request 
+     * @param Request Request
      * @return \think\Response
      */
     public function save(Request $request)
@@ -67,19 +67,19 @@ class Developer extends CatchController
      * 读取
      *
      * @time 2020/07/13 15:26
-     * @param $id 
+     * @param $id
      * @return \think\Response
      */
     public function read($id)
     {
-       return CatchResponse::success($this->model->findBy($id)); 
+        return CatchResponse::success($this->model->findBy($id));
     }
     
     /**
      * 更新
      *
      * @time 2020/07/13 15:26
-     * @param Request $request 
+     * @param Request $request
      * @return \think\Response
      */
     public function update(Request $request, $id)
@@ -91,13 +91,11 @@ class Developer extends CatchController
      * 删除
      *
      * @time 2020/07/13 15:26
-     * @param $id 
+     * @param $id
      * @return \think\Response
      */
     public function delete($id)
     {
         return CatchResponse::success($this->model->deleteBy($id));
     }
-    
-    
 }

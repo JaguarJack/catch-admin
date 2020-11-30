@@ -28,8 +28,8 @@ class SensitiveWord extends Migrator
      */
     public function change()
     {
-        $table  =  $this->table('sensitive_word',['engine'=>'InnoDB', 'comment' => '敏感词库', 'signed' => false]);
-        $table->addColumn('word', 'string',['limit'  =>  50,'default'=>'','comment'=>'词汇'])
+        $table  =  $this->table('sensitive_word', ['engine'=>'InnoDB', 'comment' => '敏感词库', 'signed' => false]);
+        $table->addColumn('word', 'string', ['limit'  =>  50,'default'=>'','comment'=>'词汇'])
               ->addColumn('creator_id', 'integer', array('default'=>0, 'comment'=>'创建人ID', 'signed' => false ))
               ->addColumn('created_at', 'integer', array('default'=>0, 'comment'=>'创建时间', 'signed' => false ))
               ->addColumn('updated_at', 'integer', array('default'=>0, 'comment'=>'更新时间', 'signed' => false ))

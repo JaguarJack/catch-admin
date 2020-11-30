@@ -8,7 +8,6 @@ use JaguarJack\MigrateGenerator\MigrateGenerator;
 use think\facade\Db;
 use think\helper\Str;
 
-
 class Migration extends Factory
 {
     public function done($params)

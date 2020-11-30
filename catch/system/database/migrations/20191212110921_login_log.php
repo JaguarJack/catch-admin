@@ -28,13 +28,13 @@ class LoginLog extends Migrator
      */
     public function change()
     {
-        $table  =  $this->table('login_log',['engine'=>'Myisam', 'comment' => '登录日志', 'signed' => false]);
-        $table->addColumn('login_name', 'string',['limit'  =>  50,'default'=>'','comment'=>'用户名'])
-              ->addColumn('login_ip', 'string',['default'=>0, 'limit' => 20, 'comment'=>'登录地点ip', 'signed' => false])
-              ->addColumn('browser', 'string',['default'=> '','comment'=>'浏览器'])
-              ->addColumn('os', 'string',['default'=> '','comment'=>'操作系统'])
+        $table  =  $this->table('login_log', ['engine'=>'Myisam', 'comment' => '登录日志', 'signed' => false]);
+        $table->addColumn('login_name', 'string', ['limit'  =>  50,'default'=>'','comment'=>'用户名'])
+              ->addColumn('login_ip', 'string', ['default'=>0, 'limit' => 20, 'comment'=>'登录地点ip', 'signed' => false])
+              ->addColumn('browser', 'string', ['default'=> '','comment'=>'浏览器'])
+              ->addColumn('os', 'string', ['default'=> '','comment'=>'操作系统'])
               ->addColumn('login_at', 'integer', array('default'=>0,'comment'=>'登录时间', 'signed' => false ))
-              ->addColumn('status', 'integer',['limit' => \Phinx\Db\Adapter\MysqlAdapter::INT_TINY,'default'=> 1,'comment'=>'1 成功 2 失败'])
+              ->addColumn('status', 'integer', ['limit' => \Phinx\Db\Adapter\MysqlAdapter::INT_TINY,'default'=> 1,'comment'=>'1 成功 2 失败'])
               ->create();
     }
 }

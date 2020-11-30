@@ -46,13 +46,13 @@ class DataDictionary extends CatchController
         return CatchResponse::paginate(Paginator::make(array_slice($tables->toArray(), ($page - 1) * $limit, $limit), $limit, $page, $tables->count(), false, []));
     }
 
-  /**
-   *
-   * @time 2019年12月13日
-   * @param $table
-   * @return \think\response\Json
-   * @throws \Exception
-   */
+    /**
+     *
+     * @time 2019年12月13日
+     * @param $table
+     * @return \think\response\Json
+     * @throws \Exception
+     */
     public function view($table): \think\response\Json
     {
         return CatchResponse::success(array_values(Db::getFields($table)));
@@ -84,7 +84,7 @@ class DataDictionary extends CatchController
     {
         try {
             $backUpDatabase->done(trim(implode(',', \request()->post('data')), ','));
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             throw new FailedException($e->getMessage());
         }
 

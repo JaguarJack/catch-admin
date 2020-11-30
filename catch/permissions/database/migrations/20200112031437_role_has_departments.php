@@ -28,8 +28,8 @@ class RoleHasDepartments extends Migrator
      */
     public function change()
     {
-        $table  =  $this->table('role_has_departments',['engine'=>'Innodb', 'comment' => '角色部门表', 'signed' => false]);
-        $table->addColumn('role_id', 'integer',['comment'=>'角色ID', 'signed' => false])
+        $table  =  $this->table('role_has_departments', ['engine'=>'Innodb', 'comment' => '角色部门表', 'signed' => false]);
+        $table->addColumn('role_id', 'integer', ['comment'=>'角色ID', 'signed' => false])
             ->addColumn('department_id', 'integer', ['comment'=>'部门ID', 'signed' => false])
             ->create();
     }

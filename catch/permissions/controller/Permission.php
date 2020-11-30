@@ -1,7 +1,6 @@
 <?php
 namespace catchAdmin\permissions\controller;
 
-
 use catcher\base\CatchRequest as Request;
 use catcher\base\CatchController;
 use catcher\CatchResponse;
@@ -40,27 +39,27 @@ class Permission extends CatchController
         $this->permissions
              ->whereIn('parent_id', array_unique($menuList->column('id')))
              ->where('type', Permissions::BTN_TYPE)
-             ->select()->each(function ($item) use (&$buttonList){
+             ->select()->each(function ($item) use (&$buttonList) {
                  $buttonList[$item['parent_id']][] = $item->toArray();
              });
 
         // 子节点的 key
         $children = $request->param('actionList') ?? 'children';
         // 返回树结构
-        return CatchResponse::success($menuList->each(function (&$item) use ($buttonList, $children){
+        return CatchResponse::success($menuList->each(function (&$item) use ($buttonList, $children) {
             $item[$children] = $buttonList[$item['id']] ?? [];
         })->toTree());
     }
 
-  /**
-   *
-   * @time 2019年12月11日
-   * @param Request $request
-   * @return Json
-   * @throws \think\db\exception\DbException
-   * @throws \think\db\exception\ModelNotFoundException
-   * @throws \think\db\exception\DataNotFoundException
-   */
+    /**
+     *
+     * @time 2019年12月11日
+     * @param Request $request
+     * @return Json
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\db\exception\DataNotFoundException
+     */
     public function save(Request $request): Json
     {
         $params = $request->param();
@@ -117,7 +116,7 @@ class Permission extends CatchController
             $params['permission_mark'] = $permissionMark;
 
 
-            $this->permissions->where('id',$id)->update(array_merge($params, [
+            $this->permissions->where('id', $id)->update(array_merge($params, [
                 'parent_id' => $permission->parent_id,
                 'level'     => $permission->level,
                 'updated_at' => time()
@@ -140,7 +139,7 @@ class Permission extends CatchController
             return CatchResponse::success();
         }
 
-       throw new FailedException('更新失败');
+        throw new FailedException('更新失败');
     }
 
     /**
@@ -199,10 +198,8 @@ class Permission extends CatchController
         try {
             $methods = $parseClass->setModule('catch')->setRule($module, $controller)->onlySelfMethods();
             return CatchResponse::success($methods);
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             return CatchResponse::success([]);
         }
     }
 }
-
-

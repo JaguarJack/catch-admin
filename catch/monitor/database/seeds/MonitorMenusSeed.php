@@ -28,9 +28,9 @@ class MonitorMenusSeed extends Seeder
 
     protected function getPermissions()
     {
-       return array (
-  0 => 
-  array (
+        return array(
+  0 =>
+  array(
     'id' => 103,
     'permission_name' => '系统监控',
     'parent_id' => 0,
@@ -49,10 +49,10 @@ class MonitorMenusSeed extends Seeder
     'created_at' => 1600126383,
     'updated_at' => 1600136975,
     'deleted_at' => 0,
-    'children' => 
-    array (
-      0 => 
-      array (
+    'children' =>
+    array(
+      0 =>
+      array(
         'id' => 104,
         'permission_name' => '定时任务',
         'parent_id' => 103,
@@ -71,10 +71,10 @@ class MonitorMenusSeed extends Seeder
         'created_at' => 1600126931,
         'updated_at' => 1600136975,
         'deleted_at' => 0,
-        'children' => 
-        array (
-          0 => 
-          array (
+        'children' =>
+        array(
+          0 =>
+          array(
             'id' => 105,
             'permission_name' => '列表',
             'parent_id' => 104,
@@ -94,8 +94,8 @@ class MonitorMenusSeed extends Seeder
             'updated_at' => 1600136975,
             'deleted_at' => 0,
           ),
-          1 => 
-          array (
+          1 =>
+          array(
             'id' => 106,
             'permission_name' => '保存',
             'parent_id' => 104,
@@ -115,8 +115,8 @@ class MonitorMenusSeed extends Seeder
             'updated_at' => 1600136975,
             'deleted_at' => 0,
           ),
-          2 => 
-          array (
+          2 =>
+          array(
             'id' => 107,
             'permission_name' => '更新',
             'parent_id' => 104,
@@ -136,8 +136,8 @@ class MonitorMenusSeed extends Seeder
             'updated_at' => 1600136975,
             'deleted_at' => 0,
           ),
-          3 => 
-          array (
+          3 =>
+          array(
             'id' => 108,
             'permission_name' => '删除',
             'parent_id' => 104,
@@ -157,8 +157,8 @@ class MonitorMenusSeed extends Seeder
             'updated_at' => 1600136975,
             'deleted_at' => 0,
           ),
-          4 => 
-          array (
+          4 =>
+          array(
             'id' => 109,
             'permission_name' => '禁用/启用',
             'parent_id' => 104,
@@ -180,8 +180,8 @@ class MonitorMenusSeed extends Seeder
           ),
         ),
       ),
-      1 => 
-      array (
+      1 =>
+      array(
         'id' => 110,
         'permission_name' => '任务日志',
         'parent_id' => 103,
@@ -200,10 +200,10 @@ class MonitorMenusSeed extends Seeder
         'created_at' => 1600167562,
         'updated_at' => 1600188651,
         'deleted_at' => 0,
-        'children' => 
-        array (
-          0 => 
-          array (
+        'children' =>
+        array(
+          0 =>
+          array(
             'id' => 111,
             'permission_name' => '列表',
             'parent_id' => 110,
@@ -223,8 +223,8 @@ class MonitorMenusSeed extends Seeder
             'updated_at' => 1600168082,
             'deleted_at' => 0,
           ),
-          1 => 
-          array (
+          1 =>
+          array(
             'id' => 112,
             'permission_name' => '删除',
             'parent_id' => 110,

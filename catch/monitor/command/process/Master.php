@@ -203,7 +203,7 @@ class Master
     {
         $process = new Process(function (Process $process) {
             $redis = $this->getRedisHandle();
-            while($crontab = $redis->rpop($this->crontabQueueName)) {
+            while ($crontab = $redis->rpop($this->crontabQueueName)) {
                 $task = $this->getTaskObject(\json_decode($crontab, true));
                 $task->run();
             }

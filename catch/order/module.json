@@ -1,0 +1,15 @@
+{
+    "name": "订单管理",
+    "alias": "order",
+    "description": "订单管理",
+    "version": "1.0.0",
+    "keywords": ["订单管理"],
+    "order": 0,
+    "services": [
+        "\\catchAdmin\\order\\OrderService"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": [],
+    "enable": true
+}

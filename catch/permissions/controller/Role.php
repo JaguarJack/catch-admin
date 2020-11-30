@@ -20,14 +20,14 @@ class Role extends CatchController
         $this->role = $role;
     }
 
-  /**
-   *
-   * @time 2019年12月09日
-   * @return string
-   */
+    /**
+     *
+     * @time 2019年12月09日
+     * @return string
+     */
     public function index()
     {
-      return CatchResponse::success($this->role->getList());
+        return CatchResponse::success($this->role->getList());
     }
 
     /**
@@ -57,9 +57,9 @@ class Role extends CatchController
 
     public function read($id)
     {
-      $role = $this->role->findBy($id);
-      $role->permissions = $role->getPermissions();
-      return CatchResponse::success($role);
+        $role = $this->role->findBy($id);
+        $role->permissions = $role->getPermissions();
+        return CatchResponse::success($role);
     }
 
     /**

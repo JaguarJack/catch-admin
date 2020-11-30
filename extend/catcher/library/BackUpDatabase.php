@@ -146,8 +146,7 @@ class BackUpDatabase
 
         \config([
             'connections' => $connections,
-        ],'database.connections');
-
+        ], 'database.connections');
     }
 
     /**

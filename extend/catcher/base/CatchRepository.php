@@ -10,7 +10,6 @@
  */
 namespace catcher\base;
 
-
 /**
  * @method   getList(array $data = [])
  * @method   storeBy(array $data)

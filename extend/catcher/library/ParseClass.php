@@ -1,7 +1,6 @@
 <?php
 namespace catcher\library;
 
-
 use think\exception\ClassNotFoundException;
 
 class ParseClass
@@ -73,7 +72,7 @@ class ParseClass
             }
         }
 
-       return  $methods;
+        return  $methods;
     }
 
 
@@ -101,7 +100,7 @@ class ParseClass
      */
     protected function isMagicMethod($method)
     {
-       return strpos($method, '__') !== false;
+        return strpos($method, '__') !== false;
     }
 
     /**
@@ -141,5 +140,4 @@ class ParseClass
 
         return $this;
     }
-
 }

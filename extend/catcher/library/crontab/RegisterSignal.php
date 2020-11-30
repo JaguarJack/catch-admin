@@ -100,11 +100,11 @@ trait RegisterSignal
     protected function workerStatus()
     {
         return function () {
-           foreach ($this->processes as $pid => $process) {
+            foreach ($this->processes as $pid => $process) {
                 Process::kill($pid, SIGUSR1);
-           }
-           usleep(100);
-           $this->saveProcessStatus();
+            }
+            usleep(100);
+            $this->saveProcessStatus();
         };
     }
 
@@ -133,7 +133,7 @@ trait RegisterSignal
     public function catchPipeError()
     {
         return function () {
-           // todo
+            // todo
         };
     }
 }

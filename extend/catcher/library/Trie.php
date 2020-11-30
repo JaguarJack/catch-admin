@@ -6,7 +6,7 @@ use think\facade\Cache;
 
 class Trie
 {
-    protected  $tree = [];
+    protected $tree = [];
 
     protected $end = 'end';
 
@@ -31,18 +31,18 @@ class Trie
 
         $end = true;
         while ($len > 0) {
-             if ($end) {
-                 $array[] = [
+            if ($end) {
+                $array[] = [
                      $words[$len - 1] => ['end' => true],
                  ];
-             } else {
+            } else {
                 $latest = array_pop($array);
                 $array[] = [
                     $words[$len-1] => $latest,
                 ];
-             }
-             $end = false;
-             $len--;
+            }
+            $end = false;
+            $len--;
         }
 
         $this->tree = array_merge_recursive($this->tree, array_pop($array));
@@ -81,7 +81,7 @@ class Trie
         $len = count($words);
         for ($start = 0; $start < $len; $start++) {
             // 未搜索到
-            if (!isset($trieTree[$words[$start]]))  {
+            if (!isset($trieTree[$words[$start]])) {
                 continue;
             }
             $node = $trieTree[$words[$start]];
@@ -95,7 +95,7 @@ class Trie
                         $this->sensitiveWords[] = $this->sensitiveWord;
                         $this->sensitiveWord = '';
                     } else {
-                       break 2;
+                        break 2;
                     }
                 }
                 if (!$node) {
@@ -144,6 +144,6 @@ class Trie
      */
     public function cached()
     {
-       return Cache::store('redis')->set(CatchCacheKeys::TRIE_TREE, $this->tree);
+        return Cache::store('redis')->set(CatchCacheKeys::TRIE_TREE, $this->tree);
     }
 }

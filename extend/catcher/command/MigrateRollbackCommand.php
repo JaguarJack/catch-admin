@@ -24,17 +24,18 @@ use think\migration\command\migrate\Run;
 
 class MigrateRollbackCommand extends Rollback
 {
-  protected $module;
+    protected $module;
 
-  protected function configure()
-  {
-    $this->setName('catch-migrate:rollback')
+    protected function configure()
+    {
+        $this->setName('catch-migrate:rollback')
       ->setDescription('Rollback the last or to a specific migration')
       ->addArgument('module', Argument::REQUIRED, 'migrate the module database')
       ->addOption('--target', '-t', InputOption::VALUE_REQUIRED, 'The version number to rollback to')
       ->addOption('--date', '-d', InputOption::VALUE_REQUIRED, 'The date to rollback to')
       ->addOption('--force', '-f', InputOption::VALUE_NONE, 'Force rollback to ignore breakpoints')
-      ->setHelp(<<<EOT
+      ->setHelp(
+          <<<EOT
 The <info>catch-migrate:rollback</info> command reverts the last migration, or optionally up to a specific version
 
 <info>php think catch-migrate:rollback</info>
@@ -44,75 +45,75 @@ The <info>catch-migrate:rollback</info> command reverts the last migration, or o
 
 EOT
       );
-  }
-
-  /**
-   * Rollback the migration.
-   *
-   * @param Input $input
-   * @param Output $output
-   * @return void
-   */
-  protected function execute(Input $input, Output $output)
-  {
-    $this->module = $input->getArgument('module');
-    $version = $input->getOption('target');
-    $date = $input->getOption('date');
-    $force = !!$input->getOption('force');
-
-    // rollback the specified environment
-    $start = microtime(true);
-    if (null !== $date) {
-      $this->rollbackToDateTime(new \DateTime($date), $force);
-    } else {
-      if (!$version) {
-        $migrations = glob(CatchAdmin::moduleMigrationsDirectory($this->module) . '*.php');
-        foreach ($migrations as $migration) {
-          $version = explode('_', basename($migration))[0];
-          $this->rollback($version, $force);
-        }
-      } else {
-        $this->rollback($version, $force);
-      }
     }
-    $end = microtime(true);
-    $this->migrations = null;
-    $output->writeln('');
-    $output->writeln('<comment>All Done. Took ' . sprintf('%.4fs', $end - $start) . '</comment>');
-  }
 
-  /**
-   * 获取 migration path
-   *
-   * @time 2019年12月03日
-   * @return string
-   */
-  protected function getPath(): string
-  {
-    return CatchAdmin::moduleMigrationsDirectory($this->module);
-  }
+    /**
+     * Rollback the migration.
+     *
+     * @param Input $input
+     * @param Output $output
+     * @return void
+     */
+    protected function execute(Input $input, Output $output)
+    {
+        $this->module = $input->getArgument('module');
+        $version = $input->getOption('target');
+        $date = $input->getOption('date');
+        $force = !!$input->getOption('force');
 
-  /**
-   *
-   * @time 2020年01月21日
-   * @param null $version
-   * @param bool $force
-   * @return void
-   */
-  protected function rollback($version = null, $force = false)
-  {
-      $migrations = $this->getMigrations();
-      $versionLog = $this->getVersionLog();
-      $versions = array_keys($versionLog);
+        // rollback the specified environment
+        $start = microtime(true);
+        if (null !== $date) {
+            $this->rollbackToDateTime(new \DateTime($date), $force);
+        } else {
+            if (!$version) {
+                $migrations = glob(CatchAdmin::moduleMigrationsDirectory($this->module) . '*.php');
+                foreach ($migrations as $migration) {
+                    $version = explode('_', basename($migration))[0];
+                    $this->rollback($version, $force);
+                }
+            } else {
+                $this->rollback($version, $force);
+            }
+        }
+        $end = microtime(true);
+        $this->migrations = null;
+        $output->writeln('');
+        $output->writeln('<comment>All Done. Took ' . sprintf('%.4fs', $end - $start) . '</comment>');
+    }
 
-      if ($version) {
-          $this->executeMigration($migrations[$version], MigrationInterface::DOWN);
-      } else {
-          foreach ($migrations as $key => $migration) {
-              if (in_array($key, $versions)) {
-                  $this->executeMigration($migration, MigrationInterface::DOWN);
-              }
-          }
-      }
-  }
+    /**
+     * 获取 migration path
+     *
+     * @time 2019年12月03日
+     * @return string
+     */
+    protected function getPath(): string
+    {
+        return CatchAdmin::moduleMigrationsDirectory($this->module);
+    }
+
+    /**
+     *
+     * @time 2020年01月21日
+     * @param null $version
+     * @param bool $force
+     * @return void
+     */
+    protected function rollback($version = null, $force = false)
+    {
+        $migrations = $this->getMigrations();
+        $versionLog = $this->getVersionLog();
+        $versions = array_keys($versionLog);
+
+        if ($version) {
+            $this->executeMigration($migrations[$version], MigrationInterface::DOWN);
+        } else {
+            foreach ($migrations as $key => $migration) {
+                if (in_array($key, $versions)) {
+                    $this->executeMigration($migration, MigrationInterface::DOWN);
+                }
+            }
+        }
+    }
 }

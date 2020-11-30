@@ -1,0 +1,15 @@
+{
+    "name": "会员管理",
+    "alias": "member",
+    "description": "会员管理",
+    "version": "1.0.0",
+    "keywords": ["会员管理"],
+    "order": 0,
+    "services": [
+        "\\catchAdmin\\member\\MemberService"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": [],
+    "enable": true
+}

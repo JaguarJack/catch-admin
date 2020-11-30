@@ -1,6 +1,6 @@
 <?php
-namespace catcher\generate;
 
+namespace catcher\generate;
 
 use catcher\exceptions\FailedException;
 use catcher\generate\factory\Controller;
@@ -13,7 +13,6 @@ use think\facade\Db;
 
 class Generator
 {
-
     const NEED_PACKAGE = 'nikic/php-parser';
 
     /**
@@ -70,7 +69,6 @@ class Generator
                     // ->methods((new Controller())->parseOtherMethods($controller['other_function']))
                     ->done();
             }
-
         } catch (\Exception $exception) {
             $this->rollback($files, $migration, $table);
             throw new FailedException($exception->getFile() . $exception->getLine() . $exception->getMessage());
@@ -131,8 +129,8 @@ class Generator
 
         $table = $params['controller']['table'] ?? '';
         if ($table) {
-            $table =  \config('database.connections.mysql.prefix') . $table;
-
+            // $table =  \config('database.connections.mysql.prefix') . $table;
+            $table =  $table;
         }
         $model = [
             'table' => $table,

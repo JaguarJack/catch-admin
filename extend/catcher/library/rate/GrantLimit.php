@@ -9,6 +9,7 @@
 // | Author: JaguarJack [ njphper@gmail.com ]
 // +----------------------------------------------------------------------
 namespace catcher\library\rate;
+
 use catcher\exceptions\FailedException;
 
 /**

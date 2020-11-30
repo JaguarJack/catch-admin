@@ -1,4 +1,5 @@
 <?php
+
 namespace catcher\command\install;
 
 use catcher\CatchAdmin;
@@ -11,7 +12,6 @@ use think\facade\Console;
 
 class InstallProjectCommand extends Command
 {
-
     protected $databaseLink = [];
 
     protected $defaultModule = ['permissions', 'system'];
@@ -19,7 +19,7 @@ class InstallProjectCommand extends Command
     protected function configure()
     {
         $this->setName('catch:install')
-            ->addOption('reinstall', '-r',Option::VALUE_NONE, 'reinstall back')
+            ->addOption('reinstall', '-r', Option::VALUE_NONE, 'reinstall back')
             ->setDescription('install project');
     }
 
@@ -36,18 +36,17 @@ class InstallProjectCommand extends Command
             $this->reInstall();
             $this->project();
         } else {
+            $this->detectionEnvironment();
 
-          $this->detectionEnvironment();
+            $this->firstStep();
 
-          $this->firstStep();
+            $this->secondStep();
 
-          $this->secondStep();
+            $this->thirdStep();
 
-          $this->thirdStep();
+            $this->finished();
 
-          $this->finished();
-
-          $this->project();
+            $this->project();
         }
     }
 
@@ -61,15 +60,16 @@ class InstallProjectCommand extends Command
     {
         $this->output->info('environment begin to check...');
 
-        if (version_compare(PHP_VERSION, '7.1.0', '<')) {
-            $this->output->error('php version should >= 7.1.0');
+        if (version_compare(PHP_VERSION, '7.4.0', '<')) {
+            $this->output->error('php version should >= 7.4.0');
             exit();
         }
 
         $this->output->info('php version ' . PHP_VERSION);
 
         if (!extension_loaded('mbstring')) {
-            $this->output->error('mbstring extension not install');exit();
+            $this->output->error('mbstring extension not install');
+            exit();
         }
         $this->output->info('mbstring extension is installed');
 
@@ -115,37 +115,37 @@ class InstallProjectCommand extends Command
         }
 
         // 设置 app domain
-        $appDomain = strtolower($this->output->ask($this->input, '👉 first, you should set app domain: '));
+        $appDomain = strtolower($this->output->ask($this->input, '👉 first, you should set app domain, default (https://task.51xshi.com): ')) ?: 'https://task.51xshi.com';
         if (strpos('http://', $appDomain) === false || strpos('https://', $appDomain) === false) {
             $appDomain = 'http://' . $appDomain;
         }
 
-        $answer = strtolower($this->output->ask($this->input, '🤔️ Did You Need to Set Database information? (Y/N): '));
+        $answer = strtolower($this->output->ask($this->input, '🤔️ Did You Need to Set Database information? (Y/N): ')) ?: 'y';
 
         if ($answer === 'y' || $answer === 'yes') {
-            $charset = $this->output->ask($this->input, '👉 please input database charset, default (utf8mb4):') ? : 'utf8mb4';
+            $charset = $this->output->ask($this->input, '👉 please input database charset, default (utf8mb4):') ?: 'utf8mb4';
             $database = '';
             while (!$database) {
-                $database = $this->output->ask($this->input, '👉 please input database name: ');
+                $database = $this->output->ask($this->input, '👉 please input database name, default(reward_task): ') ?: 'reward_task';
                 if ($database) {
                     break;
                 }
             }
-            $host = $this->output->ask($this->input, '👉 please input database host, default (127.0.0.1):') ? : '127.0.0.1';
-            $port = $this->output->ask($this->input, '👉 please input database host port, default (3306):') ? : '3306';
-            $prefix = $this->output->ask($this->input, '👉 please input table prefix, default (null):') ? : '';
-            $username = $this->output->ask($this->input, '👉 please input database username default (root): ') ? : 'root';
+            $host = $this->output->ask($this->input, '👉 please input database host, default (127.0.0.1):') ?: '127.0.0.1';
+            $port = $this->output->ask($this->input, '👉 please input database host port, default (3306):') ?: '3306';
+            $prefix = $this->output->ask($this->input, '👉 please input table prefix, default (task_):') ?: 'task_';
+            $username = $this->output->ask($this->input, '👉 please input database username, default (reward_task): ') ?: 'reward_task';
             $password = '';
             $tryTimes = 0;
             while (!$password) {
-                $password = $this->output->ask($this->input, '👉 please input database password: ');
+                $password = $this->output->ask($this->input, '👉 please input database, default (little@1): ') ?: 'little@1';
                 if ($password) {
                     break;
                 }
                 // 尝试三次以上未填写，视为密码空
                 $tryTimes++;
                 if (!$password && $tryTimes > 2) {
-                   break;
+                    break;
                 }
             }
 
@@ -170,7 +170,6 @@ class InstallProjectCommand extends Command
                 unlink($this->getEnvFilePath());
                 $this->execute($this->input, $this->output);
             } else {
-
                 [
                     $connections['mysql']['hostname'],
                     $connections['mysql']['database'],
@@ -192,21 +191,20 @@ class InstallProjectCommand extends Command
         }
     }
 
-  /**
-   * 生成表结构
-   *
-   * @time 2020年01月20日
-   * @return void
-   */
+    /**
+     * 生成表结构
+     *
+     * @time 2020年01月20日
+     * @return void
+     */
     protected function migrateAndSeeds(): void
     {
-
-      foreach ($this->defaultModule as $m) {
-          $module = new InstallLocalModule($m);
-          $module->installModuleTables();
-          $module->installModuleSeeds();
-          $this->output->info('🎉 module [' . $m . '] installed successfully');
-      }
+        foreach ($this->defaultModule as $m) {
+            $module = new InstallLocalModule($m);
+            $module->installModuleTables();
+            $module->installModuleSeeds();
+            $this->output->info('🎉 module [' . $m . '] installed successfully');
+        }
     }
 
     /**
@@ -244,10 +242,10 @@ class InstallProjectCommand extends Command
     protected function finished(): void
     {
         // todo something
-      // create jwt 
-      Console::call('jwt:create');
-      // create service
-      Console::call('catch-service:discover');
+        // create jwt
+        Console::call('jwt:create');
+        // create service
+        Console::call('catch-service:discover');
     }
 
     /**
@@ -298,8 +296,12 @@ class InstallProjectCommand extends Command
             if ($this->getEnvFile()) {
                 $this->output->info('env file has been generated');
             }
-            if ((new \mysqli($host, $username, $password, null, $port))->query(sprintf('CREATE DATABASE IF NOT EXISTS %s DEFAULT CHARSET %s COLLATE %s_general_ci;',
-                $database, $charset, $charset))) {
+            if ((new \mysqli($host, $username, $password, null, $port))->query(sprintf(
+                'CREATE DATABASE IF NOT EXISTS %s DEFAULT CHARSET %s COLLATE %s_general_ci;',
+                $database,
+                $charset,
+                $charset
+            ))) {
                 $this->output->info(sprintf('🎉 create database %s successfully', $database));
             } else {
                 $this->output->warning(sprintf('create database %s failed，you need create database first by yourself', $database));
@@ -337,10 +339,10 @@ class InstallProjectCommand extends Command
 | / /__/ /_/ / /_/ /__/ / / /  / ___ / /_/ / / / / / / / / / / |
 | \___/\__,_/\__/\___/_/ /_/  /_/  |_\__,_/_/ /_/ /_/_/_/ /_/  |
 |                                                              |   
- \ __ __ __ __ _ __ _ __ enjoy it ! _ __ __ __ __ __ __ ___ _ @ 2017 ～ %s
+ \ __ __ __ __ _ __ _ __ enjoy it ! _ __ __ __ __ __ __ ___ _ @ 2020 ～ %s
  版本: %s
- 初始账号: catch@admin.com
- 初始密码: catchadmin                                             
+ 初始账号: admin
+ 初始密码: 123456                                             
 ', $year, CatchAdmin::VERSION));
         exit(0);
     }
@@ -348,14 +350,14 @@ class InstallProjectCommand extends Command
 
     protected function reInstall(): void
     {
-        $ask = strtolower($this->output->ask($this->input,'reset project? (Y/N)'));
+        $ask = strtolower($this->output->ask($this->input, 'reset project? (Y/N)'));
 
-        if ($ask === 'y' || $ask === 'yes' ) {
-          $this->migrateRollback();
+        if ($ask === 'y' || $ask === 'yes') {
+            $this->migrateRollback();
 
-          $this->migrateAndSeeds();
+            $this->migrateAndSeeds();
 
-          $this->finished();
+            $this->finished();
         }
     }
 

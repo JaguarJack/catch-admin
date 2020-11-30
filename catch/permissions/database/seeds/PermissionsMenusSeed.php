@@ -19,9 +19,9 @@ class PermissionsMenusSeed extends Seeder
 
     protected function getPermissions()
     {
-       return array (
-  0 => 
-  array (
+        return array(
+  0 =>
+  array(
     'id' => 1,
     'permission_name' => '权限管理',
     'parent_id' => 0,
@@ -40,10 +40,10 @@ class PermissionsMenusSeed extends Seeder
     'created_at' => 1587461455,
     'updated_at' => 1599362429,
     'deleted_at' => 0,
-    'children' => 
-    array (
-      0 => 
-      array (
+    'children' =>
+    array(
+      0 =>
+      array(
         'id' => 2,
         'permission_name' => '用户管理',
         'parent_id' => 1,
@@ -62,10 +62,10 @@ class PermissionsMenusSeed extends Seeder
         'created_at' => 1587461597,
         'updated_at' => 1599362429,
         'deleted_at' => 0,
-        'children' => 
-        array (
-          0 => 
-          array (
+        'children' =>
+        array(
+          0 =>
+          array(
             'id' => 3,
             'permission_name' => '列表',
             'parent_id' => 2,
@@ -85,8 +85,8 @@ class PermissionsMenusSeed extends Seeder
             'updated_at' => 1599030266,
             'deleted_at' => 0,
           ),
-          1 => 
-          array (
+          1 =>
+          array(
             'id' => 4,
             'permission_name' => '创建',
             'parent_id' => 2,
@@ -106,8 +106,8 @@ class PermissionsMenusSeed extends Seeder
             'updated_at' => 1599030266,
             'deleted_at' => 0,
           ),
-          2 => 
-          array (
+          2 =>
+          array(
             'id' => 5,
             'permission_name' => '保存',
             'parent_id' => 2,
@@ -127,8 +127,8 @@ class PermissionsMenusSeed extends Seeder
             'updated_at' => 1599030266,
             'deleted_at' => 0,
           ),
-          3 => 
-          array (
+          3 =>
+          array(
             'id' => 6,
             'permission_name' => '查看',
             'parent_id' => 2,
@@ -148,8 +148,8 @@ class PermissionsMenusSeed extends Seeder
             'updated_at' => 1599030266,
             'deleted_at' => 0,
           ),
-          4 => 
-          array (
+          4 =>
+          array(
             'id' => 7,
             'permission_name' => '更新',
             'parent_id' => 2,
@@ -169,8 +169,8 @@ class PermissionsMenusSeed extends Seeder
             'updated_at' => 1599030266,
             'deleted_at' => 0,
           ),
-          5 => 
-          array (
+          5 =>
+          array(
             'id' => 8,
             'permission_name' => '删除',
             'parent_id' => 2,
@@ -190,8 +190,8 @@ class PermissionsMenusSeed extends Seeder
             'updated_at' => 1599030266,
             'deleted_at' => 0,
           ),
-          6 => 
-          array (
+          6 =>
+          array(
             'id' => 9,
             'permission_name' => '禁用',
             'parent_id' => 2,
@@ -211,8 +211,8 @@ class PermissionsMenusSeed extends Seeder
             'updated_at' => 1599030266,
             'deleted_at' => 0,
           ),
-          7 => 
-          array (
+          7 =>
+          array(
             'id' => 10,
             'permission_name' => '恢复',
             'parent_id' => 2,
@@ -234,8 +234,8 @@ class PermissionsMenusSeed extends Seeder
           ),
         ),
       ),
-      1 => 
-      array (
+      1 =>
+      array(
         'id' => 11,
         'permission_name' => '角色管理',
         'parent_id' => 1,
@@ -254,10 +254,10 @@ class PermissionsMenusSeed extends Seeder
         'created_at' => 1587461939,
         'updated_at' => 1599362438,
         'deleted_at' => 0,
-        'children' => 
-        array (
-          0 => 
-          array (
+        'children' =>
+        array(
+          0 =>
+          array(
             'id' => 12,
             'permission_name' => '列表',
             'parent_id' => 11,
@@ -277,8 +277,8 @@ class PermissionsMenusSeed extends Seeder
             'updated_at' => 1599362438,
             'deleted_at' => 0,
           ),
-          1 => 
-          array (
+          1 =>
+          array(
             'id' => 13,
             'permission_name' => '创建',
             'parent_id' => 11,
@@ -298,8 +298,8 @@ class PermissionsMenusSeed extends Seeder
             'updated_at' => 1599362438,
             'deleted_at' => 0,
           ),
-          2 => 
-          array (
+          2 =>
+          array(
             'id' => 14,
             'permission_name' => '保存',
             'parent_id' => 11,
@@ -319,8 +319,8 @@ class PermissionsMenusSeed extends Seeder
             'updated_at' => 1599362438,
             'deleted_at' => 0,
           ),
-          3 => 
-          array (
+          3 =>
+          array(
             'id' => 15,
             'permission_name' => '查看',
             'parent_id' => 11,
@@ -340,8 +340,8 @@ class PermissionsMenusSeed extends Seeder
             'updated_at' => 1599362438,
             'deleted_at' => 0,
           ),
-          4 => 
-          array (
+          4 =>
+          array(
             'id' => 16,
             'permission_name' => '更新',
             'parent_id' => 11,
@@ -361,8 +361,8 @@ class PermissionsMenusSeed extends Seeder
             'updated_at' => 1599362438,
             'deleted_at' => 0,
           ),
-          5 => 
-          array (
+          5 =>
+          array(
             'id' => 17,
             'permission_name' => '删除',
             'parent_id' => 11,
@@ -382,8 +382,8 @@ class PermissionsMenusSeed extends Seeder
             'updated_at' => 1599362438,
             'deleted_at' => 0,
           ),
-          6 => 
-          array (
+          6 =>
+          array(
             'id' => 18,
             'permission_name' => '权限获取',
             'parent_id' => 11,
@@ -405,8 +405,8 @@ class PermissionsMenusSeed extends Seeder
           ),
         ),
       ),
-      2 => 
-      array (
+      2 =>
+      array(
         'id' => 19,
         'permission_name' => '菜单管理',
         'parent_id' => 1,
@@ -425,10 +425,10 @@ class PermissionsMenusSeed extends Seeder
         'created_at' => 1587462147,
         'updated_at' => 1599362475,
         'deleted_at' => 0,
-        'children' => 
-        array (
-          0 => 
-          array (
+        'children' =>
+        array(
+          0 =>
+          array(
             'id' => 20,
             'permission_name' => '列表',
             'parent_id' => 19,
@@ -448,8 +448,8 @@ class PermissionsMenusSeed extends Seeder
             'updated_at' => 1599362475,
             'deleted_at' => 0,
           ),
-          1 => 
-          array (
+          1 =>
+          array(
             'id' => 21,
             'permission_name' => '创建',
             'parent_id' => 19,
@@ -469,8 +469,8 @@ class PermissionsMenusSeed extends Seeder
             'updated_at' => 1599362475,
             'deleted_at' => 0,
           ),
-          2 => 
-          array (
+          2 =>
+          array(
             'id' => 22,
             'permission_name' => '保存',
             'parent_id' => 19,
@@ -490,8 +490,8 @@ class PermissionsMenusSeed extends Seeder
             'updated_at' => 1599362475,
             'deleted_at' => 0,
           ),
-          3 => 
-          array (
+          3 =>
+          array(
             'id' => 23,
             'permission_name' => '禁用/启用',
             'parent_id' => 19,
@@ -511,8 +511,8 @@ class PermissionsMenusSeed extends Seeder
             'updated_at' => 1599362475,
             'deleted_at' => 0,
           ),
-          4 => 
-          array (
+          4 =>
+          array(
             'id' => 24,
             'permission_name' => '更新',
             'parent_id' => 19,
@@ -532,8 +532,8 @@ class PermissionsMenusSeed extends Seeder
             'updated_at' => 1599362475,
             'deleted_at' => 0,
           ),
-          5 => 
-          array (
+          5 =>
+          array(
             'id' => 25,
             'permission_name' => '删除',
             'parent_id' => 19,
@@ -553,8 +553,8 @@ class PermissionsMenusSeed extends Seeder
             'updated_at' => 1599362475,
             'deleted_at' => 0,
           ),
-          6 => 
-          array (
+          6 =>
+          array(
             'id' => 106,
             'permission_name' => '权限方法',
             'parent_id' => 19,
@@ -576,8 +576,8 @@ class PermissionsMenusSeed extends Seeder
           ),
         ),
       ),
-      3 => 
-      array (
+      3 =>
+      array(
         'id' => 26,
         'permission_name' => '部门管理',
         'parent_id' => 1,
@@ -596,10 +596,10 @@ class PermissionsMenusSeed extends Seeder
         'created_at' => 1587462488,
         'updated_at' => 1599362429,
         'deleted_at' => 0,
-        'children' => 
-        array (
-          0 => 
-          array (
+        'children' =>
+        array(
+          0 =>
+          array(
             'id' => 27,
             'permission_name' => '列表',
             'parent_id' => 26,
@@ -619,8 +619,8 @@ class PermissionsMenusSeed extends Seeder
             'updated_at' => 1599030565,
             'deleted_at' => 0,
           ),
-          1 => 
-          array (
+          1 =>
+          array(
             'id' => 28,
             'permission_name' => '保存',
             'parent_id' => 26,
@@ -640,8 +640,8 @@ class PermissionsMenusSeed extends Seeder
             'updated_at' => 1599030565,
             'deleted_at' => 0,
           ),
-          2 => 
-          array (
+          2 =>
+          array(
             'id' => 29,
             'permission_name' => '更新',
             'parent_id' => 26,
@@ -661,8 +661,8 @@ class PermissionsMenusSeed extends Seeder
             'updated_at' => 1599030565,
             'deleted_at' => 0,
           ),
-          3 => 
-          array (
+          3 =>
+          array(
             'id' => 30,
             'permission_name' => '删除',
             'parent_id' => 26,
@@ -684,8 +684,8 @@ class PermissionsMenusSeed extends Seeder
           ),
         ),
       ),
-      4 => 
-      array (
+      4 =>
+      array(
         'id' => 31,
         'permission_name' => '岗位管理',
         'parent_id' => 1,
@@ -704,10 +704,10 @@ class PermissionsMenusSeed extends Seeder
         'created_at' => 1587462707,
         'updated_at' => 1599362429,
         'deleted_at' => 0,
-        'children' => 
-        array (
-          0 => 
-          array (
+        'children' =>
+        array(
+          0 =>
+          array(
             'id' => 32,
             'permission_name' => '列表',
             'parent_id' => 31,
@@ -727,8 +727,8 @@ class PermissionsMenusSeed extends Seeder
             'updated_at' => 1598959522,
             'deleted_at' => 0,
           ),
-          1 => 
-          array (
+          1 =>
+          array(
             'id' => 33,
             'permission_name' => '保存',
             'parent_id' => 31,
@@ -748,8 +748,8 @@ class PermissionsMenusSeed extends Seeder
             'updated_at' => 1598959522,
             'deleted_at' => 0,
           ),
-          2 => 
-          array (
+          2 =>
+          array(
             'id' => 34,
             'permission_name' => '更新',
             'parent_id' => 31,
@@ -769,8 +769,8 @@ class PermissionsMenusSeed extends Seeder
             'updated_at' => 1598959522,
             'deleted_at' => 0,
           ),
-          3 => 
-          array (
+          3 =>
+          array(
             'id' => 35,
             'permission_name' => '删除',
             'parent_id' => 31,
@@ -790,8 +790,8 @@ class PermissionsMenusSeed extends Seeder
             'updated_at' => 1598959522,
             'deleted_at' => 0,
           ),
-          4 => 
-          array (
+          4 =>
+          array(
             'id' => 36,
             'permission_name' => '获取全部',
             'parent_id' => 31,

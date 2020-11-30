@@ -40,7 +40,7 @@ trait Store
      */
     protected function saveTaskInfo()
     {
-         FileSystem::put(self::storeTaskPath() . 'information.json', \json_encode([
+        FileSystem::put(self::storeTaskPath() . 'information.json', \json_encode([
              'name' => $this->name,
              'static' => $this->static,
              'dynamic' => $this->dynamic,

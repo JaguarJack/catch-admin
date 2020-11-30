@@ -1,4 +1,5 @@
 <?php
+
 namespace catchAdmin\login\request;
 
 use catcher\base\CatchRequest;
@@ -11,9 +12,9 @@ class LoginRequest extends CatchRequest
     {
         // TODO: Implement rules() method.
         return [
-            'email|用户名'    => 'email',
+            'account|用户名'    => 'require',
             'password|密码'  => 'require',
-           // 'captcha|验证码' => 'require|captcha'
+            // 'captcha|验证码' => 'require|captcha'
         ];
     }
 
@@ -21,6 +22,5 @@ class LoginRequest extends CatchRequest
     {
         // TODO: Implement message() method.
         return [];
-
     }
 }

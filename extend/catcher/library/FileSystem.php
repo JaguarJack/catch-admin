@@ -132,7 +132,6 @@ class FileSystem
      */
     public function replace($path, $content)
     {
-
         clearstatcache(true, $path);
 
         $path = realpath($path) ?: $path;
@@ -425,8 +424,9 @@ class FileSystem
      * @return \Symfony\Component\Finder\SplFileInfo[]
      */
     public function allFiles($directory, $hidden = false)
-   {
-        return iterator_to_array(Finder::create()->files()->ignoreDotFiles(! $hidden)->in($directory)->sortByName(),
+    {
+        return iterator_to_array(
+            Finder::create()->files()->ignoreDotFiles(! $hidden)->in($directory)->sortByName(),
             false
         );
     }
@@ -507,7 +507,6 @@ class FileSystem
         $items = new \FilesystemIterator($directory, $options);
 
         foreach ($items as $item) {
-
             $target = $destination.'/'.$item->getBasename();
 
             if ($item->isDir()) {
@@ -516,9 +515,7 @@ class FileSystem
                 if (! $this->copyDirectory($path, $target, $options)) {
                     return false;
                 }
-            }
-
-            else {
+            } else {
                 if (! $this->copy($item->getPathname(), $target)) {
                     return false;
                 }
@@ -544,7 +541,6 @@ class FileSystem
         $items = new \FilesystemIterator($directory);
 
         foreach ($items as $item) {
-
             if ($item->isDir() && ! $item->isLink()) {
                 $this->deleteDirectory($item->getPathname());
             } else {

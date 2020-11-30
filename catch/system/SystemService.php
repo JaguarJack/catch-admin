@@ -17,7 +17,6 @@ use catcher\ModuleService;
 
 class SystemService extends ModuleService
 {
-
     public function loadRouteFrom()
     {
         // TODO: Implement loadRouteFrom() method.

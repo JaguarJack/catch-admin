@@ -28,9 +28,9 @@ class SmsMenusSeed extends Seeder
 
     protected function getPermissions()
     {
-       return array (
-  0 => 
-  array (
+        return array(
+  0 =>
+  array(
     'id' => 113,
     'permission_name' => '短信管理',
     'parent_id' => 0,
@@ -49,10 +49,10 @@ class SmsMenusSeed extends Seeder
     'created_at' => 1600229598,
     'updated_at' => 1600229598,
     'deleted_at' => 0,
-    'children' => 
-    array (
-      0 => 
-      array (
+    'children' =>
+    array(
+      0 =>
+      array(
         'id' => 114,
         'permission_name' => '短信配置',
         'parent_id' => 113,

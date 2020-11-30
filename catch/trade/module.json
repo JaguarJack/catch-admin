@@ -1,0 +1,17 @@
+{
+    "name": "交易中心",
+    "alias": "trade",
+    "description": "交易中心",
+    "version": "1.0.0",
+    "keywords": [
+        "交易中心"
+    ],
+    "order": 0,
+    "services": [
+        "\\catchAdmin\\trade\\TradeService"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": [],
+    "enable": true
+}

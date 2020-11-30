@@ -19,7 +19,6 @@ trait Request
         ];
     }    
 EOT;
-
     }
 
     /**

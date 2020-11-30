@@ -1,4 +1,5 @@
 <?php
+
 namespace catchAdmin\permissions\model\search;
 
 use catchAdmin\permissions\model\Department;
@@ -10,9 +11,9 @@ trait UserSearch
         return $query->whereLike('username', $value);
     }
 
-    public function searchEmailAttr($query, $value, $data)
+    public function searchAccountAttr($query, $value, $data)
     {
-        return $query->whereLike('email', $value);
+        return $query->whereLike('account', $value);
     }
 
     public function searchStatusAttr($query, $value, $data)

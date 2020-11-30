@@ -7,14 +7,14 @@ use think\helper\Str;
 
 class Utils
 {
-  /**
-   * 字符串转换成数组
-   *
-   * @time 2019年12月25日
-   * @param string $string
-   * @param string $dep
-   * @return array
-   */
+    /**
+     * 字符串转换成数组
+     *
+     * @time 2019年12月25日
+     * @param string $string
+     * @param string $dep
+     * @return array
+     */
     public static function stringToArrayBy(string  $string, $dep = ','): array
     {
         if (Str::contains($string, $dep)) {
@@ -24,14 +24,14 @@ class Utils
         return [$string];
     }
 
-  /**
-   * 搜索参数
-   *
-   * @time 2020年01月13日
-   * @param array $params
-   * @param array $range
-   * @return array
-   */
+    /**
+     * 搜索参数
+     *
+     * @time 2020年01月13日
+     * @param array $params
+     * @param array $range
+     * @return array
+     */
     public static function filterSearchParams(array $params, array $range = []): array
     {
         $search = [];
@@ -39,15 +39,15 @@ class Utils
         // $range = array_merge(['created_at' => ['start_at', 'end_at']], $range);
 
         if (!empty($range)) {
-          foreach ($range as $field => $rangeField) {
-            if (count($rangeField) === 1) {
-              $search[$field] = [$params[$rangeField[0]]];
-              unset($params[$rangeField[0]]);
-            } else {
-              $search[$field] = [$params[$rangeField[0]], $params[$rangeField[1]]];
-              unset($params[$rangeField[0]], $params[$rangeField[1]]);
+            foreach ($range as $field => $rangeField) {
+                if (count($rangeField) === 1) {
+                    $search[$field] = [$params[$rangeField[0]]];
+                    unset($params[$rangeField[0]]);
+                } else {
+                    $search[$field] = [$params[$rangeField[0]], $params[$rangeField[1]]];
+                    unset($params[$rangeField[0]], $params[$rangeField[1]]);
+                }
             }
-          }
         }
 
         return array_merge($search, $params);
@@ -63,7 +63,7 @@ class Utils
      * @param string $primaryKey
      * @return void
      */
-    public static function importTreeData($data, $table, $pid = 'parent_id',$primaryKey = 'id')
+    public static function importTreeData($data, $table, $pid = 'parent_id', $primaryKey = 'id')
     {
         foreach ($data as $value) {
             if (isset($value[$primaryKey])) {
@@ -71,7 +71,7 @@ class Utils
             }
 
             $children = $value['children'] ?? false;
-            if($children) {
+            if ($children) {
                 unset($value['children']);
             }
 

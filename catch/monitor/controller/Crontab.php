@@ -30,7 +30,7 @@ class Crontab extends CatchController
      * 列表
      *
      * @time 2020/09/14 20:35
-     *  
+     *
      * @return \think\Response
      */
     public function index()
@@ -42,7 +42,7 @@ class Crontab extends CatchController
      * 保存
      *
      * @time 2020/09/14 20:35
-     * @param Request Request 
+     * @param Request Request
      * @return \think\Response
      */
     public function save(Request $request)
@@ -56,19 +56,19 @@ class Crontab extends CatchController
      * 读取
      *
      * @time 2020/09/14 20:35
-     * @param $id 
+     * @param $id
      * @return \think\Response
      */
     public function read($id)
     {
-       return CatchResponse::success($this->model->findBy($id)); 
+        return CatchResponse::success($this->model->findBy($id));
     }
     
     /**
      * 更新
      *
      * @time 2020/09/14 20:35
-     * @param Request $request 
+     * @param Request $request
      * @return \think\Response
      */
     public function update(Request $request, $id)
@@ -82,7 +82,7 @@ class Crontab extends CatchController
      * 删除
      *
      * @time 2020/09/14 20:35
-     * @param $id 
+     * @param $id
      * @return \think\Response
      */
     public function delete($id)
@@ -101,5 +101,4 @@ class Crontab extends CatchController
     {
         return CatchResponse::success($this->model->disOrEnable($id));
     }
-    
 }

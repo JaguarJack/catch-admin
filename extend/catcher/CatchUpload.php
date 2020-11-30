@@ -66,7 +66,6 @@ class CatchUpload
         $path = Filesystem::disk($this->getDriver())->putFile($this->getPath(), $file);
 
         if ($path) {
-
             $url = self::getCloudDomain($this->getDriver()) . '/' . $this->getLocalPath($path);
 
             event('attachment', [
@@ -92,8 +91,7 @@ class CatchUpload
     protected function getLocalPath($path)
     {
         if ($this->getDriver() === self::LOCAL) {
-
-            $path = str_replace(root_path('public'),  '', \config('filesystem.disks.local.root')) . DIRECTORY_SEPARATOR .$path;
+            $path = str_replace(root_path('public'), '', \config('filesystem.disks.local.root')) . DIRECTORY_SEPARATOR .$path;
 
             return str_replace('\\', '/', $path);
         }

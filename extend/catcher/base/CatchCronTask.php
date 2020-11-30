@@ -24,14 +24,14 @@ abstract class CatchCronTask
      * @time 2020年07月29日
      * @return mixed
      */
-    public abstract function deal();
+    abstract public function deal();
 
     /**
      * @time 2020年07月29日
      * @param \Throwable $e
      * @return mixed
      */
-    public abstract function dealWithException(\Throwable $e);
+    abstract public function dealWithException(\Throwable $e);
 
     /**
      * 执行
@@ -57,8 +57,6 @@ abstract class CatchCronTask
             $this->recordLog($startAt, 'File:' . $e->getFile() . ', Lines: '. $e->getLine() .'行，Exception Message: ' . $e->getMessage());
             $this->exceptionHappenTimes += 1;
         }
-
-
     }
 
     /**

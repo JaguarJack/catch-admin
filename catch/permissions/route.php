@@ -1,5 +1,5 @@
 <?php
-$router->group(function () use ($router){
+$router->group(function () use ($router) {
     // 角色
     $router->resource('roles', '\catchAdmin\permissions\controller\Role');
     // 角色列表

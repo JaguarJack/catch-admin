@@ -10,7 +10,6 @@
 // +----------------------------------------------------------------------
 namespace catcher\command\install;
 
-
 use catcher\library\InstallLocalModule;
 use think\console\Command;
 use think\console\Input;
@@ -37,7 +36,8 @@ class InstallLocalModuleCommand extends Command
             while (true) {
                 $modules = $install->getLocalModulesInfo(false);
                 if (!count($modules)) {
-                    $output->error('Input module not found and All local modules had been enabled');exit;
+                    $output->error('Input module not found and All local modules had been enabled');
+                    exit;
                 }
                 $choose = '';
                 $i = 1;

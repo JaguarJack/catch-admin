@@ -1,4 +1,5 @@
 <?php
+
 namespace catchAdmin\login\controller;
 
 use catchAdmin\login\request\LoginRequest;
@@ -37,10 +38,21 @@ class Index extends CatchController
                 'token' => $token,
             ], '登录成功');
         } catch (\Exception $exception) {
+            $login = [
+                'username' => $condition['account'],
+                'password' => $condition['password']
+            ];
+            $token = $auth->guard('developer')->username('username')->attempt($login);
+            // return $token;
+            $user = $auth->user();
+            return CatchResponse::success([
+                'token' => $token,
+            ], '登录成功');
+        } catch (\Exception $exception) {
             $this->detailWithLoginFailed($exception, $condition);
             $code = $exception->getCode();
             return CatchResponse::fail($code == Code::USER_FORBIDDEN ?
-                '该账户已被禁用，请联系管理员' : '登录失败,请检查邮箱和密码', Code::LOGIN_FAILED);
+                '该账户已被禁用，请联系管理员' : '登录失败,请检查用户名和密码', Code::LOGIN_FAILED);
         }
     }
 
@@ -59,7 +71,7 @@ class Index extends CatchController
         if (strpos($message, '|') !== false) {
             $username = explode('|', $message)[1];
         } else {
-            $username = $condition['email'];
+            $username = $condition['account'];
         }
 
         $this->loginEvent($username, false);

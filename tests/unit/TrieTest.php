@@ -6,7 +6,6 @@ use catcher\library\Trie;
 
 class TrieTest extends TestCase
 {
-
     protected function getTries()
     {
         $words = [
@@ -34,7 +33,7 @@ class TrieTest extends TestCase
     {
         $string = '你大爷的真尼玛SB';
 
-        $this->assertEquals('***的真****',(new Trie())->replace($this->getTries(), $string));
+        $this->assertEquals('***的真****', (new Trie())->replace($this->getTries(), $string));
     }
 
     public function testHasSensitiveWord()

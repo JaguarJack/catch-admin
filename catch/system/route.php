@@ -1,4 +1,8 @@
 <?php
+
+// 开发者认证
+$router->post('developer/authenticate', '\catchAdmin\system\controller\Developer@authenticate');
+
 $router->group(function () use ($router) {
     // 登录日志
     $router->get('log/login', '\catchAdmin\system\controller\LoginLog@list');
@@ -43,7 +47,4 @@ $router->group(function () use ($router) {
     $router->put('modules/<module>', '\catchAdmin\system\controller\Module@disOrEnable');
     $router->put('cache/modules', '\catchAdmin\system\controller\Module@cache');
     $router->delete('clear/modules', '\catchAdmin\system\controller\Module@clear');
-
 })->middleware('auth');
-
-

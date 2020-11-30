@@ -1,4 +1,5 @@
 <?php
+
 namespace catcher\generate\factory;
 
 use catcher\exceptions\FailedException;
@@ -66,30 +67,32 @@ class Model extends Factory
         $softDelete = $extra['soft_delete'];
 
         return (new CatchBuild)->namespace($namespace)
-                        ->use((new Uses())->name('catcher\base\CatchModel', 'Model'))
-                        ->when(!$softDelete, function (CatchBuild $build){
-                            $build->use((new Uses())->name(BaseOptionsTrait::class));
-                            $build->use((new Uses())->name(ScopeTrait::class));
-                        })
-                        ->class((new Classes($modelName))->extend('Model')->docComment(),
-                            function (Classes $class) use ($softDelete, $table) {
-                            if (!$softDelete) {
-                                $class->addTrait(
-                                    (new Traits())->use('BaseOptionsTrait', 'ScopeTrait')
-                                );
-                            }
+            ->use((new Uses())->name('catcher\base\CatchModel', 'Model'))
+            ->when(!$softDelete, function (CatchBuild $build) {
+                $build->use((new Uses())->name(BaseOptionsTrait::class));
+                $build->use((new Uses())->name(ScopeTrait::class));
+            })
+            ->class(
+                (new Classes($modelName))->extend('Model')->docComment(),
+                function (Classes $class) use ($softDelete, $table) {
+                    if (!$softDelete) {
+                        $class->addTrait(
+                            (new Traits())->use('BaseOptionsTrait', 'ScopeTrait')
+                        );
+                    }
 
-                            $class->addProperty(
-                                (new Property('name'))->default($table)->docComment('// 表名')
-                            );
+                    $class->addProperty(
+                        (new Property('name'))->default($table)->docComment('// 表名')
+                    );
 
-                            $class->when($this->hasTableExists($table), function ($class) use ($table){
-                                $class->addProperty(
-                                    (new Property('field'))->default(
-                                        (new Arr)->build(Db::getFields($table))
-                                    ))->docComment('// 数据库字段映射');
-                            });
-
-                        })->getContent();
+                    $class->when($this->hasTableExists($table), function ($class) use ($table) {
+                        $class->addProperty(
+                            (new Property('field'))->default(
+                                (new Arr)->build(Db::getFields($table))
+                            )
+                        )->docComment('// 数据库字段映射');
+                    });
+                }
+            )->getContent();
     }
 }

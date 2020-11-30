@@ -50,7 +50,7 @@ class InstallCatchModule
      */
     public function isFirstInstall()
     {
-       return  !FileSystem::exists($this->getInstallPath() . $this->module);
+        return  !FileSystem::exists($this->getInstallPath() . $this->module);
     }
 
     /**

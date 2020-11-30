@@ -51,7 +51,6 @@ class SensitiveWord extends CatchController
     public function update($id, UpdateRequest $request)
     {
         return CatchResponse::success($this->sensitiveWord->updateBy($id, $request->param()));
-
     }
 
     /**
@@ -65,5 +64,4 @@ class SensitiveWord extends CatchController
     {
         return CatchResponse::success($this->sensitiveWord->deleteBy($id));
     }
-
 }

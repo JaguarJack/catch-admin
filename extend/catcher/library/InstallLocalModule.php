@@ -10,7 +10,6 @@
 // +----------------------------------------------------------------------
 namespace catcher\library;
 
-
 use catchAdmin\permissions\model\Permissions;
 use catcher\CatchAdmin;
 use think\facade\Console;

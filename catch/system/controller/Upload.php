@@ -26,14 +26,14 @@ class Upload extends CatchController
         $this->attachment = $attachment;
     }
 
-  /**
-   * image upload
-   *
-   * @time 2020年01月25日
-   * @param CatchRequest $request
-   * @param CatchUpload $upload
-   * @return \think\response\Json
-   */
+    /**
+     * image upload
+     *
+     * @time 2020年01月25日
+     * @param CatchRequest $request
+     * @param CatchUpload $upload
+     * @return \think\response\Json
+     */
     public function image(CatchRequest $request, CatchUpload $upload): \think\response\Json
     {
         $images = $request->file();
@@ -45,14 +45,14 @@ class Upload extends CatchController
         return CatchResponse::success($upload->checkImages($images)->multiUpload($images['image']));
     }
 
-  /**
-   * file upload
-   *
-   * @time 2020年01月25日
-   * @param CatchRequest $request
-   * @param CatchUpload $upload
-   * @return \think\response\Json
-   */
+    /**
+     * file upload
+     *
+     * @time 2020年01月25日
+     * @param CatchRequest $request
+     * @param CatchUpload $upload
+     * @return \think\response\Json
+     */
     public function file(CatchRequest $request, CatchUpload $upload): \think\response\Json
     {
         $files = $request->file();

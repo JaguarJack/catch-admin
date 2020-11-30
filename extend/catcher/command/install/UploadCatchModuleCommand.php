@@ -34,14 +34,13 @@ class UploadCatchModuleCommand extends Command
     {
         $this->setName('upload:module')
             ->addArgument('module', Argument::REQUIRED, 'module name')
-            ->addOption('path', '-p',Option::VALUE_OPTIONAL, 'path that you need')
+            ->addOption('path', '-p', Option::VALUE_OPTIONAL, 'path that you need')
             ->setDescription('install catch module');
     }
 
     protected function execute(Input $input, Output $output)
     {
         try {
-
             $this->module = $this->input->getArgument('module');
             $this->path = $this->getCompressPath($this->input->getOption('path'));
 
@@ -57,7 +56,7 @@ class UploadCatchModuleCommand extends Command
             // 上传
             $this->upload($token, $moduleZip);
             $this->output->info('upload successfully!');
-        }catch (\Throwable $e) {
+        } catch (\Throwable $e) {
             $this->error($e->getMessage(). ': Error happens at ' .$e->getFile() .  ' '. $e->getLine() . '行');
         }
     }
@@ -75,13 +74,13 @@ class UploadCatchModuleCommand extends Command
         }
 
         if (!file_exists($this->path . 'route.php')) {
-           $this->error('there is no route.php file');
+            $this->error('there is no route.php file');
         }
 
         $module = \json_decode(file_get_contents($this->path . 'module.json'), true);
 
         if (!isset($module['name']) && !$module['name']) {
-           $this->error('module.json not set name');
+            $this->error('module.json not set name');
         }
 
         if (!isset($module['version']) && !$module['name']) {
@@ -217,5 +216,4 @@ class UploadCatchModuleCommand extends Command
     {
         exit($this->output->error($message));
     }
-
 }

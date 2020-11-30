@@ -28,13 +28,13 @@ class Config extends Migrator
      */
     public function change()
     {
-        $table  =  $this->table('config',['engine'=>'InnoDB', 'comment' => '配置管理', 'signed' => false]);
-        $table->addColumn('name', 'string',['limit'  =>  50,'default'=>'','comment'=>'配置名称'])
+        $table  =  $this->table('config', ['engine'=>'InnoDB', 'comment' => '配置管理', 'signed' => false]);
+        $table->addColumn('name', 'string', ['limit'  =>  50,'default'=>'','comment'=>'配置名称'])
             ->addColumn('pid', 'integer', array('default'=> 0,'comment'=>'父级配置', 'signed' => false ))
             ->addColumn('component', 'string', ['default'=> '', 'limit' => 100, 'comment'=>'tab 引入的组件名称'])
-            ->addColumn('key', 'string',['default'=> '', 'limit' => 100, 'comment'=>'配置键名'])
-            ->addColumn('value', 'string',['default'=> '', 'limit' => 255, 'comment'=>'配置键值'])
-            ->addColumn('status', 'integer',['limit' => \Phinx\Db\Adapter\MysqlAdapter::INT_TINY,'default'=> 1,'comment'=>'1 启用 2 禁用'])
+            ->addColumn('key', 'string', ['default'=> '', 'limit' => 100, 'comment'=>'配置键名'])
+            ->addColumn('value', 'string', ['default'=> '', 'limit' => 255, 'comment'=>'配置键值'])
+            ->addColumn('status', 'integer', ['limit' => \Phinx\Db\Adapter\MysqlAdapter::INT_TINY,'default'=> 1,'comment'=>'1 启用 2 禁用'])
             ->addColumn('creator_id', 'integer', array('default'=> 0,'comment'=>'创建人', 'signed' => false ))
             ->addColumn('created_at', 'integer', ['default'=> 0,'comment'=>'创建时间', 'signed' => false])
             ->addColumn('updated_at', 'integer', ['default'=> 0,'comment'=>'更新时间', 'signed' => false])

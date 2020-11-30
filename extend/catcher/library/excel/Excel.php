@@ -48,15 +48,15 @@ class Excel
                 ->setSpreadsheet($this->spreadsheet)
                 ->save($file);
 
-         if (!file_exists($file)) {
-             throw new FailedException($file . ' generate failed');
-         }
+        if (!file_exists($file)) {
+            throw new FailedException($file . ' generate failed');
+        }
 
-         if ($disk) {
+        if ($disk) {
             $file = $this->upload($disk, $file);
-         }
+        }
 
-         return ['url' => $file];
+        return ['url' => $file];
     }
 
     /**

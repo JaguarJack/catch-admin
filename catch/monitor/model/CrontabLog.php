@@ -21,14 +21,14 @@ class CrontabLog extends CatchModel
     protected $name = 'crontab_log';
 
     protected $field = [
-        'id', // 
-		'crontab_id', // crontab 任务ID
-		'used_time', // 任务消耗时间
-		'status', // 1 成功 2 失败
-		'error_message', // 错误信息
-		'created_at', // 创建时间
-		'updated_at', // 更新时间
-		'deleted_at', // 软删除
+        'id', //
+        'crontab_id', // crontab 任务ID
+        'used_time', // 任务消耗时间
+        'status', // 1 成功 2 失败
+        'error_message', // 错误信息
+        'created_at', // 创建时间
+        'updated_at', // 更新时间
+        'deleted_at', // 软删除
     ];
 
 

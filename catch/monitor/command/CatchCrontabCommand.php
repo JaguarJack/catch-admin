@@ -9,7 +9,7 @@
 // | Author: JaguarJack [ njphper@gmail.com ]
 // +----------------------------------------------------------------------
 
-declare (strict_types = 1);
+declare(strict_types = 1);
 
 namespace catchAdmin\monitor\command;
 

@@ -5,4 +5,7 @@
 *.log
 .env
 composer.lock
+/public/static
+/public/images
+/public/index.html
 

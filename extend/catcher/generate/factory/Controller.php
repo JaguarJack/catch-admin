@@ -1,4 +1,5 @@
 <?php
+
 namespace catcher\generate\factory;
 
 use catcher\CatchAdmin;
@@ -66,7 +67,7 @@ class Controller extends Factory
 
         [$model, $modelNamespace] = $this->parseFilename($params['model']);
 
-        $asModel = lcfirst(Str::contains($model, 'Model') ? : $model . 'Model');
+        $asModel = lcfirst(Str::contains($model, 'Model') ?: $model . 'Model');
 
         if (!$className) {
             throw new FailedException('未填写控制器名称');
@@ -76,20 +77,20 @@ class Controller extends Factory
         $class = new Classes($className);
 
         return (new CatchBuild())->namespace($namespace)
-                                ->use($use->name('catcher\base\CatchRequest', 'Request'))
-                                ->use($use->name('catcher\CatchResponse'))
-                                ->use($use->name('catcher\base\CatchController'))
-                                ->use($use->name($modelNamespace . '\\' . ucfirst($model), $asModel))
-                                ->class($class->extend('CatchController')->docComment(), function (Classes $class) use ($asModel) {
-                                    foreach ($this->getMethods($asModel) as $method) {
-                                        $class->addMethod($method);
-                                    }
+            ->use($use->name('catcher\base\CatchRequest', 'Request'))
+            ->use($use->name('catcher\CatchResponse'))
+            ->use($use->name('catcher\base\CatchController'))
+            ->use($use->name($modelNamespace . '\\' . ucfirst($model), $asModel))
+            ->class($class->extend('CatchController')->docComment(), function (Classes $class) use ($asModel) {
+                foreach ($this->getMethods($asModel) as $method) {
+                    $class->addMethod($method);
+                }
 
-                                    $class->addProperty(
-                                        (new Property($asModel))->protected()
-                                    );
-                                })
-                                ->getContent();
+                $class->addProperty(
+                    (new Property($asModel))->protected()
+                );
+            })
+            ->getContent();
     }
 
 
@@ -111,6 +112,20 @@ class Controller extends Factory
                 ->param($model, ucfirst($model))
                 ->docComment("\r\n")
                 ->declare($model, $model),
+
+            (new Methods('layout'))->public()
+                ->param('request', 'Request')
+                ->docComment(
+                    <<<TEXT
+
+/**
+ * 布局
+ * @time $date
+ * @param Request \$request 
+ */
+TEXT
+                )
+                ->returnType('\think\Response')->layout($model),
 
             (new Methods('index'))->public()
                 ->param('request', 'Request')
@@ -154,7 +169,6 @@ TEXT
  * @param \$id 
  */
 TEXT
-
                 )
                 ->returnType('\think\Response')->read($model),
 

@@ -1,15 +1,15 @@
 {
-  "name": "短信模块",
-  "alias": "sms",
-  "description": "短信，sms，阿里大于",
-  "version": "1.0.0",
-  "keywords": [],
-  "order": 0,
-  "services": [
-    "\\catchAdmin\\sms\\SmsService"
-  ],
-  "aliases": {},
-  "files": [],
-  "requires": [],
-  "enable": false
+    "name": "短信模块",
+    "alias": "sms",
+    "description": "短信，sms，阿里大于",
+    "version": "1.0.0",
+    "keywords": [],
+    "order": 0,
+    "services": [
+        "\\catchAdmin\\sms\\SmsService"
+    ],
+    "aliases": [],
+    "files": [],
+    "requires": [],
+    "enable": true
 }

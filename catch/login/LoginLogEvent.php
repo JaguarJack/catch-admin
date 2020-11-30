@@ -35,7 +35,7 @@ class LoginLogEvent
         if (false !== stripos($agent, 'win') && preg_match('/nt 6.2/i', $agent)) {
             return 'Windows 8';
         }
-        if(false !== stripos($agent, 'win') && preg_match('/nt 10.0/i', $agent)) {
+        if (false !== stripos($agent, 'win') && preg_match('/nt 10.0/i', $agent)) {
             return 'Windows 10';#添加win10判断
         }
         if (false !== stripos($agent, 'win') && preg_match('/nt 5.1/i', $agent)) {

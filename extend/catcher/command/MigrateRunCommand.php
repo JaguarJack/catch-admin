@@ -19,7 +19,8 @@ class MigrateRunCommand extends Run
             ->addArgument('module', Argument::REQUIRED, 'migrate the module database')
             ->addOption('--target', '-t', InputOption::VALUE_REQUIRED, 'The version number to migrate to')
             ->addOption('--date', '-d', InputOption::VALUE_REQUIRED, 'The date to migrate to')
-            ->setHelp(<<<EOT
+            ->setHelp(
+                <<<EOT
 The <info>migrate:run</info> command runs all available migrations, optionally up to a specific version
 
 <info>php think catch-migrate:run module</info>

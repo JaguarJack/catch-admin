@@ -1,11 +1,13 @@
 <?php
+
 namespace catchAdmin\system\controller;
 
-use catcher\base\CatchController;
-use catcher\CatchResponse;
-use catchAdmin\system\model\Attachments as AttachmentsModel;
+use app\Request;
 use catcher\Utils;
+use catcher\CatchResponse;
 use catcher\facade\FileSystem;
+use catcher\base\CatchController;
+use catchAdmin\system\model\Attachments as AttachmentsModel;
 
 class Attachments extends CatchController
 {
@@ -20,6 +22,22 @@ class Attachments extends CatchController
     {
         return CatchResponse::paginate($model->getList());
     }
+
+    /**
+     * 列表
+     *
+     * @time 2020年07月25日
+     * @param AttachmentsModel $model
+     * @return \think\response\Json
+     */
+    public function read($url, AttachmentsModel $model)
+    {
+        // $param = $request->param();
+        // return $url;
+        $attachments = $model->whereLike('url', $url)->value('id');
+        return CatchResponse::success($attachments);
+    }
+
 
     /**
      * 删除
@@ -41,16 +59,16 @@ class Attachments extends CatchController
             foreach ($attachments as $attachment) {
                 if ($attachment->driver == 'local') {
                     $localPath = config('filesystem.disks.local.root') . DIRECTORY_SEPARATOR;
-                    $path = $localPath . str_replace('\\','\/', $attachment->path);
+                    $path = $localPath . str_replace('\\', '\/', $attachment->path);
                     if (FileSystem::exists($path)) {
-                        Filesystem::delete($path);
+                        $delete = Filesystem::delete($path);
                     }
                 } else {
-                    Filesystem::delete($attachment->path);
+                    $delete = Filesystem::delete($attachment->path);
                 }
             }
         }
 
-        return CatchResponse::success();
+        return CatchResponse::success($delete);
     }
 }

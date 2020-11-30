@@ -1,4 +1,5 @@
 <?php
+
 namespace catcher\generate\template;
 
 use catcher\base\CatchController;
@@ -23,7 +24,6 @@ use catcher\base\CatchController;
 
 
 TMP;
-
     }
 
     /**
@@ -45,7 +45,6 @@ protected \$model;
     
     
 TMP;
-
     }
 
     public function createClass($class)
@@ -56,7 +55,51 @@ class {$class} extends CatchController
     {CONTENT}
 }
 TMP;
-
+    }
+    /**
+     * layout template
+     *
+     * @time 2020年04月24日
+     * @return string
+     */
+    public function layout($model)
+    {
+        return <<<TMP
+{$this->controllerFunctionComment('列表', '')}
+    public function layout()
+    {
+        \$fields =  $model::getFields();
+        \$table = [];
+        \$form = [];
+        \$rules = [];
+        \$topSearch = [];
+        foreach (\$fields as \$field) {
+            \$item = json_decode(\$field['comment'], true);
+            if (\$item) {
+                if (count(\$item) >= 1)
+                    \$table[\$field['name']] = \$item[0];
+                if (count(\$item) >= 2)
+                    \$form[\$field['name']] = \$item[1];
+                if (count(\$item) >= 3)
+                    \$rules[\$field['name']] = \$item[2];
+                \$topSearch[] = [
+                    'text' =>    \$item[0]['text'],
+                    'value' =>    \$field['name'],
+                ];
+            }
+        }
+        \$layout = [
+            'tableDesc' => \$table,
+            'formDesc' => \$form,
+            'formRules' => \$rules,
+            'topButtons' => [],
+            'rightButtons' => [],
+            'topSearch' => \$topSearch,
+            'topTime' => 'create_time',
+        ];
+        return CatchResponse::success(\$layout);
+    }
+TMP;
     }
     /**
      * list template
@@ -94,7 +137,6 @@ TMP;
     
     
 TMP;
-
     }
 
     /**
@@ -109,7 +151,7 @@ TMP;
         $request = $createRequest ? 'CreateRequest' : 'Request';
 
         return <<<TMP
-{$this->controllerFunctionComment('保存', 'Request ' . $request)}
+{$this->controllerFunctionComment('保存', 'Request ' .$request)}
     public function save({$request} \$request)
     {
         return CatchResponse::success(\$this->model->storeBy(\$request->post()));
@@ -245,5 +287,4 @@ TMP;
      */
 TMP;
     }
-
 }

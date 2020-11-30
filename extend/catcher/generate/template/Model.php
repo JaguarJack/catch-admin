@@ -42,9 +42,7 @@ use catcher\\traits\db\ScopeTrait;
 
 
 TMP;
-
         }
-
     }
 
     /**
@@ -83,7 +81,6 @@ TMP;
  
 TMP;
         }
-
     }
 
 
@@ -106,7 +103,6 @@ TMP;
        return \$this->hasOne({$model}::class{$this->keyRelate($foreignKey, $pk)}); 
     }
 TMP;
-
     }
 
     /**
@@ -220,6 +216,5 @@ TMP;
                !$middleRelateId ? : ','. $middleRelateId .
                !$pk ? : ',' . $pk .
                !$middleId ? : ',' . $middleId;
-
     }
 }

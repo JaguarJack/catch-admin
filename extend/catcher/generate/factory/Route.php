@@ -1,4 +1,5 @@
 <?php
+
 namespace catcher\generate\factory;
 
 use catcher\facade\FileSystem;
@@ -15,18 +16,24 @@ class Route extends Factory
     protected $restful;
 
     protected $methods = [];
-
+    /**
+     * Undocumented function
+     *
+     * @param array $params
+     *
+     */
     public function done($params = [])
     {
         $route = [];
 
         if ($this->restful) {
+            $route[] = sprintf("\$router->rule('%s/layout','\%s@layout');", $this->controllerName, $this->controller, '@layout');
             $route[] = sprintf("\$router->resource('%s', '\%s');", $this->controllerName, $this->controller);
         }
 
         if (!empty($this->methods)) {
             foreach ($this->methods as $method) {
-                $route[] = sprintf("\$router->%s('%s/%s', '\%s@%s');", $method[1], $this->controllerName, $method[0], $this->controller, $method[0] );
+                $route[] = sprintf("\$router->%s('%s/%s', '\%s@%s');", $method[1], $this->controllerName, $method[0], $this->controller, $method[0]);
             }
         }
 
@@ -40,7 +47,7 @@ class Route extends Factory
             return FileSystem::put($router, $this->parseRoute($router, $route));
         }
 
-        return FileSystem::put($router, $this->header() . $comment. implode(';'. PHP_EOL , $route) . ';');
+        return FileSystem::put($router, $this->header() . $comment . implode(';' . PHP_EOL, $route) . ';');
     }
 
     protected function parseRoute($path, $route)

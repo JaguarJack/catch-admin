@@ -11,7 +11,6 @@ use PhpParser\Node\Stmt\Expression;
 
 class Methods
 {
-
     use CatchMethodReturn;
 
     protected $methodBuild;
@@ -64,7 +63,7 @@ class Methods
         }
 
         $this->methodBuild->addParam(
-           $param
+            $param
         );
 
         return $this;

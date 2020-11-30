@@ -1,4 +1,5 @@
 <?php
+
 namespace catcher;
 
 use catchAdmin\permissions\model\Users;
@@ -15,7 +16,7 @@ class CatchAuth
     protected $guard;
 
     // 默认获取
-    protected $username = 'email';
+    protected $username = 'account';
     // 校验字段
     protected $password = 'password';
 
@@ -65,7 +66,6 @@ class CatchAuth
             }
 
             return $this->{$this->getDriver()}($user);
-
         } catch (\Exception $exception) {
             //
         }
@@ -211,7 +211,8 @@ class CatchAuth
      * @return void
      */
     protected function database($condition): void
-    {}
+    {
+    }
 
     /**
      *

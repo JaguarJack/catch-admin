@@ -76,11 +76,11 @@ class CatchBuild
      */
     public function when($condition, \Closure $closure)
     {
-         if ($condition && $closure instanceof \Closure) {
-             $closure($this);
-         }
+        if ($condition && $closure instanceof \Closure) {
+            $closure($this);
+        }
 
-         return $this;
+        return $this;
     }
 
     /**

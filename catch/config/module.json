@@ -1,0 +1,17 @@
+{
+    "name": "配置管理",
+    "alias": "config",
+    "description": "配置管理",
+    "version": "1.0.0",
+    "keywords": [
+        "配置管理"
+    ],
+    "order": 0,
+    "services": [
+        "\\catchAdmin\\config\\ConfigService"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": [],
+    "enable": true
+}

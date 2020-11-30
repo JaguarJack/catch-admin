@@ -1,7 +1,6 @@
 <?php
 namespace catcher\library\excel;
 
-
 use catcher\exceptions\FailedException;
 use PhpOffice\PhpSpreadsheet\Writer\Csv;
 use PhpOffice\PhpSpreadsheet\Writer\Xls;
@@ -9,7 +8,6 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class Factory
 {
-
     public static function make($type)
     {
         if ($type === 'xlsx') {

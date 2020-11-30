@@ -17,7 +17,7 @@ class MonitorService extends ModuleService
 {
     protected function loadConfig()
     {
-         return  require __DIR__ . DIRECTORY_SEPARATOR . 'config.php';
+        return  require __DIR__ . DIRECTORY_SEPARATOR . 'config.php';
     }
 
     public function loadRouteFrom()
@@ -30,5 +30,4 @@ class MonitorService extends ModuleService
     {
         return [__NAMESPACE__, __DIR__ . DIRECTORY_SEPARATOR . 'command'];
     }
-
 }

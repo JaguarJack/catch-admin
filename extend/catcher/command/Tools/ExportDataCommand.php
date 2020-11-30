@@ -1,5 +1,5 @@
 <?php
-declare (strict_types = 1);
+declare(strict_types = 1);
 
 namespace catcher\command\Tools;
 
@@ -40,8 +40,6 @@ class ExportDataCommand extends Command
                                     ->where('module', $module)
                                     ->select()
                                     ->toArray();
-
-
         } else {
             $data = Db::name($table)->where('deleted_at', 0)
                                     ->select()
@@ -72,4 +70,3 @@ class ExportDataCommand extends Command
         file_put_contents(CatchAdmin::moduleSeedsDirectory($module) . $class .'.php', str_replace('{DATA}', $data, $stub));
     }
 }
-

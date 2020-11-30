@@ -1,27 +1,24 @@
 {
-    "name": "jaguarjack/catchadmin",
-    "description": "the api framework base on thinkphp, help you to create admin management soon",
+    "name": "littlezo/reward_task_interface",
+    "description": "RewardTaskAdmin",
     "type": "project",
     "keywords": [
-        "framework",
-        "catchadmin",
-        "api",
-        "ORM"
+        "reward_task",
+        "reward_task_interface"
     ],
-    "homepage": "http://doc.catchadmin.com",
     "license": "Apache-2.0",
     "authors": [
         {
-            "name": "jaguarjack",
-            "email": "njphper@gmail.com"
+            "name": "@十一",
+            "email": "littlezov@qq.com"
         }
     ],
     "require": {
-        "php": ">=7.1.0",
+        "php": ">=7.4.0",
         "topthink/framework": "6.0.5",
         "topthink/think-orm": "2.0.33",
         "topthink/think-migration": "^3.0",
-        "thans/tp-jwt-auth": "1.1",
+        "thans/tp-jwt-auth": "^1.1.1",
         "jaguarjack/think-filesystem-cloud": "dev-master",
         "overtrue/wechat": "^4.2",
         "phpoffice/phpspreadsheet": "^1.12",

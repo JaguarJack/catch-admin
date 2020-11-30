@@ -27,7 +27,7 @@ class UserExport implements ExcelContract
     {
         // TODO: Implement headers() method.
         return [
-            'id', '用户名', '邮箱', '状态', '创建日期'
+            'id', '用户名', '账号', '状态', '创建日期'
         ];
     }
 
@@ -43,7 +43,7 @@ class UserExport implements ExcelContract
     public function sheets()
     {
         // TODO: Implement sheets() method.
-        $users = Users::field(['id', 'username', 'email', 'status', 'created_at'])->select();
+        $users = Users::field(['id', 'username', 'account', 'status', 'created_at'])->select();
 
         foreach ($users as &$user) {
             $user->status = $user->status == Users::ENABLE ? '启用' : '停用';

@@ -28,8 +28,8 @@ class UserRelateJob extends Migrator
      */
     public function change()
     {
-        $table  =  $this->table('user_has_jobs',['engine'=>'Innodb', 'comment' => '用户角色表', 'signed' => false]);
-        $table->addColumn('uid', 'integer',['comment'=>'用户ID', 'signed' => false])
+        $table  =  $this->table('user_has_jobs', ['engine'=>'Innodb', 'comment' => '用户角色表', 'signed' => false]);
+        $table->addColumn('uid', 'integer', ['comment'=>'用户ID', 'signed' => false])
             ->addColumn('job_id', 'integer', ['comment'=>'岗位ID', 'signed' => false])
             ->create();
     }

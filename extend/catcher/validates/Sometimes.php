@@ -3,7 +3,6 @@ namespace catcher\validates;
 
 class Sometimes implements ValidateInterface
 {
-
     public function type(): string
     {
         // TODO: Implement type() method.

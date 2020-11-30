@@ -22,7 +22,8 @@ class SeedRunCommand extends Run
             ->setDescription('the catch-seed:run command to Run database seeders')
             ->addArgument('module', Argument::REQUIRED, 'seed the module database')
             ->addOption('--seed', '-s', InputOption::VALUE_REQUIRED, 'What is the name of the seeder?')
-            ->setHelp(<<<EOT
+            ->setHelp(
+                <<<EOT
                 The <info>catch-seed:run</info> command runs all available or individual seeders
 <info>php think catch-seed:run module</info>
 <info>php think catch-seed:run -s UserSeeder</info>
@@ -30,7 +31,6 @@ class SeedRunCommand extends Run
 
 EOT
             );
-
     }
 
     protected function execute(Input $input, Output $output)
@@ -44,7 +44,6 @@ EOT
         $end = microtime(true);
         $this->seeds = null;
         $output->writeln('<comment>All Done. Took ' . sprintf('%.4fs', $end - $start) . '</comment>');
-
     }
 
     /**
@@ -58,6 +57,4 @@ EOT
     {
         return CatchAdmin::moduleSeedsDirectory($this->module);
     }
-
-
 }

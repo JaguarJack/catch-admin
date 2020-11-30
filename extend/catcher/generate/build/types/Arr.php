@@ -20,7 +20,6 @@ class Arr
                 );
             }
             $items[] = $arrItem;
-
         }
 
         return new Array_($items);

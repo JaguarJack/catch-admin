@@ -43,7 +43,7 @@
       */
      public function start()
      {
-        $this->write();
+         $this->write();
      }
 
      /**
@@ -68,9 +68,9 @@
       */
      public function finished()
      {
-        $this->write(true);
+         $this->write(true);
 
-        $this->current = 1;
+         $this->current = 1;
      }
 
      /**
@@ -82,10 +82,9 @@
       */
      protected function write($end = false)
      {
+         $bar = $this->bar()  . ($end ? '' : "\r");
 
-        $bar = $this->bar()  . ($end ? '' : "\r");
-
-        $this->output->write(sprintf('<info>%s</info>', $bar), false);
+         $this->output->write(sprintf('<info>%s</info>', $bar), false);
      }
 
      /**

@@ -1,4 +1,5 @@
 <?php
+
 namespace catchAdmin\permissions\model;
 
 use catchAdmin\permissions\model\search\UserSearch;
@@ -11,24 +12,24 @@ class Users extends CatchModel
     use HasRolesTrait;
     use HasJobsTrait;
     use UserSearch;
-    
+
     protected $name = 'users';
 
     protected $field = [
-            'id', // 
-			'username', // 用户名
-			'password', // 用户密码
-			'email', // 邮箱 登录
-            'avatar', // 头像
-            'remember_token',
-            'creator_id', // 创建者ID
-            'department_id', // 部门ID
-			'status', // 用户状态 1 正常 2 禁用
-			'last_login_ip', // 最后登录IP
-			'last_login_time', // 最后登录时间
-			'created_at', // 创建时间
-			'updated_at', // 更新时间
-			'deleted_at', // 删除状态，0未删除 >0 已删除
+        'id', //
+        'username', // 用户名
+        'password', // 用户密码
+        'account', // 账号 登录
+        'avatar', // 头像
+        'remember_token',
+        'creator_id', // 创建者ID
+        'department_id', // 部门ID
+        'status', // 用户状态 1 正常 2 禁用
+        'last_login_ip', // 最后登录IP
+        'last_login_time', // 最后登录时间
+        'created_at', // 创建时间
+        'updated_at', // 更新时间
+        'deleted_at', // 删除状态，0未删除 >0 已删除
     ];
 
     /**
@@ -53,10 +54,10 @@ class Users extends CatchModel
     public function getList(): \think\Paginator
     {
         return $this->withoutField(['updated_at'], true)
-                    ->catchSearch()
-                    ->catchLeftJoin(Department::class, 'id', 'department_id', ['department_name'])
-                    ->order($this->aliasField('id'), 'desc')
-                    ->paginate();
+            ->catchSearch()
+            ->catchLeftJoin(Department::class, 'id', 'department_id', ['department_name'])
+            ->order($this->aliasField('id'), 'desc')
+            ->paginate();
     }
 
     /**
@@ -85,8 +86,8 @@ class Users extends CatchModel
 
         return array_unique($permissionIds);
     }
-	
-	 /**
+
+    /**
      * 后台根据权限标识判断用户是否拥有某个权限
      * @param string $permission_mark
      * @return bool
@@ -99,12 +100,12 @@ class Users extends CatchModel
     public function can($permission_mark)
     {
         // 超级管理员直接返回true
-        if (Utils::isSuperAdmin()){
+        if (Utils::isSuperAdmin()) {
             return true;
         }
         // 查询当前用户的权限
         return in_array(
-            Permissions::where('permission_mark',$permission_mark)->value('id') ? : 0,
+            Permissions::where('permission_mark', $permission_mark)->value('id') ?: 0,
             $this->getPermissionsBy()
         );
     }

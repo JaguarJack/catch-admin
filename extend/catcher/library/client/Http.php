@@ -121,7 +121,6 @@ class Http
      */
     public function headers(array $headers)
     {
-
         $this->header = isset($this->header['headers']) ?
                             array_merge($this->header['headers'], $headers) :
                             [ 'headers' => $headers ];
@@ -307,8 +306,15 @@ class Http
      */
     protected function merge()
     {
-        return array_merge($this->header, $this->query, $this->timeout,
-            $this->options, $this->body, $this->auth, $this->multipart, $this->formParams,
+        return array_merge(
+            $this->header,
+            $this->query,
+            $this->timeout,
+            $this->options,
+            $this->body,
+            $this->auth,
+            $this->multipart,
+            $this->formParams,
             $this->ignoreSsl
         );
     }
