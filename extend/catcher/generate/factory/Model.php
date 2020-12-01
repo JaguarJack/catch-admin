@@ -90,7 +90,7 @@ class Model extends Factory
                                 $class->addProperty(
                                     (new Property('field'))->default(
                                         (new Arr)->build(Db::getFields($table))
-                                    ))->docComment('// 数据库字段映射');
+                                    )->docComment('// 数据库字段映射'));
                             });
 
                         })->getContent();
