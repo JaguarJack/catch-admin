@@ -11,6 +11,7 @@ use catcher\generate\build\classes\Uses;
 use catcher\generate\build\types\Arr;
 use catcher\traits\db\BaseOptionsTrait;
 use catcher\traits\db\ScopeTrait;
+use catcher\Utils;
 use think\facade\Db;
 use think\helper\Str;
 
@@ -80,7 +81,9 @@ class Model extends Factory
                             }
 
                             $class->addProperty(
-                                (new Property('name'))->default($table)->docComment('// 表名')
+                                (new Property('name'))->default(
+                                    Utils::tableWithoutPrefix($table)
+                                )->docComment('// 表名')
                             );
 
                             $class->when($this->hasTableExists($table), function ($class) use ($table){

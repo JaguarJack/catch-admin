@@ -152,6 +152,18 @@ class Utils
     }
 
     /**
+     * 删除前缀
+     *
+     * @time 2020年12月01日
+     * @param string $table
+     * @return string|string[]
+     */
+    public static function tableWithoutPrefix(string $table)
+    {
+        return str_replace(self::tablePrefix(), '', $table);
+    }
+
+    /**
      * 是否是超级管理员
      *
      * @time 2020年07月04日
