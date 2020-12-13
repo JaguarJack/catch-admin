@@ -178,9 +178,14 @@ class CreateModuleCommand extends Command
     {
         $moduleJson = FileSystem::sharedGet(__DIR__ . DIRECTORY_SEPARATOR . 'stubs' . DIRECTORY_SEPARATOR . 'module.stub');
 
-        $content = str_replace(['{NAME}','{DESCRIPTION}','{MODULE}', '{SERVICE}'],
-            [$this->name, $this->description,
-                $this->module,  '\\\\'. str_replace('\\', '\\\\',$this->namespaces . ucfirst($this->module) . 'Service')], $moduleJson);
+        $content = str_replace(['{NAME}','{DESCRIPTION}','{MODULE}', '{SERVICE}', '{KEYWORDS}'],
+            [
+                $this->name, $this->description,
+                $this->module,
+                '\\\\'. str_replace('\\', '\\\\',
+                $this->namespaces . ucfirst($this->module) . 'Service'),
+                ''
+            ], $moduleJson);
 
         FileSystem::put($this->moduleDir . 'module.json', $content);
     }
