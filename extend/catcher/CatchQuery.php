@@ -13,7 +13,7 @@ class CatchQuery extends Query
   /**
    *
    * @time 2020年01月13日
-   * @param string $model
+   * @param mixed $model
    * @param string $joinField
    * @param string $currentJoinField
    * @param array $field
@@ -21,29 +21,38 @@ class CatchQuery extends Query
    * @param array $bind
    * @return CatchQuery
    */
-    public function catchJoin(string $model, string $joinField, string $currentJoinField, array $field = [], string $type = 'INNER', array $bind = []): CatchQuery
+    public function catchJoin($model, string $joinField, string $currentJoinField, array $field = [], string $type = 'INNER', array $bind = []): CatchQuery
     {
-        $table = app($model)->getTable();
+        $tableAlias = null;
+
+        if (is_string($model)) {
+            $table = app($model)->getTable();
+        } else {
+            list($model, $tableAlias) = $model;
+            $table = app($model)->getTable();
+        }
 
         // 合并字段
-        $this->options['field'] = array_merge($this->options['field'] ?? [], array_map(function ($value) use ($table) {
-          return $table . '.' . $value;
+        $this->options['field'] = array_merge($this->options['field'] ?? [], array_map(function ($value) use ($table, $tableAlias) {
+          return ($tableAlias ? : $table) . '.' . $value;
         }, $field));
 
-        return $this->join($table, sprintf('%s.%s=%s.%s', $table, $joinField, $this->getAlias(), $currentJoinField), $type, $bind);
+        return $this->join($tableAlias ? sprintf('%s %s', $table, $tableAlias) : $table
+
+            , sprintf('%s.%s=%s.%s', $tableAlias ? $tableAlias : $table, $joinField, $this->getAlias(), $currentJoinField), $type, $bind);
     }
 
   /**
    *
    * @time 2020年01月13日
-   * @param string $model
+   * @param mixed $model
    * @param string $joinField
    * @param string $currentJoinField
    * @param array $field
    * @param array $bind
    * @return CatchQuery
    */
-    public function catchLeftJoin(string $model, string $joinField, string $currentJoinField, array $field = [], array $bind = []): CatchQuery
+    public function catchLeftJoin($model, string $joinField, string $currentJoinField, array $field = [], array $bind = []): CatchQuery
     {
         return $this->catchJoin($model, $joinField,  $currentJoinField,  $field,'LEFT', $bind);
     }
@@ -51,14 +60,14 @@ class CatchQuery extends Query
   /**
    *
    * @time 2020年01月13日
-   * @param string $model
+   * @param mixed $model
    * @param string $joinField
    * @param string $currentJoinField
    * @param array $field
    * @param array $bind
    * @return CatchQuery
    */
-    public function catchRightJoin(string $model, string $joinField, string $currentJoinField, array $field = [], array $bind = []): CatchQuery
+    public function catchRightJoin($model, string $joinField, string $currentJoinField, array $field = [], array $bind = []): CatchQuery
     {
         return $this->catchJoin($model, $joinField,  $currentJoinField, $field,'RIGHT', $bind);
     }
