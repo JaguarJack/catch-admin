@@ -16,7 +16,7 @@ $router->group('monitor', function () use ($router){
     $router->put('crontab/enable/<id>', '\catchAdmin\monitor\controller\Crontab@disOrEnable');
 
     // crontab 日志
-    $router->get('crontab/log', '\catchAdmin\monitor\controller\CrontabLog@index');
-    $router->delete('crontab/log/<id>', '\catchAdmin\monitor\controller\CrontabLog@delete');
+    $router->get('crontab/log/list', '\catchAdmin\monitor\controller\CrontabLog@index');
+    $router->delete('crontab/log/list/<id>', '\catchAdmin\monitor\controller\CrontabLog@delete');
 
 })->middleware('auth');
