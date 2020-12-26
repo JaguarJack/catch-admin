@@ -19,6 +19,6 @@ trait CrontabSearch
 
     public function searchStatusAttr($query, $value, $data)
     {
-        return $query->whereLike('status', $value);
+        return $query->where('status', $value);
     }
 }
