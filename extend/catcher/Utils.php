@@ -152,7 +152,7 @@ class Utils
     }
 
     /**
-     * 删除前缀
+     * 删除表前缀
      *
      * @time 2020年12月01日
      * @param string $table
@@ -161,6 +161,19 @@ class Utils
     public static function tableWithoutPrefix(string $table)
     {
         return str_replace(self::tablePrefix(), '', $table);
+    }
+
+    /**
+     * 添加表前缀
+     *
+     * @time 2020年12月26日
+     * @param string $table
+     * @return string
+     */
+    public static function tableWithPrefix(string $table)
+    {
+        return Str::contains($table, self::tablePrefix()) ?
+                    $table : self::tablePrefix() . $table;
     }
 
     /**

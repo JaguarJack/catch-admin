@@ -50,7 +50,7 @@ class Model extends Factory
     {
         $extra = $params['extra'];
 
-        $table = $params['table'];
+        $table = Utils::tableWithPrefix($params['table']);
 
         [$modelName, $namespace] = $this->parseFilename($params['model']);
 
@@ -92,7 +92,6 @@ class Model extends Factory
                                         (new Arr)->build(Db::getFields($table))
                                     )->docComment('// 数据库字段映射'));
                             });
-
                         })->getContent();
     }
 }
