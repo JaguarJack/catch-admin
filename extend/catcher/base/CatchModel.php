@@ -5,6 +5,7 @@ namespace catcher\base;
 
 use catcher\CatchQuery;
 use catcher\traits\db\BaseOptionsTrait;
+use catcher\traits\db\RewriteTrait;
 use catcher\traits\db\TransTrait;
 use think\model\concern\SoftDelete;
 use catcher\traits\db\ScopeTrait;
@@ -17,7 +18,7 @@ use catcher\traits\db\ScopeTrait;
  */
 abstract class CatchModel extends \think\Model
 {
-    use SoftDelete, TransTrait, BaseOptionsTrait, ScopeTrait;
+    use SoftDelete, TransTrait, BaseOptionsTrait, ScopeTrait, RewriteTrait;
 
     protected $createTime = 'created_at';
 
@@ -29,8 +30,8 @@ abstract class CatchModel extends \think\Model
 
     protected $autoWriteTimestamp = true;
 
+    // 分页 Limit
     public const LIMIT = 10;
-
     // 开启
     public const ENABLE = 1;
     // 禁用
