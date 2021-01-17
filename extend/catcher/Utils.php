@@ -210,4 +210,23 @@ class Utils
     {
         return root_path($path ? 'public/'. $path : 'public');
     }
+
+
+    /**
+     * 过滤空字符字段
+     *
+     * @time 2021年01月16日
+     * @param $data
+     * @return mixed
+     */
+    public static function filterEmptyValue($data)
+    {
+        foreach ($data as $k => $v) {
+            if (!$v) {
+                unset($data[$k]);
+            }
+        }
+
+        return $data;
+    }
 }

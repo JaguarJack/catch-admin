@@ -110,7 +110,7 @@ class User extends CatchController
      */
     public function update($id, UpdateRequest $request)
     {
-        $this->user->updateBy($id, $request->param());
+        $this->user->updateBy($id, $request->filterEmptyField()->param());
 
         $user = $this->user->findBy($id);
 
