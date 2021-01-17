@@ -36,7 +36,7 @@ class CatchCrontabCommand extends Command
             ->addOption('pid', '-p', Option::VALUE_REQUIRED, 'you can send signal to the process of pid')
             ->addOption('static', '-s', Option::VALUE_REQUIRED, 'default static process number', 1)
             ->addOption('dynamic', '-dy', Option::VALUE_REQUIRED, 'default dynamic process number', 10)
-            ->addOption('interval', '-i', Option::VALUE_REQUIRED, 'interval/seconds', 60)
+            ->addOption('interval', '-i', Option::VALUE_REQUIRED, 'interval/seconds', 5)
             ->setDescription('start catch crontab schedule');
     }
 

@@ -116,7 +116,7 @@ trait RegisterSignal
                 $process->exit();
             });
 
-           $process->start();
+            $process->start();
 
             Process::alarm($this->interval);
         });

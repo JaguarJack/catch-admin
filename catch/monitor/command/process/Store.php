@@ -121,7 +121,7 @@ trait Store
     {
         $pidFile = config('catch.crontab.master_pid_file');
 
-        if (!file_exists($pidFile)) {
+        if (!FileSystem::exists($pidFile)) {
             return 0;
         }
 
@@ -136,7 +136,7 @@ trait Store
      */
     public function renderStatus()
     {
-        return file_get_contents(self::statusPath());
+        return FileSystem::sharedGet(self::statusPath());
     }
 
     /**
