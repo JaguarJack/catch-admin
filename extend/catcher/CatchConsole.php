@@ -71,11 +71,19 @@ class CatchConsole
 
         $psr4 = (new Composer())->psr4Autoload();
 
-        $rootNamespace = substr($this->namespace, 0, strpos($this->namespace, '\\') + 1);
+        if (strpos($this->namespace, '\\') === false) {
+            $rootNamespace = $this->namespace . '\\';
+        } else {
+            $rootNamespace = substr($this->namespace, 0, strpos($this->namespace, '\\') + 1);
+        }
 
-        return root_path(). $psr4[$rootNamespace] . DIRECTORY_SEPARATOR .
+        $path = root_path(). $psr4[$rootNamespace] . DIRECTORY_SEPARATOR;
 
-                str_replace('\\', DIRECTORY_SEPARATOR, substr($this->namespace, strpos($this->namespace, '\\') + 1));
+        if (strpos($this->namespace, '\\') !== false) {
+            $path  .= str_replace('\\', DIRECTORY_SEPARATOR, substr($this->namespace, strpos($this->namespace, '\\') + 1));
+        }
+
+        return rtrim($path, '/');
     }
 
     /**
