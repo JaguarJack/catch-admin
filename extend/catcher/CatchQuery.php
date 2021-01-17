@@ -138,6 +138,57 @@ class CatchQuery extends Query
         return $this;
     }
 
+    /**
+     * 快速搜索
+     *
+     * @param array $params
+     * @return Query
+     */
+    public function quickSearch($params = []): Query
+    {
+        $requestParams = \request()->param();
+
+        if (empty($params) && empty($requestParams)) {
+            return $this;
+        }
+
+        foreach ($requestParams as $field => $value) {
+            if (isset($params[$field])) {
+                // ['>', value] || value
+                if (is_array($params[$field])) {
+                    $this->where($field, $params[$field][0], $params[$field][1]);
+                } else {
+                    $this->where($field, $value);
+                }
+            } else {
+                // 区间范围 start_数据库字段 & end_数据库字段
+                $startPos = strpos($field, 'start_');
+                if ($startPos === 0) {
+                    $this->where(str_replace('start_','', $field), '>=', strtotime($value));
+                }
+                $endPos = strpos($field, 'end_');
+                if ($endPos === 0) {
+                    $this->where(str_replace('end_', '', $field), '>=', strtotime($value));
+                }
+                // 模糊搜索
+                if (Str::contains($field, 'like')) {
+                    [$operate, $field] = explode('_', $field);
+                    if ($operate === 'like') {
+                        $this->whereLike($field, $value);
+                    } else if ($operate === '%like') {
+                        $this->whereLeftLike($field, $value);
+                    } else {
+                        $this->whereRightLike($field, $value);
+                    }
+                }
+                // = 值搜索
+                $this->where($field, $value);
+            }
+        }
+
+        return $this;
+    }
+
   /**
    *
    * @time 2020年01月13日
@@ -176,6 +227,28 @@ class CatchQuery extends Query
         }
 
         return parent::whereLike($field, $condition, $logic);
+    }
+
+    /**
+     * @param string $field
+     * @param $condition
+     * @param string $logic
+     * @return Query
+     */
+    public function whereLeftLike(string $field, $condition, string $logic = 'AND'): Query
+    {
+        return $this->where($field, $condition, $logic, 'left');
+    }
+
+    /**
+     * @param string $field
+     * @param $condition
+     * @param string $logic
+     * @return Query
+     */
+    public function whereRightLike(string $field, $condition, string $logic = 'AND'): Query
+    {
+        return $this->where($field, $condition, $logic, 'right');
     }
 
   /**
