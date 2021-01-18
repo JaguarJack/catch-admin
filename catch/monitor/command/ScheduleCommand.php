@@ -16,6 +16,7 @@ namespace catchAdmin\monitor\command;
 
 use catchAdmin\monitor\command\process\Process;
 use catchAdmin\monitor\model\Crontab;
+use catchAdmin\monitor\model\CrontabLog;
 use Cron\CronExpression;
 use think\console\Command;
 use think\console\Input;
@@ -39,7 +40,7 @@ class ScheduleCommand extends Command
             foreach ($this->getExecuteAbleCommands() as $command) {
 
                 $process = new Process(function (Process $process) use ($command) {
-                        $this->getConsole()->call($command);
+                        $this->executeCommand($command);
                         $process->exit();
                 });
 
@@ -48,7 +49,38 @@ class ScheduleCommand extends Command
         } catch (\Exception $e) {
             Log::error('CatchSchedule Error:' . $e->getMessage());
         }
+    }
 
+    /**
+     * 执行 command
+     *
+     * @time 2021年01月18日
+     * @param $command
+     * @return void
+     */
+    protected function executeCommand($command)
+    {
+        $start = time();
+
+        $errorMessage = '';
+
+        try {
+            $this->getConsole()->call($command->task);
+        } catch (\Exception $e) {
+            $errorMessage = $e->getMessage();
+        }
+
+        $end = time();
+
+        // 插入 crontab 执行日志
+        CrontabLog::insert([
+            'crontab_id' => $command->id,
+            'used_time' => $end - $start,
+            'status' => $errorMessage ? CrontabLog::FAILED : CrontabLog::SUCCESS,
+            'error_message' => $errorMessage,
+            'created_at' => time(),
+            'updated_at' => time(),
+        ]);
     }
 
     /**
@@ -69,7 +101,7 @@ class ScheduleCommand extends Command
             ->select()
             ->each(function ($command) use (&$executeAbleCommands){
                 if ($command->tactics == Crontab::EXECUTE_IMMEDIATELY) {
-                    $executeAbleCommands[] = $command->task;
+                    $executeAbleCommands[] = $command;
                     return true;
                 }
 
@@ -85,7 +117,7 @@ class ScheduleCommand extends Command
                         ]);
                     }
 
-                    $executeAbleCommands[] = $command->task;
+                    $executeAbleCommands[] = $command;
                 }
                 return true;
             });
