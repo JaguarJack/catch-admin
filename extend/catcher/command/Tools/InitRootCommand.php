@@ -1,32 +1,34 @@
 <?php
-declare (strict_types = 1);
+
+declare (strict_types=1);
 
 namespace catcher\command\Tools;
 
+use catchAdmin\permissions\model\Users;
 use catcher\library\BackUpDatabase;
 use think\console\Command;
 use think\console\Input;
 use think\console\input\Argument;
 use think\console\Output;
 
-class BackupCommand extends Command
+class InitRootCommand extends Command
 {
     protected $table;
 
     protected function configure()
     {
         // 指令配置
-        $this->setName('backup:data')
-            ->addArgument('tables', Argument::REQUIRED, 'backup tables')
+        $this->setName('catch:initAdmin')
             ->setDescription('backup data you need');
     }
 
     protected function execute(Input $input, Output $output)
     {
-        $tables = $this->input->getArgument('tables');
+        if ($user = Users::where('id', config('catch.permissions.super_admin_id'))->find()) {
 
-        (new BackUpDatabase)->done($tables);
+            $user->password = 'catchadmin';
 
-        $output->info('succeed!');
+            $user->save();
+        }
     }
 }
