@@ -336,11 +336,27 @@ class CatchUpload
             case CatchUpload::LOCAL:
                 return $driver['domain'];
             case CatchUpload::OSS:
-                return $driver['end_point'];
+                return self::getOssDomain();
             case CatchUpload::QCLOUD:
                 return $driver['cdn'];
             default:
                 throw new FailedException(sprintf('Driver [%s] Not Supported.', $driver));
         }
+    }
+
+    /**
+     * 获取 OSS Domain
+     *
+     * @time 2021年01月20日
+     * @return mixed|string
+     */
+    protected static function getOssDomain(): string
+    {
+        $oss = \config('filesystem.disks.oss');
+        if ($oss['is_cname'] === false) {
+            return 'https://' . $oss['bucket'] . '.' . $oss['end_point'];
+        }
+
+        return $oss['end_point'];
     }
 }
