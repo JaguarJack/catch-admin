@@ -63,25 +63,30 @@ class CatchUpload
      */
     public function upload(UploadedFile $file): string
     {
-        $this->initUploadConfig();
+        try {
+            $this->initUploadConfig();
 
-        $path = Filesystem::disk($this->getDriver())->putFile($this->getPath(), $file);
+            $path = Filesystem::disk($this->getDriver())->putFile($this->getPath(), $file);
 
-        if ($path) {
+            if ($path) {
 
-            $url = self::getCloudDomain($this->getDriver()) . '/' . $this->getLocalPath($path);
+                $url = self::getCloudDomain($this->getDriver()) . '/' . $this->getLocalPath($path);
 
-            event('attachment', [
-                'path' => $path,
-                'url' => $url,
-                'driver' => $this->getDriver(),
-                'file' => $file,
-            ]);
+                event('attachment', [
+                    'path' => $path,
+                    'url' => $url,
+                    'driver' => $this->getDriver(),
+                    'file' => $file,
+                ]);
 
-            return $url;
+                return $url;
+            }
+
+            throw new FailedException('Upload Failed, Try Again!');
+
+        } catch (\Exception $exception) {
+            throw new FailedException($exception->getMessage());
         }
-
-        throw new FailedException('Upload Failed, Try Again!');
     }
 
     /**
