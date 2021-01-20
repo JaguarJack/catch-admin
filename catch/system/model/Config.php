@@ -66,15 +66,13 @@ class Config extends CatchModel
         $config = [];
         foreach ($data as $key => $item) {
             foreach ($item as $k => $value) {
-                if ($value) {
-                    $config[$key . '.' .$k] = [
-                        'pid' => $parentConfig['id'],
-                        'key' => $key . '.' . $k,
-                        'value' => $value,
-                        'created_at' => time(),
-                        'updated_at' => time(),
-                    ];
-                }
+                $config[$key . '.' .$k] = [
+                    'pid' => $parentConfig['id'],
+                    'key' => $key . '.' . $k,
+                    'value' => $value,
+                    'created_at' => time(),
+                    'updated_at' => time(),
+                ];
             }
         }
 
