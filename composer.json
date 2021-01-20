@@ -18,11 +18,10 @@
     ],
     "require": {
         "php": ">=7.1.0",
-        "topthink/framework": "6.0.5",
+        "topthink/framework": "6.0.6",
         "topthink/think-orm": "2.0.33",
         "topthink/think-migration": "^3.0",
         "thans/tp-jwt-auth": "1.1",
-        "jaguarjack/think-filesystem-cloud": "dev-master",
         "overtrue/wechat": "^4.2",
         "phpoffice/phpspreadsheet": "^1.12",
         "dragonmantank/cron-expression": "^3.0",
@@ -30,7 +29,8 @@
         "ext-json": "*",
         "overtrue/easy-sms": "^1.1",
         "jaguarjack/migration-generator": "dev-master",
-        "lcobucci/jwt": "3.3"
+        "lcobucci/jwt": "3.3",
+        "jaguarjack/think-filesystem-cloud": "1.0"
     },
     "require-dev": {
         "topthink/think-trace": "^1.0",
