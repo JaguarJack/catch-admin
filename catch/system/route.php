@@ -15,8 +15,10 @@ $router->group(function () use ($router) {
     $router->post('table/backup', '\catchAdmin\system\controller\DataDictionary@backup');
 
     // 上传
-    $router->post('upload/image', '\catchAdmin\system\controller\Upload@image');
-    $router->post('upload/file', '\catchAdmin\system\controller\Upload@file');
+    $router->group('upload', function () use ($router){
+        $router->post('image', '\catchAdmin\system\controller\Upload@image');
+        $router->post('file', '\catchAdmin\system\controller\Upload@file');
+    })->middleware(\catcher\middlewares\JsonResponseMiddleware::class);
 
     // 附件
     $router->resource('attachments', '\catchAdmin\system\controller\Attachments');
