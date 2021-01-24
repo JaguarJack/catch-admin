@@ -50,7 +50,7 @@ class CatchAdminService extends Service
 
             $this->app->bind('catch\console', $catchConsole);
 
-            $this->commands($catchConsole->commands());
+            $this->commands($catchConsole->defaultCommands());
         }
     }
     /**

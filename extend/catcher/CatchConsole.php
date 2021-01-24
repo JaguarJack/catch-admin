@@ -14,9 +14,7 @@ namespace catcher;
 
 use catcher\library\Composer;
 use catcher\facade\FileSystem;
-use Symfony\Component\Finder\SplFileInfo;
 use think\App;
-use think\console\Command;
 
 class CatchConsole
 {
@@ -37,7 +35,7 @@ class CatchConsole
      * @time 2020年07月02日
      * @return array
      */
-    public function commands()
+    public function commands(): array
     {
         $commandFiles = FileSystem::allFiles($this->path);
 
@@ -62,14 +60,9 @@ class CatchConsole
      * @time 2020年07月19日
      * @return string
      */
-    protected function parseNamespace()
+    protected function parseNamespace(): string
     {
-        // 没有设置 namespace 默认使用 extend 目录
-        if (!$this->namespace) {
-            return root_path(). 'extend';
-        }
-
-        $psr4 = (new Composer())->psr4Autoload();
+        $psr4 = (new Composer)->psr4Autoload();
 
         if (strpos($this->namespace, '\\') === false) {
             $rootNamespace = $this->namespace . '\\';
@@ -93,7 +86,7 @@ class CatchConsole
      * @param $path
      * @return $this
      */
-    public function path($path)
+    public function path($path): CatchConsole
     {
         $this->path = $path;
 
@@ -107,11 +100,40 @@ class CatchConsole
      * @param $namespace
      * @return $this
      */
-    public function setNamespace($namespace)
+    public function setNamespace($namespace): CatchConsole
     {
         $this->namespace = $namespace;
 
         return $this;
+    }
+
+    /**
+     * 默认 commands
+     *
+     * @time 2021年01月24日
+     * @return array
+     */
+    public function defaultCommands(): array
+    {
+        $defaultCommands = FileSystem::allFiles(__DIR__ . DIRECTORY_SEPARATOR . 'command');
+
+        $commands = [];
+
+        /* \Symfony\Component\Finder\SplFileInfo $command */
+        foreach ($defaultCommands as $command) {
+            if ($command->getExtension() === 'php') {
+
+                $filename = str_replace('.php', '', str_replace(__DIR__, '', $command->getPathname()));
+
+                $class = 'catcher' . str_replace(DIRECTORY_SEPARATOR, '\\', $filename);
+
+                if (class_exists($class)) {
+                    $commands[] = $class;
+                }
+            }
+        }
+
+        return $commands;
     }
 
 }
