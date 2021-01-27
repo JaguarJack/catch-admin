@@ -12,17 +12,29 @@ use think\helper\Str;
 
 class CatchAuth
 {
+    /**
+     * @var mixed
+     */
     protected $auth;
 
+    /**
+     * @var mixed
+     */
     protected $guard;
 
     // 默认获取
     protected $username = 'email';
+
     // 校验字段
     protected $password = 'password';
 
     // 保存用户信息
     protected $user = [];
+
+    /**
+     * @var bool
+     */
+    protected $checkPassword = true;
 
     public function __construct()
     {
@@ -54,7 +66,9 @@ class CatchAuth
     public function attempt($condition)
     {
         try {
+
             $user = $this->authenticate($condition);
+
             if (!$user) {
                 throw new LoginFailedException();
             }
@@ -62,7 +76,7 @@ class CatchAuth
                 throw new LoginFailedException('该用户已被禁用|' . $user->username, Code::USER_FORBIDDEN);
             }
 
-            if (!password_verify($condition['password'], $user->password)) {
+            if ($this->checkPassword && !password_verify($condition['password'], $user->password)) {
                 throw new LoginFailedException('登录失败|' . $user->username);
             }
 
@@ -267,6 +281,19 @@ class CatchAuth
     public function password($field): self
     {
         $this->password = $field;
+
+        return $this;
+    }
+
+    /**
+     * 忽略密码认证
+     *
+     * @time 2021年01月27日
+     * @return $this
+     */
+    public function ignorePasswordVerify(): CatchAuth
+    {
+        $this->checkPassword = false;
 
         return $this;
     }
