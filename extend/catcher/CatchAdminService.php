@@ -103,7 +103,10 @@ class CatchAdminService extends Service
     {
         $connections = $this->app->config->get('database.connections');
 
-        $connections['mysql']['query'] = CatchQuery::class;
+        // 支持多数据库配置注入 Query
+        foreach ($connections as &$connection) {
+            $connection['query'] = CatchQuery::class;
+        }
 
         $this->app->config->set([
           'connections' => $connections
