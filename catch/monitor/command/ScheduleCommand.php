@@ -105,7 +105,8 @@ class ScheduleCommand extends Command
                     return true;
                 }
 
-                $can = date('Y-m-d H:i', CronExpression::factory(trim($command->cron))
+                $can = date('Y-m-d H:i',
+                        (new CronExpression(trim($command->cron)))
                         ->getNextRunDate(date('Y-m-d H:i:s'), 0, true)
                         ->getTimestamp()) == date('Y-m-d H:i', time());
 

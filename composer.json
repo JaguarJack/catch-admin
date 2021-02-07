@@ -24,7 +24,7 @@
         "thans/tp-jwt-auth": "1.1",
         "overtrue/wechat": "^4.2",
         "phpoffice/phpspreadsheet": "^1.12",
-        "dragonmantank/cron-expression": "^3.0",
+        "dragonmantank/cron-expression": "3.1",
         "symfony/finder": "^4.4",
         "ext-json": "*",
         "overtrue/easy-sms": "^1.1",
