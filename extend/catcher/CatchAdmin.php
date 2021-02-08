@@ -3,13 +3,13 @@ declare(strict_types=1);
 
 namespace catcher;
 
-use think\helper\Arr;
+use catcher\facade\FileSystem;
 
 class CatchAdmin
 {
     public static $root = 'catch';
 
-    public const VERSION = '2.1.0';
+    public const VERSION = '2.5.0';
 
 
     /**
@@ -192,7 +192,7 @@ class CatchAdmin
      * @time 2020年06月23日
      * @return array
      */
-    public static function getEnabledService()
+    public static function getEnabledService(): array
     {
         $services = [];
 
@@ -211,94 +211,68 @@ class CatchAdmin
     }
 
     /**
-     * 开启模块
+     * 获取模块 Json
      *
-     * @time 2020年06月23日
+     * @time 2021年02月08日
      * @param $module
-     * @return bool
+     * @return string
      */
-    public static function enableModule($module)
+    public static function getModuleJson($module): string
     {
-        $moduleJson = self::moduleDirectory($module) . 'module.json';
-
-        if (!file_exists($moduleJson)) {
-            return true;
+        if (is_dir($module)) {
+            return $module . DIRECTORY_SEPARATOR . 'module.json';
         }
 
-        $info = \json_decode(file_get_contents($moduleJson), true);
-
-        $info['enable'] = true;
-
-        if (!is_writeable($moduleJson)) {
-            chmod($moduleJson, 666);
-        }
-
-        file_put_contents($moduleJson, \json_encode($info, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
-
-        return true;
-    }
-
-    /**
-     * 关闭模块
-     *
-     * @time 2020年06月23日
-     * @param $module
-     * @return bool
-     */
-    public static function disableModule($module)
-    {
-        $moduleJson = self::moduleDirectory($module) . 'module.json';
-
-        if (!file_exists($moduleJson)) {
-            return true;
-        }
-
-        $info = \json_decode(file_get_contents($moduleJson), true);
-
-        $info['enable'] = false;
-
-        if (!is_writeable($moduleJson)) {
-            chmod($moduleJson, 666);
-        }
-
-        file_put_contents($moduleJson, \json_encode($info, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE));
-
-        return true;
-    }
-
-    /**
-     *
-     * @time 2019年11月30日
-     * @return array
-     */
-    protected static function getModuleViews(): array
-    {
-        $views = [];
-
-        foreach (self::getModulesDirectory() as $module) {
-            if (is_dir($module . 'view')) {
-                $moduleInfo = self::getModuleInfo($module);
-                $moduleName = $moduleInfo['alias'] ?? Arr::last(explode('/', $module));
-                $views[$moduleName] = $module . 'view' . DIRECTORY_SEPARATOR;
-            }
-        }
-
-        return $views;
+        return self::moduleDirectory($module) . 'module.json';
     }
 
     /**
      * 获取模块信息
      *
-     * @time 2019年11月30日
+     * @time 2021年02月08日
      * @param $module
-     * @return mixed
+     * @return array
      */
-    public static function getModuleInfo($module)
+    public static function getModuleInfo($module): array
     {
-        if (file_exists($module . DIRECTORY_SEPARATOR . 'module.json')) {
-            return \json_decode(file_get_contents($module. DIRECTORY_SEPARATOR . 'module.json'), true);
+        $moduleJson = self::getModuleJson($module);
+
+        if (!file_exists($moduleJson)) {
+            return [];
         }
-        return [];
+
+        return \json_decode(FileSystem::sharedGet($moduleJson), true);
+    }
+
+    /**
+     * 更新模块信息
+     *
+     * @time 2021年02月08日
+     * @param $module
+     * @param $info
+     * @return bool
+     */
+    public static function updateModuleInfo($module, $info): bool
+    {
+        $moduleInfo = self::getModuleInfo($module);
+
+        if (!count($moduleInfo)) {
+            return false;
+        }
+
+        foreach ($moduleInfo as $k => $v) {
+            if (isset($info[$k])) {
+                $moduleInfo[$k] = $info[$k];
+            }
+        }
+
+        if (! is_writeable(self::getModuleJson($module))) {
+            chmod(self::getModuleJson($module), 666);
+        }
+
+        FileSystem::put(self::getModuleJson($module), \json_encode($moduleInfo, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE));
+
+        return true;
     }
 
     /**
@@ -321,7 +295,7 @@ class CatchAdmin
      * @time 2019年11月30日
      * @return mixed
      */
-    public static function getRoutes()
+    public static function getRoutes(): array
     {
         if (file_exists(self::getCacheRoutesFile())) {
             return [self::getCacheRoutesFile()];
@@ -330,19 +304,6 @@ class CatchAdmin
         return self::getModuleRoutes();
     }
 
-    /**
-     *
-     * @time 2019年11月30日
-     * @return array|mixed
-     */
-    public static function getViews()
-    {
-        if (file_exists(self::getCacheViewsFile())) {
-            return self::getCacheViews();
-        }
-
-        return self::getModuleViews();
-    }
 
     /**
      *
@@ -393,49 +354,19 @@ class CatchAdmin
     /**
      *
      * @time 2019年11月30日
-     * @return false|int
-     */
-    public static function cacheViews()
-    {
-        return file_put_contents(self::getCacheViewsFile(), "<?php\r\n return "
-            . var_export(self::getModuleViews(), true) . ';');
-    }
-
-    /**
-     *
-     * @time 2019年11月30日
-     * @return mixed
-     */
-    protected static function getCacheViews()
-    {
-        return include self::getCacheViewsFile();
-    }
-
-    /**
-     *
-     * @time 2019年11月30日
      * @return mixed
      */
     protected static function getCacheServices()
     {
         return include self::getCacheServicesFile();
     }
-    /**
-     *
-     * @time 2019年11月30日
-     * @return mixed
-     */
-    protected static function getCacheViewsFile()
-    {
-        return self::cacheDirectory() . 'views.php';
-    }
 
     /**
      *
      * @time 2019年11月30日
      * @return mixed
      */
-    public static function getCacheServicesFile()
+    public static function getCacheServicesFile(): string
     {
         return self::cacheDirectory() . 'services.php';
     }

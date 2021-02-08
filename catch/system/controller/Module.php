@@ -22,7 +22,7 @@ class Module extends CatchController
         $modules = [];
 
         foreach(CatchAdmin::getModulesDirectory() as $d) {
-            $modules[] = json_decode(file_get_contents($d . 'module.json'), true);
+            $modules[] = CatchAdmin::getModuleInfo($d);
         }
 
         $hasModules = array_unique(Permissions::whereIn('id', request()->user()->getPermissionsBy())->column('module'));

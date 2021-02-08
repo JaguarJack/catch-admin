@@ -125,7 +125,8 @@ class InstallLocalModule
      */
     public function enableModule()
     {
-        CatchAdmin::enableModule($this->module);
+        CatchAdmin::updateModuleInfo($this->module, ['enable' => true]);
+
         app(Permissions::class)->restore(['module' => trim($this->module)]);
     }
 
@@ -137,7 +138,7 @@ class InstallLocalModule
      */
     public function disableModule()
     {
-        CatchAdmin::disableModule($this->module);
+        CatchAdmin::updateModuleInfo($this->module, ['enable' => false]);
 
         Permissions::destroy(function ($query) {
             $query->where('module', trim($this->module));
