@@ -136,6 +136,10 @@ class Utils
 
         $docComment = (new \ReflectionClass($controller))->getMethod($action)->getDocComment();
 
+        if (! $docComment) {
+            return false;
+        }
+
         return strpos($docComment, config('catch.permissions.method_auth_mark')) !== false;
     }
 
