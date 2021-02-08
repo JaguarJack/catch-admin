@@ -96,13 +96,14 @@ class ScheduleCommand extends Command
     {
         $executeAbleCommands = [];
 
+
         Crontab::where('status', Crontab::ENABLE)
-            ->where('tactics', '<>', Crontab::EXECUTE_FORBIDDEN)
             ->select()
             ->each(function ($command) use (&$executeAbleCommands){
                 if ($command->tactics == Crontab::EXECUTE_IMMEDIATELY) {
                     $executeAbleCommands[] = $command;
-                    return true;
+                    $command->tactics = Crontab::EXECUTE_NORMAL;
+                    return $command->save();
                 }
 
                 $can = date('Y-m-d H:i',
@@ -113,9 +114,8 @@ class ScheduleCommand extends Command
                 if ($can) {
                     // 如果任务只执行一次 之后禁用该任务
                     if ($command->tactics === Crontab::EXECUTE_ONCE) {
-                        Crontab::where('id', $command->id)->update([
-                            'status' => Crontab::DISABLE,
-                        ]);
+                        $command->tactics = Crontab::DISABLE;
+                        $command->save();
                     }
 
                     $executeAbleCommands[] = $command;

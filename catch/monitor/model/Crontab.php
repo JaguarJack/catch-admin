@@ -38,6 +38,5 @@ class Crontab extends Model
 
     const EXECUTE_IMMEDIATELY = 1; // 立即执行
     const EXECUTE_ONCE = 2; // 执行一次
-    const EXECUTE_FORBIDDEN = 3; // 停止执行
-  
+    const EXECUTE_NORMAL = 3; // 正常执行
 }

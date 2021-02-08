@@ -47,7 +47,7 @@ class Crontab extends CatchController
      */
     public function save(Request $request)
     {
-        CronExpression::factory($request->post('cron'));
+        new CronExpression($request->post('cron'));
 
         return CatchResponse::success($this->model->storeBy($request->post()));
     }
@@ -73,7 +73,7 @@ class Crontab extends CatchController
      */
     public function update(Request $request, $id)
     {
-        CronExpression::factory($request->post('cron'));
+        new CronExpression($request->post('cron'));
 
         return CatchResponse::success($this->model->updateBy($id, $request->post()));
     }

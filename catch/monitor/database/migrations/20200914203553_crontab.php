@@ -34,7 +34,7 @@ class Crontab extends Migrator
 			->addColumn('group', 'boolean', ['null' => false,'default' => 1,'signed' => false,'comment' => '1 默认 2 系统',])
 			->addColumn('task', 'string', ['limit' => 255,'null' => false,'default' => '','signed' => false,'comment' => '任务名称',])
 			->addColumn('cron', 'string', ['limit' => 50,'null' => false,'default' => '','signed' => false,'comment' => 'cron 表达式',])
-			->addColumn('tactics', 'boolean', ['null' => false,'default' => 1,'signed' => false,'comment' => '1 立即执行 2 执行一次 3 放弃执行',])
+			->addColumn('tactics', 'boolean', ['null' => false,'default' => 1,'signed' => false,'comment' => '1 立即执行 2 执行一次 3 正常执行',])
 			->addColumn('status', 'boolean', ['null' => false,'default' => 1,'signed' => false,'comment' => '1 正常 2 禁用',])
 			->addColumn('remark', 'string', ['limit' => 1000,'null' => false,'default' => '','signed' => false,'comment' => '备注',])
 			->addColumn('creator_id', 'integer', ['limit' => MysqlAdapter::INT_REGULAR,'null' => false,'default' => 0,'signed' => true,'comment' => '创建人ID',])
