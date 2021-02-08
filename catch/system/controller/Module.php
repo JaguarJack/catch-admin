@@ -17,7 +17,7 @@ class Module extends CatchController
      *
      * @return Json
      */
-    public function index()
+    public function index(): Json
     {
         $modules = [];
 
@@ -51,7 +51,7 @@ class Module extends CatchController
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\db\exception\DataNotFoundException
      */
-    public function disOrEnable(string $module)
+    public function disOrEnable(string $module): Json
     {
         $moduleInfo = CatchAdmin::getModuleInfo(CatchAdmin::directory() . $module);
 
@@ -71,7 +71,7 @@ class Module extends CatchController
      * @time 2020年09月21日
      * @return Json
      */
-    public function cache()
+    public function cache(): Json
     {
         return CatchResponse::success(CatchAdmin::cacheServices());
     }
@@ -82,7 +82,7 @@ class Module extends CatchController
      * @time 2020年09月21日
      * @return Json
      */
-    public function clear()
+    public function clear(): Json
     {
         return !file_exists(CatchAdmin::getCacheServicesFile()) ?
             CatchResponse::fail('模块没有缓存') :

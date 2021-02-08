@@ -46,11 +46,12 @@ class Role extends CatchController
         }
 
         $this->role->storeBy($params);
-        $permissions = $params['permissions'];
-        if (!empty($permissions)) {
-            $this->role->attachPermissions(array_unique($permissions));
+        // 分配权限
+        if (count($params['permissions'])) {
+            $this->role->attachPermissions(array_unique($params['permissions']));
         }
-        if (!empty($params['departments'])) {
+        // 分配部门
+        if (count($params['departments'])) {
             $this->role->attachDepartments($params['departments']);
         }
         // 添加角色
@@ -168,24 +169,24 @@ class Role extends CatchController
     {
         $parentRoleHasPermissionIds = [];
         if ($request->param('parent_id')) {
-            $permissions = $this->role->findBy($request->param('parent_id'))->getPermissions();
-            foreach ($permissions as $_permission) {
-                $parentRoleHasPermissionIds[] = $_permission->pivot->permission_id;
-            }
+            $this->role->findBy($request->param('parent_id'))
+                ->getPermissions()
+                ->each(function ($permission) use (&$parentRoleHasPermissionIds){
+                    $parentRoleHasPermissionIds[] = $permission->pivot->permission_id;
+                });
         }
-
-        $permissions = Permissions::whereIn('id', $parentRoleHasPermissionIds)->select()->toTree();
 
         $permissionIds = [];
         if ($request->param('role_id')) {
-            $roleHasPermissions = $this->role->findBy($request->param('role_id'))->getPermissions();
-            foreach ($roleHasPermissions as $_permission) {
-                $permissionIds[] = $_permission->pivot->permission_id;
-            }
+            $this->role->findBy($request->param('role_id'))
+                ->getPermissions()
+                ->each(function ($permission) use (&$roleHasPermissions){
+                    $permissionIds[] = $permission->pivot->permission_id;
+                });
         }
 
         return CatchResponse::success([
-            'permissions' => $permissions,
+            'permissions' => Permissions::whereIn('id', $parentRoleHasPermissionIds)->select()->toTree(),
             'hasPermissions' => $permissionIds,
         ]);
     }
