@@ -1,6 +1,9 @@
 <?php
 namespace catcher\traits\db;
 
+use catcher\CatchModelCollection;
+use think\Collection;
+
 /**
  * 重写 think\Model 的方法
  *
@@ -52,5 +55,26 @@ trait RewriteTrait
         $this->hidden = $hidden;
 
         return $this;
+    }
+
+    /**
+     * rewrite collection
+     *
+     * @time 2020年10月20日
+     * @param array|iterable $collection
+     * @param string|null $resultSetType
+     * @return CatchModelCollection|mixed
+     */
+    public function toCollection(iterable $collection = [], string $resultSetType = null): Collection
+    {
+        $resultSetType = $resultSetType ?: $this->resultSetType;
+
+        if ($resultSetType && false !== strpos($resultSetType, '\\')) {
+            $collection = new $resultSetType($collection);
+        } else {
+            $collection = new CatchModelCollection($collection);
+        }
+
+        return $collection;
     }
 }

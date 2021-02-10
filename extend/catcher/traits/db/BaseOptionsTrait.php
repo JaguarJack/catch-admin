@@ -3,9 +3,7 @@ declare(strict_types=1);
 
 namespace catcher\traits\db;
 
-use catcher\CatchModelCollection;
 use catcher\Utils;
-use think\Collection;
 
 trait BaseOptionsTrait
 {
@@ -188,26 +186,5 @@ trait BaseOptionsTrait
         $model->{$field} = $status;
 
         return $model->save();
-    }
-
-    /**
-     * rewrite collection
-     *
-     * @time 2020年10月20日
-     * @param array|iterable $collection
-     * @param string|null $resultSetType
-     * @return CatchModelCollection|mixed
-     */
-    public function toCollection(iterable $collection = [], string $resultSetType = null): Collection
-    {
-        $resultSetType = $resultSetType ?: $this->resultSetType;
-
-        if ($resultSetType && false !== strpos($resultSetType, '\\')) {
-            $collection = new $resultSetType($collection);
-        } else {
-            $collection = new CatchModelCollection($collection);
-        }
-
-        return $collection;
     }
 }
