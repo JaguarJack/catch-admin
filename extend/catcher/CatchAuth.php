@@ -8,7 +8,6 @@ use catcher\exceptions\FailedException;
 use catcher\exceptions\LoginFailedException;
 use thans\jwt\facade\JWTAuth;
 use think\facade\Session;
-use think\helper\Str;
 
 class CatchAuth
 {
@@ -65,26 +64,20 @@ class CatchAuth
      */
     public function attempt($condition)
     {
-        try {
+        $user = $this->authenticate($condition);
 
-            $user = $this->authenticate($condition);
-
-            if (!$user) {
-                throw new LoginFailedException();
-            }
-            if ($user->status == Users::DISABLE) {
-                throw new LoginFailedException('该用户已被禁用|' . $user->username, Code::USER_FORBIDDEN);
-            }
-
-            if ($this->checkPassword && !password_verify($condition['password'], $user->password)) {
-                throw new LoginFailedException('登录失败|' . $user->username);
-            }
-
-            return $this->{$this->getDriver()}($user);
-
-        } catch (\Exception $exception) {
-            //
+        if (!$user) {
+            throw new LoginFailedException();
         }
+        if ($user->status == Users::DISABLE) {
+            throw new LoginFailedException('该用户已被禁用|' . $user->username, Code::USER_FORBIDDEN);
+        }
+
+        if ($this->checkPassword && !password_verify($condition['password'], $user->password)) {
+            throw new LoginFailedException('登录失败|' . $user->username);
+        }
+
+        return $this->{$this->getDriver()}($user);
     }
 
 
@@ -250,8 +243,10 @@ class CatchAuth
     {
         $where = [];
 
+        $fields = array_keys(app($this->getProvider()['model'])->getFields());
+
         foreach ($condition as $field => $value) {
-            if ($field != $this->password) {
+            if (in_array($field, $fields) && $field != $this->password) {
                 $where[$field] = $value;
             }
         }
