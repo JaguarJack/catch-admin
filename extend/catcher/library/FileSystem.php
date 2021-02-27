@@ -23,7 +23,7 @@ class FileSystem
      * @param  string  $path
      * @return bool
      */
-    public function exists($path)
+    public function exists(string $path): bool
     {
         return file_exists($path);
     }
@@ -35,7 +35,7 @@ class FileSystem
      * @param  bool  $lock
      * @return string
      **/
-    public function get($path, $lock = false)
+    public function get(string $path, $lock = false): string
     {
         if ($this->isFile($path)) {
             return $lock ? $this->sharedGet($path) : file_get_contents($path);
@@ -50,7 +50,7 @@ class FileSystem
      * @param  string  $path
      * @return string
      */
-    public function sharedGet($path)
+    public function sharedGet(string $path): string
     {
         $contents = '';
 
@@ -76,12 +76,12 @@ class FileSystem
     /**
      * 加载文件返回
      *
-     * @param  string  $path
+     * @param string $path
      * @return mixed
      *
      * @throws FiledNotFoundException
      */
-    public function getRequire($path)
+    public function getRequire(string $path)
     {
         if ($this->isFile($path)) {
             return require $path;
@@ -93,10 +93,10 @@ class FileSystem
     /**
      * 加载文件
      *
-     * @param  string  $file
+     * @param string $file
      * @return mixed
      */
-    public function requireOnce($file)
+    public function requireOnce(string $file)
     {
         require_once $file;
     }
@@ -104,10 +104,10 @@ class FileSystem
     /**
      * hash
      *
-     * @param  string  $path
+     * @param string $path
      * @return string
      */
-    public function hash($path)
+    public function hash(string $path): string
     {
         return md5_file($path);
     }
@@ -115,12 +115,12 @@ class FileSystem
     /**
      * 写入文件
      *
-     * @param  string  $path
-     * @param  string  $contents
-     * @param  bool  $lock
+     * @param string $path
+     * @param string $contents
+     * @param bool $lock
      * @return int|bool
      */
-    public function put($path, $contents, $lock = false)
+    public function put(string $path, string $contents, $lock = false)
     {
         return file_put_contents($path, $contents, $lock ? LOCK_EX : 0);
     }
@@ -128,11 +128,11 @@ class FileSystem
     /**
      * 替换
      *
-     * @param  string  $path
-     * @param  string  $content
+     * @param string $path
+     * @param string $content
      * @return void
      */
-    public function replace($path, $content)
+    public function replace(string $path, string $content)
     {
 
         clearstatcache(true, $path);
@@ -151,11 +151,11 @@ class FileSystem
     /**
      * 重制文件
      *
-     * @param  string  $path
-     * @param  string  $data
+     * @param string $path
+     * @param string $data
      * @return int
      */
-    public function prepend($path, $data)
+    public function prepend(string $path, string $data)
     {
         if ($this->exists($path)) {
             return $this->put($path, $data.$this->get($path));
@@ -167,11 +167,11 @@ class FileSystem
     /**
      * 追加文件
      *
-     * @param  string  $path
-     * @param  string  $data
+     * @param string $path
+     * @param string $data
      * @return int
      */
-    public function append($path, $data)
+    public function append(string $path, string $data): int
     {
         return file_put_contents($path, $data, FILE_APPEND);
     }
@@ -179,11 +179,11 @@ class FileSystem
     /**
      * 设置权限
      *
-     * @param  string  $path
-     * @param  int|null  $mode
+     * @param string $path
+     * @param int|null $mode
      * @return mixed
      */
-    public function chmod($path, $mode = null)
+    public function chmod(string $path, $mode = null)
     {
         if ($mode) {
             return chmod($path, $mode);
@@ -198,7 +198,7 @@ class FileSystem
      * @param  string|array  $paths
      * @return bool
      */
-    public function delete($paths)
+    public function delete($paths): bool
     {
         $paths = is_array($paths) ? $paths : func_get_args();
 
@@ -220,11 +220,11 @@ class FileSystem
     /**
      * 移动文件
      *
-     * @param  string  $path
-     * @param  string  $target
+     * @param string $path
+     * @param string $target
      * @return bool
      */
-    public function move($path, $target)
+    public function move(string $path, string $target): bool
     {
         return rename($path, $target);
     }
@@ -236,7 +236,7 @@ class FileSystem
      * @param  string  $target
      * @return bool
      */
-    public function copy($path, $target)
+    public function copy(string $path, string $target): bool
     {
         return copy($path, $target);
     }
@@ -244,11 +244,11 @@ class FileSystem
     /**
      *硬连接
      *
-     * @param  string  $target
-     * @param  string  $link
+     * @param string $target
+     * @param string $link
      * @return void|mixed
      */
-    public function link($target, $link)
+    public function link(string $target, string $link)
     {
         $isWin = strtolower(substr(PHP_OS, 0, 3)) === 'win';
         if (! $isWin) {
@@ -263,10 +263,10 @@ class FileSystem
     /**
      * file name
      *
-     * @param  string  $path
+     * @param string $path
      * @return string
      */
-    public function name($path)
+    public function name(string $path): string
     {
         return pathinfo($path, PATHINFO_FILENAME);
     }
@@ -274,10 +274,10 @@ class FileSystem
     /**
      * basename
      *
-     * @param  string  $path
+     * @param string $path
      * @return string
      */
-    public function basename($path)
+    public function basename(string $path): string
     {
         return pathinfo($path, PATHINFO_BASENAME);
     }
@@ -285,10 +285,10 @@ class FileSystem
     /**
      * dirname
      *
-     * @param  string  $path
+     * @param string $path
      * @return string
      */
-    public function dirname($path)
+    public function dirname(string $path): string
     {
         return pathinfo($path, PATHINFO_DIRNAME);
     }
@@ -296,10 +296,10 @@ class FileSystem
     /**
      * 文件后缀
      *
-     * @param  string  $path
+     * @param string $path
      * @return string
      */
-    public function extension($path)
+    public function extension(string $path): string
     {
         return pathinfo($path, PATHINFO_EXTENSION);
     }
@@ -307,10 +307,10 @@ class FileSystem
     /**
      * 文件类型
      *
-     * @param  string  $path
+     * @param string $path
      * @return string
      */
-    public function type($path)
+    public function type(string $path): string
     {
         return filetype($path);
     }
@@ -318,10 +318,10 @@ class FileSystem
     /**
      * mimeType
      *
-     * @param  string  $path
+     * @param string $path
      * @return string|false
      */
-    public function mimeType($path)
+    public function mimeType(string $path)
     {
         return finfo_file(finfo_open(FILEINFO_MIME_TYPE), $path);
     }
@@ -329,10 +329,10 @@ class FileSystem
     /**
      * 文件大小
      *
-     * @param  string  $path
+     * @param string $path
      * @return int
      */
-    public function size($path)
+    public function size(string $path): int
     {
         return filesize($path);
     }
@@ -340,10 +340,10 @@ class FileSystem
     /**
      * 获取上次文件的修改时间
      *
-     * @param  string  $path
+     * @param string $path
      * @return int
      */
-    public function lastModified($path)
+    public function lastModified(string $path): int
     {
         return filemtime($path);
     }
@@ -351,10 +351,10 @@ class FileSystem
     /**
      * 是否是文件夹.
      *
-     * @param  string  $directory
+     * @param string $directory
      * @return bool
      */
-    public function isDirectory($directory)
+    public function isDirectory(string $directory): bool
     {
         return is_dir($directory);
     }
@@ -362,10 +362,10 @@ class FileSystem
     /**
      *是否可读
      *
-     * @param  string  $path
+     * @param string $path
      * @return bool
      */
-    public function isReadable($path)
+    public function isReadable(string $path): bool
     {
         return is_readable($path);
     }
@@ -373,10 +373,10 @@ class FileSystem
     /**
      * 是否可写
      *
-     * @param  string  $path
+     * @param string $path
      * @return bool
      */
-    public function isWritable($path)
+    public function isWritable(string $path): bool
     {
         return is_writable($path);
     }
@@ -384,10 +384,10 @@ class FileSystem
     /**
      * 是否是文件
      *
-     * @param  string  $file
+     * @param string $file
      * @return bool
      */
-    public function isFile($file)
+    public function isFile(string $file): bool
     {
         return is_file($file);
     }
@@ -395,11 +395,11 @@ class FileSystem
     /**
      * 查找文件
      *
-     * @param  string  $pattern
-     * @param  int     $flags
+     * @param string $pattern
+     * @param int $flags
      * @return array
      */
-    public function glob($pattern, $flags = 0)
+    public function glob(string $pattern, $flags = 0): array
     {
         return glob($pattern, $flags);
     }
@@ -407,11 +407,11 @@ class FileSystem
     /**
      * 查找目录所有文件
      *
-     * @param  string  $directory
-     * @param  bool  $hidden
+     * @param string $directory
+     * @param bool $hidden
      * @return \Symfony\Component\Finder\SplFileInfo[]
      */
-    public function files($directory, $hidden = false)
+    public function files(string $directory, $hidden = false): array
     {
         return iterator_to_array(
             Finder::create()->files()->ignoreDotFiles(! $hidden)->in($directory)->depth(0)->sortByName(),
@@ -422,12 +422,12 @@ class FileSystem
     /**
      * 递归文件目录下所有文件
      *
-     * @param  string  $directory
-     * @param  bool  $hidden
+     * @param string $directory
+     * @param bool $hidden
      * @return \Symfony\Component\Finder\SplFileInfo[]
      */
-    public function allFiles($directory, $hidden = false)
-   {
+    public function allFiles(string $directory, $hidden = false): array
+    {
         return iterator_to_array(Finder::create()->files()->ignoreDotFiles(! $hidden)->in($directory)->sortByName(),
             false
         );
@@ -436,10 +436,10 @@ class FileSystem
     /**
      * 文件目录下所有子目录
      *
-     * @param  string  $directory
+     * @param string $directory
      * @return array
      */
-    public function directories($directory)
+    public function directories(string $directory): array
     {
         $directories = [];
 
@@ -453,13 +453,13 @@ class FileSystem
     /**
      * 创建目录
      *
-     * @param  string  $path
-     * @param  int     $mode
-     * @param  bool    $recursive
-     * @param  bool    $force
+     * @param string $path
+     * @param int $mode
+     * @param bool $recursive
+     * @param bool $force
      * @return bool
      */
-    public function makeDirectory($path, $mode = 0755, $recursive = false, $force = false)
+    public function makeDirectory(string $path, $mode = 0755, $recursive = false, $force = false): bool
     {
         if ($force) {
             return @mkdir($path, $mode, $recursive);
@@ -471,12 +471,12 @@ class FileSystem
     /**
      * 移动目录
      *
-     * @param  string  $from
-     * @param  string  $to
-     * @param  bool  $overwrite
+     * @param string $from
+     * @param string $to
+     * @param bool $overwrite
      * @return bool
      */
-    public function moveDirectory($from, $to, $overwrite = false)
+    public function moveDirectory(string $from, string $to, $overwrite = false): bool
     {
         if ($overwrite && $this->isDirectory($to) && ! $this->deleteDirectory($to)) {
             return false;
@@ -488,12 +488,12 @@ class FileSystem
     /**
      *复制目录
      *
-     * @param  string  $directory
-     * @param  string  $destination
-     * @param  int|null  $options
+     * @param string $directory
+     * @param string $destination
+     * @param int|null $options
      * @return bool
      */
-    public function copyDirectory($directory, $destination, $options = null)
+    public function copyDirectory(string $directory, string $destination, $options = null): bool
     {
         if (! $this->isDirectory($directory)) {
             return false;
@@ -533,11 +533,11 @@ class FileSystem
     /**
      * 删除目录
      *
-     * @param  string  $directory
-     * @param  bool    $preserve
+     * @param string $directory
+     * @param bool $preserve
      * @return bool
      */
-    public function deleteDirectory($directory, $preserve = false)
+    public function deleteDirectory(string $directory, $preserve = false): bool
     {
         if (! $this->isDirectory($directory)) {
             return false;
@@ -564,10 +564,10 @@ class FileSystem
     /**
      * 删除目录下所有目录
      *
-     * @param  string  $directory
+     * @param string $directory
      * @return bool
      */
-    public function deleteDirectories($directory)
+    public function deleteDirectories(string $directory): bool
     {
         $allDirectories = $this->directories($directory);
 
@@ -585,10 +585,10 @@ class FileSystem
     /**
      * 清空目录
      *
-     * @param  string  $directory
+     * @param string $directory
      * @return bool
      */
-    public function cleanDirectory($directory)
+    public function cleanDirectory(string $directory): bool
     {
         return $this->deleteDirectory($directory, true);
     }
