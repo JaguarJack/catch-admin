@@ -116,7 +116,7 @@ class InstallProjectCommand extends Command
 
         // 设置 app domain
         $appDomain = strtolower($this->output->ask($this->input, '👉 first, you should set app domain: '));
-        if (strpos('http://', $appDomain) === false || strpos('https://', $appDomain) === false) {
+        if (strpos($appDomain, 'http://') === false || strpos( $appDomain, 'https://') === false) {
             $appDomain = 'http://' . $appDomain;
         }
 

@@ -19,7 +19,7 @@ class CatchModelCollection extends Collection
      * @param string $children
      * @return array
      */
-    public function toTree($pid = 0, $pidField = 'parent_id', $children = 'children')
+    public function toTree($pid = 0, $pidField = 'parent_id', $children = 'children'): array
     {
         return Tree::done($this->items, $pid, $pidField, $children);
     }
@@ -35,7 +35,7 @@ class CatchModelCollection extends Collection
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      * @return mixed|string[]
      */
-    public function export($header, $path = '', $disk = 'local')
+    public function export($header, $path = '', $disk = 'local'): array
     {
         $excel = new Class($header, $this->items) implements ExcelContract
         {
@@ -80,7 +80,7 @@ class CatchModelCollection extends Collection
      * @return bool
      * @throws \Psr\SimpleCache\InvalidArgumentException
      */
-    public function cache($key, int $ttl = 0, string $store = 'redis')
+    public function cache($key, int $ttl = 0, string $store = 'redis'): bool
     {
         return Cache::store($store)->set($key, $this->items, $ttl);
     }
@@ -94,18 +94,31 @@ class CatchModelCollection extends Collection
      * @param string $column
      * @return array
      */
-    public function getAllChildrenIds(array $ids, $parentFields = 'parent_id', $column = 'id')
+    public function getAllChildrenIds(array $ids, $parentFields = 'parent_id', $column = 'id'): array
     {
         array_walk($ids, function (&$item){
             $item = intval($item);
         });
 
-        $childDepartmentIds = $this->whereIn($parentFields, $ids)->column($column);
+        $childIds = $this->whereIn($parentFields, $ids)->column($column);
 
-        if (!empty($childDepartmentIds)) {
-            $childDepartmentIds = array_merge($childDepartmentIds, $this->getAllChildrenIds($childDepartmentIds));
+        if (!empty($childIds)) {
+            $childIds = array_merge($childIds, $this->getAllChildrenIds($childIds));
         }
 
-        return $childDepartmentIds;
+        return $childIds;
+    }
+
+    /**
+     * implode
+     *
+     * @time 2021年02月24日
+     * @param string $separator
+     * @param string $column
+     * @return string
+     */
+    public function implode(string $column = '', string $separator = ','): string
+    {
+        return implode($separator, $column ? array_column($this->items, $column) : $this->items);
     }
 }
