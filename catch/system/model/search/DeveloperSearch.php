@@ -24,6 +24,6 @@ trait DeveloperSearch
 
     public function searchStatusAttr($query, $value, $data)
     {
-        return $query->where('driver', $value);
+        return $query->where('status', $value);
     }
 }

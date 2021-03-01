@@ -3,8 +3,10 @@ namespace catchAdmin\system\model;
 
 use catchAdmin\system\model\search\AttachmentsSearch;
 use catcher\base\CatchModel;
+use catcher\Utils;
 use think\file\UploadedFile;
 use think\Model;
+use think\facade\Filesystem;
 
 class Attachments extends CatchModel
 {
@@ -53,5 +55,38 @@ class Attachments extends CatchModel
             'url' => $data['url'],
             'path' => $data['path']
         ]);
+    }
+
+    /**
+     * 批量删除
+     *
+     * @time 2021年03月01日
+     * @param $id
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @return bool
+     */
+    public function deletes($id): bool
+    {
+       Utils::setFilesystemConfig();
+
+       $this->whereIn('id', Utils::stringToArrayBy($id))
+           ->select()
+           ->each(function ($attachment){
+                if ($attachment->delete()) {
+                    if ($attachment->driver == 'local') {
+                        $localPath = config('filesystem.disks.local.root') . DIRECTORY_SEPARATOR;
+                        $path = $localPath . str_replace('\\','\/', $attachment->path);
+                        if (file_exists($path)) {
+                            Filesystem::delete($path);
+                        }
+                    } else {
+                        Filesystem::delete($attachment->path);
+                    }
+                }
+           });
+
+       return true;
     }
 }

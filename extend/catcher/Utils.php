@@ -233,4 +233,64 @@ class Utils
 
         return $data;
     }
+
+    /**
+     * 设置 filesystem config
+     *
+     * @time 2021年03月01日
+     * @return void
+     */
+    public static function setFilesystemConfig()
+    {
+        $configModel = app(Config::class);
+
+        $upload = $configModel->where('key', 'upload')->find();
+
+        if ($upload) {
+            $disk = app()->config->get('filesystem.disks');
+
+            $uploadConfigs = $configModel->getConfig($upload->component);
+
+            if (!empty($uploadConfigs)) {
+                // 读取上传可配置数据
+                foreach ($uploadConfigs as $key => &$config) {
+                    // $disk[$key]['type'] = $key;
+                    // 腾讯云配置处理
+                    if (strtolower($key) == 'qcloud') {
+                        $config['credentials'] = [
+                            'appId' => $config['app_id'] ?? '',
+                            'secretKey' => $config['secret_key'] ?? '',
+                            'secretId' => $config['secret_id'] ?? '',
+                        ];
+                        $readFromCdn = $config['read_from_cdn'] ?? 0;
+                        $config['read_from_cdn'] = intval($readFromCdn) == 1;
+                    }
+                    // OSS 配置
+                    if (strtolower($key) == 'oss') {
+                        $isCname = $config['is_cname'] ?? 0;
+                        $config['is_cname'] = intval($isCname) == 1;
+                    }
+                }
+
+                // 合并数组
+                array_walk($disk, function (&$item, $key) use ($uploadConfigs) {
+                    if (!in_array($key, ['public', 'local'])) {
+                        if ($uploadConfigs[$key] ?? false) {
+                            foreach ($uploadConfigs[$key] as $k => $value) {
+                                $item[$k] = $value;
+                            }
+                        }
+                    }
+                });
+
+
+                $default = Utils::config('site.upload');
+                // 重新分配配置
+                app()->config->set([
+                    'default' =>  $default ? : 'local',
+                    'disks' => $disk,
+                ], 'filesystem');
+            }
+        }
+    }
 }
