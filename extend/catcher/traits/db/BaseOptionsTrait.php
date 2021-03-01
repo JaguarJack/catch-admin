@@ -40,7 +40,7 @@ trait BaseOptionsTrait
      */
     public function storeBy(array $data)
     {
-        if ($this->allowField($this->field)->save($data)) {
+        if ($this->allowField($this->field)->save($this->filterData($data))) {
             return $this->{$this->getPk()};
         }
 
@@ -70,7 +70,7 @@ trait BaseOptionsTrait
    */
     public function updateBy($id, $data, $field = ''): bool
     {
-        if (static::update($data, [$field ? : $this->getPk() => $id], $this->field)) {
+        if (static::update($this->filterData($data), [$field ? : $this->getPk() => $id], $this->field)) {
             return true;
         }
 
@@ -162,11 +162,23 @@ trait BaseOptionsTrait
    *
    * @time 2020年01月13日
    * @param $field
-   * @return string
+   * @return array|string
    */
-    public function aliasField($field): string
+    public function aliasField($field)
     {
-        return sprintf('%s.%s', $this->getTable(), $field);
+        if (is_string($field)) {
+            return sprintf('%s.%s', $this->getTable(), $field);
+        }
+
+        if (is_array($field)) {
+            foreach ($field as &$value) {
+                $value = sprintf('%s.%s', $this->getTable(), $field);
+            }
+
+            return $field;
+        }
+
+        return $field;
     }
 
     /**
@@ -186,5 +198,27 @@ trait BaseOptionsTrait
         $model->{$field} = $status;
 
         return $model->save();
+    }
+
+    /**
+     * 过滤数据
+     *
+     * @time 2021年02月28日
+     * @param $data
+     * @return mixed
+     */
+    protected function filterData($data)
+    {
+        foreach ($data as $field => $value) {
+            if (is_null($value)) {
+                unset($data[$field]);
+            }
+
+            if ($field == $this->getPk()) {
+                unset($data[$field]);
+            }
+        }
+
+        return $data;
     }
 }
