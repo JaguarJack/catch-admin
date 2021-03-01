@@ -6,6 +6,7 @@ namespace catcher;
 use catcher\library\excel\Excel;
 use catcher\library\excel\ExcelContract;
 use think\facade\Cache;
+use think\helper\Str;
 use think\model\Collection;
 
 class CatchModelCollection extends Collection
