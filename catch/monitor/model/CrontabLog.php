@@ -47,7 +47,7 @@ class CrontabLog extends CatchModel
         return $this->catchLeftJoin(Crontab::class, 'id', 'crontab_id', ['name', 'group', 'task'])
                     ->catchSearch()
                     ->catchOrder()
-                    ->field(['used_time', 'error_message', 'crontab_log.status', 'crontab_log.id', 'crontab_log.created_at'])
+                    ->field(['used_time', 'error_message', $this->aliasField('status'), $this->aliasField('id'), $this->aliasField('created_at')])
                     ->paginate();
     }
 }
