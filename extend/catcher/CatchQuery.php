@@ -181,8 +181,11 @@ class CatchQuery extends Query
                         $this->whereRightLike($field, $value);
                     }
                 }
+
                 // = 值搜索
-                $this->where($field, $value);
+                if ($value || is_numeric($value)) {
+                    $this->where($field, $value);
+                }
             }
         }
 
@@ -294,6 +297,10 @@ class CatchQuery extends Query
     {
         if (in_array('sort', array_keys($this->getFields()))) {
             $this->order($this->getTable() . '.sort', $order);
+        }
+
+        if (in_array('weight', array_keys($this->getFields()))) {
+            $this->order($this->getTable() . '.weight', $order);
         }
 
         $this->order($this->getTable() . '.' . $this->getPk(), $order);
