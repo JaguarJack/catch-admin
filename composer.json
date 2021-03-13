@@ -21,7 +21,7 @@
         "topthink/framework": "6.0.6",
         "topthink/think-orm": "2.0.36",
         "topthink/think-migration": "^3.0",
-        "thans/tp-jwt-auth": "1.1",
+        "thans/tp-jwt-auth": "^1.1",
         "overtrue/wechat": "^4.2",
         "phpoffice/phpspreadsheet": "^1.12",
         "dragonmantank/cron-expression": "3.1",
@@ -30,7 +30,9 @@
         "overtrue/easy-sms": "^1.1",
         "jaguarjack/migration-generator": "dev-master",
         "lcobucci/jwt": "3.3",
-        "jaguarjack/think-filesystem-cloud": "1.0"
+        "jaguarjack/think-filesystem-cloud": "1.0",
+        "topthink/think-view": "^1.0",
+        "xaboy/form-builder": "~2.0"
     },
     "require-dev": {
         "topthink/think-trace": "^1.0",

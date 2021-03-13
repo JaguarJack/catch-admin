@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace catcher;
 
-use app\ExceptionHandle;
 use catcher\exceptions\CatchException;
 use catcher\exceptions\FailedException;
 use think\db\exception\DataNotFoundException;
