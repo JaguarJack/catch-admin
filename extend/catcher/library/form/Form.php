@@ -194,7 +194,7 @@ abstract class Form
      * @time 2021年03月03日
      * @param $title
      * @param string $value
-     * @return \FormBuilder\UI\Elm\Components\Upload
+     * @return mixed
      */
     public static function image(string $title, string $value = ''): Upload
     {
@@ -210,7 +210,7 @@ abstract class Form
      * @time 2021年03月03日
      * @param $title
      * @param array $value
-     * @return \FormBuilder\UI\Elm\Components\Upload
+     * @return mixed
      */
     public static function images(string $title, array $value = []): Upload
     {
