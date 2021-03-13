@@ -11,7 +11,15 @@ use think\helper\Str;
 
 class Migration extends Factory
 {
-    public function done($params)
+    /**
+     *
+     * @time 2021年03月13日
+     * @param array $params
+     * @throws \Doctrine\DBAL\DBALException
+     * @throws \JaguarJack\MigrateGenerator\Exceptions\EmptyInDatabaseException
+     * @return string
+     */
+    public function done(array $params): string
     {
         [$module, $tableName] = $params;
 

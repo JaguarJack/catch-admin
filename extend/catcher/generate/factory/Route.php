@@ -16,7 +16,7 @@ class Route extends Factory
 
     protected $methods = [];
 
-    public function done($params = [])
+    public function done(array $params = [])
     {
         $route = [];
 

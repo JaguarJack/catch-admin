@@ -36,7 +36,7 @@ class Controller extends Factory
      * @param $params
      * @return bool|string|string[]
      */
-    public function done($params)
+    public function done(array $params)
     {
         // 写入成功之后
         $controllerPath = $this->getGeneratePath($params['controller']);

@@ -24,7 +24,7 @@ class Model extends Factory
      * @param $params
      * @return string
      */
-    public function done($params)
+    public function done(array $params): string
     {
         $content = $this->getContent($params);
 

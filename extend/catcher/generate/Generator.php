@@ -8,7 +8,9 @@ use catcher\generate\factory\Migration;
 use catcher\generate\factory\Model;
 use catcher\generate\factory\Route;
 use catcher\generate\factory\SQL;
+use catcher\generate\support\Table;
 use catcher\library\Composer;
+use catcher\Utils;
 use think\facade\Db;
 
 class Generator
@@ -22,8 +24,11 @@ class Generator
      * @time 2020年04月29日
      * @param $params
      * @return array
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\db\exception\DataNotFoundException
      */
-    public function done($params)
+    public function done($params): array
     {
         // 判断是否安装了扩展包
         if (!(new Composer)->hasPackage(self::NEED_PACKAGE)) {
@@ -49,7 +54,7 @@ class Generator
             }
 
             if ($params['create_table']) {
-                $table = (new SQL)->done($model);
+                (new SQL)->done($model);
                 array_push($message, 'table created successfully');
             }
 
@@ -65,17 +70,17 @@ class Generator
 
             // 只有创建了 Controller 最后成功才写入 route
             if ($params['create_controller']) {
-                (new Route())->controller($controller['controller'])
+                (new Route)->controller($controller['controller'])
                     ->restful($controller['restful'])
-                    // ->methods((new Controller())->parseOtherMethods($controller['other_function']))
                     ->done();
             }
+        } catch (\Throwable $exception) {
+            if (!$exception instanceof TableExistException) {
+                $this->rollback($files, $migration);
+            }
 
-        } catch (\Exception $exception) {
-            $this->rollback($files, $migration, $table);
-            throw new FailedException($exception->getFile() . $exception->getLine() . $exception->getMessage());
+            throw new FailedException($exception->getMessage());
         }
-
 
         return $message;
     }
@@ -97,9 +102,9 @@ class Generator
 
         switch ($type) {
             case 'controller':
-                return (new Controller())->getContent($controller);
+                return (new Controller)->getContent($controller);
             case 'model':
-                return (new Model())->getContent($model);
+                return (new Model)->getContent($model);
             default:
                 break;
         }
@@ -113,7 +118,7 @@ class Generator
      * @param $params
      * @return array[]
      */
-    protected function parseParams($params)
+    protected function parseParams($params): array
     {
         $module = $params['controller']['module'] ?? false;
 
@@ -126,14 +131,14 @@ class Generator
             'model'  => $params['controller']['model'] ?? '',
             'controller' => $params['controller']['controller'] ?? '',
             'restful' => $params['controller']['restful'],
-            // 'other_function' => $params['controller']['other_function'],
         ];
 
         $table = $params['controller']['table'] ?? '';
-        if ($table) {
-            $table =  \config('database.connections.mysql.prefix') . $table;
 
+        if ($table) {
+            $table = Utils::tableWithPrefix($table);
         }
+
         $model = [
             'table' => $table,
             'model' => $params['controller']['model'] ?? '',
@@ -151,17 +156,14 @@ class Generator
      *
      * @param $files
      * @param $migration
-     * @param $table
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\DbException
      * @throws \think\db\exception\ModelNotFoundException
-     * @author JaguarJack <njphper@gmail.com>
-     * @date 2020/7/11
      */
-    protected function rollback($files, $migration, $table)
+    protected function rollback($files, $migration)
     {
-        if ((new SQL())->hasTableExists($table)) {
-            Db::query(sprintf('drop table %s', $table));
+        if (Table::exist()) {
+           Table::drop();
         }
 
         foreach ($files as $file) {

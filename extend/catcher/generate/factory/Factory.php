@@ -6,7 +6,7 @@ use think\facade\Db;
 
 abstract class Factory
 {
-   abstract public function done($param);
+   abstract public function done(array $params);
 
     /**
      * parse psr4 path
@@ -28,7 +28,7 @@ abstract class Factory
      * @param $filePath
      * @return string
      */
-    protected function getGeneratePath($filePath)
+    protected function getGeneratePath($filePath): string
     {
         $path = explode('\\', $filePath);
 
@@ -52,7 +52,7 @@ abstract class Factory
      * @param $filePath
      * @return string
      */
-    public function getModulePath($filePath)
+    public function getModulePath($filePath): string
     {
         $path = explode('\\', $filePath);
 
@@ -72,7 +72,7 @@ abstract class Factory
      * @param $filename
      * @return array
      */
-    public function parseFilename($filename)
+    public function parseFilename($filename): array
     {
         $namespace = explode('\\', $filename);
 
@@ -89,7 +89,7 @@ abstract class Factory
      * @param $table
      * @return bool
      */
-    public function hasTableExists($table)
+    public function hasTableExists($table): bool
     {
         $tables = Db::connect()->getTables();
 
