@@ -42,7 +42,7 @@ class Table
             return self::$table;
         }
 
-        return (new \think\migration\db\Table(Utils::tableWithPrefix(self::$tableName)))->setAdapter(self::getAdapter());
+        return (new \think\migration\db\Table(Utils::tableWithOutPrefix(self::$tableName)))->setAdapter(self::getAdapter());
     }
 
     /**
