@@ -143,6 +143,9 @@ composer create-project jaguarjack/catchadmin:dev-master
 如果你觉得项目对你有帮助，可以请作者喝杯咖啡☕️！鼓励下
 <img src="https://cdn.learnku.com/uploads/images/202008/11/18206/e6qAAM8Bod.jpg!large">
 
+### Who used
+- [uctoo 应用开发管理后台](https://gitee.com/uctoo/uctoo)
+
 ### Talking
 - [论坛讨论](http://bbs.catchadmin.com)
 - 可以提 `ISSUE`，请按照 `issue` 模板提问
@@ -150,7 +153,7 @@ composer create-project jaguarjack/catchadmin:dev-master
 
 ### Thanks
 - 感谢 [JetBrains](https://www.jetbrains.com) 提供生产力巨高的 `PHPStorm`和`WebStorm`
-> 排名部分先后
+> 排名不分先后
 
 - [top-think/think](https://github.com/top-think/think)
 - [element-admin](https://panjiachen.gitee.io/vue-element-admin-site/zh/)
