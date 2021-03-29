@@ -1,0 +1,379 @@
+<?php
+namespace catcher\library\table;
+
+
+class Table
+{
+    use Events;
+
+    /**
+     * 头信息
+     *
+     * @var array
+     */
+    protected $header = [];
+
+    /**
+     * table 操作
+     *
+     * @var array
+     */
+    protected $actions = [];
+
+    /**
+     * 搜索参数
+     *
+     * @var array
+     */
+    protected $search = [];
+
+    /**
+     * 表格引用
+     *
+     * @var string
+     */
+    protected $ref;
+
+    /**
+     * @var array
+     */
+    protected $defaultQueryParams = [];
+
+    /**
+     * 表单事件
+     *
+     * @var array
+     */
+    protected $events = [];
+
+
+    /**
+     * 是否隐藏分页
+     *
+     * @var bool
+     */
+    protected $hiddenPaginate = false;
+
+    /**
+     * tree table
+     *
+     * @var array
+     */
+    protected $tree = [];
+
+    /**
+     * @var string
+     */
+    protected $apiRoute;
+
+
+    /**
+     * @var bool
+     */
+    protected $loading = false;
+
+    /**
+     * @var array
+     */
+    protected $dialog;
+
+    /**
+     * Table constructor.
+     * @param string $ref
+     */
+    public function __construct(string $ref)
+    {
+        $this->ref = $ref;
+    }
+
+    /**
+     * 设置头信息
+     *
+     * @time 2021年03月21日
+     * @param array $header
+     * @return $this
+     */
+    public function header(array $header): Table
+    {
+        foreach ($header as $h) {
+            $this->header[] = $h->attributes;
+        }
+
+        return $this;
+    }
+
+    /**
+     * 设置 actions
+     *
+     * @time 2021年03月21日
+     * @param array $actions
+     * @return $this
+     */
+    public function withActions(array $actions): Table
+    {
+        foreach ($actions as $action) {
+            $this->actions[] = $action->render();
+        }
+
+        return $this;
+    }
+
+    /**
+     * 设置搜索参数
+     *
+     * @time 2021年03月21日
+     * @param array $search
+     * @return $this
+     */
+    public function withSearch(array $search): Table
+    {
+        $this->search = $search;
+
+        return $this;
+    }
+
+    /**
+     * 表单事件
+     *
+     * @time 2021年03月21日
+     * @param array $events
+     * @return $this
+     */
+    public function withEvents(array $events): Table
+    {
+        $this->events = $events;
+
+        return $this;
+    }
+
+    /**
+     * set
+     *
+     * @time 2021年03月29日
+     * @param array $params
+     * @return $this
+     */
+    public function withDefaultQueryParams(array $params): Table
+    {
+        $this->defaultQueryParams = $params;
+
+        return $this;
+    }
+
+    /**
+     * 隐藏分页
+     *
+     * @time 2021年03月29日
+     * @return $this
+     */
+    public function withHiddenPaginate(): Table
+    {
+        $this->hiddenPaginate = true;
+
+        return $this;
+    }
+
+    /**
+     * 设置 api route
+     *
+     * @time 2021年03月29日
+     * @param string $apiRoute
+     * @return $this
+     */
+    public function withApiRoute(string $apiRoute): Table
+    {
+        $this->apiRoute = $apiRoute;
+
+        return $this;
+    }
+
+    /**
+     * loading
+     *
+     * @time 2021年03月29日
+     * @return $this
+     */
+    public function withLoading(): Table
+    {
+        $this->loading = true;
+
+        return $this;
+    }
+
+
+    /**
+     * 设置弹出层的宽度
+     *
+     * @time 2021年03月29日
+     * @param string $width
+     * @return $this
+     */
+    public function withDialogWidth(string $width): Table
+    {
+        $this->dialog['width'] = $width;
+
+        return $this;
+    }
+
+    /**
+     * 变成 tree table
+     *
+     * @time 2021年03月29日
+     * @param string $rowKey
+     * @param array $props ['children' => '', 'hasChildren' => '']
+     * @return $this
+     */
+    public function toTreeTable(string $rowKey = 'id', array $props = []): Table
+    {
+        $this->tree['row_key'] = $rowKey;
+
+        $this->tree['props'] = count($props) ? $props : [
+            'children' => 'children',
+            'hasChildren' => 'hasChildren'
+        ];
+
+        return $this;
+    }
+
+    /**
+     * 渲染
+     *
+     * @time 2021年03月21日
+     * @return array
+     */
+    public function render(): array
+    {
+
+        $render = [];
+
+        foreach (get_class_vars(self::class) as $property => $v) {
+            if (!empty($this->{$property})) {
+                $render[$property] = $this->{$property};
+            }
+        }
+
+        return $render;
+    }
+
+
+    /**
+     * 追加 headers
+     *
+     * @time 2021年03月28日
+     * @param $header
+     * @return $this
+     */
+    public function appendHeaders($header): Table
+    {
+        if ($header instanceof HeaderItem) {
+            $this->header[] = $header;
+        }
+
+
+        if (is_array($header)) {
+            $this->header = array_merge($this->header, $header);
+        }
+
+        return $this;
+    }
+
+    /**
+     * 追加
+     *
+     * @time 2021年03月29日
+     * @param string $param
+     * @return $this
+     */
+    public function appendDefaultQueryParams(string $param): Table
+    {
+        $this->defaultQueryParams[] = $param;
+
+        return $this;
+    }
+
+    /**
+     * 追加 events
+     *
+     * @time 2021年03月28日
+     * @param array $events
+     * @return $this
+     */
+    public function appendEvents(array $events): Table
+    {
+        $this->events = array_merge($this->events, $events);
+
+        return $this;
+    }
+
+    /**
+     * 追加 events
+     *
+     * @time 2021年03月28日
+     * @param array $actions
+     * @return $this
+     */
+    public function appendActions(array $actions): Table
+    {
+        $this->actions = array_merge($this->actions, $actions);
+
+        return $this;
+    }
+
+    /**
+     * 追加 header
+     *
+     * @time 2021年03月28日
+     * @param array $header
+     * @return $this
+     */
+    public function appendHeader(array $header): Table
+    {
+        $this->header = array_merge($this->header, $header);
+
+        return $this;
+    }
+
+    /**
+     * 获取头部
+     *
+     * @time 2021年03月29日
+     * @return array
+     */
+    public function getHeader(): array
+    {
+        return $this->header;
+    }
+
+    /**
+     * 获取事件
+     *
+     * @time 2021年03月29日
+     * @return array
+     */
+    public function getEvents(): array
+    {
+        return $this->events;
+    }
+
+    /**
+     * 获取表格操作
+     *
+     * @time 2021年03月29日
+     * @return array
+     */
+    public function getActions(): array
+    {
+        return $this->actions;
+    }
+
+    /**
+     * 获取 默认 query params
+     *
+     * @time 2021年03月29日
+     * @return array
+     */
+    public function getDefaultQueryParams(): array
+    {
+        return $this->defaultQueryParams;
+    }
+}
