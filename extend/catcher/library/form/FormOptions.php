@@ -14,29 +14,36 @@
 namespace catcher\library\form;
 
 
-trait FormOptions
+class FormOptions
 {
+    protected $options = [];
+
     /**
-     * 是/否的选项
+     * 增加 option
      *
-     * @time 2021年03月06日
-     * @param array $label
-     * @param array $value
-     * @return array[]
+     * @time 2021年03月24日
+     * @param $label
+     * @param $value
+     * @return $this
      */
-    protected function yesOrNo(array $label = [], array $value = []): array
+    public function add($label, $value): FormOptions
     {
-        if (!count($label)) {
-            $label = ['是', '否'];
-        }
-
-        if (!count($value)) {
-            $value = [1, 2];
-        }
-
-        return [
-            ['value' => $value[0], 'label' => $label[0]],
-            ['value' => $value[1], 'label' => $label[1]],
+        $this->options[] = [
+            'value' => $value,
+            'label' => $label,
         ];
+
+        return $this;
+    }
+
+    /**
+     * 获取
+     *
+     * @time 2021年03月24日
+     * @return array
+     */
+    public function render()
+    {
+        return $this->options;
     }
 }

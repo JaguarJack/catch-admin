@@ -4,6 +4,18 @@ namespace catcher\library\form;
 trait FormValidates
 {
     /**
+     * 正则验证
+     *
+     * @time 2021年03月06日
+     * @param string $pattern
+     * @return \FormBuilder\UI\Elm\Validate
+     */
+    public static function validatePattern(string $pattern): \FormBuilder\UI\Elm\Validate
+    {
+        return self::validateStr()->pattern($pattern);
+    }
+
+    /**
      * 纯数字验证
      *
      * @time 2021年03月12日

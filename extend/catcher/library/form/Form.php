@@ -58,7 +58,6 @@ abstract class Form
     use UploadFactoryTrait;
     use ValidateFactoryTrait;
     use GroupFactoryTrait;
-    use FormOptions;
     use FormValidates;
 
     protected $primaryKeyField = 'id';
@@ -121,9 +120,13 @@ abstract class Form
      */
     protected function getFields(): array
     {
-        return array_merge($this->fields(), [
-            self::hidden($this->primaryKeyField, 0)
-        ]);
+        if ($this->primaryKeyField) {
+            return array_merge($this->fields(), [
+                self::hidden($this->primaryKeyField, 0)
+            ]);
+        }
+
+        return $this->fields();
     }
 
     /**
@@ -135,10 +138,6 @@ abstract class Form
      */
     public function rule(array $rules): array
     {
-        if ($this->primaryKeyField) {
-            array_push($rules, self::hidden($this->primaryKeyField, 0));
-        }
-
         try{
             return Elm::createForm('', $rules)->formRule();
         } catch (FormBuilderException $e) {
@@ -250,5 +249,16 @@ abstract class Form
                     ->uploadName('file')
                     ->data(['none' => ''])
                     ->headers(self::authorization());
+    }
+
+    /**
+     * options
+     *
+     * @time 2021年03月24日
+     * @return FormOptions
+     */
+    public static function options(): FormOptions
+    {
+        return new FormOptions();
     }
 }

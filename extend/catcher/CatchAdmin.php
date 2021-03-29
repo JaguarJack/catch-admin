@@ -23,6 +23,20 @@ class CatchAdmin
     }
 
     /**
+     * 设置 root
+     *
+     * @time 2021年03月28日
+     * @param $root
+     * @return CatchAdmin
+     */
+    public static function setRoot($root): CatchAdmin
+    {
+        self::$root = $root;
+
+        return new self();
+    }
+
+    /**
      * 创建目录
      *
      * @time 2019年12月16日
