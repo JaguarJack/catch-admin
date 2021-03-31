@@ -261,4 +261,60 @@ abstract class Form
     {
         return new FormOptions();
     }
+
+    /**
+     * props
+     *
+     * @time 2021年03月30日
+     * @param $label
+     * @param string $value
+     * @param array $extra
+     * @param array $data
+     * @return array
+     */
+    public static function props($label, $value = 'id', array $extra = [], array $data = []): array
+    {
+        $props = [
+            'props' => array_merge([
+                'label' => $label,
+                'value' => $value,
+            ], $extra)
+        ];
+
+        if (count($data)) {
+            $props['data'] = $data;
+        }
+
+        return $props;
+    }
+
+    /**
+     * 不需要 props
+     *
+     * @time 2021年03月30日
+     * @param $label
+     * @param string $value
+     * @param array $extra
+     * @return array
+     */
+    public static function treeProps($label, $value = 'id', array $extra = []): array
+    {
+        return array_merge([
+                'label' => $label,
+                'value' => $value,
+            ], $extra);
+    }
+
+    /**
+     * col
+     *
+     * @time 2021年03月30日
+     * @param int $col
+     * @return array
+     */
+    public static function col(int $col): array
+    {
+        return ['span' => $col];
+    }
+
 }
