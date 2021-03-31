@@ -45,7 +45,13 @@ $router->group(function () use ($router) {
     $router->put('modules/<module>', '\catchAdmin\system\controller\Module@disOrEnable');
     $router->put('cache/modules', '\catchAdmin\system\controller\Module@cache');
     $router->delete('clear/modules', '\catchAdmin\system\controller\Module@clear');
-
 })->middleware('auth');
+
+// 获取 table
+$router->get('table/<module>/<tableClass>', function ($module, $tableClass){
+    $table = sprintf('\\catchAdmin\\%s\\tables\\%s', $module, $tableClass);
+
+    return (new $table)->render(request()->param('only'));
+});
 
 
