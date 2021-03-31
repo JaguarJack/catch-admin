@@ -7,7 +7,6 @@ use catcher\base\CatchRequest as Request;
 use catcher\base\CatchController;
 use catcher\CatchResponse;
 use catcher\exceptions\FailedException;
-use catcher\Tree;
 use think\response\Json;
 use catchAdmin\permissions\model\Roles as RoleModel;
 
@@ -51,7 +50,7 @@ class Role extends CatchController
             $this->role->attachPermissions(array_unique($params['permissions']));
         }
         // 分配部门
-        if (count($params['departments'])) {
+        if (isset($params['departments']) && count($params['departments'])) {
             $this->role->attachDepartments($params['departments']);
         }
         // 添加角色

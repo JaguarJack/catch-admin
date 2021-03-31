@@ -35,8 +35,18 @@ class Roles extends CatchModel
     public function getList()
     {
         return $this->catchSearch()
+                    ->with(['permissions', 'departments'])
                     ->order('id', 'desc')
                     ->select()
+                    ->each(function (&$item){
+                        $permissions = $item->permissions->column('id');
+                        unset($item['permissions']);
+                        $item['permissions'] = $permissions;
+
+                        $departments = $item->departments->column('id');
+                        unset($item['departments']);
+                        $item['departments'] = $departments;
+                    })
                     ->toTree();
     }
 

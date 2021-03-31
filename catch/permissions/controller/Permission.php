@@ -100,6 +100,7 @@ class Permission extends CatchController
         $permission = $this->permissions->findBy($id);
 
         $params = $request->param();
+
         // 按钮类型
         if ($params['type'] == Permissions::BTN_TYPE && $permission->parent_id) {
             $parentPermission = $this->permissions->findBy($permission->parent_id);
