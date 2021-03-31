@@ -12,11 +12,11 @@ trait ComponentsTrait
      * @param array $options
      * @return ComponentsTrait|HeaderItem
      */
-    public function component(string $name, string $updateField, $options = [])
+    public function component(string $name, string $updateField = '', $options = [])
     {
         $this->attributes['component'][] = [
             'name' => $name,
-            'field' => $updateField,
+            'field' => $updateField ? : $this->attributes['prop'],
             'options' => $options
         ];
 

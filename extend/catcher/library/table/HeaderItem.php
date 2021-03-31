@@ -50,6 +50,19 @@ class HeaderItem
     }
 
     /**
+     * 可排序
+     *
+     * @time 2021年03月31日
+     * @return $this
+     */
+    public function sortable(): HeaderItem
+    {
+        $this->attributes['sortable'] = true;
+
+        return $this;
+    }
+
+    /**
      * selection
      *
      * @time 2021年03月29日

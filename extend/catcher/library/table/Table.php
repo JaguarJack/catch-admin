@@ -11,7 +11,7 @@ class Table
      *
      * @var array
      */
-    protected $header = [];
+    protected $headers = [];
 
     /**
      * table 操作
@@ -78,6 +78,11 @@ class Table
     protected $dialog;
 
     /**
+     * @var array
+     */
+    protected $filterParams;
+
+    /**
      * Table constructor.
      * @param string $ref
      */
@@ -96,7 +101,7 @@ class Table
     public function header(array $header): Table
     {
         foreach ($header as $h) {
-            $this->header[] = $h->attributes;
+            $this->headers[] = $h->attributes;
         }
 
         return $this;
@@ -156,6 +161,20 @@ class Table
     public function withDefaultQueryParams(array $params): Table
     {
         $this->defaultQueryParams = $params;
+
+        return $this;
+    }
+
+    /**
+     * filter params
+     *
+     * @time 2021年03月30日
+     * @param array $filterParams
+     * @return $this
+     */
+    public function withFilterParams(array $filterParams): Table
+    {
+        $this->filterParams = $filterParams;
 
         return $this;
     }
@@ -266,12 +285,12 @@ class Table
     public function appendHeaders($header): Table
     {
         if ($header instanceof HeaderItem) {
-            $this->header[] = $header;
+            $this->headers[] = $header;
         }
 
 
         if (is_array($header)) {
-            $this->header = array_merge($this->header, $header);
+            $this->headers = array_merge($this->headers, $header);
         }
 
         return $this;
@@ -328,7 +347,21 @@ class Table
      */
     public function appendHeader(array $header): Table
     {
-        $this->header = array_merge($this->header, $header);
+        $this->headers = array_merge($this->headers, $header);
+
+        return $this;
+    }
+
+    /**
+     * 新增 filter params
+     *
+     * @time 2021年03月30日
+     * @param array $params
+     * @return $this
+     */
+    public function appendFilterParams(array $params): Table
+    {
+        $this->filterParams = array_merge($this->filterParams, $params);
 
         return $this;
     }
@@ -341,7 +374,7 @@ class Table
      */
     public function getHeader(): array
     {
-        return $this->header;
+        return $this->headers;
     }
 
     /**
@@ -375,5 +408,16 @@ class Table
     public function getDefaultQueryParams(): array
     {
         return $this->defaultQueryParams;
+    }
+
+    /**
+     * get filter params
+     *
+     * @time 2021年03月30日
+     * @return array
+     */
+    public function getFilterParams(): array
+    {
+        return $this->filterParams;
     }
 }

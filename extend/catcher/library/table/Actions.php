@@ -2,7 +2,7 @@
 
 namespace catcher\library\table;
 
-use catcher\library\components\Button;
+use catcher\library\table\components\Button;
 
 class Actions
 {
