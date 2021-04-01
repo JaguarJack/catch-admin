@@ -52,7 +52,7 @@ $router->group(function () use ($router) {
 
 // 获取 table
 $router->get('table/<module>/<tableClass>', function ($module, $tableClass){
-    $table = sprintf('\\catchAdmin\\%s\\tables\\%s', $module, $tableClass);
+    $table = sprintf('\\catchAdmin\\%s\\tables\\%s', $module, ucfirst($tableClass));
 
     return (new $table)->render(request()->param('only'));
 });
