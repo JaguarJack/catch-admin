@@ -9,6 +9,8 @@
 // | Author: JaguarJack [ njphper@gmail.com ]
 // +----------------------------------------------------------------------
 
+/* @var think\Route $router */
+
 // you should use `$router`
 $router->group('monitor', function () use ($router){
 	// crontab路由

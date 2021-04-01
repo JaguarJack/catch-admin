@@ -9,6 +9,8 @@
 // | Author: JaguarJack [ njphper@gmail.com ]
 // +----------------------------------------------------------------------
 
+/* @var think\Route $router */
+
 // you should use `$router`
 $router->group('sms', function () use ($router){
 	// config路由

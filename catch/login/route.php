@@ -1,4 +1,7 @@
 <?php
+
+/* @var think\Route $router */
+
 $router->group(function () use ($router){
     # 登入
     $router->post('login', '\catchAdmin\login\controller\Index@login');

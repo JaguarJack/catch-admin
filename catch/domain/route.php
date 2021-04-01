@@ -8,6 +8,7 @@
 // +----------------------------------------------------------------------
 // | Author: JaguarJack [ njphper@gmail.com ]
 // +----------------------------------------------------------------------
+/* @var think\Route $router */
 
 // you should use `$router`
 use catchAdmin\domain\controller\DomainRecord;

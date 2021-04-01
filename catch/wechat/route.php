@@ -9,6 +9,8 @@
  * @license  https://github.com/yanwenwu/catch-admin/blob/master/LICENSE.txt
  */
 
+/* @var think\Route $router */
+
 $router->group('wechat', function () use ($router){
     // 公众号粉丝
     $router->group('official/users', function () use ($router){

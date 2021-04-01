@@ -1,4 +1,7 @@
 <?php
+
+/* @var think\Route $router */
+
 $router->group(function () use ($router) {
     // 登录日志
     $router->get('log/login', '\catchAdmin\system\controller\LoginLog@list');

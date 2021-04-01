@@ -1,4 +1,7 @@
 <?php
+
+/* @var think\Route $router */
+
 $router->group(function () use ($router){
     // 角色
     $router->resource('roles', '\catchAdmin\permissions\controller\Role');

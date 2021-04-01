@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 
 // you should use `$router`
+/* @var think\Route $router */
+
 $router->group(function () use ($router){
 })->middleware('auth');
 
