@@ -172,7 +172,7 @@ trait BaseOptionsTrait
 
         if (is_array($field)) {
             foreach ($field as &$value) {
-                $value = sprintf('%s.%s', $this->getTable(), $field);
+                $value = sprintf('%s.%s', $this->getTable(), $value);
             }
 
             return $field;
