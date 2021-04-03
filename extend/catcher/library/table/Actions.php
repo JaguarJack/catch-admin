@@ -50,12 +50,13 @@ class Actions
      *
      * @time 2021年03月23日
      * @param string $text
+     * @param string $type
      * @param string|null $event
      * @return mixed
      */
-    public static function view(string $text = '查看', string $event = null)
+    public static function view(string $text = '查看', $type = 'success', string $event = 'handleView')
     {
-        return self::normal($text, '', $event)->icon('el-icon-eye');
+        return self::normal($text, $type, $event)->icon('el-icon-view');
     }
 
     /**
