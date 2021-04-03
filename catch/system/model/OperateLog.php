@@ -11,7 +11,6 @@ class OperateLog extends \think\Model
     use BaseOptionsTrait;
     use OperateLogSearch;
 
-
     protected $name = 'operate_log';
 
     protected $field = [
@@ -41,5 +40,10 @@ class OperateLog extends \think\Model
             ->catchSearch()
             ->order($this->aliasField('id'), 'desc')
             ->paginate();
+    }
+
+    protected function getCreatedAtAttr($value)
+    {
+        return date('Y-m-d H:i:s', $value);
     }
 }
