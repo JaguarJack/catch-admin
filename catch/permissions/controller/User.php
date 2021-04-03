@@ -172,51 +172,6 @@ class User extends CatchController
     }
 
     /**
-     *
-     * @time 2019年12月07日
-     * @param $id
-     * @return \think\response\Json
-     * @throws \think\db\exception\DbException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\db\exception\DataNotFoundException
-     */
-    public function recover($id): \think\response\Json
-    {
-       $trashedUser = $this->user->findBy($id, ['*'], true);
-
-       if ($this->user->where('email', $trashedUser->email)->find()) {
-           return CatchResponse::fail(sprintf('该恢复用户的邮箱 [%s] 已被占用', $trashedUser->email));
-       }
-
-       return CatchResponse::success($this->user->recover($id));
-    }
-
-    /**
-     *
-     * @time 2019年12月11日
-     * @param Request $request
-     * @param Roles $roles
-     * @return \think\response\Json
-     */
-    public function getRoles(Request $request, Roles $roles): \think\response\Json
-    {
-        $roles = Tree::done($roles->getList());
-
-        $roleIds = [];
-        if ($request->param('uid')) {
-            $userHasRoles = $this->user->findBy($request->param('uid'))->getRoles();
-            foreach ($userHasRoles as $role) {
-                $roleIds[] = $role->pivot->role_id;
-            }
-        }
-
-        return CatchResponse::success([
-            'roles' => $roles,
-            'hasRoles' => $roleIds,
-        ]);
-    }
-
-    /**
      * 导出
      *
      * @time 2020年09月08日

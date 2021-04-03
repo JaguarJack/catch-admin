@@ -1,7 +1,6 @@
 <?php
 namespace catchAdmin\permissions\controller;
 
-use catchAdmin\permissions\model\Permissions;
 use catchAdmin\permissions\model\Roles;
 use catcher\base\CatchRequest as Request;
 use catcher\base\CatchController;
@@ -155,38 +154,5 @@ class Role extends CatchController
         $this->role->deleteBy($id);
 
         return CatchResponse::success();
-    }
-
-    /**
-     *
-     * @time 2019年12月11日
-     * @param Request $request
-     * @param \catchAdmin\permissions\model\Permissions $permission
-     * @return Json
-     */
-    public function getPermissions(Request $request, \catchAdmin\permissions\model\Permissions $permission): Json
-    {
-        $parentRoleHasPermissionIds = [];
-        if ($request->param('parent_id')) {
-            $this->role->findBy($request->param('parent_id'))
-                ->getPermissions()
-                ->each(function ($permission) use (&$parentRoleHasPermissionIds){
-                    $parentRoleHasPermissionIds[] = $permission->pivot->permission_id;
-                });
-        }
-
-        $permissionIds = [];
-        if ($request->param('role_id')) {
-            $this->role->findBy($request->param('role_id'))
-                ->getPermissions()
-                ->each(function ($permission) use (&$roleHasPermissions){
-                    $permissionIds[] = $permission->pivot->permission_id;
-                });
-        }
-
-        return CatchResponse::success([
-            'permissions' => Permissions::whereIn('id', $parentRoleHasPermissionIds)->select()->toTree(),
-            'hasPermissions' => $permissionIds,
-        ]);
     }
 }

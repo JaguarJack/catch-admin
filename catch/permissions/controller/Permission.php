@@ -176,33 +176,7 @@ class Permission extends CatchController
      */
     public function show($id)
     {
-        $this->permissions->show($id);
-
-        return CatchResponse::success();
-    }
-
-    /**
-     *
-     * @time 2020年06月05日
-     * @param $id
-     * @param ParseClass $parseClass
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\DbException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @return Json
-     */
-    public function getMethods($id, ParseClass $parseClass)
-    {
-        $permission = Permissions::where('id', $id)->find();
-        $module = $permission->module;
-        $controller = explode('@', $permission->permission_mark)[0];
-
-        try {
-            $methods = $parseClass->setModule('catch')->setRule($module, $controller)->onlySelfMethods();
-            return CatchResponse::success($methods);
-        }catch (\Exception $e) {
-            return CatchResponse::success([]);
-        }
+        return CatchResponse::success($this->permissions->show($id));
     }
 }
 

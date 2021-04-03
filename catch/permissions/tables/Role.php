@@ -20,7 +20,7 @@ class Role extends CatchTable
                 HeaderItem::label('角色描述')->prop('description'),
                 HeaderItem::label('创建时间')->prop('created_at'),
                 HeaderItem::label('操作')->width(250)->actions([
-                    Actions::update(''), Actions::delete('')
+                    Actions::update(), Actions::delete()
                 ])
             ])
             ->withSearch([

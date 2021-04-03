@@ -20,8 +20,8 @@ class User extends CatchTable
                         HeaderItem::label('邮箱')->prop('email'),
                         HeaderItem::label('状态')->prop('status')->component('status', 'status'),
                         HeaderItem::label('创建时间')->prop('created_at'),
-                        HeaderItem::label('操作')->width(150)->actions([
-                            Actions::update(''), Actions::delete('')
+                        HeaderItem::label('操作')->width(200)->actions([
+                            Actions::update(), Actions::delete()
                         ])
                     ])
                     ->withSearch([
@@ -31,8 +31,11 @@ class User extends CatchTable
                     ])
                     ->withApiRoute('users')
                     ->withActions([
-                        Actions::create()
+                        Actions::create(),
+                        Actions::export(),
+                        Actions::import()
                     ])
+                    ->withExportRoute('user/export')
                     ->withFilterParams([
                         'username' => '',
                         'email'    => '',

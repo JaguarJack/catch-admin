@@ -20,8 +20,8 @@ class Job extends CatchTable
                         HeaderItem::label('状态')->prop('status')->withSwitchComponent(),
                         HeaderItem::label('创建时间')->prop('created_at'),
                         HeaderItem::label('操作')->width(250)->actions([
-                            Actions::update(''),
-                            Actions::delete('')
+                            Actions::update(),
+                            Actions::delete()
                         ])
                     ])
                     ->withActions([
