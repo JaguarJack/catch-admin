@@ -16,11 +16,7 @@ class Actions
      */
     public static function create(string $text = '新建', string $event = 'handleCreate')
     {
-        return (new Button)->icon('el-icon-plus')
-            ->text($text)
-            ->type('primary')
-            ->size('mini')
-            ->click($event);
+        return self::normal($text, 'primary',$event)->icon('el-icon-plus');
     }
 
     /**
@@ -33,11 +29,7 @@ class Actions
      */
     public static function update(string $text = '更新', string $event = 'handleUpdate')
     {
-        return (new Button)->icon('el-icon-edit')
-            ->text($text)
-            ->size('mini')
-            ->type('primary')
-            ->click($event);
+        return self::normal($text, 'primary', $event)->icon('el-icon-edit');
     }
 
     /**
@@ -50,10 +42,7 @@ class Actions
      */
     public static function delete(string $text = '删除', string $event = 'handleDel')
     {
-        return (new Button)->icon('el-icon-delete')
-                            ->text($text)->type('danger')
-                            ->size('mini')
-                            ->click($event);
+        return self::normal($text, 'danger', $event)->icon('el-icon-delete');
     }
 
     /**
@@ -61,20 +50,12 @@ class Actions
      *
      * @time 2021年03月23日
      * @param string $text
-     * @param string $event
+     * @param string|null $event
      * @return mixed
      */
     public static function view(string $text = '查看', string $event = null)
     {
-        $button = (new Button)->icon('el-icon-eye')
-            ->size('mini')
-            ->text($text);
-
-        if ($event) {
-            return $button->click($event);
-        }
-
-        return $button;
+        return self::normal($text, '', $event)->icon('el-icon-eye');
     }
 
     /**
@@ -82,13 +63,15 @@ class Actions
      *
      * @time 2021年03月23日
      * @param string $text
+     * @param string $type
      * @param string|null $event
-     * @return mixed
+     * @return Button
      */
-    public static function normal(string $text, string $event = null)
+    public static function normal(string $text, $type = '', string $event = null): Button
     {
         $button = (new Button)
             ->size('mini')
+            ->type($type)
             ->text($text);
 
         if ($event) {
@@ -97,4 +80,28 @@ class Actions
 
         return $button;
     }
+
+
+    /**
+     * 导出按钮
+     *
+     * @time 2021年04月02日
+     * @return mixed
+     */
+    public static function export()
+    {
+        return self::normal('导出', 'success','handleExport')->icon('el-icon-download');
+    }
+
+    /**
+     * 导入按钮
+     *
+     * @time 2021年04月02日
+     * @return mixed
+     */
+    public static function import()
+    {
+        return self::normal('导入', 'warning', 'handleImport')->icon('el-icon-upload2');
+    }
+
 }

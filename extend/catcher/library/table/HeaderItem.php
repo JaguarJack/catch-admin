@@ -14,7 +14,7 @@ class HeaderItem
         return $this;
     }
 
-    public static function label(string $label): HeaderItem
+    public static function label(string $label = ''): HeaderItem
     {
         return new self($label);
     }

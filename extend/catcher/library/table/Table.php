@@ -83,6 +83,17 @@ class Table
     protected $filterParams;
 
     /**
+     * @var string
+     */
+    protected $importRoute;
+
+    /**
+     * @var string
+     */
+    protected $exportRoute;
+
+
+    /**
      * Table constructor.
      * @param string $ref
      */
@@ -233,6 +244,35 @@ class Table
 
         return $this;
     }
+
+    /**
+     * 导出路由
+     *
+     * @time 2021年04月02日
+     * @param string $route
+     * @return $this
+     */
+    public function withImportRoute(string $route): Table
+    {
+        $this->importRoute = $route;
+
+        return $this;
+    }
+
+    /**
+     * 导出路由
+     *
+     * @time 2021年04月02日
+     * @param string $route
+     * @return $this
+     */
+    public function withExportRoute(string $route): Table
+    {
+        $this->exportRoute = $route;
+
+        return $this;
+    }
+
 
     /**
      * 变成 tree table
