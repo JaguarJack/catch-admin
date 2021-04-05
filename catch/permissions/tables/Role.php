@@ -31,6 +31,7 @@ class Role extends CatchTable
                 Actions::create()
             ])->withDialogWidth('40%')
             ->toTreeTable()
+            ->forceUpdate()
             ->render();
     }
 

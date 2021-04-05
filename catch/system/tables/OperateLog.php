@@ -24,10 +24,9 @@ class OperateLog extends CatchTable
                 HeaderItem::label('操作人')->prop('creator'),
                 HeaderItem::label('操作模块')->prop('module'),
                 HeaderItem::label('操作菜单')->prop('operate'),
-                HeaderItem::label('菜单')->prop('route'),
+                HeaderItem::label('菜单标识')->prop('route'),
                 HeaderItem::label('请求方式')->prop('method'),
                 HeaderItem::label('参数')->prop('params')->component('params'),
-                HeaderItem::label('参数')->prop('created_at'),
             ])
             ->withApiRoute('log/operate')
             ->withSearch([

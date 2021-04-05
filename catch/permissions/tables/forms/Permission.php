@@ -31,6 +31,9 @@ class Permission extends Form
                     self::select('module', '模块')
                         ->required()
                         ->style(['width' => '100%'])
+                        ->allowCreate(true)
+                        ->filterable(true)
+                        ->clearable(true)
                         ->col(12)
                         ->options($this->getModules()),
 
