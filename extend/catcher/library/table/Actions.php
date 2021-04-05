@@ -6,6 +6,8 @@ use catcher\library\table\components\Button;
 
 class Actions
 {
+    protected static $noText = false;
+
     /**
      * 创建按钮
      *
@@ -73,7 +75,7 @@ class Actions
         $button = (new Button)
             ->size('mini')
             ->type($type)
-            ->text($text);
+            ->text(self::$noText ? '' : $text);
 
         if ($event) {
             return $button->click($event);
