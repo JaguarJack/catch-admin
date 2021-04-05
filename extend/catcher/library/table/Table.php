@@ -94,6 +94,11 @@ class Table
 
 
     /**
+     * @var bool
+     */
+    protected $forceUpdate = false;
+
+    /**
      * Table constructor.
      * @param string $ref
      */
@@ -290,6 +295,19 @@ class Table
             'children' => 'children',
             'hasChildren' => 'hasChildren'
         ];
+
+        return $this;
+    }
+
+    /**
+     * 强制更新组件
+     *
+     * @time 2021年04月05日
+     * @return $this
+     */
+    public function forceUpdate(): Table
+    {
+        $this->forceUpdate = true;
 
         return $this;
     }
