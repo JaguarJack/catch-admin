@@ -28,7 +28,8 @@ class Permission extends CatchTable
                 Actions::create()
             ])
             ->withSearch([
-                Search::text('permission_name', '菜单名称')
+                Search::label('菜单名称')->text('permission_name', '菜单名称')->clearable(true),
+                Search::hidden('actionList', 'actionList')
             ])
             ->withFilterParams([
                 'permission_name' => '',

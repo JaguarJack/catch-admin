@@ -24,7 +24,7 @@ class Role extends CatchTable
                 ])
             ])
             ->withSearch([
-                Search::text('role_name', '角色名称'),
+                Search::label('角色名称')->text('role_name', '角色名称'),
             ])
             ->withApiRoute('roles')
             ->withActions([

@@ -28,7 +28,7 @@ class Job extends CatchTable
                       Actions::create()
                     ])
                     ->withSearch([
-                        Search::text('job_name', '岗位名称')
+                        Search::label('岗位名称')->text('job_name', '岗位名称')
                     ])
                     ->withApiRoute('jobs')
                     ->selectionChange()

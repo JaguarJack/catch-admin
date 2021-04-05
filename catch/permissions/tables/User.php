@@ -25,15 +25,15 @@ class User extends CatchTable
                         ])
                     ])
                     ->withSearch([
-                        Search::text('username', '用户名'),
-                        Search::text('email', '邮箱'),
-                        Search::status()
+                        Search::label('用户名')->text('username', '用户名'),
+                        Search::label('邮箱')->text('email', '邮箱'),
+                        Search::label('状态')->status(),
+                        Search::hidden('department_id', '')
                     ])
                     ->withApiRoute('users')
                     ->withActions([
                         Actions::create(),
-                        Actions::export(),
-                        Actions::import()
+                        Actions::export()
                     ])
                     ->withExportRoute('user/export')
                     ->withFilterParams([

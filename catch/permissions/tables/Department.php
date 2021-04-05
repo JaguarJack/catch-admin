@@ -31,8 +31,8 @@ class Department extends CatchTable
         ])->withApiRoute('departments')->withActions([
             Actions::create()
         ])->withSearch([
-            Search::text('department_name', '请输入部门名称'),
-            Search::status()
+            Search::label('部门名称')->text('department_name', '请输入部门名称'),
+            Search::label('状态')->status()
         ])->withDialogWidth('35%')
             ->toTreeTable()->render();
     }
