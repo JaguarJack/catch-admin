@@ -194,6 +194,6 @@ class User extends CatchController
      */
     public function profile(ProfileRequest $request)
     {
-       return CatchResponse::success($this->user->updateBy($request->user()->id, $request->param()));
+       return CatchResponse::success($this->user->updateBy($request->user()->id, $request->filterEmptyField()->param()));
     }
 }
