@@ -1,6 +1,7 @@
 <?php
 namespace catcher\library\table;
 
+use catcher\base\CatchModel;
 use FormBuilder\UI\Elm\Components\Input;
 use FormBuilder\UI\Elm\Components\Select;
 use FormBuilder\UI\Elm\Components\DatePicker;
@@ -24,7 +25,7 @@ class Search
      * @param $placeholder
      * @return \FormBuilder\UI\Elm\Components\Input
      */
-    public static function name($placeholder): Input
+    public static function name(string $placeholder): Input
     {
        return Form::input('name', self::$label)->placeholder($placeholder);
     }
@@ -36,11 +37,11 @@ class Search
      * @param $placeholder
      * @return \FormBuilder\UI\Elm\Components\Select
      */
-    public static function status($placeholder = '请选择状态'): Select
+    public static function status(string $placeholder = '请选择状态'): Select
     {
       return self::select('status', $placeholder, [
-                          [ 'value' => 1, 'label'=> ' 正常'],
-                          [ 'value' => 2, 'label'=> ' 禁用']
+                          [ 'value' => CatchModel::ENABLE, 'label'=> ' 正常'],
+                          [ 'value' => CatchModel::DISABLE, 'label'=> ' 禁用']
                       ]);
     }
 
@@ -51,11 +52,9 @@ class Search
      * @param string $placeholder
      * @return \FormBuilder\UI\Elm\Components\DatePicker
      */
-    public static function startAt($placeholder = '开始时间'): DatePicker
+    public static function startAt(string $placeholder = '请选择开始时间'): DatePicker
     {
-        return self::label(self::$label ? : '开始时间')->datetime('start_at', $placeholder)
-            ->placeholder($placeholder)
-            ->format('yy-MM-DD HH:i:s');
+        return self::label(self::$label ? : '开始时间')->datetime('start_at', $placeholder);
     }
 
     /**
@@ -65,11 +64,9 @@ class Search
      * @param string $placeholder
      * @return \FormBuilder\UI\Elm\Components\DatePicker
      */
-    public static function endAt($placeholder = '结束时间'): DatePicker
+    public static function endAt(string $placeholder = '请选择结束时间'): DatePicker
     {
-        return self::label(self::$label ? : '结束时间')->datetime('end_at', $placeholder)
-            ->placeholder($placeholder)
-            ->format('yy-MM-DD HH:i:s');
+        return self::label(self::$label ? : '结束时间')->datetime('end_at', $placeholder);
     }
 
     /**
@@ -80,7 +77,7 @@ class Search
      * @param $placeholder
      * @return \FormBuilder\UI\Elm\Components\Input
      */
-    public static function text($name, $placeholder): Input
+    public static function text(string $name, string $placeholder): Input
     {
         return Form::input($name, self::$label)->placeholder($placeholder);
     }
@@ -94,7 +91,7 @@ class Search
      * @param $options
      * @return \FormBuilder\UI\Elm\Components\Select
      */
-    public static function select($name, $placeholder, $options): Select
+    public static function select(string $name, string $placeholder, array $options): Select
     {
         return Form::select($name, self::$label)->placeholder($placeholder)->options($options);
     }
@@ -107,14 +104,22 @@ class Search
      * @param $placeholder
      * @return \FormBuilder\UI\Elm\Components\DatePicker
      */
-    public static function datetime($name, $placeholder): DatePicker
+    public static function datetime(string $name, string $placeholder): DatePicker
     {
         return Form::dateTime($name, self::$label)
             ->placeholder($placeholder)
-            ->format('yyyy-MM-dd HH:i:s');
+            ->format('yyyy-MM-dd HH:mm:ss')
+            ->valueFormat('yyyy-MM-dd HH:mm:ss');
     }
 
-
+    /**
+     * 代理方法
+     *
+     * @time 2021年04月06日
+     * @param $method
+     * @param $params
+     * @return mixed
+     */
     public static function __callStatic($method, $params)
     {
         return Form::{$method}(...$params);

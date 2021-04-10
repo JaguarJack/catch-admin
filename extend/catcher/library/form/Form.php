@@ -14,6 +14,7 @@
 namespace catcher\library\form;
 
 use catcher\exceptions\FailedException;
+use catcher\library\form\components\Editor;
 use FormBuilder\Exception\FormBuilderException;
 use FormBuilder\Factory\Elm;
 use FormBuilder\UI\Elm\Components\Upload;
@@ -315,6 +316,20 @@ abstract class Form
     public static function col(int $col): array
     {
         return ['span' => $col];
+    }
+
+    /**
+     * 编辑器
+     *
+     * @time 2021年04月08日
+     * @param $field
+     * @param $title
+     * @param string $value
+     * @return Editor
+     */
+    public static function editor(string $field, string $title, string $value = ''): Editor
+    {
+        return new Editor($field, $title, $value);
     }
 
 }
