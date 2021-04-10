@@ -31,7 +31,7 @@ class LoginLog extends CatchTable
                     ->withApiRoute('log/login')
                     ->withSearch([
                         Search::startAt(),
-                        Search::endAt()
+                        Search::label('结束时间')->endAt()
                     ])
                     ->selectionChange()
                     ->render();
