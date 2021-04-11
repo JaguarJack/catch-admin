@@ -153,9 +153,9 @@ abstract class Form
      * @time 2021年03月03日
      * @return string
      */
-    protected static function uploadImageUrl(): string
+    public static function uploadImageUrl(): string
     {
-        return env('app.domain') . '/cms/upload/image';
+        return env('app.domain') . '/upload/image';
     }
 
     /**
@@ -164,24 +164,19 @@ abstract class Form
      * @time 2021年03月10日
      * @return string
      */
-    protected static function uploadImageFile(): string
+    public static function uploadFileUrl(): string
     {
-        return env('app.domain') . '/cms/upload/file';
+        return env('app.domain') . '/upload/file';
     }
+
 
     /**
-     * 上传图片地址
+     * auth token
      *
-     * @time 2021年03月03日
-     * @return string
+     * @time 2021年04月11日
+     * @return string[]
      */
-    protected static function uploadFileUrl(): string
-    {
-        return env('app.domain') . '/cms/upload/file';
-    }
-
-
-    protected static function authorization(): array
+    public static function authorization(): array
     {
         return [
             'authorization' => 'Bearer ' . request()->user()->remember_token,
