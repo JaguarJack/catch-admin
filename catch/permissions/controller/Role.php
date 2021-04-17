@@ -21,7 +21,7 @@ class Role extends CatchController
   /**
    *
    * @time 2019年12月09日
-   * @return string
+   * @return string|Json
    */
     public function index()
     {

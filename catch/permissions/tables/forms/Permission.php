@@ -17,80 +17,85 @@ class Permission extends Form
                     ->select()->toTree()
             )->col(12)->props(self::props('permission_name', 'id', [
                 'checkStrictly' => true
-            ]))->style(['width' => '100%']),
+            ]))->filterable(true)->clearable(true)->style(['width' => '100%']),
 
             self::radio('type', '菜单类型')
                 ->button()
                 ->value(1)
                 ->options(
                     self::options()->add('菜单', 1)->add('按钮', 2)->render()
-                )->appendControl(1, [
-                    self::input('permission_name', '菜单名称')->required()->col(12),
-                    self::input('permission_mark', '权限标识')->required()->col(12),
+                )->appendControl(
+                   1,
+                       [
+                            self::input('permission_name', '菜单名称')->required()->col(12),
+                            self::input('permission_mark', '权限标识')->required()->col(12),
 
-                    self::select('module', '模块')
-                        ->required()
-                        ->style(['width' => '100%'])
-                        ->allowCreate(true)
-                        ->filterable(true)
-                        ->clearable(true)
-                        ->col(12)
-                        ->options($this->getModules()),
+                            self::select('module', '模块')
+                                ->required()
+                                ->style(['width' => '100%'])
+                                ->allowCreate(true)
+                                ->filterable(true)
+                                ->clearable(true)
+                                ->col(12)
+                                ->options($this->getModules()),
 
-                    self::input('icon', '菜单图标')
-                        ->col(12)
-                        ->style(['width' => '100%'])
-                        ->clearable(true),
+                            self::input('icon', '菜单图标')
+                                ->col(12)
+                                ->style(['width' => '100%'])
+                                ->clearable(true),
 
-                    self::input('route', '菜单Path')->col(12),
+                            self::input('route', '菜单Path')->col(12),
 
-                    self::cascader('component', '组件')
-                        ->col(12)
-                        ->options([])
-                        ->style(['width' => '100%'])
-                        ->showAllLevels(false),
+                            self::cascader('component', '组件')
+                                ->col(12)
+                                ->options([])
+                                ->style(['width' => '100%'])
+                                ->showAllLevels(false),
 
-                    self::input('redirect', 'Redirect')->col(12),
-                    self::number('sort', '排序')->value(1)->col(12),
+                            self::input('redirect', 'Redirect')->col(12),
+                            self::number('sort', '排序')->value(1)->col(12),
 
-                    self::radio('keepalive', 'Keepalive')
-                        ->value(1)
-                        ->col(12)
-                        ->options(
-                            self::options()->add('启用', 1)
-                                            ->add('禁用', 2)
-                                            ->render()
-                        ),
+                            self::radio('keepalive', 'Keepalive')
+                                ->value(1)
+                                ->col(12)
+                                ->options(
+                                    self::options()->add('启用', 1)
+                                                    ->add('禁用', 2)
+                                                    ->render()
+                                ),
 
-                    self::radio('hidden', 'Hidden')->value(1)->options(
-                        self::options()->add('显示', 1)->add('隐藏', 2)->render()
-                    )->col(12)
-                ])
-                 ->appendControl(2, [
-                     self::select('permission_name', '菜单名称')
-                         ->allowCreate(true)
-                         ->filterable(true)
-                         ->options(
-                             self::options()->add('列表', '列表')
-                                 ->add('创建', '创建')
-                             ->add('更新', '更新')->add('读取', '读取')
-                             ->add('删除', '删除')->add('禁用/启用', '禁用/启用')
-                             ->add('导出', '导出')->add('导入', '导入')->render()
-                         )
-                         ->required()->style(['width' => '100%'])->col(12),
-                     self::select('permission_mark', '权限标识')
-                         ->allowCreate(true)
-                         ->filterable(true)
-                         ->options(
-                             self::options()->add('index', 'index')
-                                 ->add('save', 'save')
-                                 ->add('update', 'update')->add('read', 'read')
-                                 ->add('delete', 'delete')->add('disable', 'disable')
-                                 ->add('export', 'export')->add('import', 'import')->render()
-                         )
-                         ->required()->col(12),
-                     self::number('sort', '排序')->value(1)->col(12),
-                 ])->col(12)
+                            self::radio('hidden', 'Hidden')->value(1)->options(
+                                self::options()->add('显示', 1)->add('隐藏', 2)->render()
+                            )->col(12)
+                       ]
+                )
+                 ->appendControl( 2,
+                        [
+                             self::select('permission_name', '菜单名称')
+                                 ->allowCreate(true)
+                                 ->filterable(true)
+                                 ->options(
+                                     self::options()->add('列表', '列表')
+                                         ->add('创建', '创建')
+                                     ->add('更新', '更新')->add('读取', '读取')
+                                     ->add('删除', '删除')->add('禁用/启用', '禁用/启用')
+                                     ->add('导出', '导出')->add('导入', '导入')->render()
+                                 )
+                                 ->required()->style(['width' => '100%'])->col(12),
+                             self::select('permission_mark', '权限标识')
+                                 ->allowCreate(true)
+                                 ->filterable(true)
+                                 ->options(
+                                     self::options()->add('index', 'index')
+                                         ->add('save', 'save')
+                                         ->add('update', 'update')->add('read', 'read')
+                                         ->add('delete', 'delete')->add('disable', 'disable')
+                                         ->add('export', 'export')->add('import', 'import')->render()
+                                 )
+                                 ->required()->col(12),
+                             self::number('sort', '排序')->value(1)->col(12),
+                        ]
+                 )->col(12)
         ];
     }
 

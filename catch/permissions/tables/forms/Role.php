@@ -32,7 +32,7 @@ class Role extends Form
             self::textarea('description', '角色描述')
                 ->clearable(true)->placeholder('请填写角色描述'),
 
-            self::tree('permissions', '角色权限', [])
+            self::tree('_permissions', '角色权限', [])
                 ->props(self::props('permission_name', 'id', [],
                     Permissions::field(['id', 'parent_id', 'permission_name'])->select()->toTree()
                 ))

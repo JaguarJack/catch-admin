@@ -41,7 +41,7 @@ class Roles extends CatchModel
                     ->each(function (&$item){
                         $permissions = $item->permissions->column('id');
                         unset($item['permissions']);
-                        $item['permissions'] = $permissions;
+                        $item['_permissions'] = $permissions;
 
                         $departments = $item->departments->column('id');
                         unset($item['departments']);

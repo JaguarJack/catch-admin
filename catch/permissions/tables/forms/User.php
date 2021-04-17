@@ -35,7 +35,7 @@ class User extends Form
 
             self::tree('roles', '角色', [])
                 ->props(self::props('role_name', 'id', [], Roles::field(['id', 'parent_id', 'role_name'])->select()->toTree()))
-                ->required()
+                ->required(),
         ];
     }
 

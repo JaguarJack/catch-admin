@@ -19,7 +19,7 @@ class Department extends CatchTable
     protected function table(): array
     {
         // TODO: Implement table() method.
-        return $this->getTable('user')->header([
+        return $this->getTable('department')->header([
             HeaderItem::label('部门名称')->prop('department_name'),
             HeaderItem::label('排序')->prop('sort')->withEditNumberComponent(),
             HeaderItem::label('状态')->prop('status')->withSwitchComponent(),
