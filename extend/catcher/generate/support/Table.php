@@ -92,7 +92,7 @@ class Table
 
         self::getTable()->drop();
 
-        return self::exist();
+        return ! self::exist();
     }
 
     /**

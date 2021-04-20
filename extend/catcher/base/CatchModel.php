@@ -46,6 +46,6 @@ abstract class CatchModel extends \think\Model
      */
     public function hasField(string $field)
     {
-        return property_exists($this, 'field') ? in_array($field, $this->field) : false;
+        return property_exists($this, 'field') && in_array($field, $this->field);
     }
 }

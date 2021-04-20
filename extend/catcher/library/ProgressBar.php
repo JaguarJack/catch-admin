@@ -100,9 +100,9 @@ declare(strict_types=1);
      {
          $left = $this->total - $this->current;
 
-         $empty = str_repeat(' ', $left * $this->average);
+         $empty = str_repeat(' ', intval($left * $this->average));
 
-         $bar = str_repeat('>', $this->current * $this->average);
+         $bar = str_repeat('>', intval($this->current * $this->average));
 
          $percent = ((int)(sprintf('%.2f', $this->current/$this->total) * 100)) . '%';
 

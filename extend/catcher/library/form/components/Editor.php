@@ -139,14 +139,15 @@ class Editor extends FormComponent
      * 上传配置
      *
      * @time 2021年04月11日
+     * @param int $size
      * @return $this
      */
-    public function uploadConf(): Editor
+    public function uploadConf(int $size = 10): Editor
     {
         $this->props([
             'uploadConf' => array_merge([
                 'url' => Form::uploadImageUrl(),
-                'size' => 0.1,
+                'size' => $size,
             ], Form::authorization())
         ]);
 

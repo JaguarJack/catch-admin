@@ -14,6 +14,7 @@
 namespace catcher\library\form;
 
 use catcher\exceptions\FailedException;
+use catcher\library\form\components\AreaTrait;
 use catcher\library\form\components\Editor;
 use FormBuilder\Exception\FormBuilderException;
 use FormBuilder\Factory\Elm;
@@ -60,6 +61,7 @@ abstract class Form
     use ValidateFactoryTrait;
     use GroupFactoryTrait;
     use FormValidates;
+    use AreaTrait;
 
     protected $primaryKeyField = 'id';
 

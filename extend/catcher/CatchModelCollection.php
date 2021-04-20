@@ -22,7 +22,7 @@ class CatchModelCollection extends Collection
      */
     public function toTree($pid = 0, $pidField = 'parent_id', $children = 'children'): array
     {
-        return Tree::done($this->items, $pid, $pidField, $children);
+        return Tree::done($this->toArray(), $pid, $pidField, $children);
     }
 
 
