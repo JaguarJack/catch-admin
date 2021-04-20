@@ -15,8 +15,8 @@ class Role extends CatchTable
         // TODO: Implement table() method.
         return $this->getTable('role')
             ->header([
-                HeaderItem::label('角色名称')->prop('role_name')->width(150),
-                HeaderItem::label('角色标识')->prop('identify')->width(150),
+                HeaderItem::label('角色名称')->prop('role_name')->width(300),
+                HeaderItem::label('角色标识')->prop('identify')->width(300),
                 HeaderItem::label('角色描述')->prop('description'),
                 HeaderItem::label('创建时间')->prop('created_at'),
                 HeaderItem::label('操作')->width(250)->actions([

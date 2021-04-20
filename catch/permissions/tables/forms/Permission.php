@@ -66,7 +66,11 @@ class Permission extends Form
 
                             self::radio('hidden', 'Hidden')->value(1)->options(
                                 self::options()->add('显示', 1)->add('隐藏', 2)->render()
-                            )->col(12)
+                            )->col(12),
+
+                           self::radio('restful', 'Restful 路由')->value(0)->options(
+                               self::options()->add('生成', 1)->add('不生成', 0)->render()
+                           )->col(12)
                        ]
                 )
                  ->appendControl( 2,

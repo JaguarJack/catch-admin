@@ -87,17 +87,57 @@ class Permissions extends CatchModel
      */
     public static function onAfterInsert(Model $model)
     {
+        $restful = intval($model->getData('restful'));
+
         $model = self::where('id', $model->id)->find();
 
         if ($model && $model->parent_id) {
             $parent = self::where('id', $model->parent_id)->find();
+
             $level = $parent->level ? $parent->level . '-' . $parent->id : $parent->id;
-            return $model->where('id', $model->id)->update([
+
+            $restful && self::createRestful($model, $level);
+
+            return $model->updateBy('id', [
                 'level' => $level
             ]);
         }
 
         return true;
+    }
+
+
+    /**
+     * 创建 restful 菜单
+     *
+     * @time 2021年04月20日
+     * @param Model $model
+     * @param $level
+     * @return void
+     */
+    protected static function createRestful(Model $model, $level)
+    {
+        $restful = [
+            'index' => '列表',
+            'save' => '保存',
+            'update' => '更新',
+            'delete' => '删除',
+        ];
+
+        foreach ($restful as $k => $r) {
+            self::insert([
+                'parent_id' => $model->id,
+                'permission_name' => $r,
+                'level' => $level . '-' . $model->id,
+                'module' => $model->getData('module'),
+                'creator_id' => $model->getData('creator_id'),
+                'permission_mark' => $model->getData('permission_mark') . '@' . $k,
+                'type' => self::BTN_TYPE,
+                'created_at' => time(),
+                'updated_at' => time(),
+                'sort' => 1,
+            ]);
+        }
     }
 
 
