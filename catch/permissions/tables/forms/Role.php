@@ -41,7 +41,8 @@ class Role extends Form
             self::select('data_range', '数据权限')
                 ->placeholder('请选择数据权限')
                 ->options(
-                    self::options()->add('全部数据权限', Roles::ALL_DATA)
+                    self::options()->add('请选择数据权限', 0)
+                                    ->add('全部数据权限', Roles::ALL_DATA)
                                     ->add('自定义数据权限', Roles::SELF_CHOOSE)
                                     ->add('仅本人数据权限', Roles::SELF_DATA)
                                     ->add('本部门数据权限', Roles::DEPARTMENT_DATA)
