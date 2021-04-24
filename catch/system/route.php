@@ -48,6 +48,11 @@ $router->group(function () use ($router) {
     $router->put('modules/<module>', '\catchAdmin\system\controller\Module@disOrEnable');
     $router->put('cache/modules', '\catchAdmin\system\controller\Module@cache');
     $router->delete('clear/modules', '\catchAdmin\system\controller\Module@clear');
+
+    // excel 导入&导出通用
+    $router->post('excel/export', '\catchAdmin\system\controller\Excel@export');
+    $router->post('excel/import', '\catchAdmin\system\controller\Excel@import');
+
 })->middleware('auth');
 
 // 获取 table
