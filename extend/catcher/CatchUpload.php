@@ -85,13 +85,28 @@ class CatchUpload
     }
 
     /**
+     * 上传到 Local
+     *
+     * @time 2021年04月21日
+     * @param $file
+     * @return string
+     */
+    public function toLocal($file): string
+    {
+        $path = Filesystem::disk(self::LOCAL)->putFile($this->getPath(), $file);
+
+        return public_path() . $this->getLocalPath($path);
+    }
+
+
+    /**
      * 本地路径
      *
      * @time 2020年09月07日
      * @param $path
      * @return string
      */
-    protected function getLocalPath($path)
+    protected function getLocalPath($path): string
     {
         if ($this->getDriver() === self::LOCAL) {
 
