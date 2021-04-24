@@ -18,7 +18,7 @@ use catcher\traits\db\ScopeTrait;
  */
 abstract class CatchModel extends \think\Model
 {
-    use SoftDelete, TransTrait, BaseOptionsTrait, ScopeTrait, RewriteTrait;
+    use SoftDelete, BaseOptionsTrait, ScopeTrait, RewriteTrait;
 
     protected $createTime = 'created_at';
 
