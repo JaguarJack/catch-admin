@@ -73,6 +73,31 @@ class HeaderItem
         return $this->width(50)->type('selection');
     }
 
+    /**
+     * dont export
+     *
+     * @time 2021年04月22日
+     * @return $this
+     */
+    public function dontExport(): HeaderItem
+    {
+        $this->attributes['export'] = false;
+
+        return $this;
+    }
+
+    /**
+     * dont import
+     *
+     * @time 2021年04月22日
+     * @return $this
+     */
+    public function dontImport(): HeaderItem
+    {
+        $this->attributes['import'] = false;
+
+        return $this;
+    }
 
     /**
      * 动态访问

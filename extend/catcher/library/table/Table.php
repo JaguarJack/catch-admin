@@ -98,6 +98,21 @@ class Table
      */
     protected $forceUpdate = false;
 
+
+    /**
+     * @var array
+     */
+    protected $excel = [];
+
+
+    /**
+     * 导出 excel 所使用 model
+     *
+     * @var string
+     */
+    protected $usedModel;
+
+
     /**
      * Table constructor.
      * @param string $ref
@@ -163,6 +178,25 @@ class Table
     public function withEvents(array $events): Table
     {
         $this->events = $events;
+
+        return $this;
+    }
+
+    /**
+     * excel 信息
+     *
+     * @time 2021年04月21日
+     * @param array $excel
+     * @param string $usedModel
+     * @return $this
+     */
+    public function withUsedModelAndExcel(string $usedModel, array $excel): Table
+    {
+        foreach ($excel as $e) {
+            $this->excel[] = $e->render();
+        }
+
+        $this->usedModel = $usedModel;
 
         return $this;
     }

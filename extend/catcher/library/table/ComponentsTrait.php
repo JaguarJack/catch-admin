@@ -30,9 +30,9 @@ trait ComponentsTrait
      * @param null $updateFields
      * @return HeaderItem
      */
-    public function withSwitchComponent($updateFields = null): HeaderItem
+    public function withSwitchComponent(array $options = [], $updateFields = null): HeaderItem
     {
-        return $this->component('switch_', $updateFields ? : $this->attributes['prop']);
+        return $this->component('switch_', $updateFields ? : $this->attributes['prop'], $options);
     }
 
     /**
