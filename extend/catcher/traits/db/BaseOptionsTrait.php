@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace catcher\traits\db;
 
+use catcher\library\excel\reader\Reader;
 use catcher\Utils;
 
 trait BaseOptionsTrait
@@ -220,5 +221,56 @@ trait BaseOptionsTrait
         }
 
         return $data;
+    }
+
+
+    public function import($fields, $file)
+    {
+        $excel = new class(array_column($fields, 'field')) extends Reader {
+
+            protected $fields;
+
+            public function __construct($fields)
+            {
+                $this->fields = $fields;
+            }
+
+            public function headers()
+            {
+                // TODO: Implement headers() method.
+                return $this->fields;
+            }
+        };
+
+        $options = [];
+        foreach ($fields as $field) {
+            $p = [];
+            if (isset($field['options']) && count($field['options'])) {
+                foreach ($field['options'] as $op) {
+                    $p[$op['label']] = $op['value'];
+                }
+                $options[$field['field']] = $p;
+            }
+
+
+        }
+
+        $creatorId = request()->user()->id;
+
+        $excel->import($file)->remove(0)->then(function ($data)  use ($options, $creatorId){
+            foreach ($data as &$d) {
+                foreach ($d as $field => &$v) {
+                    if (isset($options[$field])) {
+                        $v = $options[$field][$v];
+                    }
+                }
+
+                $d['creator_id'] = $creatorId;
+
+                $this->createBy($d);
+            }
+        });
+
+        return true;
     }
 }
