@@ -117,6 +117,10 @@ class Permission extends Form
         foreach(CatchAdmin::getModulesDirectory() as $d) {
             $module = CatchAdmin::getModuleInfo($d);
 
+            if (!isset($module['alias'])) {
+                continue;
+            }
+
             if (in_array($module['alias'], ['login'])) {
                 continue;
             }
