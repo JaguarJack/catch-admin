@@ -26,7 +26,9 @@ class Department extends CatchModel
 			'deleted_at', // 删除状态，null 未删除 timestamp 已删除
     ];
 
-  /**
+    protected $updateChildrenFields = 'status';
+
+    /**
    * 列表数据
    *
    * @time 2020年01月09日

@@ -72,6 +72,9 @@ trait BaseOptionsTrait
     public function updateBy($id, $data, $field = ''): bool
     {
         if (static::update($this->filterData($data), [$field ? : $this->getPk() => $id], $this->field)) {
+
+            $this->updateChildren($id, $data);
+
             return true;
         }
 
@@ -124,12 +127,12 @@ trait BaseOptionsTrait
                     unset($item[$field]);
                 }
 
-                if (in_array('created_at', $this->field)) {
-                    $item['created_at'] = time();
+                if (in_array($this->createTime, $this->field)) {
+                    $item[$this->createTime] = time();
                 }
 
-                if (in_array('updated_at', $this->field)) {
-                    $item['updated_at'] = time();
+                if (in_array($this->updateTime, $this->field)) {
+                    $item[$this->updateTime] = time();
                 }
             }
             $newData[] = $item;
@@ -156,6 +159,64 @@ trait BaseOptionsTrait
     public function getDeleteAtField()
     {
       return $this->deleteTime;
+    }
+
+    /**
+     * 更新 children field
+     *
+     * @time 2021年04月25日
+     * @param $parentId
+     * @param $data
+     * @return void
+     */
+    protected function updateChildren($parentId, $data)
+    {
+        if (property_exists($this, 'updateChildrenFields')) {
+            $parentIdField = property_exists($this, 'parentId') ? $this->$parentId : 'parent_id';
+
+            if (!empty($this->updateChildrenFields)) {
+                if (is_array($this->updateChildrenFields)) {
+                    foreach ($data as $field => $value) {
+                        if (in_array($field, $this->updateChildrenFields)) {
+                            unset($data[$field]);
+                        }
+                    }
+
+                    $this->recursiveUpdate($parentId, $parentIdField, $data);
+                }
+
+                if (is_string($this->updateChildrenFields)) {
+                    $this->recursiveUpdate($parentId, $parentIdField, [
+                        $this->updateChildrenFields => $data[$this->updateChildrenFields]
+                    ]);
+                }
+            }
+        }
+    }
+
+    /**
+     * 递归更新子级
+     *
+     * @time 2021年04月25日
+     * @param $parentId
+     * @param $parentIdField
+     * @param $updateData
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @return void
+     */
+    public function recursiveUpdate($parentId, $parentIdField, $updateData)
+    {
+        $this->where($parentIdField, $parentId)->update($updateData);
+
+        $children = $this->where($parentIdField, $parentId)->select();
+
+        if ($children->count()) {
+            foreach ($children as $child) {
+                $this->recursiveUpdate($child->id, $parentIdField, $updateData);
+            }
+        }
     }
 
   /**
