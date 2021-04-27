@@ -168,7 +168,7 @@ class CatchQuery extends Query
                 }
                 $endPos = strpos($field, 'end_');
                 if ($endPos === 0) {
-                    $this->where(str_replace('end_', '', $field), '>=', strtotime($value));
+                    $this->where(str_replace('end_', '', $field), '<=', strtotime($value));
                 }
                 // 模糊搜索
                 if (Str::contains($field, 'like')) {

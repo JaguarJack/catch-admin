@@ -52,7 +52,7 @@ class Table
      *
      * @var bool
      */
-    protected $hiddenPaginate = false;
+    protected $hidePagination = false;
 
     /**
      * tree table
@@ -112,6 +112,20 @@ class Table
      */
     protected $usedModel;
 
+
+    /**
+     * 树状展开
+     *
+     * @var bool
+     */
+    protected $defaultExpandAll;
+
+    /**
+     * 默认
+     *
+     * @var bool
+     */
+    protected $border = true;
 
     /**
      * Table constructor.
@@ -237,7 +251,21 @@ class Table
      */
     public function withHiddenPaginate(): Table
     {
-        $this->hiddenPaginate = true;
+        $this->hidePagination = true;
+
+        return $this;
+    }
+
+    /**
+     * 展开
+     *
+     * @time 2021年04月26日
+     * @param bool $expand
+     * @return $this
+     */
+    public function expandAll($expand = true): Table
+    {
+        $this->defaultExpandAll = $expand;
 
         return $this;
     }
