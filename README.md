@@ -4,9 +4,8 @@
 
 
 <p align="center"><code>CatchAdmin</code>是一款基于<a href="http://www.thinkphp.cn/" target="_blank">thinkphp framework</a>和
-<a href="https://github.com/PanJiaChen/vue-element-admin/">element admin</a>二次开发而成后台管理系统。因为 thinkphp 的简单高效，文档齐全。在看了很多 thinkphp 生态中的后台管理系统，发现没有一款合适的前后端分离系统。遂开发了 CatchAdmin。
-完全利用了 thinkphp6 的新版本特性 ServiceProvider，将管理系统模块之间的耦合降到了最低限度。每个模块之间都有独立的 controller，路由，模型，数据表`。在开发上尽可能将模块之间的影响降到最低，降低了开发上的难度。基于 CatchAdmin 可以开发 cms，CRM，OA 等
-等系统。也封装了很多实用的工具，提升开发体验。
+<a href="https://github.com/PanJiaChen/vue-element-admin/">element admin</a>开发而成的后台管理系统。因为 thinkphp 的简单高效，文档齐全。在看了很多 thinkphp 生态中的后台管理系统，发现没有一款合适的前后端分离系统。遂开发了 CatchAdmin。
+基于新版 thinkphp6 服务者的特性，后台的每个模块都可以独立成一个服务，模块之间的功能职责更加清晰。同时后台也兼顾了后台开发前端页面，减少了前端页面代码的输出。将表格和表单都封装成了后台组件，可在后台中通过 Json 数据轻松渲染出前端页面，大大提高了开发效率。CatchAdmin 同时也提供 Http 客户端，Excel 的导入导出，敏感词检测，大量的内置 commands 等一系列组件工具，提高使用后台的开发体验。
 </p>
 
 <p align="center">
@@ -31,6 +30,8 @@
     <img src="https://svg.hamm.cn/badge.svg?key=License&value=Apache-2.0"/>
 </p >
 
+## 后台启动流程
+[![gSrLz6.png](https://z3.ax1x.com/2021/04/26/gSrLz6.png)](https://imgtu.com/i/gSrLz6)
 ## AntDV 版本
 - 请使用 `v1`分支
 
