@@ -11,7 +11,6 @@ use catcher\generate\factory\SQL;
 use catcher\generate\support\Table;
 use catcher\library\Composer;
 use catcher\Utils;
-use think\facade\Db;
 
 class Generator
 {
@@ -45,7 +44,6 @@ class Generator
 
         $files = [];
         $migration = '';
-        $table = null;
 
         try {
             if ($params['create_controller']) {

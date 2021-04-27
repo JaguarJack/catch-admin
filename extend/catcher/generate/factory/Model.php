@@ -72,7 +72,9 @@ class Model extends Factory
                             $build->use((new Uses())->name(BaseOptionsTrait::class));
                             $build->use((new Uses())->name(ScopeTrait::class));
                         })
-                        ->class((new Classes($modelName))->extend('Model')->docComment(),
+                        ->class((new Classes($modelName))
+                            ->extend('Model')
+                            ->docComment($this->buildClassComment($table)),
                             function (Classes $class) use ($softDelete, $table) {
                             if (!$softDelete) {
                                 $class->addTrait(
@@ -93,5 +95,27 @@ class Model extends Factory
                                     )->docComment('// 数据库字段映射'));
                             });
                         })->getContent();
+    }
+
+    /**
+     * 提供模型字段属性提示
+     *
+     * @time 2021年04月27日
+     * @param $table
+     * @return string
+     */
+    protected function buildClassComment($table): string
+    {
+       $fields = Db::name($table)->getFieldsType();
+
+       $comment = '/**' . PHP_EOL . ' *' . PHP_EOL;
+
+       foreach ($fields as $field => $type) {
+           $comment .= sprintf(' * @property %s $%s', $type, $field) . PHP_EOL;
+       }
+
+       $comment .= ' */';
+
+       return $comment;
     }
 }
