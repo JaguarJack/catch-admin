@@ -128,6 +128,13 @@ class Table
     protected $border = true;
 
     /**
+     * bind table
+     *
+     * @var bool
+     */
+    protected $bind = false;
+
+    /**
      * Table constructor.
      * @param string $ref
      */
@@ -340,6 +347,18 @@ class Table
         return $this;
     }
 
+    /**
+     * table 使用 v-bind
+     *
+     * @time 2021年04月27日
+     * @return $this
+     */
+    public function withBind(): Table
+    {
+        $this->bind = true;
+
+        return $this;
+    }
 
     /**
      * 变成 tree table
