@@ -29,7 +29,9 @@ class Role extends CatchTable
             ->withApiRoute('roles')
             ->withActions([
                 Actions::create()
-            ])->withDialogWidth('40%')
+            ])
+            ->withBind()
+            ->withDialogWidth('40%')
             ->toTreeTable()
             ->forceUpdate()
             ->render();
