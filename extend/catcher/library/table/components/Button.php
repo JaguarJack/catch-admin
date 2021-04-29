@@ -33,4 +33,18 @@ class Button extends Component
 
         return $this;
     }
+
+    /**
+     * 支持路由跳转
+     *
+     * @time 2021年04月28日
+     * @param string $route
+     * @return $this
+     */
+    public function to(string $route): Button
+    {
+        $this->attributes['route'] = $route;
+
+        return $this;
+    }
 }
