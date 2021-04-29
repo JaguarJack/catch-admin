@@ -5,6 +5,7 @@ namespace catcher\generate;
 use catcher\CatchAdmin;
 use catcher\facade\FileSystem;
 use catcher\library\Composer;
+use catcher\library\form\FormFactory;
 
 class CreateModule
 {
@@ -77,7 +78,7 @@ class CreateModule
      * @time 2020年06月25日
      * @return string[]
      */
-    protected function moduleFiles()
+    protected function moduleFiles(): array
     {
         return [
             $this->moduleDir . ucfirst($this->module). 'Service.php',
@@ -103,10 +104,11 @@ class CreateModule
      * @time 2020年06月25日
      * @return string[]
      */
-    protected function modulePath()
+    protected function modulePath(): array
     {
 
         $dirs = [];
+
         foreach (explode(',', $this->dirs) as $dir) {
             if ($dir == 'database') {
                 $dirs[] = $this->moduleDir . 'database' . DIRECTORY_SEPARATOR . 'migrations';
@@ -116,6 +118,10 @@ class CreateModule
             }
         }
 
+
+        $dirs[] = $this->moduleDir . 'tables';
+
+        $dirs[] = $this->moduleDir . 'tables'.DIRECTORY_SEPARATOR.'forms';
 
         return $dirs;
     }
@@ -146,6 +152,7 @@ class CreateModule
         $this->createService();
         $this->createRoute();
         $this->createModuleJson();
+        $this->createFormFactory();
     }
 
     /**
@@ -201,5 +208,36 @@ class CreateModule
     protected function createRoute()
     {
         FileSystem::put($this->moduleDir . 'route.php', FileSystem::sharedGet($this->stubDir . 'route.stub'));
+    }
+
+
+    /**
+     * create form factory
+     *
+     * @time 2021年04月28日
+     * @return void
+     */
+    protected function createFormFactory()
+    {
+
+        $factoryContent = <<<PHP
+<?php
+namespace catchAdmin\\{$this->module}\\tables\\forms;
+
+use catcher\\library\\form\\FormFactory;
+
+class Factory extends FormFactory
+{
+    public static function from(): string
+    {
+        return __NAMESPACE__;
+    }
+}
+PHP;
+
+        FileSystem::put($this->moduleDir . 'tables' . DIRECTORY_SEPARATOR . 'forms' . DIRECTORY_SEPARATOR . 'Factory.php',
+            $factoryContent
+        );
+
     }
 }
