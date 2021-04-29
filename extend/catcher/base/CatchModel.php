@@ -6,7 +6,6 @@ namespace catcher\base;
 use catcher\CatchQuery;
 use catcher\traits\db\BaseOptionsTrait;
 use catcher\traits\db\RewriteTrait;
-use catcher\traits\db\TransTrait;
 use think\model\concern\SoftDelete;
 use catcher\traits\db\ScopeTrait;
 

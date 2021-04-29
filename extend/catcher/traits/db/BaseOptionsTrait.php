@@ -162,11 +162,14 @@ trait BaseOptionsTrait
     }
 
     /**
-     * 更新 children field
+     * 更新下级
      *
-     * @time 2021年04月25日
+     * @time 2021年04月28日
      * @param $parentId
      * @param $data
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
      * @return void
      */
     protected function updateChildren($parentId, $data)
@@ -185,7 +188,7 @@ trait BaseOptionsTrait
                     $this->recursiveUpdate($parentId, $parentIdField, $data);
                 }
 
-                if (is_string($this->updateChildrenFields)) {
+                if (is_string($this->updateChildrenFields) && isset($data[$this->updateChildrenFields])) {
                     $this->recursiveUpdate($parentId, $parentIdField, [
                         $this->updateChildrenFields => $data[$this->updateChildrenFields]
                     ]);
@@ -285,7 +288,15 @@ trait BaseOptionsTrait
     }
 
 
-    public function import($fields, $file)
+    /**
+     * 模型导入
+     *
+     * @time 2021年04月28日
+     * @param $fields
+     * @param $file
+     * @return bool
+     */
+    public function import($fields, $file): bool
     {
         $excel = new class(array_column($fields, 'field')) extends Reader {
 
