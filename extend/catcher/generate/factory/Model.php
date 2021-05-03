@@ -106,7 +106,7 @@ class Model extends Factory
      */
     protected function buildClassComment($table): string
     {
-       $fields = Db::name($table)->getFieldsType();
+       $fields = Db::name(Utils::tableWithoutPrefix($table))->getFieldsType();
 
        $comment = '/**' . PHP_EOL . ' *' . PHP_EOL;
 
