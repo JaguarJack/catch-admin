@@ -205,6 +205,30 @@ class Table
     }
 
     /**
+     * 删除 index
+     *
+     * @time 2021年04月30日
+     * @param string $column
+     * @return void
+     */
+    public static function dropIndex(string $column)
+    {
+        self::getTable()->removeIndex([$column])->update();
+    }
+
+    /**
+     * column 是否是索引
+     *
+     * @time 2021年04月30日
+     * @param string $column
+     * @return bool
+     */
+    public static function isIndex(string $column): bool
+    {
+        return self::getTable()->hasIndex($column);
+    }
+
+    /**
      * 获取适配器
      *
      * @time 2021年03月04日
