@@ -211,7 +211,7 @@ class Table
      * @param string $usedModel
      * @return $this
      */
-    public function withUsedModelAndExcel(string $usedModel, array $excel): Table
+    public function withUsedModelAndExcel(string $usedModel, array $excel = []): Table
     {
         foreach ($excel as $e) {
             $this->excel[] = $e->render();

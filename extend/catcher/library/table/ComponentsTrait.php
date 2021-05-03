@@ -60,8 +60,28 @@ trait ComponentsTrait
     }
 
 
+    /**
+     * 多选组件
+     *
+     * @time 2021年05月03日
+     * @param array $options
+     * @param null $updateFields
+     * @return HeaderItem
+     */
     public function withSelectComponent(array $options, $updateFields = null): HeaderItem
     {
         return $this->component('select_', $updateFields ? : $this->attributes['prop'], $options);
+    }
+
+    /**
+     * 预览组件
+     *
+     * @time 2021年05月03日
+     * @param null $field
+     * @return ComponentsTrait|HeaderItem
+     */
+    public function withPreviewComponent($field = null)
+    {
+        return $this->component('preview', $field ? : $this->attributes['prop']);
     }
 }
