@@ -193,10 +193,10 @@ abstract class Form
      * @param string $value
      * @return mixed
      */
-    public static function image(string $title, string $value = ''): Upload
+    public static function image(string $title, string $field = 'image', string $value = ''): Upload
     {
-        return self::uploadImage('image', $title, self::uploadImageUrl(), $value)
-                    ->uploadName('image')
+        return self::uploadImage($field, $title, self::uploadImageUrl(), $value)
+                    ->uploadName($field)
                     ->data(['none' => ''])
                     ->headers(self::authorization());
     }
@@ -209,10 +209,10 @@ abstract class Form
      * @param array $value
      * @return mixed
      */
-    public static function images(string $title, array $value = []): Upload
+    public static function images(string $title, $field = 'images', array $value = []): Upload
     {
-        return self::uploadImages('image', $title, self::uploadImageUrl(), $value)
-                    ->uploadName('image')
+        return self::uploadImages($field, $title, self::uploadImageUrl(), $value)
+                    ->uploadName($field)
                     ->data(['none' => ''])
                     ->headers(self::authorization());
     }
@@ -225,10 +225,10 @@ abstract class Form
      * @param string $value
      * @return Upload
      */
-    public static function file(string $title, string $value = ''): Upload
+    public static function file(string $title, $field = 'file', string $value = ''): Upload
     {
-        return self::uploadFile('file', $title, self::uploadFileUrl(), $value)
-                        ->uploadName('image')
+        return self::uploadFile($field, $title, self::uploadFileUrl(), $value)
+                        ->uploadName($field)
                         ->data(['none' => ''])
                         ->headers(self::authorization());
     }
@@ -241,10 +241,10 @@ abstract class Form
      * @param array $value
      * @return Upload
      */
-    public static function files(string $title, array $value = []): Upload
+    public static function files(string $title, $field = 'files',array $value = []): Upload
     {
-        return self::uploadFiles('file', $title, self::uploadFileUrl(), $value)
-                    ->uploadName('file')
+        return self::uploadFiles($field, $title, self::uploadFileUrl(), $value)
+                    ->uploadName($field)
                     ->data(['none' => ''])
                     ->headers(self::authorization());
     }
