@@ -17,6 +17,8 @@ class User extends CatchTable
                     ->header([
                         HeaderItem::label('')->selection(),
                         HeaderItem::label('用户名')->prop('username'),
+                        HeaderItem::label('头像')->prop('avatar')->withPreviewComponent(),
+
                         HeaderItem::label('邮箱')->prop('email'),
                         HeaderItem::label('状态')->prop('status')->component('status', 'status'),
                         HeaderItem::label('创建时间')->prop('created_at'),
