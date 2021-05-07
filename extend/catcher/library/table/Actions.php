@@ -14,9 +14,9 @@ class Actions
      * @time 2021年03月23日
      * @param string $text
      * @param string $event
-     * @return mixed
+     * @return Button
      */
-    public static function create(string $text = '新建', string $event = 'handleCreate')
+    public static function create(string $text = '新建', string $event = 'handleCreate'): Button
     {
         return self::normal($text, 'primary',$event)->icon('el-icon-plus');
     }
@@ -27,9 +27,9 @@ class Actions
      * @time 2021年03月23日
      * @param string $text
      * @param string $event
-     * @return mixed
+     * @return Button
      */
-    public static function update(string $text = '更新', string $event = 'handleUpdate')
+    public static function update(string $text = '更新', string $event = 'handleUpdate'): Button
     {
         return self::normal($text, 'primary', $event)->icon('el-icon-edit');
     }
@@ -40,9 +40,9 @@ class Actions
      * @time 2021年03月23日
      * @param string $text
      * @param string $event
-     * @return mixed
+     * @return Button
      */
-    public static function delete(string $text = '删除', string $event = 'handleDel')
+    public static function delete(string $text = '删除', string $event = 'handleDel'): Button
     {
         return self::normal($text, 'danger', $event)->icon('el-icon-delete');
     }
@@ -54,9 +54,9 @@ class Actions
      * @param string $text
      * @param string $type
      * @param string|null $event
-     * @return mixed
+     * @return Button
      */
-    public static function view(string $text = '查看', $type = 'success', string $event = 'handleView')
+    public static function view(string $text = '查看', $type = 'success', string $event = 'handleView'): Button
     {
         return self::normal($text, $type, $event)->icon('el-icon-view');
     }
@@ -89,9 +89,9 @@ class Actions
      * 导出按钮
      *
      * @time 2021年04月02日
-     * @return mixed
+     * @return Button
      */
-    public static function export()
+    public static function export(): Button
     {
         return self::normal('导出', 'success','handleExport')->icon('el-icon-download');
     }
@@ -100,9 +100,9 @@ class Actions
      * 导入按钮
      *
      * @time 2021年04月02日
-     * @return mixed
+     * @return Button
      */
-    public static function import()
+    public static function import(): Button
     {
         return self::normal('导入', 'warning', 'handleImport')->icon('el-icon-upload2');
     }
