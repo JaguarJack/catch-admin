@@ -104,6 +104,12 @@ class Table
      */
     protected $excel = [];
 
+    /**
+     * 斑马纹
+     *
+     * @var bool
+     */
+    protected $stripe = false;
 
     /**
      * 导出 excel 所使用 model
@@ -112,6 +118,12 @@ class Table
      */
     protected $usedModel;
 
+    /**
+     * 固定表头
+     *
+     * @var int
+     */
+    protected $height;
 
     /**
      * 树状展开
@@ -329,6 +341,33 @@ class Table
     public function withImportRoute(string $route): Table
     {
         $this->importRoute = $route;
+
+        return $this;
+    }
+
+    /**
+     * 开启斑马纹
+     *
+     * @time 2021年05月07日
+     * @return $this
+     */
+    public function withStripe(): Table
+    {
+        $this->stripe = true;
+
+        return $this;
+    }
+
+    /**
+     * 固定表头
+     *
+     * @time 2021年05月07日
+     * @param int $height
+     * @return $this
+     */
+    public function withHeight(int $height): Table
+    {
+        $this->height = $height;
 
         return $this;
     }

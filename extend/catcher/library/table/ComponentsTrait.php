@@ -84,4 +84,16 @@ trait ComponentsTrait
     {
         return $this->component('preview', $field ? : $this->attributes['prop']);
     }
+
+    /**
+     * download 组件
+     *
+     * @time 2021年05月05日
+     * @param null $field
+     * @return ComponentsTrait|HeaderItem
+     */
+    public function withDownloadComponent($field = null)
+    {
+        return $this->component('download', $field ? : $this->attributes['prop']);
+    }
 }

@@ -74,6 +74,29 @@ class HeaderItem
     }
 
     /**
+     * 展开行
+     *
+     * @time 2021年05月07日
+     * @return mixed
+     */
+    public function expand()
+    {
+        return $this->type('expand');
+    }
+
+    /**
+     * 固定列
+     *
+     * @time 2021年05月07日
+     * @param bool|string $fixed
+     * @return bool|mixed
+     */
+    public function fixed($fixed = true)
+    {
+        return $this->attributes['fixed'] = $fixed;
+    }
+
+    /**
      * dont export
      *
      * @time 2021年04月22日
