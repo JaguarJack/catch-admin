@@ -77,8 +77,8 @@ class Attachments extends CatchModel
                 if ($attachment->delete()) {
                     if ($attachment->driver == 'local') {
                         $localPath = config('filesystem.disks.local.root') . DIRECTORY_SEPARATOR;
-                        $path = $localPath . str_replace('\\','\/', $attachment->path);
-                        if (file_exists($path)) {
+                        $path = str_replace('\\','\/', $attachment->path);
+                        if (file_exists($localPath . $path)) {
                             Filesystem::delete($path);
                         }
                     } else {
