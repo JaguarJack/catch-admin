@@ -124,4 +124,17 @@ class Search
     {
         return Form::{$method}(...$params);
     }
+
+    /**
+     * 代理方法
+     *
+     * @time 2021年04月06日
+     * @param $method
+     * @param $params
+     * @return mixed
+     */
+    public function __call($method, $params)
+    {
+        return Form::{$method}(...$params);
+    }
 }
