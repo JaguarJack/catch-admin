@@ -86,6 +86,18 @@ trait ComponentsTrait
     }
 
     /**
+     * 链接跳转
+     *
+     * @time 2021年05月09日
+     * @param null $field
+     * @return ComponentsTrait|HeaderItem
+     */
+    public function withUrlComponent($field = null)
+    {
+        return $this->component('url', $field ? : $this->attributes['prop']);
+    }
+
+    /**
      * download 组件
      *
      * @time 2021年05月05日
