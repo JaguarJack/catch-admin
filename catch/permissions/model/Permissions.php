@@ -87,23 +87,27 @@ class Permissions extends CatchModel
      */
     public static function onAfterInsert(Model $model)
     {
-        $restful = intval($model->getData('restful'));
+        $modelData = $model->getData();
 
-        $model = self::where('id', $model->id)->find();
+        if (isset($modelData['restful'])) {
+            $restful = intval($model->getData('restful'));
 
-        if ($model && $model->parent_id) {
-            $parent = self::where('id', $model->parent_id)->find();
+            $model = self::where('id', $model->id)->find();
 
-            $level = $parent->level ? $parent->level . '-' . $parent->id : $parent->id;
+            if ($model && $model->parent_id) {
+                $parent = self::where('id', $model->parent_id)->find();
 
-            $restful && self::createRestful($model, $level);
+                $level = $parent->level ? $parent->level . '-' . $parent->id : $parent->id;
 
-            return $model->updateBy('id', [
-                'level' => $level
-            ]);
+                $restful && self::createRestful($model, $level);
+
+                return $model->updateBy('id', [
+                    'level' => $level
+                ]);
+            }
+
+            return true;
         }
-
-        return true;
     }
 
 
