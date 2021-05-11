@@ -11,6 +11,8 @@ class HeaderItem
     {
         $this->attributes['label'] = $label;
 
+        $this->attributes['show'] = true;
+
         return $this;
     }
 
