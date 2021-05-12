@@ -34,6 +34,13 @@ class HeaderItem
 
         return $this;
     }
+    
+    public function align(string $align): HeaderItem
+    {
+        $this->attributes['align'] = $align;
+
+        return $this;
+    }
 
     public function actions(array $actions): HeaderItem
     {
