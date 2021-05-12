@@ -65,6 +65,8 @@ abstract class Form
 
     protected $primaryKeyField = 'id';
 
+    protected $primaryKeyValue = 0;
+
     protected $fieldsValue = [];
 
     /**
@@ -125,7 +127,7 @@ abstract class Form
     {
         if ($this->primaryKeyField) {
             return array_merge($this->fields(), [
-                self::hidden($this->primaryKeyField, 0)
+                self::hidden($this->primaryKeyField, $this->primaryKeyValue)
             ]);
         }
 
