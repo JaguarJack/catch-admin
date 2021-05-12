@@ -147,6 +147,12 @@ class Table
     protected $bind = false;
 
     /**
+     * @var string
+     */
+    protected $tips = null;
+
+
+    /**
      * Table constructor.
      * @param string $ref
      */
@@ -368,6 +374,24 @@ class Table
     public function withHeight(int $height): Table
     {
         $this->height = $height;
+
+        return $this;
+    }
+
+    /**
+     * 表格提示
+     *
+     * @time 2021年05月12日
+     * @param string $content
+     * @param string $type
+     * @return $this
+     */
+    public function withTips(string $content, string $type = 'success'): Table
+    {
+        $this->tips = [
+            'content' => $content,
+            'type' => $type
+        ];
 
         return $this;
     }
