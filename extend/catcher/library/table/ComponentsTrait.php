@@ -98,6 +98,18 @@ trait ComponentsTrait
     }
 
     /**
+     * 复制组件
+     *
+     * @time 2021年05月12日
+     * @param null $field
+     * @return ComponentsTrait|HeaderItem
+     */
+    public function withCopyComponent($field = null)
+    {
+        return $this->component('copy', $field ? : $this->attributes['prop']);
+    }
+
+    /**
      * download 组件
      *
      * @time 2021年05月05日
