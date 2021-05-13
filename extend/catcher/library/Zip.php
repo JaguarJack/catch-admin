@@ -42,7 +42,7 @@ class Zip
             throw new \Exception("make zip muse set [zip] extension");
         }
 
-        $this->zipArchive->open($zip, $flags);
+        $this->zipArchive->open($zip, $flags ? : \ZipArchive::CREATE);
 
         return $this;
     }
