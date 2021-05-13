@@ -31,10 +31,6 @@ class Permission extends CatchTable
                 Search::label('菜单名称')->text('permission_name', '菜单名称')->clearable(true),
                 Search::hidden('actionList', 'actionList')
             ])
-            ->withFilterParams([
-                'permission_name' => '',
-                'actionList'    => 'actionList'
-            ])
             ->withDefaultQueryParams(['actionList'])
             ->withApiRoute('permissions')
             ->toTreeTable()
