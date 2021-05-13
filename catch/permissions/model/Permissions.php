@@ -15,6 +15,7 @@ class Permissions extends CatchModel
         'id', //
         'permission_name', // 菜单名称
         'parent_id', // 父级ID
+        'level', // 层级
         'icon',
         'component', // 组件
         'redirect',
@@ -89,25 +90,23 @@ class Permissions extends CatchModel
     {
         $modelData = $model->getData();
 
-        if (isset($modelData['restful'])) {
-            $restful = intval($model->getData('restful'));
+        $restful = intval($modelData['restful'] ?? 0);
 
-            $model = self::where('id', $model->id)->find();
+        $model = self::where('id', $model->id)->find();
 
-            if ($model && $model->parent_id) {
-                $parent = self::where('id', $model->parent_id)->find();
+        if ($model && $model->parent_id) {
+            $parent = self::where('id', $model->parent_id)->find();
 
-                $level = $parent->level ? $parent->level . '-' . $parent->id : $parent->id;
+            $level = $parent->level ? $parent->level . '-' . $parent->id : $parent->id;
 
-                $restful && self::createRestful($model, $level);
+            $restful && self::createRestful($model, $level);
 
-                return $model->updateBy('id', [
-                    'level' => $level
-                ]);
-            }
-
-            return true;
+            $model->updateBy('id', [
+                'level' => $level
+            ]);
         }
+
+        return true;
     }
 
 
@@ -144,7 +143,13 @@ class Permissions extends CatchModel
         }
     }
 
-
+    /**
+     * 展示
+     *
+     * @time 2021年05月13日
+     * @param $id
+     * @return Permissions
+     */
     public function show($id)
     {
         $permission = $this->findBy($id);
