@@ -12,18 +12,18 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 class Factory
 {
 
-    public static function make($type)
+    public static function make($type, $spreadsheet)
     {
         if ($type === 'xlsx') {
-            return app(Xlsx::class);
+            return app(Xlsx::class)->setSpreadsheet($spreadsheet);
         }
 
         if ($type === 'xls') {
-            return app(Xls::class);
+            return new Xls($spreadsheet);
         }
 
         if ($type === 'csv') {
-            return app(Csv::class);
+            return (new Csv($spreadsheet))->setUseBOM('utf-8');
         }
 
         throw new FailedException(sprintf('Type [%s] not support', $type));

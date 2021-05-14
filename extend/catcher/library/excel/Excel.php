@@ -34,10 +34,10 @@ class Excel
      * @param ExcelContract $excel
      * @param $path
      * @param string $disk
-     * @return mixed
+     * @return string[]
      * @throws Exception
      */
-    public function save(ExcelContract $excel, $path, $disk = 'local')
+    public function save(ExcelContract $excel, $path, $disk = 'local'): array
     {
         $this->excel = $excel;
 
@@ -46,19 +46,18 @@ class Excel
         !is_dir($path) && mkdir($path, 0777, true);
 
         $file = $path . date('YmdHis').Str::random(6) . '.' .$this->extension;
-        Factory::make($this->extension)
-                ->setSpreadsheet($this->spreadsheet)
-                ->save($file);
 
-         if (!file_exists($file)) {
-             throw new FailedException($file . ' generate failed');
-         }
+        Factory::make($this->extension, $this->spreadsheet)->save($file);
 
-         if ($disk) {
+        if (!file_exists($file)) {
+            throw new FailedException($file . ' generate failed');
+        }
+
+        if ($disk) {
             $file = $this->upload($disk, $file);
-         }
+        }
 
-         return ['url' => $file];
+        return ['url' => $file];
     }
 
     /**
@@ -68,7 +67,7 @@ class Excel
      * @param $extension
      * @return $this
      */
-    public function setExtension($extension)
+    public function setExtension($extension): Excel
     {
         $this->extension = $extension;
 
