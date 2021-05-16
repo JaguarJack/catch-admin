@@ -3,6 +3,7 @@ namespace catchAdmin\permissions\model;
 
 use catchAdmin\permissions\model\search\PermissionsSearch;
 use catcher\base\CatchModel;
+use think\helper\Str;
 use think\Model;
 
 class Permissions extends CatchModel
@@ -40,6 +41,16 @@ class Permissions extends CatchModel
     public const PUT = 'put';
     public const DELETE = 'delete';
 
+    /**
+     * 列表
+     *
+     * @time 2021年05月13日
+     * @param false $isMenu
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @return mixed|\think\Collection
+     */
     public function getList($isMenu = false)
     {
         return $this->catchSearch()
@@ -148,7 +159,7 @@ class Permissions extends CatchModel
      *
      * @time 2021年05月13日
      * @param $id
-     * @return Permissions
+     * @return mixed
      */
     public function show($id)
     {
@@ -176,7 +187,7 @@ class Permissions extends CatchModel
      * @param array $ids
      * @return array
      */
-    protected function getNextLevel(array $id, &$ids = [])
+    protected function getNextLevel(array $id, &$ids = []): array
     {
        $_ids = $this->whereIn('parent_id', $id)
              ->where('type', self::MENU_TYPE)
@@ -187,5 +198,60 @@ class Permissions extends CatchModel
        }
 
        return $ids;
+    }
+
+    /**
+     * 更新 button
+     *
+     * @time 2021年05月13日
+     * @param $params
+     * @param $permission
+     * @return bool
+     */
+    public function updateButton($params, $permission): bool
+    {
+        $parentPermission = $this->findBy($permission->parent_id);
+
+        $permissionMark = $params['permission_mark'];
+
+        if ($parentPermission->parent_id) {
+            if (Str::contains($parentPermission->permission_mark, '@')) {
+                list($controller, $action) = explode('@', $parentPermission->permission_mark);
+                $permissionMark = $controller . '@' . $permissionMark;
+            } else {
+                $permissionMark = $parentPermission->permission_mark .'@'. $permissionMark;
+            }
+        }
+
+        $params['permission_mark'] = $permissionMark;
+
+        return $this->updateBy($permission->id,array_merge($params, [
+            'parent_id' => $permission->parent_id,
+            'level'     => $permission->level,
+            'updated_at' => time()
+        ]));
+    }
+
+    /**
+     * 更新菜单
+     *
+     * @time 2021年05月13日
+     * @param $id
+     * @param $params
+     * @return bool
+     */
+    public function updateMenu($id, $params): bool
+    {
+        if ($this->updateBy($id, $params)) {
+            if ($params['module'] ?? false) {
+                $this->updateBy($id, [
+                    'module' => $params['module'],
+                ], 'parent_id');
+            }
+
+            return true;
+        }
+
+        return false;
     }
 }
