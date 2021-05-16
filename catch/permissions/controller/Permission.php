@@ -103,45 +103,19 @@ class Permission extends CatchController
 
         // 按钮类型
         if ($params['type'] == Permissions::BTN_TYPE && $permission->parent_id) {
-            $parentPermission = $this->permissions->findBy($permission->parent_id);
-
-            $permissionMark = $params['permission_mark'];
-            if ($parentPermission->parent_id) {
-                if (Str::contains($parentPermission->permission_mark, '@')) {
-                    list($controller, $action) = explode('@', $parentPermission->permission_mark);
-                    $permissionMark = $controller . '@' . $permissionMark;
-                } else {
-                    $permissionMark = $parentPermission->permission_mark .'@'. $permissionMark;
-                }
-            }
-
-            $params['permission_mark'] = $permissionMark;
-
-
-            $this->permissions->where('id',$id)->update(array_merge($params, [
-                'parent_id' => $permission->parent_id,
-                'level'     => $permission->level,
-                'updated_at' => time()
-            ]));
-
-            return CatchResponse::success();
+            return CatchResponse::success($this->permissions->updateButton($params, $permission));
         }
 
-        $params = array_merge($request->param(), [
+        $params = array_merge($params, [
             'parent_id' => $permission->parent_id,
             'level'     => $permission->level
         ]);
 
-        if ($permission->updateBy($id, $params)) {
-            if ($params['module'] ?? false) {
-                $this->permissions->updateBy($permission->id, [
-                    'module' => $params['module'],
-                ], 'parent_id');
-            }
+        if ($this->permissions->updateMenu($id, $params)) {
             return CatchResponse::success();
         }
 
-       throw new FailedException('更新失败');
+        throw new FailedException('更新失败');
     }
 
     /**
