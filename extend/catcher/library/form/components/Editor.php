@@ -77,7 +77,7 @@ class Editor extends FormComponent
      * @param string $language
      * @return $this
      */
-    public function language(string $language = 'zh_CN'): Editor
+    public function language(string $language = 'zh'): Editor
     {
         $this->props([
             'language' => $language
