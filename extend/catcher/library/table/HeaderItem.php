@@ -7,6 +7,10 @@ class HeaderItem
 
     protected $attributes = [];
 
+    /**
+     * HeaderItem constructor.
+     * @param string $label
+     */
     public function __construct(string $label)
     {
         $this->attributes['label'] = $label;
@@ -16,11 +20,25 @@ class HeaderItem
         return $this;
     }
 
+    /**
+     * label
+     *
+     * @time 2021年05月15日
+     * @param string $label
+     * @return HeaderItem
+     */
     public static function label(string $label = ''): HeaderItem
     {
         return new self($label);
     }
 
+    /**
+     * prop
+     *
+     * @time 2021年05月15日
+     * @param string $prop
+     * @return $this
+     */
     public function prop(string $prop): HeaderItem
     {
         $this->attributes['prop'] = $prop;
@@ -28,13 +46,27 @@ class HeaderItem
         return $this;
     }
 
+    /**
+     * 宽度
+     *
+     * @time 2021年05月15日
+     * @param string $width
+     * @return $this
+     */
     public function width(string $width): HeaderItem
     {
         $this->attributes['width'] = $width;
 
         return $this;
     }
-    
+
+    /**
+     * align 宽度
+     *
+     * @time 2021年05月15日
+     * @param string $align
+     * @return $this
+     */
     public function align(string $align): HeaderItem
     {
         $this->attributes['align'] = $align;
@@ -42,6 +74,39 @@ class HeaderItem
         return $this;
     }
 
+    /**
+     * 居中
+     *
+     * @time 2021年05月15日
+     * @return $this
+     */
+    public function alignCenter(): HeaderItem
+    {
+        $this->attributes['align'] = 'center';
+
+        return $this;
+    }
+
+    /**
+     * 居右
+     *
+     * @time 2021年05月15日
+     * @return $this
+     */
+    public function alignRight(): HeaderItem
+    {
+        $this->attributes['align'] = 'right';
+
+        return $this;
+    }
+
+    /**
+     * 操作
+     *
+     * @time 2021年05月15日
+     * @param array $actions
+     * @return $this
+     */
     public function actions(array $actions): HeaderItem
     {
         foreach ($actions as $action) {
@@ -51,6 +116,13 @@ class HeaderItem
         return $this;
     }
 
+    /**
+     * 冒泡点击
+     *
+     * @time 2021年05月15日
+     * @param false $bubble
+     * @return $this
+     */
     public function isBubble($bubble = false): HeaderItem
     {
         $this->attributes['isBubble'] = $bubble;
