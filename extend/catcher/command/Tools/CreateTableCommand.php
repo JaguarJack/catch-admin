@@ -36,7 +36,7 @@ class CreateTableCommand extends Command
 
         FileSystem::put(
             CatchAdmin::moduleDirectory($module) . 'tables' . DIRECTORY_SEPARATOR . (ucwords($table) . '.php'),
-            $this->tableTemp($module, lcfirst($table), $form)
+            $this->tableTemp($module, ucwords($table), $form)
         );
 
         if (! $form) {
@@ -44,7 +44,7 @@ class CreateTableCommand extends Command
                 CatchAdmin::moduleDirectory($module) .
                 'tables' . DIRECTORY_SEPARATOR . 'forms' . DIRECTORY_SEPARATOR
                 . (ucwords($table) . '.php'),
-                $this->formTemp($module, lcfirst($table))
+                $this->formTemp($module, ucwords($table))
             );
         }
 
@@ -54,7 +54,9 @@ class CreateTableCommand extends Command
 
     protected function tableTemp($module, $table, $form)
     {
-        $formTemp = ! $form ? sprintf('Factory::create(\'%s\');', $table) : '[];';
+        $_table = lcfirst($table);
+
+        $formTemp = ! $form ? sprintf('Factory::create(\'%s\');', $_table) : '[];';
 
 
         return <<<PHP
@@ -69,7 +71,7 @@ class {$table} extends CatchTable
     public function table()
     {
         // TODO: Implement table() method.
-       return \$this->getTable('{$table}');
+       return \$this->getTable('{$_table}');
     }
 
     protected function form()
