@@ -36,7 +36,7 @@ class CreateTableCommand extends Command
 
         FileSystem::put(
             CatchAdmin::moduleDirectory($module) . 'tables' . DIRECTORY_SEPARATOR . (ucwords($table) . '.php'),
-            $this->tableTemp($module, ucwords($table), $form)
+            $this->tableTemp($module, lcfirst($table), $form)
         );
 
         if (! $form) {
@@ -44,7 +44,7 @@ class CreateTableCommand extends Command
                 CatchAdmin::moduleDirectory($module) .
                 'tables' . DIRECTORY_SEPARATOR . 'forms' . DIRECTORY_SEPARATOR
                 . (ucwords($table) . '.php'),
-                $this->formTemp($module, ucwords($table))
+                $this->formTemp($module, lcfirst($table))
             );
         }
 
