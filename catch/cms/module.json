@@ -1,0 +1,18 @@
+{
+    "name": "内容管理",
+    "alias": "cms",
+    "description": "cms 模块管理",
+    "version": "1.0.0",
+    "keywords": [
+        "cms",
+        "admin"
+    ],
+    "order": 0,
+    "services": [
+        "\\catchAdmin\\cms\\CmsService"
+    ],
+    "aliases": [],
+    "files": [],
+    "requires": [],
+    "enable": true
+}
