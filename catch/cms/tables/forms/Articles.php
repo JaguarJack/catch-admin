@@ -2,30 +2,35 @@
 namespace catchAdmin\cms\tables\forms;
 
 use catchAdmin\cms\model\Tags;
-use catcher\library\form\Form;
 use catchAdmin\cms\model\Articles as Article;
 use catchAdmin\cms\model\Category;
 
-class Articles extends Form
+class Articles extends BaseForm
 {
+    protected $table = 'cms_articles';
+
     public function fields(): array
     {
+        $categories =  Category::field(['id', 'name', 'parent_id'])->select()->toTree();
+
         // TODO: Implement fields() method.
         return [
             self::input('title', '标题')->required()->maxlength(100)->col(12),
 
-            self::cascader('category_id', '选择分类')
-                ->options(
-                    Category::field(['id', 'name', 'parent_id'])->select()->toTree()
-                )
-                ->col(12)
-                ->props(self::props('name', 'id', [
-                    'checkStrictly' => true
-                ]))
-                ->filterable(true)
+            self::cascader('category_id', '选择分类', [])
+                ->options($categories)
                 ->clearable(true)
-                ->style(['width' => '100%'])
+                ->filterable(true)
+                ->showAllLevels(false)
+                ->props([
+                'props' => [
+                    'value' => 'id',
+                    'label' => 'name',
+                    'checkStrictly' => true
+                ],
+                ])->style(['width' => '100%'])
                 ->required()->col(8),
+
 
             self::input('keywords', '关键字')->col(12),
 

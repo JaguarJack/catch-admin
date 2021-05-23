@@ -25,9 +25,9 @@ trait CategoryEvent
      * @param \think\Model $category
      * @return void
      */
-    public static function onBeforeInsert($category): void
+    public static function onBeforeInsert(\think\Model $category): void
     {
-        $category->data(self::changeData($category->getData()));
+
     }
 
     /**
@@ -37,9 +37,9 @@ trait CategoryEvent
      * @param \think\Model $category
      * @return mixed|void
      */
-    public static function onBeforeUpdate($category)
+    public static function onBeforeUpdate(\think\Model $category)
     {
-        // $category->data(self::changeData($category->getData()));
+        
     }
 
     /**
@@ -54,30 +54,5 @@ trait CategoryEvent
         if ($category->hasNextLevel()) {
             throw new FailedException('存在下级栏目, 无法删除');
         }
-    }
-
-    /**
-     * 更新Data
-     *
-     * @time 2021年03月03日
-     * @param $data
-     * @return mixed
-     */
-    protected static function changeData($data)
-    {
-        /**
-        if (isset($data['parent_id'])) {
-            $parentId = $data['parent_id'];
-
-            if (!is_array($parentId)) {
-                // $parentId = Utils::dealWithFormArrayString($parentId);
-            }
-
-            $parentId = count($parentId) ? array_pop($parentId) : 0;
-
-            $data['parent_id'] = $parentId;
-        }
-
-        return $data;*/
     }
 }

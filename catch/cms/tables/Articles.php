@@ -13,17 +13,23 @@ class Articles extends CatchTable
         // TODO: Implement table() method.
        return $this->getTable('articles')
                    ->header([
-                       HeaderItem::label('编号')->prop('id'),
+                       HeaderItem::label('编号')->prop('id')->width(50),
 
-                       HeaderItem::label('栏目')->prop('category'),
+                       HeaderItem::label('栏目')->prop('category')->width(100),
 
                        HeaderItem::label('标题')->prop('title'),
 
-                       HeaderItem::label('权重')->prop('weight')->withEditNumberComponent(),
+                       HeaderItem::label('创建人')->prop('creator')->width(100),
 
-                       HeaderItem::label('状态')->prop('status')->withSwitchComponent(),
+                       HeaderItem::label('权重')->prop('weight')->withEditNumberComponent()->width(100),
 
-                       HeaderItem::label('创建时间')->prop('created_at'),
+                       HeaderItem::label('置顶')->prop('is_top')->withSwitchComponent()->width(100),
+
+                       HeaderItem::label('状态')->prop('status')->withSwitchComponent()->width(100),
+
+                       HeaderItem::label('推荐')->prop('is_recommend')->withSwitchComponent()->width(100),
+
+                       HeaderItem::label('创建时间')->prop('created_at')->width(150),
 
                        HeaderItem::label('操作')->actions([
                            Actions::update()->to('/cms/articles/detail'),

@@ -46,7 +46,7 @@ class ModelUsedFields extends Form
      */
     protected function getModelFields($tableName)
     {
-        $fields = array_keys(Db::name($tableName)->getFields());
+        $fields = array_keys(Db::table($tableName)->getFields());
 
         foreach ($fields as $k => $field) {
             if ($field === app(Models::class)->getDeleteAtField()) {

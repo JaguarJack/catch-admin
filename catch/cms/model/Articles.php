@@ -15,6 +15,36 @@ namespace catchAdmin\cms\model;
 
 use catchAdmin\cms\model\events\ArticlesEvent;
 
+/**
+ * Class Articles
+ * @package catchAdmin\cms\model
+ * @auth CatchAdmin
+ * @time 2021年05月22日
+ *
+ * @property Articles category_id
+ * @property Articles id
+ * @property Articles title
+ * @property Articles cover
+ * @property Articles images
+ * @property Articles tags
+ * @property Articles url
+ * @property Articles content
+ * @property Articles keywords
+ * @property Articles description
+ * @property Articles pv
+ * @property Articles likes
+ * @property Articles comments
+ * @property Articles is_top
+ * @property Articles is_recommend
+ * @property Articles status
+ * @property Articles weight
+ * @property Articles is_can_comment
+ * @property Articles creator_id
+ * @property Articles created_at
+ * @property Articles updated_at
+ * @property Articles deleted_at
+ *
+ */
 class Articles extends BaseModel
 {
     use ArticlesEvent;
@@ -31,8 +61,6 @@ class Articles extends BaseModel
         'cover', // 封面
         // 多图集合
         'images',
-        // 标签集合
-        'tags',
         // 自定义URL
         'url',
         // 内容
@@ -75,6 +103,44 @@ class Articles extends BaseModel
     const CAN_COMMENT = 1; // 评论允许
     const UN_CAN_COMMENT = 2; // 评论不允许
 
+    /**
+     * 列表
+     *
+     * @auth CatchAdmin
+     * @time 2021年05月22日
+     * @return mixed
+     */
+    public function getList()
+    {
+        // 分页列表
+        return $this->catchSearch()
+            ->field($this->aliasField('*'))
+            ->catchJoin(Category::class, 'id', 'category_id', ['name as category'])
+            ->catchOrder()
+            ->creator()
+            ->paginate();
+    }
+
+    /**
+     * 查询
+     *
+     * @auth CatchAdmin
+     * @time 2021年05月22日
+     * @param $id
+     * @param array|string[] $field
+     * @param bool $trash
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @return array|mixed|\think\Model|null
+     */
+    public function findBy($id, array $field = ['*'], bool $trash = false)
+    {
+        return $this->where('id', $id)
+                    ->with(['tag'])
+                    ->field('*')
+                    ->find();
+    }
 
     /**
      * 文章标签
@@ -82,10 +148,37 @@ class Articles extends BaseModel
      * @time 2021年05月17日
      * @return \think\model\relation\BelongsToMany
      */
-    public function tags(): \think\model\relation\BelongsToMany
+    public function tag(): \think\model\relation\BelongsToMany
     {
         return $this->belongsToMany(Tags::class, 'cms_article_relate_tags',
             'tag_id', 'article_id'
         );
+    }
+
+    /**
+     * 删除标签
+     *
+     * @param array $ids
+     * @return int
+     * @author CatchAdmin
+     * @time 2021年05月22日
+     */
+    public function detachTags(array $ids = []): int
+    {
+        return $this->tag()->detach($ids);
+    }
+
+    /**
+     * 新增标签
+     *
+     * @author CatchAdmin
+     * @time 2021年05月22日
+     * @param array $ids
+     * @throws \think\db\exception\DbException
+     * @return array|\think\model\Pivot
+     */
+    public function attachTags(array $ids)
+    {
+        return $this->tag()->attach($ids);
     }
 }
