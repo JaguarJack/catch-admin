@@ -57,19 +57,23 @@ trait BaseOptionsTrait
      */
     public function createBy(array $data)
     {
-        $model = parent::create($data, $this->field, true);
+        $model = static::create($data, $this->field, true);
 
         return $model->{$this->getPk()};
     }
-  /**33
-   *
-   * @time 2019年12月03日
-   * @param $id
-   * @param $data
-   * @param string $field
-   * @return bool
-   */
-    public function updateBy($id, $data, $field = ''): bool
+
+    /**
+     *
+     * @time 2019年12月03日
+     * @param $id
+     * @param $data
+     * @param string $field
+     * @return bool
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\db\exception\DataNotFoundException
+     */
+    public function updateBy($id, $data, string $field = ''): bool
     {
         if (static::update($this->filterData($data), [$field ? : $this->getPk() => $id], $this->field)) {
 
@@ -89,7 +93,7 @@ trait BaseOptionsTrait
      * @param bool $trash
      * @return mixed
      */
-    public function findBy($id, array $field = ['*'], $trash = false)
+    public function findBy($id, array $field = ['*'], bool $trash = false)
     {
         if ($trash) {
             return static::onlyTrashed()->find($id);
@@ -103,10 +107,10 @@ trait BaseOptionsTrait
      *
      * @time 2019年12月03日
      * @param $id
-     * @param $force
+     * @param bool $force
      * @return mixed
      */
-    public function deleteBy($id, $force = false)
+    public function deleteBy($id, bool $force = false)
     {
         return static::destroy(is_array($id) ? $id : Utils::stringToArrayBy($id), $force);
     }
@@ -254,7 +258,7 @@ trait BaseOptionsTrait
      * @param string $field
      * @return mixed
      */
-    public function disOrEnable($id, $field='status')
+    public function disOrEnable($id, string $field='status')
     {
         $model = $this->findBy($id);
 
@@ -269,10 +273,10 @@ trait BaseOptionsTrait
      * 过滤数据
      *
      * @time 2021年02月28日
-     * @param $data
+     * @param array $data
      * @return mixed
      */
-    protected function filterData($data)
+    protected function filterData(array $data)
     {
         foreach ($data as $field => $value) {
             if (is_null($value)) {
