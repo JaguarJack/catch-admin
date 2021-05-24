@@ -14,9 +14,11 @@ class Tags extends CatchTable
         // TODO: Implement table() method.
         return $this->getTable('tags')
             ->header([
-                HeaderItem::label('编号')->prop('id'),
+                HeaderItem::label('编号')->prop('id')->width(100),
 
                 HeaderItem::label('名称')->prop('name'),
+
+                HeaderItem::label('文章数量')->prop('articles_count'),
 
                 HeaderItem::label('创建时间')->prop('created_at'),
 

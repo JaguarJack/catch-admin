@@ -28,7 +28,7 @@ class SiteLink extends CatchTable
                        Actions::create()
                    ])
                    ->withSearch([
-                       Search::label('网站标题')->input('title', '请输入网站标题')
+                       Search::label('网站标题')->input('title', '请输入标题')
                    ])
                    ->withBind()
                    ->withDialogWidth('40%')
