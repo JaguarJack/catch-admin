@@ -48,10 +48,14 @@ trait CategoryEvent
      */
     public static function onBeforeUpdate(\think\Model $category)
     {
-        $where = $category->getWhere();
+        $data = $category->getData();
 
-        if (self::where('name', $category->getData('name'))->where('id', '<>', $where['id'])->find()) {
-            throw new FailedException('分类名称重复，请重新填写');
+        if (isset($data['name'])) {
+            $where = $category->getWhere();
+
+            if (self::where('name', $category->getData('name'))->where('id', '<>', $where['id'])->find()) {
+                throw new FailedException('分类名称重复，请重新填写');
+            }
         }
     }
 
