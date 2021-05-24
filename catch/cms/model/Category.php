@@ -61,6 +61,8 @@ class Category extends BaseModel
         'deleted_at',
     );
 
+    protected $updateChildrenFields = 'status';
+
     const LIST_TYPE = 1; // 列表
     const PAGE_TYPE = 2; // 单页
     const COVER_TYPE = 3; // 封面

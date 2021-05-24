@@ -184,7 +184,7 @@ trait BaseOptionsTrait
             if (!empty($this->updateChildrenFields)) {
                 if (is_array($this->updateChildrenFields)) {
                     foreach ($data as $field => $value) {
-                        if (in_array($field, $this->updateChildrenFields)) {
+                        if (! in_array($field, $this->updateChildrenFields)) {
                             unset($data[$field]);
                         }
                     }
