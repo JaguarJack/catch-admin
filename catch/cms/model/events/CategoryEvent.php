@@ -13,6 +13,7 @@
 
 namespace catchAdmin\cms\model\events;
 
+use catcher\exceptions\CatchException;
 use catcher\exceptions\FailedException;
 use catcher\Utils;
 
@@ -24,10 +25,15 @@ trait CategoryEvent
      * @time 2021年03月03日
      * @param \think\Model $category
      * @return void
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\db\exception\DataNotFoundException
      */
     public static function onBeforeInsert(\think\Model $category): void
     {
-
+        if (self::where('name', $category->getData('name'))->find()) {
+            throw new FailedException('分类名称重复，请重新填写');
+        }
     }
 
     /**
@@ -36,10 +42,21 @@ trait CategoryEvent
      * @time 2021年03月03日
      * @param \think\Model $category
      * @return mixed|void
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\db\exception\DataNotFoundException
      */
     public static function onBeforeUpdate(\think\Model $category)
     {
-        
+        $data = $category->getData();
+
+        if (isset($data['name'])) {
+            $where = $category->getWhere();
+
+            if (self::where('name', $category->getData('name'))->where('id', '<>', $where['id'])->find()) {
+                throw new FailedException('分类名称重复，请重新填写');
+            }
+        }
     }
 
     /**
