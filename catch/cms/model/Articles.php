@@ -14,6 +14,7 @@
 namespace catchAdmin\cms\model;
 
 use catchAdmin\cms\model\events\ArticlesEvent;
+use catchAdmin\cms\model\search\ArticlesSearch;
 
 /**
  * Class Articles
@@ -47,7 +48,7 @@ use catchAdmin\cms\model\events\ArticlesEvent;
  */
 class Articles extends BaseModel
 {
-    use ArticlesEvent;
+    use ArticlesEvent, ArticlesSearch;
 
     // 表名
     public $name = 'cms_articles';

@@ -13,8 +13,11 @@
 
 namespace catchAdmin\cms\model;
 
+use catchAdmin\cms\model\search\CommentsSearch;
+
 class Comments extends BaseModel
 {
+    use CommentsSearch;
     // 表名
     public $name = 'cms_comments';
     // 数据库字段映射
@@ -43,4 +46,14 @@ class Comments extends BaseModel
         // 软删除
         'deleted_at',
     );
+
+    public function getList()
+    {
+        return $this->catchJoin(Articles::class, 'id', 'article_id', ['title'])
+                    ->catchJoin(Users::class, 'id', 'user_id', ['username'])
+                    ->field($this->aliasField('*'))
+                    ->catchSearch()
+                    ->catchOrder()
+                    ->paginate();
+    }
 }

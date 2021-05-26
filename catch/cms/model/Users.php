@@ -13,8 +13,12 @@
 
 namespace catchAdmin\cms\model;
 
+use catchAdmin\cms\model\search\UsersSearch;
+
 class Users extends BaseModel
 {
+    use UsersSearch;
+
     // 表名
     public $name = 'cms_users';
     // 数据库字段映射

@@ -5,6 +5,7 @@ use catcher\CatchTable;
 use catchAdmin\cms\tables\forms\Factory;
 use catcher\library\table\Actions;
 use catcher\library\table\HeaderItem;
+use catcher\library\table\Search;
 
 class Articles extends CatchTable
 {
@@ -35,6 +36,10 @@ class Articles extends CatchTable
                            Actions::update()->to('/cms/articles/detail'),
                            Actions::delete()
                        ])
+                   ])
+                   ->withSearch([
+                       Search::input('category', '栏目名称')->clearable(true),
+                       Search::input('title', '文章标题')->clearable(true),
                    ])
                    ->withBind()
                    ->withApiRoute('cms/articles')
