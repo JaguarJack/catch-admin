@@ -231,17 +231,20 @@ trait BaseOptionsTrait
    *
    * @time 2020年01月13日
    * @param $field
+   * @param string $table
    * @return array|string
    */
-    public function aliasField($field)
+    public function aliasField($field, $table = '')
     {
+        $table = $table ? Utils::tableWithPrefix($table) : $this->getTable();
+
         if (is_string($field)) {
-            return sprintf('%s.%s', $this->getTable(), $field);
+            return sprintf('%s.%s', $table, $field);
         }
 
         if (is_array($field)) {
             foreach ($field as &$value) {
-                $value = sprintf('%s.%s', $this->getTable(), $value);
+                $value = sprintf('%s.%s', $table, $value);
             }
 
             return $field;
