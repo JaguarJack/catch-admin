@@ -15,6 +15,7 @@ namespace catcher\library\form;
 
 use catcher\exceptions\FailedException;
 use catcher\library\form\components\AreaTrait;
+use catcher\library\form\components\DatePicker;
 use catcher\library\form\components\Editor;
 use FormBuilder\Exception\FormBuilderException;
 use FormBuilder\Factory\Elm;
@@ -38,6 +39,7 @@ use FormBuilder\UI\Elm\Traits\TimePickerFactoryTrait;
 use FormBuilder\UI\Elm\Traits\TreeFactoryTrait;
 use FormBuilder\UI\Elm\Traits\UploadFactoryTrait;
 use FormBuilder\UI\Elm\Traits\ValidateFactoryTrait;
+use FormBuilder\UI\Elm\Validate;
 
 abstract class Form
 {
@@ -331,4 +333,30 @@ abstract class Form
         return new Editor($field, $title, $value);
     }
 
+
+    /**
+     * 日期组件
+     *
+     * @param string $field
+     * @param string $title
+     * @param string $value
+     * @param string $type
+     * @return DatePicker
+     */
+    public static function datePicker($field, $title, $value = '', $type = DatePicker::TYPE_DATE_TIME): DatePicker
+    {
+        return (new DatePicker($field, $title, $value))->type($type);
+    }
+
+    /**
+     * 日期验证
+     *
+     * @time 2021年05月26日
+     * @param string $trigger
+     * @return Validate
+     */
+    public static function validateDate($trigger = Validate::TRIGGER_CHANGE): Validate
+    {
+        return new Validate('', $trigger);
+    }
 }
