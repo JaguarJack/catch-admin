@@ -13,8 +13,12 @@
 
 namespace catchAdmin\cms\model;
 
+use catchAdmin\cms\model\events\BannersEvent;
+
 class Banners extends BaseModel
 {
+    use BannersEvent;
+
     // 表名
     public $name = 'cms_banners';
     // 数据库字段映射
@@ -37,4 +41,14 @@ class Banners extends BaseModel
         // 软删除
         'deleted_at',
     );
+
+    public function getList()
+    {
+        return $this->catchSearch()
+            ->field($this->aliasField('*'))
+            ->catchJoin(Category::class, 'id', 'category_id', ['name as category'])
+            ->catchOrder()
+            ->creator()
+            ->paginate();
+    }
 }
