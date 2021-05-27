@@ -21,10 +21,10 @@ class Banners extends Form
                     'props' => [
                         'value' => 'id',
                         'label' => 'name',
-                        'checkStrictly' => true
+                        'checkStrictly' => true,
+                        'multiple' => false,
                     ],
-                ])->style(['width' => '100%'])
-                ->required(),
+                ])->style(['width' => '100%']),
 
             self::input('title', '标题')->placeholder('请输入标题')->required(),
 

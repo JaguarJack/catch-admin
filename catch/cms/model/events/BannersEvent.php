@@ -43,7 +43,11 @@ trait BannersEvent
         $data = $model->getData();
 
         if (isset($data['category_id'])) {
-            $model->category_id = $model->category_id[count($model->category_id) - 1];
+            $model->category_id = is_array($model->category_id) ?
+
+                (count($model->category_id) ? $model->category_id[count($model->category_id) - 1] : 0)
+
+                : $model->category_id;
         }
     }
 }

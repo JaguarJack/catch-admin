@@ -35,6 +35,7 @@ class Banners extends CatchTable
                     ->withActions([
                         Actions::create()
                     ])
+                    ->withDialogWidth('40%')
                     ->withBind()
                     ->withApiRoute('cms/banners')
                     ->render();

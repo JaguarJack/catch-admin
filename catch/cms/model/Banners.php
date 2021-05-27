@@ -46,7 +46,7 @@ class Banners extends BaseModel
     {
         return $this->catchSearch()
             ->field($this->aliasField('*'))
-            ->catchJoin(Category::class, 'id', 'category_id', ['name as category'])
+            ->catchLeftJoin(Category::class, 'id', 'category_id', ['name as category'])
             ->catchOrder()
             ->creator()
             ->paginate();
