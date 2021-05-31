@@ -75,7 +75,7 @@ class Articles extends BaseModel
         // 喜欢
         'likes',
         // 评论数
-        'comments',
+        'comment_num',
         // 1 置顶 2 非置顶
         'is_top',
         // 1 推荐 2 不推荐
@@ -181,5 +181,16 @@ class Articles extends BaseModel
     public function attachTags(array $ids)
     {
         return $this->tag()->attach($ids);
+    }
+
+    /**
+     * 文章评论
+     *
+     * @time 2021年05月27日
+     * @return \think\model\relation\HasMany
+     */
+    public function comments(): \think\model\relation\HasMany
+    {
+        return $this->hasMany(Comments::class, 'article_id', 'id');
     }
 }
