@@ -6,6 +6,7 @@ namespace catcher\base;
 use catcher\CatchQuery;
 use catcher\traits\db\BaseOptionsTrait;
 use catcher\traits\db\RewriteTrait;
+use catcher\traits\db\WithTrait;
 use think\model\concern\SoftDelete;
 use catcher\traits\db\ScopeTrait;
 
@@ -17,7 +18,7 @@ use catcher\traits\db\ScopeTrait;
  */
 abstract class CatchModel extends \think\Model
 {
-    use SoftDelete, BaseOptionsTrait, ScopeTrait, RewriteTrait;
+    use SoftDelete, BaseOptionsTrait, ScopeTrait, RewriteTrait, WithTrait;
 
     protected $createTime = 'created_at';
 
@@ -46,5 +47,15 @@ abstract class CatchModel extends \think\Model
     public function hasField(string $field)
     {
         return property_exists($this, 'field') && in_array($field, $this->field);
+    }
+
+    public function __construct(array $data = [])
+    {
+        parent::__construct($data);
+
+
+        if (method_exists($this, 'autoWithRelation')) {
+            $this->autoWithRelation();
+        }
     }
 }
