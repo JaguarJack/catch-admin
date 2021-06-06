@@ -13,6 +13,7 @@ use think\console\input\Argument;
 use think\console\input\Option;
 use think\console\Output;
 use think\facade\Db;
+use think\helper\Str;
 
 class CreateSeedCommand extends Command
 {
@@ -58,8 +59,8 @@ class CreateSeedCommand extends Command
     {
         $stub = file_get_contents(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'stubs' . DIRECTORY_SEPARATOR . 'seed.stub');
 
-        $model = ucfirst(Utils::camelize($table));
-        $class = ucfirst(Utils::camelize($table)) . 'Seed';
+        $model = Str::studly($table);
+        $class = Str::studly($table) . 'Seed';
 
         $stub = str_replace('{CLASS}', $class, $stub);
         $stub = str_replace('{MODULE}', $module, $stub);
