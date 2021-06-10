@@ -2,11 +2,14 @@
 namespace catcher\generate\factory;
 
 use catcher\facade\FileSystem;
-use catcher\generate\template\Content;
+use JaguarJack\Generate\Build\Value;
+use JaguarJack\Generate\Define;
+use PhpParser\ParserFactory;
+use JaguarJack\Generate\Generator;
 
 class Route extends Factory
 {
-    use Content;
+    use HeaderDoc;
 
     protected $controllerName;
 
@@ -14,68 +17,111 @@ class Route extends Factory
 
     protected $restful;
 
+    protected $module;
+
     protected $methods = [];
 
+    const VARIABLE_ST = 'scapegoat';
+
+    /**
+     * 实现
+     *
+     * @time 2021年06月09日
+     * @param array $params
+     * @throws \Exception
+     * @return mixed
+     */
     public function done(array $params = [])
     {
-        $route = [];
+        $router = $this->getModulePath($this->controller) . DIRECTORY_SEPARATOR . 'route.php';
+
+        $content = $this->generateRoute($router);
+
+        $content = '<?php' . PHP_EOL .
+            trim(str_replace(['$scapegoat', '='], ['', ''], $content), ';') . ';';
+
+        if (! file_exists($router)) {
+            return FileSystem::put($router, $content);
+        }
+
+        return FileSystem::put($router, $content);
+    }
+
+
+    /**
+     * parse router methods
+     *
+     * @time 2021年06月09日
+     * @return array
+     * @throws \JaguarJack\Generate\Exceptions\TypeNotFoundException
+     */
+    protected function parseRouteMethods(): array
+    {
+        $generate = new Generator();
+
+        $stmts = [];
 
         if ($this->restful) {
-            $route[] = sprintf("\$router->resource('%s', '\%s');", $this->controllerName, $this->controller);
+            $stmts[] = Define::variable(self::VARIABLE_ST, $generate->methodCall(['router', 'resource'], [
+                Value::fetch($this->controllerName),
+                Value::fetch(Define::classConstFetch($this->controller))
+            ]), sprintf('// %s 路由', $this->controllerName));
         }
 
         if (!empty($this->methods)) {
             foreach ($this->methods as $method) {
-                $route[] = sprintf("\$router->%s('%s/%s', '\%s@%s');", $method[1], $this->controllerName, $method[0], $this->controller, $method[0] );
+                $stmts[] = Define::variable(self::VARIABLE_ST,
+                    $generate->methodCall(['router', $method[1]], [
+                    Value::fetch(sprintf('%s/%s',  $this->controllerName, $method[0])),
+                    Value::fetch(sprintf('%s@%s',  $this->controller, $method[0]))
+                ]));
             }
         }
 
-        $router = $this->getModulePath($this->controller) . DIRECTORY_SEPARATOR . 'route.php';
-
-        $comment = '// ' . $this->controllerName . '路由';
-
-        array_unshift($route, $comment);
-
-        if (file_exists($router)) {
-            return FileSystem::put($router, $this->parseRoute($router, $route));
-        }
-
-        return FileSystem::put($router, $this->header() . $comment. implode(';'. PHP_EOL , $route) . ';');
+        return $stmts;
     }
 
-    protected function parseRoute($path, $route)
+    /**
+     * generate route
+     *
+     * @time 2021年06月09日
+     * @param string $router
+     * @return string
+     * @throws \Exception
+     */
+    protected function generateRoute(string $router): string
     {
-        $file = new \SplFileObject($path);
-        // 保留所有行
-        $lines = [];
-        // 结尾之后的数据
-        $down = [];
-        // 结尾数据
-        $end = '';
-        while (!$file->eof()) {
-            $lines[] = rtrim($file->current(), PHP_EOL);
-            $file->next();
+        $generate = new Generator();
+
+        if (! FileSystem::exists($router)) {
+            $stmts = $this->parseRouteMethods();
+
+            $expr = Define::variable(self::VARIABLE_ST, $generate->call(
+                            $generate->methodCall(['router', 'group'], [
+                                Value::fetch($this->module),
+                                $generate->closure()->uses('router')->body($stmts)
+                             ]))
+                        ->call('middleware', [Value::fetch('auth')])
+                        ->call(),   $this->header() . PHP_EOL . '/* @var \think\Route $router */');
+
+            return $generate->getContent([$expr]);
+        } else {
+            $factory = (new ParserFactory)->create(ParserFactory::PREFER_PHP7);
+
+            $ast = $factory->parse(file_get_contents($router));
+
+            $expression = $ast[0];
+
+            $stmts = $expression->expr->var->args[1]->value->stmts;
+
+            $stmts = array_merge($stmts, $this->parseRouteMethods());
+
+            $expression->expr->var->args[1]->value->stmts = $stmts;
+
+            $ast[0] = $expression;
+
+            return $generate->getContent($ast);
         }
-
-        while (count($lines)) {
-            $line = array_pop($lines);
-            if (strpos($line, '})') !== false) {
-                $end = $line;
-                break;
-            }
-            array_unshift($down, $line);
-        }
-
-        $router = implode(PHP_EOL, $lines) . PHP_EOL;
-
-        $routes = array_merge($down, $route);
-
-        foreach ($routes as $r) {
-            if ($r) {
-                $router .= "\t" . $r . PHP_EOL;
-            }
-        }
-        return $router .= $end;
     }
 
     /**
@@ -85,13 +131,17 @@ class Route extends Factory
      * @param $class
      * @return $this
      */
-    public function controller($class)
+    public function controller($class): Route
     {
         $this->controller = $class;
 
         $class = explode('\\', $class);
 
         $this->controllerName = lcfirst(array_pop($class));
+
+        array_pop($class);
+
+        $this->module = array_pop($class);
 
         return $this;
     }
@@ -103,7 +153,7 @@ class Route extends Factory
      * @param $restful
      * @return $this
      */
-    public function restful($restful)
+    public function restful($restful): Route
     {
         $this->restful = $restful;
 
@@ -117,7 +167,7 @@ class Route extends Factory
      * @param $methods
      * @return $this
      */
-    public function methods($methods)
+    public function methods($methods): Route
     {
         $this->methods = $methods;
 

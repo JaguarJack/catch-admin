@@ -15,7 +15,7 @@ use catcher\Utils;
 class Generator
 {
 
-    const NEED_PACKAGE = 'nikic/php-parser';
+    const NEED_PACKAGE = 'jaguarjack/file-generate';
 
     /**
      * generate
@@ -32,7 +32,7 @@ class Generator
         // 判断是否安装了扩展包
         if (!(new Composer)->hasPackage(self::NEED_PACKAGE)) {
             throw new FailedException(
-                sprintf('you must use [ composer require --dev %s]', self::NEED_PACKAGE)
+                sprintf('you must use [ composer require --dev %s:dev-master]', self::NEED_PACKAGE)
             );
         }
 
@@ -40,9 +40,8 @@ class Generator
 
         [$controller, $model] = $this->parseParams($params);
 
-        $message = [];
+        $message = $files = [];
 
-        $files = [];
         $migration = '';
 
         try {
@@ -89,16 +88,15 @@ class Generator
      * @time 2020年04月29日
      * @param $params
      * @return bool|string|string[]
+     * @throws \JaguarJack\Generate\Exceptions\TypeNotFoundException
      */
     public function preview($params)
     {
-        $type = $params['type'];
-
         $params = \json_decode($params['data'], true);
 
         [$controller, $model] = $this->parseParams($params);
 
-        switch ($type) {
+        switch ($params['type']) {
             case 'controller':
                 return (new Controller)->getContent($controller);
             case 'model':

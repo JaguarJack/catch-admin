@@ -1,14 +1,13 @@
 <?php
-namespace catcher\generate\template;
+namespace catcher\generate\factory;
 
-trait Content
+trait HeaderDoc
 {
-    public function header()
+    public function header(): string
     {
         $year = date('Y', time());
 
         return <<<TMP
-<?php
 // +----------------------------------------------------------------------
 // | CatchAdmin [Just Like ～ ]
 // +----------------------------------------------------------------------
@@ -19,24 +18,6 @@ trait Content
 // | Author: JaguarJack [ njphper@gmail.com ]
 // +----------------------------------------------------------------------
 
-
 TMP;
     }
-
-    /**
-     * set namespace
-     *
-     * @time 2020年04月27日
-     * @param $namespace
-     * @return string
-     */
-    public function nameSpace($namespace)
-    {
-        return <<<TMP
-namespace {$namespace};
-
-
-TMP;
-    }
-
 }

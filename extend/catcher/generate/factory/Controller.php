@@ -1,24 +1,17 @@
 <?php
 namespace catcher\generate\factory;
 
-use catcher\CatchAdmin;
+use catcher\base\CatchController;
+use catcher\CatchResponse;
 use catcher\exceptions\FailedException;
 use catcher\facade\FileSystem;
-use catcher\generate\build\classes\Methods;
-use catcher\generate\build\CatchBuild;
-use catcher\generate\build\classes\Classes;
-use catcher\generate\build\classes\Property;
-use catcher\generate\build\classes\Uses;
-use PhpParser\BuilderFactory;
-use PhpParser\Node\Expr\Closure;
-use PhpParser\Node\Expr\ClosureUse;
-use PhpParser\PrettyPrinter\Standard;
+use JaguarJack\Generate\Build\Class_;
+use JaguarJack\Generate\Build\ClassMethod;
+use JaguarJack\Generate\Build\Params;
+use JaguarJack\Generate\Define;
+use JaguarJack\Generate\Generator;
 use think\helper\Str;
-use PhpParser\Error;
-use PhpParser\NodeDumper;
-use PhpParser\ParserFactory;
-use PhpParser\PrettyPrinter;
-use PhpParser\Node;
+use think\Response;
 
 class Controller extends Factory
 {
@@ -26,14 +19,14 @@ class Controller extends Factory
 
     protected $uses = [
         'catcher\base\CatchRequest as Request',
-        'catcher\CatchResponse',
-        'catcher\base\CatchController'
+        CatchResponse::class,
+        CatchController::class,
     ];
 
     /**
      *
      * @time 2020年04月27日
-     * @param $params
+     * @param array $params
      * @return bool|string|string[]
      */
     public function done(array $params)
@@ -66,130 +59,111 @@ class Controller extends Factory
 
         [$model, $modelNamespace] = $this->parseFilename($params['model']);
 
-        $asModel = ucfirst(Str::contains($model, 'Model') ? : $model . 'Model');
+        $asModel = lcfirst(Str::contains($model, 'Model') ? : $model . 'Model');
 
-        if (!$className) {
+        if (! $className) {
             throw new FailedException('未填写控制器名称');
         }
 
-        $use = new Uses();
-        $class = new Classes($className);
+        $this->uses[] = sprintf('%s as %s',  $modelNamespace . '\\' . ucfirst($model), ucfirst($asModel));
+        $this->uses[] = Response::class;
 
-        return (new CatchBuild())->namespace($namespace)
-                                ->use($use->name('catcher\base\CatchRequest', 'Request'))
-                                ->use($use->name('catcher\CatchResponse'))
-                                ->use($use->name('catcher\base\CatchController'))
-                                ->use($use->name($modelNamespace . '\\' . ucfirst($model), $asModel))
-                                ->class($class->extend('CatchController')->docComment(), function (Classes $class) use ($asModel) {
-                                    foreach ($this->getMethods($asModel) as $method) {
-                                        $class->addMethod($method);
-                                    }
+        try {
+            $content = Generator::namespace($namespace)
+                ->class($className, function (Class_ $class, Generator $generator) use ($model, $asModel) {
+                    $class->extend('CatchController');
 
-                                    $class->addProperty(
-                                        (new Property($asModel))->protected()
-                                    );
-                                })
-                                ->getContent();
-    }
+                    $generator->property($asModel, function ($property) {
+                        return $property->makeProtected();
+                    });
 
+                    // construct 方法
+                    $generator->method('__construct', function (ClassMethod $method) use ($model, $asModel) {
+                        return $method->addParam(
+                            Params::name($asModel, ucfirst($asModel))
+                        )->body([
+                            Define::variable(Define::propertyDefineIdentifier($asModel), Define::variable($asModel))
+                        ])->makePublic();
+                    });
 
-    /**
-     * 方法集合
-     *
-     * @time 2020年11月19日
-     * @param $model
-     * @return array
-     */
-    protected function getMethods($model)
-    {
-        $date = date('Y年m月d日 H:i');
+                    // index 方法
+                    $generator->method('index', function (ClassMethod $method, Generator $generator) use ($asModel) {
+                        return $method->body([
+                            $generator->call('paginate', [
+                                $generator->methodCall([Define::propertyDefineIdentifier($asModel), 'getList'], [])
+                            ], 'CatchResponse')->call()
+                        ])->makePublic()->return()->setReturnType('Response');
+                    });
 
 
-        return [
-            (new Methods('__construct'))
-                ->public()
-                ->param($model, ucfirst($model))
-                ->docComment("\r\n")
-                ->declare($model, $model),
+                    // save 方法
+                    $generator->method('save', function (ClassMethod $method, Generator $generator) use ($asModel) {
+                        return $method
+                            ->addParam([
+                                Params::name('request')->setType('Request')
+                            ])
+                            ->body([
+                            $generator->call('success', [
+                                $generator->methodCall([Define::propertyDefineIdentifier($asModel), 'storeBy'], [
+                                    $generator->methodCall(['request', 'post'], [])
+                                ])
+                            ], 'CatchResponse')->call()
+                        ])->makePublic()->return('Response');
+                    });
 
-            (new Methods('index'))->public()
-                ->param('request', 'Request')
-                ->docComment(
-                    <<<TEXT
-
-/**
- * 列表
- * @time $date
- * @param Request \$request 
- */
-TEXT
-                )
-                ->returnType('\think\Response')->index($model),
-
-            (new Methods('save'))
-                ->public()
-                ->param('request', 'Request')
-                ->docComment(
-                    <<<TEXT
-
-/**
- * 保存信息
- * @time $date
- * @param Request \$request 
- */
-TEXT
-                )
-                ->returnType('\think\Response')
-                ->save($model),
+                    // read 方法
+                    $generator->method('read', function (ClassMethod $method, Generator $generator) use ($asModel) {
+                        return $method
+                            ->addParam([
+                                Params::name('id'),
+                            ])
+                            ->body([
+                                $generator->call('success', [
+                                    $generator->methodCall([Define::propertyDefineIdentifier($asModel), 'findBy'], [
+                                        Define::variable('id'),
+                                    ])
+                                ], 'CatchResponse')->call()
+                            ])->makePublic()->return('Response');
+                    });
 
 
-            (new Methods('read'))->public()
-                ->param('id')
-                ->docComment(
-                    <<<TEXT
+                    // update 方法
+                    $generator->method('update', function (ClassMethod $method, Generator $generator) use ($asModel) {
+                        return $method
+                            ->addParam([
+                                Params::name('id'),
+                                Params::name('request')->setType('Request')
+                            ])
+                            ->body([
+                            $generator->call('success', [
+                                $generator->methodCall([Define::propertyDefineIdentifier($asModel), 'updateBy'], [
+                                    Define::variable('id'),
+                                    $generator->methodCall(['request', 'post'], [])
+                                ])
+                            ], 'CatchResponse')->call()
+                        ])->makePublic()->return('Response');
+                    });
 
-/**
- * 读取
- * @time $date
- * @param \$id 
- */
-TEXT
+                    // read 方法
+                    $generator->method('delete', function (ClassMethod $method, Generator $generator) use ($asModel) {
+                        return $method
+                            ->addParam([
+                                Params::name('id'),
+                            ])
+                            ->body([
+                                $generator->call('success', [
+                                    $generator->methodCall([Define::propertyDefineIdentifier($asModel), 'deleteBy'], [
+                                        Define::variable('id'),
+                                    ])
+                                ], 'CatchResponse')->call()
+                            ])->makePublic()->return('Response');
+                    });
 
-                )
-                ->returnType('\think\Response')->read($model),
+                })->uses($this->uses)->print();
+        } catch (\Exception $e) {
+           throw new FailedException($e->getMessage());
+        }
 
-
-            (new Methods('update'))->public()
-                ->param('request', 'Request')
-                ->param('id')
-                ->docComment(
-                    <<<TEXT
-
-/**
- * 更新
- * @time $date
- * @param Request \$request 
- * @param \$id
- */
-TEXT
-                )
-                ->returnType('\think\Response')->update($model),
-
-
-            (new Methods('delete'))->public()
-                ->param('id')
-                ->docComment(
-                    <<<TEXT
-
-/**
- * 删除
- * @time $date
- * @param \$id
- */
-TEXT
-                )
-                ->returnType('\think\Response')->delete($model),
-
-        ];
+        return $content;
     }
 }

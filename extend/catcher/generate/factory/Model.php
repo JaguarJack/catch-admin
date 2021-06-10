@@ -3,15 +3,12 @@ namespace catcher\generate\factory;
 
 use catcher\exceptions\FailedException;
 use catcher\facade\FileSystem;
-use catcher\generate\build\CatchBuild;
-use catcher\generate\build\classes\Classes;
-use catcher\generate\build\classes\Property;
-use catcher\generate\build\classes\Traits;
-use catcher\generate\build\classes\Uses;
-use catcher\generate\build\types\Arr;
 use catcher\traits\db\BaseOptionsTrait;
 use catcher\traits\db\ScopeTrait;
 use catcher\Utils;
+use JaguarJack\Generate\Build\Class_;
+use JaguarJack\Generate\Build\Property;
+use JaguarJack\Generate\Generator;
 use think\facade\Db;
 use think\helper\Str;
 
@@ -45,6 +42,7 @@ class Model extends Factory
      * @time 2020年04月29日
      * @param $params
      * @return string|string[]
+     * @throws \JaguarJack\Generate\Exceptions\TypeNotFoundException
      */
     public function getContent($params)
     {
@@ -66,6 +64,33 @@ class Model extends Factory
 
         $softDelete = $extra['soft_delete'];
 
+        return Generator::namespace($namespace)
+                    ->class($modelName, function (Class_ $class, Generator $generator) use ($table){
+                        $class->extend('Model');
+
+                        $class->setDocComment($this->buildClassComment($table));
+
+                        $generator->property('name', function (Property $property) use ($table){
+                            return $property->setDefault(Utils::tableWithoutPrefix($table));
+                        });
+
+                        if ($this->hasTableExists($table)) {
+                            $generator->property('field', function (Property $property) use ($table){
+                                return $property->setDefault(array_column(Db::getFields($table), 'name'));
+                            });
+                        }
+                    })
+                    ->uses([
+                        $softDelete ? 'catcher\base\CatchModel as Model' : 'think\Model'
+                    ])
+                    ->when(! $softDelete, function (Generator $generator){
+                        $generator->traits([
+                            BaseOptionsTrait::class,
+                            ScopeTrait::class,
+                        ]);
+                    })
+                    ->print();
+/**
         return (new CatchBuild)->namespace($namespace)
                         ->use((new Uses())->name('catcher\base\CatchModel', 'Model'))
                         ->when(!$softDelete, function (CatchBuild $build){
@@ -94,7 +119,7 @@ class Model extends Factory
                                         (new Arr)->build(Db::getFields($table))
                                     )->docComment('// 数据库字段映射'));
                             });
-                        })->getContent();
+                        })->getContent();*/
     }
 
     /**
