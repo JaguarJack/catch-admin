@@ -38,7 +38,7 @@ class Route extends Factory
         $content = $this->generateRoute($router);
 
         $content = '<?php' . PHP_EOL .
-            trim(str_replace(['$scapegoat', '='], ['', ''], $content), ';') . ';';
+            trim(str_replace(['$scapegoat ='], [''], $content), ';') . ';';
 
         if (! file_exists($router)) {
             return FileSystem::put($router, $content);
@@ -112,11 +112,13 @@ class Route extends Factory
 
             $expression = $ast[0];
 
-            $stmts = $expression->expr->var->args[1]->value->stmts;
+            $argKey = count($expression->expr->var->args) == 1 ? 0 : 1;
+
+            $stmts = $expression->expr->var->args[$argKey]->value->stmts;
 
             $stmts = array_merge($stmts, $this->parseRouteMethods());
 
-            $expression->expr->var->args[1]->value->stmts = $stmts;
+            $expression->expr->var->args[$argKey]->value->stmts = $stmts;
 
             $ast[0] = $expression;
 
