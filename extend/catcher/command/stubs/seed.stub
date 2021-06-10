@@ -6,12 +6,12 @@
 // +----------------------------------------------------------------------
 // | Licensed ( https://github.com/yanwenwu/catch-admin/blob/master/LICENSE.txt )
 // +----------------------------------------------------------------------
-// | Author: JaguarJack [ njphper@gmail.com ]
+// | Author: UCToo [ contact@uctoo.com ]
 // +----------------------------------------------------------------------
 
 use think\migration\Seeder;
 
-class SeederClass extends Seeder
+class {CLASS} extends Seeder
 {
     /**
      * Run Method.
@@ -23,6 +23,10 @@ class SeederClass extends Seeder
      */
     public function run()
     {
+       $data = {DATA}
 
+        foreach ($data as $item) {
+            \catchAdmin\{MODULE}\model\{MODEL}::create($item);
+        }
     }
 }
