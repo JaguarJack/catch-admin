@@ -32,7 +32,7 @@ class Generator
         // 判断是否安装了扩展包
         if (!(new Composer)->hasPackage(self::NEED_PACKAGE)) {
             throw new FailedException(
-                sprintf('you must use [ composer require --dev %s:dev-master]', self::NEED_PACKAGE)
+                sprintf('you must use [ composer require --dev %s:dev-master --ignore-platform-reqs]', self::NEED_PACKAGE)
             );
         }
 
