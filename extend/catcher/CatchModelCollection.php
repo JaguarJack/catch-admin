@@ -20,7 +20,7 @@ class CatchModelCollection extends Collection
      * @param string $children
      * @return array
      */
-    public function toTree($pid = 0, $pidField = 'parent_id', $children = 'children'): array
+    public function toTree(int $pid = 0, string $pidField = 'parent_id', string $children = 'children'): array
     {
         $pk = 'id';
 
@@ -39,10 +39,10 @@ class CatchModelCollection extends Collection
      * @param $header
      * @param string $path
      * @param string $disk
-     * @throws \PhpOffice\PhpSpreadsheet\Exception
      * @return mixed|string[]
+     *@throws \PhpOffice\PhpSpreadsheet\Exception
      */
-    public function export($header, $path = '', $disk = 'local'): array
+    public function export($header, string $path = '', string $disk = 'local'): array
     {
         $excel = new Class($header, $this->items) implements ExcelContract
         {
@@ -101,7 +101,7 @@ class CatchModelCollection extends Collection
      * @param string $column
      * @return array
      */
-    public function getAllChildrenIds(array $ids, $parentFields = 'parent_id', $column = 'id'): array
+    public function getAllChildrenIds(array $ids, string $parentFields = 'parent_id', string $column = 'id'): array
     {
         array_walk($ids, function (&$item){
             $item = intval($item);

@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace catcher;
 
 use catchAdmin\system\model\Config;
+use think\facade\Cache;
 use think\facade\Db;
 use think\helper\Str;
 
@@ -38,8 +39,6 @@ class Utils
     {
         $search = [];
 
-        // $range = array_merge(['created_at' => ['start_at', 'end_at']], $range);
-
         if (!empty($range)) {
           foreach ($range as $field => $rangeField) {
             if (count($rangeField) === 1) {
@@ -65,7 +64,7 @@ class Utils
      * @param string $primaryKey
      * @return void
      */
-    public static function importTreeData($data, $table, $pid = 'parent_id',$primaryKey = 'id')
+    public static function importTreeData($data, $table, string $pid = 'parent_id', string $primaryKey = 'id')
     {
         foreach ($data as $value) {
             if (isset($value[$primaryKey])) {
@@ -106,7 +105,7 @@ class Utils
      * @param $rule
      * @return array
      */
-    public static function parseRule($rule)
+    public static function parseRule($rule): array
     {
         [$controller, $action] = explode(Str::contains($rule, '@') ? '@' : '/', $rule);
 
@@ -174,7 +173,7 @@ class Utils
      * @param string $table
      * @return string
      */
-    public static function tableWithPrefix(string $table)
+    public static function tableWithPrefix(string $table): string
     {
         return Str::contains($table, self::tablePrefix()) ?
                     $table : self::tablePrefix() . $table;
@@ -186,7 +185,7 @@ class Utils
      * @time 2020年07月04日
      * @return bool
      */
-    public static function isSuperAdmin()
+    public static function isSuperAdmin(): bool
     {
         return request()->user()->id == config('catch.permissions.super_admin_id');
     }
@@ -210,7 +209,7 @@ class Utils
      * @time 2020年09月08日
      * @return string
      */
-    public static function publicPath($path = '')
+    public static function publicPath(string $path = ''): string
     {
         return root_path($path ? 'public/'. $path : 'public');
     }
@@ -292,5 +291,29 @@ class Utils
                 ], 'filesystem');
             }
         }
+    }
+
+    /**
+     * 缓存操作
+     *
+     * @time 2021年06月18日
+     * @param string $key
+     * @param \Closure $callable
+     * @param int $ttl
+     * @param string $store
+     * @return mixed
+     *@throws \Psr\SimpleCache\InvalidArgumentException
+     */
+    public static function cache(string $key, \Closure $callable, int $ttl = 0, string $store = 'redis')
+    {
+        if (Cache::store($store)->has($key)) {
+            return Cache::store($store)->get($store);
+        }
+
+        $cache = $callable();
+
+        Cache::store($store)->set($key, $cache, $ttl);
+
+        return $cache;
     }
 }
