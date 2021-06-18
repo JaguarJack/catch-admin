@@ -92,9 +92,7 @@ class Generator
      */
     public function preview($params)
     {
-        $params = \json_decode($params['data'], true);
-
-        [$controller, $model] = $this->parseParams($params);
+        [$controller, $model] = $this->parseParams(\json_decode($params['data'], true));
 
         switch ($params['type']) {
             case 'controller':
