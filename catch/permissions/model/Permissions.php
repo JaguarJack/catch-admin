@@ -112,7 +112,7 @@ class Permissions extends CatchModel
 
             $restful && self::createRestful($model, $level);
 
-            $model->updateBy('id', [
+            $model->updateBy($model->id, [
                 'level' => $level
             ]);
         }
