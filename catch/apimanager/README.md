@@ -1,4 +1,4 @@
-apitester 模块是一个用于API管理、测试的模块。
+apimanager 模块是一个用于API管理、测试的模块。
 
 # 概述
 
@@ -63,14 +63,9 @@ apitester 模块是一个用于API管理、测试的模块。
     
 ### 分步骤安装
 1.  从https://gitee.com/jaguarjack/catchAdmin 或 https://gitee.com/uctoo/uctoo 下载https://gitee.com/uctoo/uctoo/tree/master/catch/apimanager 目录模块，复制到catchadmin对应目录
-2.  apimanager/catch-admin-vue 目录内是模块前端vue项目代码，复制到前端VUE项目对应目录，注意如和原前端vue项目目录的文件有冲突，需自行合并代码版本。如模块新依赖了第三方组件，需要在前端项目目录重新运行 yarn install 命令。
+2.  apimanager/catch-admin-vue 目录内是模块前端vue项目代码，复制到前端VUE项目对应目录，注意如和原前端vue项目目录的文件有冲突，需自行合并代码版本。
+3.  前端package.json文件请谨慎覆盖原项目文件。请使用命令 npm install --save @smallwei/avue ，npm install --save vue-json-editor ，npm install --save vue-json-views 添加模块依赖（等效于手动合并package.json版本）。如模块新依赖了第三方组件，需要在前端项目目录重新运行 yarn install 命令。
 3.  登录管理后台，在系统管理->模块管理启用API管理模块，即可安装模块和初始化模块数据。
-
-### 云原生安装
-1.  可在 https://www.uctoo.com 注册开发者帐号，登录管理后台，通过云开发功能模块，即可采用云原生方式开通和部署一套独立的UCToo运行实例。（开发中）
-
-### docker安装
-  可参考uctoo-docker项目 https://gitee.com/UCT/uctoo-docker
 
 ## 使用手册
 1.  可以通过API管理->API分类功能增删改查API分类。
