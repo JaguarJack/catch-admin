@@ -1,6 +1,7 @@
 <?php
 namespace catchAdmin\permissions\controller;
 
+use catchAdmin\permissions\model\Permissions;
 use catchAdmin\permissions\model\Roles;
 use catcher\base\CatchRequest as Request;
 use catcher\base\CatchController;
@@ -154,5 +155,21 @@ class Role extends CatchController
         $this->role->deleteBy($id);
 
         return CatchResponse::success();
+    }
+
+    /**
+     * 获取角色权限
+     *
+     * @time 2021年07月29日
+     * @param $id
+     * @return Json
+     */
+    public function getPermissions($id): Json
+    {
+        return CatchResponse::success(
+            Permissions::whereIn('id', $this->role->findBy($id)->getPermissions()->column('id'))
+                ->field(['id', 'parent_id', 'permission_name'])
+                ->select()->toTree()
+        );
     }
 }

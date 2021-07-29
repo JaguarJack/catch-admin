@@ -5,6 +5,7 @@
 $router->group(function () use ($router){
     // 角色
     $router->resource('roles', '\catchAdmin\permissions\controller\Role');
+    $router->get('role/permissions/<id>', '\catchAdmin\permissions\controller\Role@getPermissions');
     // 权限
     $router->resource('permissions', '\catchAdmin\permissions\controller\Permission');
     $router->put('permissions/show/<id>', '\catchAdmin\permissions\controller\Permission@show');
