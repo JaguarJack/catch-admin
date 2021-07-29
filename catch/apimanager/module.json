@@ -1,0 +1,17 @@
+{
+    "name": "API管理",
+    "alias": "apimanager",
+    "description": "UCToo API管理",
+    "version": "1.0.0",
+    "keywords": [
+        "API"
+    ],
+    "order": 0,
+    "services": [
+        "\\catchAdmin\\apimanager\\ApimanagerService"
+    ],
+    "aliases": [],
+    "files": [],
+    "requires": [],
+    "enable": true
+}
