@@ -77,13 +77,12 @@ class SQL extends Factory
                 $tableColumn->setUnsigned();
             }
 
-
             if ($column['comment']) {
                 $tableColumn->setComment($column['comment']);
             }
 
-            if (!$this->doNotNeedDefaultValueType($column['type'])) {
-                $tableColumn->setDefault($column['default']);
+            if (! $this->doNotNeedDefaultValueType($column['type'])) {
+                $tableColumn->setDefault($column['nullable'] ? null : $column['default']);
             }
 
             $tableColumns[] = $tableColumn;
