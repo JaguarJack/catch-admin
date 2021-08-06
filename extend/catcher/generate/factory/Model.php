@@ -8,7 +8,11 @@ use catcher\traits\db\ScopeTrait;
 use catcher\Utils;
 use JaguarJack\Generate\Build\Class_;
 use JaguarJack\Generate\Build\Property;
+use JaguarJack\Generate\Build\Value;
 use JaguarJack\Generate\Generator;
+use JaguarJack\Generate\Types\Array_;
+use PhpParser\Comment\Doc;
+use PhpParser\Node\Expr\ArrayItem;
 use think\facade\Db;
 use think\helper\Str;
 
@@ -74,7 +78,7 @@ class Model extends Factory
 
                             // 设置 name 属性
                             $generator->property('field', function (Property $property) use ($table){
-                                return $property->setDefault(array_column(Db::getFields($table), 'name'));
+                                return $property->setDefault($this->getFields($table));
                             });
                         }
 
@@ -114,5 +118,29 @@ class Model extends Factory
        $comment .= ' */';
 
        return $comment;
+    }
+
+    /**
+     * get fields
+     *
+     * @time 2021年08月06日
+     * @param $table
+     * @return Array_
+     */
+    protected function getFields($table)
+    {
+        $columns = Db::getFields($table);
+
+        $fetchItems = [];
+
+        foreach ($columns as $column) {
+            $item = new ArrayItem(Value::fetch($column['name']), null);
+
+            $item->setDocComment(new Doc(sprintf('// %s', $column['comment'] ?? '' )));
+
+            $fetchItems[] = $item;
+        }
+
+        return new Array_($fetchItems);
     }
 }
