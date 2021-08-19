@@ -174,7 +174,9 @@ class HeaderItem
      */
     public function fixed($fixed = true)
     {
-        return $this->attributes['fixed'] = $fixed;
+        $this->attributes['fixed'] = $fixed;
+
+        return $this;
     }
 
     /**
