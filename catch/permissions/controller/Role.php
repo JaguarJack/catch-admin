@@ -7,6 +7,7 @@ use catcher\base\CatchRequest as Request;
 use catcher\base\CatchController;
 use catcher\CatchResponse;
 use catcher\exceptions\FailedException;
+use catcher\Utils;
 use think\response\Json;
 use catchAdmin\permissions\model\Roles as RoleModel;
 
@@ -163,9 +164,16 @@ class Role extends CatchController
      * @time 2021年07月29日
      * @param $id
      * @return Json
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\db\exception\DataNotFoundException
      */
     public function getPermissions($id): Json
     {
+        if (Utils::isSuperAdmin()) {
+            return CatchResponse::success(Permissions::field(['id', 'parent_id', 'permission_name'])->select()->toTree());
+        }
+
         return CatchResponse::success(
             Permissions::whereIn('id', $this->role->findBy($id)->getPermissions()->column('id'))
                 ->field(['id', 'parent_id', 'permission_name'])
