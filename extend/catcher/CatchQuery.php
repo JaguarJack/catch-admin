@@ -184,7 +184,9 @@ class CatchQuery extends Query
 
                 // = 值搜索
                 if ($value || is_numeric($value)) {
-                    $this->where($field, $value);
+                    if ($field != 'page' && $field != 'limit' && $startPos !== 0 && $endPos !== 0 && $operate !== 'like' && $operate !== '%like') {
+                        $this->where($field, $value);
+                    }
                 }
             }
         }
