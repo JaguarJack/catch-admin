@@ -6,6 +6,10 @@ use catchAdmin\permissions\model\Permissions;
 use catcher\CatchCacheKeys;
 use catcher\Code;
 use catcher\exceptions\PermissionForbiddenException;
+use Closure;
+use think\db\exception\DataNotFoundException;
+use think\db\exception\DbException;
+use think\db\exception\ModelNotFoundException;
 use think\facade\Cache;
 use catcher\Utils;
 
@@ -15,14 +19,14 @@ class PermissionsMiddleware
      *
      * @time 2019年12月12日
      * @param Request $request
-     * @param \Closure $next
+     * @param Closure $next
      * @return mixed
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\DbException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws PermissionForbiddenException
+     * @throws DataNotFoundException
+     * @throws DbException
+     * @throws ModelNotFoundException
+     * @throws PermissionForbiddenException|\ReflectionException
      */
-    public function handle(Request $request, \Closure $next)
+    public function handle(Request $request, Closure $next)
     {
         $rule = $request->rule()->getName();
 
@@ -54,7 +58,8 @@ class PermissionsMiddleware
         $permission = property_exists($request, 'permission') ? $request->permission :
                         $this->getPermission($module, $controller, $action);
 
-        if (!$permission || !in_array($permission->id, Cache::get(CatchCacheKeys::USER_PERMISSIONS . $user->id))) {
+        $permissionIds = Cache::get(CatchCacheKeys::USER_PERMISSIONS . $user->id);
+        if (!$permission || ! in_array($permission->id, (array)$permissionIds)) {
           throw new PermissionForbiddenException();
         }
 
@@ -67,11 +72,10 @@ class PermissionsMiddleware
      * @param $module
      * @param $controllerName
      * @param $action
-     * @param $request
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\DbException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @return array|bool|\think\Model|null
+     * @return array|\think\Model|null
+     * @throws DbException
+     * @throws ModelNotFoundException
+     * @throws DataNotFoundException
      */
     protected function getPermission($module, $controllerName, $action)
     {
