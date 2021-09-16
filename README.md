@@ -140,10 +140,6 @@ composer create-project jaguarjack/catchadmin:dev-master
 - [Tp6 中间件分析](https://www.kancloud.cn/akasishikelu/thinkphp6/1136616)
 - [Tp6 请求流程](https://www.kancloud.cn/akasishikelu/thinkphp6/1136608)
 
-### Donate
-如果你觉得项目对你有帮助，可以请作者喝杯咖啡☕️！鼓励下
-<img src="https://cdn.learnku.com/uploads/images/202008/11/18206/e6qAAM8Bod.jpg!large">
-
 ### Who used
 - [uctoo 应用开发管理后台](https://gitee.com/uctoo/uctoo)
 
