@@ -170,14 +170,15 @@ class Role extends CatchController
      */
     public function getPermissions($id): Json
     {
-        if (Utils::isSuperAdmin()) {
-            return CatchResponse::success(Permissions::field(['id', 'parent_id', 'permission_name'])->select()->toTree());
+        $permissionIds = $this->role->findBy($id)->getPermissions()->column('id');
+
+        if (! count($permissionIds)) {
+            $permissions = Permissions::field(['id', 'parent_id', 'permission_name'])->select()->toTree();
+        } else {
+            $permissions = Permissions::whereIn('id', $permissionIds)->field(['id', 'parent_id', 'permission_name'])->select()->toTree();
+
         }
 
-        return CatchResponse::success(
-            Permissions::whereIn('id', $this->role->findBy($id)->getPermissions()->column('id'))
-                ->field(['id', 'parent_id', 'permission_name'])
-                ->select()->toTree()
-        );
+        return CatchResponse::success($permissions);
     }
 }
