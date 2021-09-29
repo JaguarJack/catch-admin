@@ -57,6 +57,10 @@
 - [gitee 地址](https://gitee.com/jaguarjack/catchAdmin)
 - [前端 Vue 项目地址](https://github.com/yanwenwu/catch-admin-vue)
 - [文档地址](https://github.com/catch-admin/document)[个人精力实在有限,希望可以小伙伴们可以一起维护文档]
+
+## 支持创作
+如果项目对你有帮助，可以订阅支持我❤️。你的每一份支持是对我最大的鼓励。开源不易，感谢支持。可以通过使用 [**🎉 爱发电**](https://afdian.net/@jaguarjack)订阅支持创作。
+
 ## 预览
 <table>
     <tr>
