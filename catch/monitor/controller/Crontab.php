@@ -73,7 +73,9 @@ class Crontab extends CatchController
      */
     public function update(Request $request, $id)
     {
-        new CronExpression($request->post('cron'));
+        if($request->post('cron')){
+            new CronExpression($request->post('cron'));
+        }
 
         return CatchResponse::success($this->model->updateBy($id, $request->post()));
     }
