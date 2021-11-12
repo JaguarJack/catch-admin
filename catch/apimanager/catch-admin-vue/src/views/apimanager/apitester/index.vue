@@ -239,13 +239,13 @@
             />
           </el-form-item>
           <el-form-item
-            label="标识"
+            label="标识（路由name）"
             :label-width="formLabelWidth"
             prop="api_name"
           >
             <el-input
               v-model="formFieldsData.api_name"
-              placeholder="请输入英文唯一标识"
+              placeholder="请输入英文唯一标识（请与路由name字段一致）"
               autocomplete="off"
               clearable
             />
