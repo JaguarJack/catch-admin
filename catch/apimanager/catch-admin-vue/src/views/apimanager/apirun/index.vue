@@ -329,11 +329,11 @@ export default {
         this.apiBaseInfo = response.data;
         this.apiBaseInfo.body = this.apiBaseInfo.body.replace(/'/g, '"');
         if (this.apiBaseInfo.body) {
-          let resstr = this.apiBaseInfo.body
-            .replace(/\\/g, "")
-            .replace(/"{/g, "{")
-            .replace(/}"/g, "}");
-          this.rawJson = JSON.parse(resstr);
+          // let resstr = this.apiBaseInfo.body
+          //   .replace(/\\/g, "")
+          //   .replace(/"{/g, "{")
+          //   .replace(/}"/g, "}");
+          this.rawJson = JSON.parse(this.apiBaseInfo.body);
         } else {
           this.rawJson = {};
         }

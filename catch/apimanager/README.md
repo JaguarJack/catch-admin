@@ -14,8 +14,9 @@ apimanager 模块是一个用于API管理、测试的模块。
 6.  基于catchadmin开发，模块安装简单，使用便捷，支持模块数据导入导出。
 7.  开源开放易于二次开发，测试用例可共享，形成产品API知识库。
 8.  支持私有化部署、云原生部署。
+9.  可视化管理系统路由列表，并可与API测试工具结合可视化测试系统接口。
 
-  演示地址：www.uctoo.com 控制台使用demo帐号登录
+  演示地址：demo.uctoo.com 控制台使用demo帐号登录
   模块使用界面截图：
   <table>
       <tr>
@@ -38,6 +39,9 @@ apimanager 模块是一个用于API管理、测试的模块。
       </tr>
       <tr>
           <td><img src="https://gitee.com/UCT_admin/materials/raw/master/uctoo_apitester/images/apirun.png"></td>
+      </tr>
+      <tr>
+           <td><img src="https://gitee.com/UCT_admin/materials/raw/master/uctoo_apitester/images/routelist.png"></td>
       </tr>
   </table>
 
@@ -70,8 +74,10 @@ apimanager 模块是一个用于API管理、测试的模块。
 ## 使用手册
 1.  可以通过API管理->API分类功能增删改查API分类。
 2.  可以通过API环境变量功能增删改查用户环境变量。环境变量的key值以{{key}}方式定义，在API测试用例中对应的{{key}}值将替换为环境变量的value值。每个用户可以创建多组环境变量，可以切换当前选中的环境变量组。
-3.  可以通过API列表功能增删改查API测试用例。api_url、header、body、query、auth字段支持环境变量。
+3.  可以通过API列表功能增删改查API测试用例。api_url、header、body、query、auth字段支持环境变量。新增API测试用例时，标识字段请与路由列表name字段保持一致，以便API测试用例与路由一一对应快速检索。
 4.  可以对已添加的API测试用例执行测试操作，在API测试界面，可以对api_url、header、body、query、auth等字段进行自定义编辑。发送按钮可以实际执行API测试用例，获得接口返回值。
+5.  可以使用路由列表->同步至数据库功能，将系统内所有路由信息保存至数据库，以便可视化管理和测试。与 php think route:list -m 命令相同效果。
+6.  可以使用路由列表->API测试功能，以路由name字段为请求参数跳转至API测试列表页面，以便快速查询出对应的API测试用例进行API测试。（需更新前端vue项目layout/mixin/formOperate.js文件修复了页面初始化传参bug）
 
   具体请参考 https://www.kancloud.cn/doc_uctoo/manual
   
