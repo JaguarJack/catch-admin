@@ -289,6 +289,10 @@ trait BaseOptionsTrait
             if ($field == $this->getPk()) {
                 unset($data[$field]);
             }
+
+            if (in_array($field, [$this->createTime, $this->updateTime, $this->deleteTime])) {
+                unset($data[$field]);
+            }
         }
 
         return $data;
