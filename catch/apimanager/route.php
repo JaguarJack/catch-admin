@@ -23,4 +23,7 @@ $router->group(function () use ($router){
     $router->get('apiTesterUserenv/selectAPIenv/<id>', '\catchAdmin\apimanager\controller\ApiTesterUserenv@selectAPIenv');
 	// apiTesterLog路由
 	$router->resource('apiTesterLog', '\catchAdmin\apimanager\controller\ApiTesterLog');
+    // routeList 路由
+     $router->resource('routeList', catchAdmin\apimanager\controller\RouteList::class);
+    $router->post('apimanager/routelist/sync', 'catchAdmin\apimanager\controller\RouteList@sync');
 })->middleware('auth');
