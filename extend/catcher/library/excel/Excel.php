@@ -260,7 +260,7 @@ class Excel
     {
         return \config('filesystem.disks.local')['domain'] . '/' .
 
-            str_replace('\\', '/', str_replace(Utils::publicPath(), '', $path));
+            str_replace(str_replace('\\', '/',Utils::publicPath()), '', str_replace('\\', '/', $path));
     }
 
     /**
