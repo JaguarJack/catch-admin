@@ -20,6 +20,11 @@ abstract class Reader
     protected $active = true;
 
 
+    /**
+     * @var bool
+     */
+    protected $supportChinese = true;
+
     protected $sheets;
 
     /**
@@ -34,8 +39,14 @@ abstract class Reader
         $file = (new CatchUpload)->setPath('excel')->toLocal($file);
 
         $reader = Factory::make($file);
+
         // 设置只读
         $reader->setReadDataOnly(true);
+
+        // 支持中文
+        if ($this->supportChinese && method_exists($reader, 'setInputEncoding')) {
+            $reader->setInputEncoding('GBK');
+        }
 
         /* @var $spreadsheet Spreadsheet */
         $spreadsheet = $reader->load($file);
