@@ -70,11 +70,12 @@ class Actions
      * @param string|null $event
      * @return Button
      */
-    public static function normal(string $text, $type = '', string $event = null): Button
+    public static function normal(string $text, $type = '', string $event = null, string $icon = ''): Button
     {
         $button = (new Button)
             ->size('mini')
             ->type($type)
+            ->icon($icon)
             ->text(self::$noText ? '' : $text);
 
         if ($event) {
