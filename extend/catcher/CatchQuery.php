@@ -80,7 +80,7 @@ class CatchQuery extends Query
    * @param bool $needAlias
    * @return $this|Query
    */
-    public function withoutField($field, $needAlias = false)
+    public function withoutField($field, bool $needAlias = false)
     {
       if (empty($field)) {
           return $this;
@@ -119,7 +119,7 @@ class CatchQuery extends Query
      * @param array $params
      * @return CatchQuery
      */
-    public function catchSearch($params = []): CatchQuery
+    public function catchSearch(array $params = []): CatchQuery
     {
         $params = empty($params) ? \request()->param() : $params;
 
@@ -144,7 +144,7 @@ class CatchQuery extends Query
      * @param array $params
      * @return Query
      */
-    public function quickSearch($params = []): Query
+    public function quickSearch(array $params = []): Query
     {
         $requestParams = \request()->param();
 
@@ -214,7 +214,7 @@ class CatchQuery extends Query
    * @param string $logic
    * @return Query
    */
-    public function whereLike(string $field, $condition, string $logic = 'AND', $option = 'both'): Query
+    public function whereLike(string $field, $condition, string $logic = 'AND', string $option = 'both'): Query
     {
         switch ($option) {
           case 'both':
@@ -295,7 +295,7 @@ class CatchQuery extends Query
      * @param string $order
      * @return $this
      */
-    public function catchOrder($order = 'desc')
+    public function catchOrder(string $order = 'desc'): CatchQuery
     {
         if (in_array('sort', array_keys($this->getFields()))) {
             $this->order($this->getTable() . '.sort', $order);
@@ -318,7 +318,7 @@ class CatchQuery extends Query
      * @param string $as
      * @return $this
      */
-    public function  addSelectSub(callable $callable, string $as)
+    public function  addSelectSub(callable $callable, string $as): CatchQuery
     {
         $this->field(sprintf('%s as %s', $callable()->buildSql(), $as));
 
@@ -331,10 +331,10 @@ class CatchQuery extends Query
      * @time 2020年11月04日
      * @param $field
      * @param int $amount
-     * @throws \think\db\exception\DbException
      * @return int
+     *@throws \think\db\exception\DbException
      */
-    public function increment($field, $amount = 1)
+    public function increment($field, int $amount = 1): int
     {
         return $this->inc($field, $amount)->update();
     }
@@ -345,10 +345,10 @@ class CatchQuery extends Query
      * @time 2020年11月04日
      * @param $field
      * @param int $amount
-     * @throws \think\db\exception\DbException
      * @return int
+     *@throws \think\db\exception\DbException
      */
-    public function decrement($field, $amount = 1)
+    public function decrement($field, int $amount = 1): int
     {
         return $this->dec($field, $amount)->update();
     }
