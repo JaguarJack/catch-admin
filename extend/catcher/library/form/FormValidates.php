@@ -34,7 +34,7 @@ trait FormValidates
      * @time 2022年03月31日
      * @return Validate
      */
-    public static function validateNum(): Validate
+    public static function validateNumber(): Validate
     {
         return self::validatePattern('^\d+$')->message('必须为纯数字');
     }
