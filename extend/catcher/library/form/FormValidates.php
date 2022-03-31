@@ -18,7 +18,7 @@ trait FormValidates
     }
 
     /**
-     * 纯数字验证
+     * 纯字母验证
      *
      * @time 2021年03月12日
      * @return Validate
@@ -26,6 +26,17 @@ trait FormValidates
     public static function validateAlpha(): Validate
     {
         return self::validatePattern('^[A-Za-z]+$')->message('必须为纯字母');
+    }
+
+    /**
+     * 纯数字验证
+     *
+     * @time 2022年03月31日
+     * @return Validate
+     */
+    public static function validateNum(): Validate
+    {
+        return self::validatePattern('^\d+$')->message('必须为纯数字');
     }
 
     /**
