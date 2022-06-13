@@ -1,5 +1,3 @@
-#### 将寻找工作的需求放在 readme 里有点不合适，但也是无可奈何。本人有意寻求一份在南京的 PHP 开发工作或者内推工作机会，有意者可以通过 `njphper@gmail.com` 发送邮件联系。非常感谢
-
 <p align="center">
     <img src="https://cdn.learnku.com/uploads/images/202005/17/18206/zSuf7Ce5kM.png!large">
 </p>
