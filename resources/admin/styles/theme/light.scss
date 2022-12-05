@@ -1,0 +1,25 @@
+html {
+  background-color: rgb(241, 245, 249);
+  // 侧边颜色
+  --sider-bg-color: #ffffff;
+  // header logo 背景颜色
+  --header-logo-bg-color: var(--sider-bg-color);
+  // 侧边栏菜单的文字颜色
+  --sider-menu-text-color: #625f6e;
+  // sub menu bg color
+  --sider-sub-menu-bg-color: #ffffff;
+  // 侧边栏子菜单 hover 的颜色
+  --sider-sub-menu-hover-bg-color: #f6f6f6;
+  // 菜单激活时文字的颜色
+  --sider-ment-active-text-color: var(--el-color-primary);
+  // 激活菜单背景
+  --side-active-menu-bg-color: rgba(36, 153, 239, 0.06);
+  // header logo 文字颜色
+  --header-logo-text-color: #625f6e;
+  // header bg color
+  --header-bg-color: #ffffff;
+  // 侧边栏菜单的背景色
+  --sider-menu-bg-color: var(--sider-bg-color);
+
+  --el-table-tr-bg-color: black;
+}

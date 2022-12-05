@@ -1,0 +1,9 @@
+<el-form-item label="{label}" prop="{prop}">
+ <el-tree-select
+     v-model="{model-value}"
+     :data="data"
+     check-strictly
+     multiple
+     show-checkbox
+   />
+</el-form-item>

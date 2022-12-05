@@ -1,0 +1,20 @@
+<?php
+
+namespace Modules\{Module}\Providers;
+
+use Catch\CatchAdmin;
+use Catch\Providers\CatchModuleServiceProvider;
+
+class {Module}ServiceProvider extends CatchModuleServiceProvider
+{
+    /**
+     * route path
+     *
+     * @return string|array
+     */
+    public function routePath(): string|array
+    {
+        // TODO: Implement path() method.
+        return CatchAdmin::getModuleRoutePath('{module}');
+    }
+}

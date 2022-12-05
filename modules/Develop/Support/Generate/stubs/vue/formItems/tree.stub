@@ -1,0 +1,8 @@
+<el-form-item label="{label}" prop="{prop}">
+ <el-tree
+   :data="data"
+   show-checkbox
+   node-key="id"
+ />
+</el-form-item>
+

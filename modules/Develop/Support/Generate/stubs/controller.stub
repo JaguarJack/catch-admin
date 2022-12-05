@@ -1,0 +1,43 @@
+<?php
+declare(strict_types=1);
+
+namespace {namespace}
+
+use Catch\Base\CatchController as Controller;
+{uses}
+
+class {controller} extends Controller
+{
+    public function __construct(
+        protected readonly {model} $model
+    ){}
+
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    public function index(Request $request): mixed
+    {
+        return $this->model->getList();
+    }
+
+    public function store({request} $request)
+    {
+        return $this->model->storeBy($request->all());
+    }
+
+    public function show($id)
+    {
+        return $this->model->firstBy($id);
+    }
+
+    public function update($id, {request} $request)
+    {
+        return $this->model->updateBy($id, $request->all());
+    }
+
+    public function destroy($id)
+    {
+        return $this->model->deleteBy($id);
+    }
+}

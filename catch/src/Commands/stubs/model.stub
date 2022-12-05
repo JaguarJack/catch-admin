@@ -1,0 +1,16 @@
+<?php
+
+namespace {namespace};
+
+use Catch\Base\CatchModel as Model;
+
+
+class {model} extends Model
+{
+    protected $table = '{table}';
+
+    protected $fillable = [
+        {fillable}
+    ];
+
+}

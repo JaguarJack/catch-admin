@@ -1,0 +1,18 @@
+<?php
+
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
+
+return new class extends Seeder
+{
+    /**
+     * Run the seeder.
+     *
+     * @return void
+     */
+    public function run(): void
+    {
+
+    }
+
+};

@@ -1,0 +1,28 @@
+<?php
+
+namespace {namespace}
+
+use Illuminate\Foundation\Http\FormRequest as Request;
+
+class {request} extends Request
+{
+    /**
+     * @return array
+     */
+    public function rules(): array
+    {
+        return [
+            {rule}
+        ];
+    }
+
+
+    /**
+     *
+     * @return array
+     */
+    public function message(): array
+    {
+        return [];
+    }
+}

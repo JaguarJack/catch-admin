@@ -1,0 +1,22 @@
+@tailwind base;
+
+@layer base {
+    .layout-sider {
+        @apply z-0 absolute top-16 left-0 sm:static transition-width duration-300 ease-linear
+    }
+
+    .layout-sider-open {
+        @apply layout-sider w-64
+    }
+
+    .layout-sider-hidden { 
+        @apply layout-sider w-0 lg:w-20 
+    }
+    
+    .layout-sider-mask {
+        @apply block lg:hidden z-40 w-full h-full absolute
+    }
+}
+
+@tailwind components;
+@tailwind utilities;

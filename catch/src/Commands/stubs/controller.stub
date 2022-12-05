@@ -1,0 +1,35 @@
+<?php
+
+namespace {namespace};
+
+use Catch\Base\CatchController;
+use Illuminate\Http\Request;
+
+class {controller} extends CatchController
+{
+    public function index(Request $request)
+    {
+
+    }
+
+    public function store(Request $request)
+    {
+
+    }
+
+    public function show($id)
+    {
+
+    }
+
+
+    public function update($id, Request $request)
+    {
+
+    }
+
+    public function destroy($id)
+    {
+
+    }
+}

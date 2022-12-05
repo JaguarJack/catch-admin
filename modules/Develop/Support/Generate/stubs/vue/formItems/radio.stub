@@ -1,0 +1,5 @@
+<el-form-item label="{label}" prop="{prop}">
+  <el-radio-group v-model="{model-value}">
+    <el-radio v-for="item in options" :key="item.value" :label="item.value" name="{prop}">{{ item.label }}</el-radio>
+  </el-radio-group>
+</el-form-item>

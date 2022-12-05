@@ -1,0 +1,43 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "target": "esnext",
+    "useDefineForClassFields": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "strict": true,
+    "jsx": "preserve",
+    "sourceMap": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "allowJs": true,
+    "lib": [
+      "esnext",
+      "dom"
+    ],
+    "skipLibCheck": true,
+    // "types": ["element-plus/golbal"],
+    "paths": {
+      "@/*": [
+        "resources/js/*"
+      ],
+      "/admin/*": [
+        "resources/admin/*"
+      ]
+    }
+  },
+  "include": [
+    "resources/admin/js/**/*.ts",
+    "resources/admin/js/**/*.d.ts",
+    "resources/admin/js/**/*.tsx",
+    "resources/admin/js/**/*.vue",
+    "resources/admin/js/**/*.js",
+    "resources/admin/js/env.d.ts"
+  ],
+  "references": [
+    {
+      "path": "./tsconfig.node.json"
+    }
+  ]
+}

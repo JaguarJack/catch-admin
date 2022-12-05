@@ -1,0 +1,61 @@
+@forward 'element-plus/theme-chalk/src/common/var' with (
+  // 基础色调
+  $colors:
+    (
+      'primary': (
+        'base': #4f46e5,
+      ),
+      'success': (
+        'base': #059669,
+      ),
+      'warning': (
+        'base': #fbbf24,
+      ),
+      'danger': (
+        'base': #f43f5e,
+      ),
+      'error': (
+        'base': #f43f5e,
+      ),
+      'info': (
+        'base': #909399,
+      )
+    ),
+  $input: ('border-radius': 8px)
+);
+
+@use 'element-plus/theme-chalk/src/index' as *;
+
+.el-table {
+  border-radius: var(--el-table-border-radius);
+
+  .el-table__row {
+    @apply h-14;
+  }
+
+  .el-table__header {
+    @apply h-14 bg-black;
+  }
+}
+
+.el-tabs {
+  border-radius: var(--el-table-border-radius);
+}
+
+.el-card {
+  border-radius: var(--el-card-border-radius) !important;
+}
+
+.el-pagination {
+    button {
+        border-radius: var(--el-page-border-radius) !important;
+    }
+    .el-pager {
+        .number {
+            border-radius: var(--el-page-border-radius) !important;
+        }
+        .more {
+            border-radius: var(--el-page-border-radius) !important;
+        }
+    }
+}

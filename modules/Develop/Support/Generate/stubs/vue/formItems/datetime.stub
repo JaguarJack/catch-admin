@@ -1,0 +1,9 @@
+<el-form-item label="{label}" prop="{prop}">
+  <el-date-picker
+      v-model="{model-value}"
+      type="datetime"
+      name="{prop}"
+      placeholder="Pick a day"
+      clearable
+  />
+</el-form-item>
