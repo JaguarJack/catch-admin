@@ -78,7 +78,7 @@ class FileDriver implements ModuleRepositoryInterface
 
         $this->hasSameModule($module, $modules);
 
-        $module['service'] = sprintf('\\%s', CatchAdmin::getModuleServiceProvider($module['path']));
+        $module['provider'] = sprintf('\\%s', CatchAdmin::getModuleServiceProvider($module['path']));
         $module['version'] = '1.0.0';
         $module['enable'] = true;
 

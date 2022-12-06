@@ -82,6 +82,16 @@ class Users extends Model implements AuthenticatableContract, JWTSubject
     }
 
     /**
+     * is super admin
+     *
+     * @return bool
+     */
+    public function isSuperAdmin(): bool
+    {
+        return $this->{$this->primaryKey} == config('catch.super_admin');
+    }
+
+    /**
      * update
      * @param $id
      * @param array $data

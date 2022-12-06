@@ -2,6 +2,8 @@
 
 namespace App\Exceptions;
 
+use Catch\Enums\Code;
+use Catch\Exceptions\CatchException;
 use Catch\Exceptions\FailedException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\JsonResponse;
@@ -70,7 +72,7 @@ class Handler extends ExceptionHandler
             }
         }
 
-        $e = new FailedException($message ?: 'Server Error');
+        $e = new FailedException($message ?: 'Server Error', $e instanceof CatchException ? $e->getCode() : Code::FAILED);
 
         $response = parent::render($request, $e);
 

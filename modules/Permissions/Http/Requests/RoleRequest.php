@@ -17,7 +17,7 @@ class RoleRequest extends FormRequest
         return [
             'role_name' => sprintf('required|unique:%s,%s,%s', RolesModel::class, 'role_name', $this->get('id')),
 
-            'identify'  => sprintf('required|alpha|unique:%s,%s,%s', RolesModel::class, 'role_name', $this->get('id')),
+            'identify' => sprintf('required|alpha|unique:%s,%s,%s', RolesModel::class, 'role_name', $this->get('id')),
         ];
     }
 

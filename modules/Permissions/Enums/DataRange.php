@@ -1,4 +1,5 @@
 <?php
+
 namespace Modules\Permissions\Enums;
 
 use Catch\Enums\Enum;

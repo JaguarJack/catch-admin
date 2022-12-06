@@ -23,6 +23,10 @@ use Illuminate\Support\Facades\Request;
  */
 trait BaseOperate
 {
+    protected string $sortField = 'sort';
+
+    protected bool $sortDesc = true;
+
     /**
      *
      *
@@ -46,9 +50,17 @@ trait BaseOperate
     {
         $queryBuilder = self::query()->select($this->fieldsInList)->quickSearch();
 
+        if (in_array($this->sortField, $this->getFillable())) {
+            $queryBuilder = $queryBuilder->orderBy($this->sortField, $this->sortDesc ? 'desc' : 'asc');
+        }
+
+        $queryBuilder = $queryBuilder->orderByDesc('id');
+
         if ($this->isPaginate) {
             return $queryBuilder->paginate(Request::get('limit', $this->perPage));
         }
+
+
 
         return $queryBuilder->get();
     }

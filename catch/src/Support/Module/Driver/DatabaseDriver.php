@@ -64,7 +64,7 @@ class DatabaseDriver implements ModuleRepositoryInterface
             'path' => $module['path'],
             'description' => $module['desc'],
             'keywords' => $module['keywords'],
-            'service' => sprintf('\\%s%s', CatchAdmin::getModuleNamespace($module['name']), ucfirst($module['name']).'ServiceProvider'),
+            'provider' => sprintf('\\%s%s', CatchAdmin::getModuleNamespace($module['name']), ucfirst($module['name']).'ServiceProvider'),
         ]);
     }
 
@@ -92,7 +92,7 @@ class DatabaseDriver implements ModuleRepositoryInterface
 
             ->update([
                 'name' => $module['name'],
-                'alias' => $module['alias'],
+                'path' => $module['path'],
                 'description' => $module['desc'],
                 'keywords' => $module['keywords'],
             ]);
@@ -146,7 +146,7 @@ class DatabaseDriver implements ModuleRepositoryInterface
             throw new FailedException(sprintf('Module [%s] has been created', $module['name']));
         }
 
-        if ($this->model->where('alias', $module['alias'])->first()) {
+        if ($this->model->where('path', $module['path'])->first()) {
             throw new FailedException(sprintf('Module Alias [%s] has been exised', $module['alias']));
         }
     }

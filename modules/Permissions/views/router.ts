@@ -13,6 +13,12 @@ const router: RouteRecordRaw[] = [
         meta: { title: '角色管理', icon: 'home' },
         component: () => import('./roles/index.vue'),
       },
+      {
+        path: 'jobs',
+        name: 'jobs',
+        meta: { title: '岗位管理', icon: 'home' },
+        component: () => import('./jobs/index.vue'),
+      },
     ],
   },
 ]

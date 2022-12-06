@@ -5,6 +5,7 @@
 /storage/*.key
 /vendor
 /fixer
+/catch
 .env
 .env.backup
 .env.production

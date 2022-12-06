@@ -6,6 +6,7 @@ use Catch\Enums\Code;
 use Catch\Events\User as UserEvent;
 use Catch\Exceptions\FailedException;
 use Exception;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
@@ -20,11 +21,13 @@ class AuthMiddleware
         try {
             $guardName = getGuardName();
 
-            if (Auth::guard($guardName)->check()) {
-                $user = Auth::guard($guardName)->user();
-
-                Event::dispatch(new UserEvent($user));
+            if (! $user = Auth::guard($guardName)->user()) {
+                throw new AuthenticationException();
             }
+
+            Event::dispatch(new UserEvent($user));
+
+            return $next($request);
         } catch (Exception|Throwable $e) {
             if ($e instanceof TokenExpiredException) {
                 throw new FailedException(Code::LOGIN_EXPIRED->message(), Code::LOGIN_EXPIRED);
@@ -35,8 +38,6 @@ class AuthMiddleware
             }
 
             throw new FailedException(Code::LOST_LOGIN->message().":{$e->getMessage()}", Code::LOST_LOGIN);
-        } finally {
-            return $next($request);
         }
     }
 }

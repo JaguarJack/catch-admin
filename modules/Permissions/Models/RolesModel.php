@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Modules\Permissions\Models;
 
 use Catch\Base\CatchModel as Model;
-use Illuminate\Support\Facades\Request;
 
 /**
  * @property $role_name
@@ -22,7 +21,7 @@ class RolesModel extends Model
 {
     protected $table = 'roles';
 
-    protected $fillable = [ 'id', 'role_name', 'identify', 'parent_id', 'description', 'data_range', 'creator_id', 'created_at', 'updated_at', 'deleted_at' ];
+    protected $fillable = ['id', 'role_name', 'identify', 'parent_id', 'description', 'data_range', 'creator_id', 'created_at', 'updated_at', 'deleted_at'];
 
     /**
      * @var array
@@ -49,5 +48,4 @@ class RolesModel extends Model
     {
         return self::query()->select($this->fieldsInList)->quickSearch()->get()->toTree();
     }
-
 }

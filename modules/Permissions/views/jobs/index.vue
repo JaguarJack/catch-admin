@@ -2,13 +2,19 @@
   <div>
     <Search :search="search" :reset="reset">
       <template v-slot:body>
-         {search}
+         <el-form-item label="岗位名称" prop="job_name">
+  <el-input v-model="query.job_name" name="job_name" clearable />
+</el-form-item>
       </template>
     </Search>
     <div class="pl-2 pr-2 bg-white dark:bg-regal-dark rounded-lg mt-4">
       <Operate :show="show" />
       <el-table :data="tableData" class="mt-3" v-loading="loading">
-        {table}
+        <el-table-column prop="job_name" label="岗位名称" />
+<el-table-column prop="coding" label="岗位编码" />
+<el-table-column prop="status" label="状态" />
+<el-table-column prop="sort" label="排序" />
+<el-table-column prop="description" label="岗位描述" />
         <el-table-column label="操作" width="200">
           <template #default="scope">
             <Update @click="show(scope.row.id)" />
@@ -34,11 +40,11 @@ import { t } from '/admin/support/helper'
 
 const visible = ref<boolean>(false)
 const id = ref(null)
-const api = '{api}'
+const api = 'permissions/jobs'
 const title = ref<string>('')
 
 // const { data, query, search, reset, loading } = useGetList(api)
-{useList}
+const { data, query, search, reset, loading } = useGetList(api)
 const { destroy, deleted } = useDestroy()
 
 const tableData = computed(() => data.value?.data)

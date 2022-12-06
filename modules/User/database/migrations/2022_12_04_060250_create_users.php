@@ -21,17 +21,17 @@ return new class () extends Migration {
 
             $table->string('email')->comment('邮箱');
 
-            $table->string('avatar')->comment('头像');
+            $table->string('avatar')->nullable()->comment('头像');
 
-            $table->string('remember_token', 1000)->comment('token');
+            $table->string('remember_token', 1000)->nullable()->comment('token');
 
-            $table->integer('creator_id');
+            $table->integer('creator_id')->default(0);
 
             $table->status();
 
-            $table->string('login_ip')->comment('登录IP');
+            $table->string('login_ip')->nullable()->comment('登录IP');
 
-            $table->integer('login_at')->comment('登录时间');
+            $table->integer('login_at')->default(0)->comment('登录时间');
 
             $table->createdAt();
 

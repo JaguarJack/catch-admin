@@ -1,29 +1,28 @@
 <?php
-
 declare(strict_types=1);
 
 namespace Modules\Permissions\Http\Controllers;
 
 use Catch\Base\CatchController as Controller;
-use Modules\Permissions\Models\RolesModel;
-use Modules\Permissions\Http\Requests\RoleRequest;
+use Modules\Permissions\Models\JobsModel;
+use Illuminate\Http\Request;
 
-class RolesController extends Controller
+class JobsController extends Controller
 {
     public function __construct(
-        protected readonly RolesModel $model
-    ) {
-    }
+        protected readonly JobsModel $model
+    ){}
 
     /**
+     * @param Request $request
      * @return mixed
      */
-    public function index(): mixed
+    public function index(Request $request): mixed
     {
         return $this->model->getList();
     }
 
-    public function store(RoleRequest $request)
+    public function store(Request $request)
     {
         return $this->model->storeBy($request->all());
     }
@@ -33,7 +32,7 @@ class RolesController extends Controller
         return $this->model->firstBy($id);
     }
 
-    public function update($id, RoleRequest $request)
+    public function update($id, Request $request)
     {
         return $this->model->updateBy($id, $request->all());
     }

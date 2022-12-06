@@ -93,8 +93,11 @@ class FrontTable extends Creator
         return Str::of(File::get($this->getTableStub()))->replace([
             $this->table, $this->search, $this->api, $this->paginate, $this->useList
         ], [
-            $this->getTableContent(), $this->getSearchContent(),
-            "'{$this->apiString}'", $this->getPaginateStubContent(), $this->getUseList()
+            $this->getTableContent(),
+            $this->getSearchContent(),
+            $this->apiString,
+            $this->getPaginateStubContent(),
+            $this->getUseList()
         ])->toString();
     }
 
@@ -215,15 +218,7 @@ HTML;
      */
     protected function getPaginateStubContent(): string
     {
-        return $this->hasPaginate ?
-            File::get(
-                dirname(__DIR__).DIRECTORY_SEPARATOR
-
-                .'stubs'.DIRECTORY_SEPARATOR.'vue'.
-
-                DIRECTORY_SEPARATOR.'paginate.stub'
-            )
-        : '';
+        return $this->hasPaginate ? '<Paginate />' : '';
     }
 
     /**
@@ -232,9 +227,7 @@ HTML;
      */
     protected function getUseList(): string
     {
-        return $this->hasPaginate ?
-        'const { data, query, search, reset, changePage, changeLimit, loading } = useGetList(api)' :
-            'const { data, query, search, reset, loading } = useGetList(api)';
+        return 'const { data, query, search, reset, loading } = useGetList(api)';
     }
 
     /**

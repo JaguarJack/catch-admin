@@ -73,7 +73,7 @@ abstract class Installer
      *
      * @return void
      */
-    public function __invoke(): void
+    public function install(): void
     {
         // TODO: Implement __invoke() method.
         $this->moduleRepository->create($this->info());

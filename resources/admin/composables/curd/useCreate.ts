@@ -4,7 +4,7 @@ import { Code } from '/admin/enum/app'
 import Message from '/admin/support/message'
 import { FormInstance } from 'element-plus'
 import { AxiosResponse } from 'axios'
-import { isFunction } from'/admin/support/helper'
+import { isFunction } from '/admin/support/helper'
 
 // get table list
 export function useCreate(path: string, id: string | number | null = null, _formData: object = {}) {
@@ -17,23 +17,22 @@ export function useCreate(path: string, id: string | number | null = null, _form
   const beforeCreate = ref()
   // 更新前 hook
   const beforeUpdate = ref()
-  
+
   // store
   function store(path: string, id: string | number | null = null) {
     loading.value = true
     let promise: Promise<AxiosResponse> | null = null
     if (id) {
       if (isFunction(beforeUpdate.value)) {
-          beforeUpdate.value()
+        beforeUpdate.value()
       }
 
       promise = http.put(path + '/' + id, unref(formData))
     } else {
-      console.log(isFunction(beforeCreate.value), beforeCreate.value)
       if (isFunction(beforeCreate.value)) {
         beforeCreate.value()
       }
-      
+
       promise = http.post(path, unref(formData))
     }
 

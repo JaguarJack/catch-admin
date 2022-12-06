@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Catch;
 
+use Catch\Support\Module\Installer;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 
@@ -359,5 +360,21 @@ class CatchAdmin
     public static function getModuleRelativePath($path): string
     {
         return Str::replaceFirst(base_path(), '.', $path);
+    }
+
+    /**
+     *
+     * @param string $module
+     * @return Installer
+     */
+    public static function getModuleInstaller(string $module): Installer
+    {
+        $installer = self::getModuleServiceProviderNamespace($module).'Installer';
+
+        if (class_exists($installer)) {
+            return app($installer);
+        }
+
+        throw new \RuntimeException("Installer [$installer] Not Found");
     }
 }

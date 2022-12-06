@@ -17,7 +17,7 @@ php artisan serve
 ### PHP
 使用 fixer 进行代码检查, 具体请查看根目录下 `.php-cs-fixer.dist.php` 文件的规范，还需要进行以下两步骤
 ```shell
-mkdir path && cd  path // any path name you set
+mkdir path
 ```
 ```shell
 composer require --working-dir=path friendsofphp/php-cs-fixer                                                                                      

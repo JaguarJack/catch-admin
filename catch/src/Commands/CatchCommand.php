@@ -51,7 +51,7 @@ abstract class CatchCommand extends Command
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         if ($input->hasArgument('module')
-            && ! Module::all()->pluck('name')->merge(Collection::make(config('catch.module.default')))->contains(lcfirst($input->getArgument('module')))
+            && ! Module::getEnabled()->pluck('name')->merge(Collection::make(config('catch.module.default')))->contains(lcfirst($input->getArgument('module')))
         ) {
             $this->error(sprintf('Module [%s] Not Found', $input->getArgument('module')));
             exit;

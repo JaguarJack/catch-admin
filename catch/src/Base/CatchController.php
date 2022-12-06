@@ -14,6 +14,8 @@ declare(strict_types=1);
 
 namespace Catch\Base;
 
+use Catch\Enums\Code;
+use Catch\Exceptions\FailedException;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -29,6 +31,12 @@ abstract class CatchController extends Controller
      */
     protected function getLoginUser($guard = null): Authenticatable
     {
-        return Auth::guard($guard ?: getGuardName())->user();
+        $user = Auth::guard($guard ?: getGuardName())->user();
+
+        if (! $user) {
+            throw new FailedException('登录失效, 请重新登录', Code::LOST_LOGIN);
+        }
+
+        return $user;
     }
 }
