@@ -13,7 +13,7 @@
       <div class="flex w-52 sm:min-w-[18rem] flex-row item-center pl-1 sm:pl-0 justify-end sm:justify-between mr-4">
         <div class="w-3/5 hidden sm:flex">
           <!-- 搜索 -->
-          <Search />
+          <MenuSearch />
           <!-- 多语言 -->
           <Lang />
           <!-- 暗黑主题 -->
@@ -28,7 +28,7 @@
 <script setup lang="ts">
 import { useAppStore } from '/admin/stores/modules/app'
 import Notification from './notification.vue'
-import Search from './search.vue'
+import MenuSearch from './menuSearch.vue.vue'
 
 const store = useAppStore()
 </script>
