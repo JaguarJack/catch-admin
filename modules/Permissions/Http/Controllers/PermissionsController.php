@@ -1,27 +1,30 @@
 <?php
+
 declare(strict_types=1);
 
-namespace {namespace}
+namespace Modules\Permissions\Http\Controllers;
 
 use Catch\Base\CatchController as Controller;
-{uses}
+use Modules\Permissions\Models\PermissionsModel;
+use Illuminate\Http\Request;
 
-class {controller} extends Controller
+class PermissionsController extends Controller
 {
     public function __construct(
-        protected readonly {model} $model
-    ){}
+        protected readonly PermissionsModel $model
+    ) {
+    }
 
     /**
      * @param Request $request
      * @return mixed
      */
-    public function index(): mixed
+    public function index(Request $request): mixed
     {
         return $this->model->getList();
     }
 
-    public function store({request} $request)
+    public function store(Request $request)
     {
         return $this->model->storeBy($request->all());
     }
@@ -31,7 +34,7 @@ class {controller} extends Controller
         return $this->model->firstBy($id);
     }
 
-    public function update($id, {request} $request)
+    public function update($id, Request $request)
     {
         return $this->model->updateBy($id, $request->all());
     }

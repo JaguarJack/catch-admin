@@ -75,7 +75,7 @@ schemaStore.start()
 
 const emits = defineEmits(['prev', 'next'])
 
-const schema = reactive(schemaStore.getSchema)
+const schema = ref(schemaStore.getSchema)
 const form = ref<FormInstance>()
 const submitCreateTable = (formEl: FormInstance | undefined) => {
   if (!formEl) return

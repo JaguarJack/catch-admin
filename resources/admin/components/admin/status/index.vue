@@ -5,7 +5,6 @@
 <script lang="ts" setup>
 import { useEnabled } from '/admin/composables/curd/useEnabled'
 import { Status } from '/admin/enum/app'
-import { watch } from 'vue'
 
 const props = defineProps({
   modelValue: Boolean | Number | String,
@@ -13,12 +12,15 @@ const props = defineProps({
   id: Number | String,
 })
 
-const emits = defineEmits(['update:modelValue'])
+const emits = defineEmits(['update:modelValue', 'refresh'])
 
-const { enabled, success, loading } = useEnabled()
+const { enabled, success, loading, afterEnabled } = useEnabled()
 
-watch(success, function () {
+success(() => {
   emits('update:modelValue', props.modelValue === Status.ENABLE ? Status.DISABLE : Status.ENABLE)
-  success.value = false
 })
+
+afterEnabled.value = () => {
+  emits('refresh')
+}
 </script>

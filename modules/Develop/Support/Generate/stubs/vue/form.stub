@@ -10,29 +10,21 @@
 <script lang="ts" setup>
 import { useCreate } from '/admin/composables/curd/useCreate'
 import { useShow } from '/admin/composables/curd/useShow'
-
-import { onMounted, watch } from 'vue'
+import { onMounted } from 'vue'
 
 const props = defineProps({
   primary: String | Number,
   api: String,
 })
 
+const { formData, form, loading, submitForm, close } = useCreate(props.api, props.primary)
+
+if (props.primary) {
+  useShow(props.api, props.primary, formData)
+}
+
 const emit = defineEmits(['close'])
-
-const { formData, form, loading, submitForm, isClose } = useCreate(props.api, props.primary)
-
-watch(isClose, function (value) {
-  if (value) {
-    emit('close')
-  }
-})
-
 onMounted(() => {
-  if (props.primary) {
-    useShow(props.api, props.primary).then(r => {
-      formData.value = r.data
-    })
-  }
+  close(() => emit('close'))
 })
 </script>

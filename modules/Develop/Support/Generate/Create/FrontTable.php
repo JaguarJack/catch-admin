@@ -64,6 +64,10 @@ class FrontTable extends Creator
      */
     protected string $useList = '{useList}';
 
+    /**
+     * @var string
+     */
+    protected string $tree = '{tree}';
 
     /**
      * @var array
@@ -91,13 +95,14 @@ class FrontTable extends Creator
     {
         // TODO: Implement getContent() method.
         return Str::of(File::get($this->getTableStub()))->replace([
-            $this->table, $this->search, $this->api, $this->paginate, $this->useList
+            $this->table, $this->search, $this->api, $this->paginate, $this->useList, $this->tree
         ], [
             $this->getTableContent(),
             $this->getSearchContent(),
             $this->apiString,
             $this->getPaginateStubContent(),
-            $this->getUseList()
+            $this->getUseList(),
+            $this->getTreeProps()
         ])->toString();
     }
 
@@ -228,6 +233,20 @@ HTML;
     protected function getUseList(): string
     {
         return 'const { data, query, search, reset, loading } = useGetList(api)';
+    }
+
+    /**
+     * get tree props
+     *
+     * @return string
+     */
+    public function getTreeProps(): string
+    {
+        if (in_array('parent_id', array_column($this->structures, 'field'))) {
+            return ' row-key="id" default-expand-all :tree-props="{ children: \'children\' }"';
+        }
+
+        return ' ';
     }
 
     /**

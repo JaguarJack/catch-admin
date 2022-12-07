@@ -48,7 +48,7 @@
 import { useCreate } from '/admin/composables/curd/useCreate'
 import { useShow } from '/admin/composables/curd/useShow'
 
-import { onMounted, watch } from 'vue'
+import { computed, onMounted, watch } from 'vue'
 
 const props = defineProps({
   primary: String | Number,
@@ -79,11 +79,7 @@ watch(isClose, function (value) {
   }
 })
 
-onMounted(() => {
-  if (props.primary) {
-    useShow(props.api, props.primary).then(r => {
-      formData.value = r.data
-    })
-  }
-})
+if (props.primary) {
+  useShow(props.api, props.primary, formData)
+}
 </script>

@@ -1,35 +1,23 @@
 <template>
   <div>
-    <div class="w-full min-h-0 bg-white dark:bg-regal-dark pl-5 pt-5 pr-5 rounded-lg">
-      <el-form :inline="true">
+    <Search :search="search" :reset="reset">
+      <template v-slot:body>
         <el-form-item label="模块名称">
           <el-input v-model="query.module" name="module" clearable />
         </el-form-item>
         <el-form-item label="Schema 名称">
           <el-input v-model="query.name" name="name" clearable />
         </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="search()">
-            <Icon name="magnifying-glass" class="w-4 mr-1 -ml-1" />
-            搜索
-          </el-button>
-          <el-button @click="reset()">
-            <Icon name="arrow-path" class="w-4 mr-1 -ml-1" />
-            重置
-          </el-button>
-        </el-form-item>
-      </el-form>
-    </div>
-    <div class="pl-2 pr-2 bg-white dark:bg-regal-dark rounded-lg mt-4">
-      <div class="pt-5 pl-2">
-        <Add @click="add(null)" />
-      </div>
+      </template>
+    </Search>
+    <div class="pl-2 pr-2 bg-white dark:bg-regal-dark rounded-lg mt-4 pb-6">
+      <Operate :show="open" />
       <el-table :data="tableData" class="mt-3" v-loading="loading">
         <el-table-column prop="module" label="所属模块" />
         <el-table-column prop="name" label="schema 名称" />
         <el-table-column prop="columns" label="字段">
           <template #default="scope">
-            <el-button size="small" type="success" @click="show(scope.row.id)"><Icon name="eye" class="w-3 mr-1" /> 查看</el-button>
+            <el-button size="small" type="success" @click="view(scope.row.id)"><Icon name="eye" class="w-3 mr-1" /> 查看</el-button>
           </template>
         </el-table-column>
         <el-table-column prop="is_soft_delete" label="?软删">
@@ -48,73 +36,48 @@
           </template>
         </el-table-column>
       </el-table>
-
-      <div class="pt-2 pb-2 flex justify-end">
-        <el-pagination
-          background
-          layout="total,sizes,prev, pager,next"
-          :current-page="query.page"
-          :page-size="query.limit"
-          @current-change="changePage"
-          @size-change="changeLimit"
-          :total="total"
-          :page-sizes="[10, 20, 30, 50]"
-        />
-      </div>
+      <Paginate />
     </div>
 
     <!-- schema 创建 -->
-    <Dialog v-model="visible" :title="$t('generate.schema.title')" width="650px" destroy-on-close>
-      <Create @close="close" :primary="id" :api="api" />
+    <Dialog v-model="visible" :title="title" width="650px" destroy-on-close>
+      <Create @close="close(reset)" :api="api" />
     </Dialog>
 
     <!-- schema 表结构 -->
-    <Dialog v-model="showVisible" title="Schema 结构" width="650px" destroy-on-close>
+    <Dialog v-model="schemaVisible" title="Schema 结构" width="650px" destroy-on-close>
       <Show :id="id" :api="api" />
     </Dialog>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import Create from './create.vue'
 import Show from './show.vue'
-
 import { useGetList } from '/admin/composables/curd/useGetList'
 import { useDestroy } from '/admin/composables/curd/useDestroy'
+import { useOpen } from '/admin/composables/curd/useOpen'
 
-const visible = ref<boolean>(false)
-const showVisible = ref<boolean>(false)
+const schemaVisible = ref<boolean>(false)
 
-const id = ref<number>()
 const api = 'schema'
-const title = ref<string>('')
 
-const { data, query, search, reset, changePage, changeLimit, loading } = useGetList(api)
-const { destroy, isDeleted } = useDestroy('确认删除吗? 将会删除数据库的 Schema，请提前做好备份，一旦删除，将无法恢复!')
-
-onMounted(() => search())
+const { data, query, search, reset, loading } = useGetList(api)
+const { destroy, deleted } = useDestroy('确认删除吗? 将会删除数据库的 Schema，请提前做好备份，一旦删除，将无法恢复!')
+const { open, close, title, visible, id } = useOpen()
 
 const tableData = computed(() => data.value?.data)
-const total = computed(() => data.value?.total)
 
-const close = () => {
-  visible.value = false
-  reset()
-}
-
-const add = () => {
-  visible.value = true
-}
-
-const show = primaryId => {
-  showVisible.value = true
+const view = primaryId => {
+  schemaVisible.value = true
 
   id.value = primaryId
 }
 
-watch(isDeleted, function () {
-  isDeleted.value = false
-  reset()
+onMounted(() => {
+  search()
+
+  deleted(reset)
 })
 </script>

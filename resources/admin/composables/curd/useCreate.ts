@@ -1,5 +1,5 @@
 import http from '/admin/support/http'
-import { ref, unref } from 'vue'
+import { ref, unref, watch } from 'vue'
 import { Code } from '/admin/enum/app'
 import Message from '/admin/support/message'
 import { FormInstance } from 'element-plus'
@@ -64,5 +64,13 @@ export function useCreate(path: string, id: string | number | null = null, _form
       .then(() => {})
   }
 
-  return { formData, loading, form, submitForm, isClose, beforeCreate, beforeUpdate }
+  const close = (func: Function) => {
+    watch(isClose, function (value) {
+      if (value && isFunction(func)) {
+        func()
+      }
+    })
+  }
+
+  return { formData, loading, form, submitForm, close, beforeCreate, beforeUpdate }
 }

@@ -28,7 +28,7 @@
 <script setup lang="ts">
 import { useAppStore } from '/admin/stores/modules/app'
 import Notification from './notification.vue'
-import MenuSearch from './menuSearch.vue.vue'
+import MenuSearch from './menuSearch.vue'
 
 const store = useAppStore()
 </script>

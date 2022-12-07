@@ -141,4 +141,15 @@ class ModuleRepository
         // TODO: Implement getEnabled() method.
         return $this->moduleRepository->getEnabled();
     }
+
+    /**
+     * enabled
+     *
+     * @param string $moduleName
+     * @return bool
+     */
+    public function enabled(string $moduleName): bool
+    {
+        return $this->moduleRepository->enabled($moduleName);
+    }
 }

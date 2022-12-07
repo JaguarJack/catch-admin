@@ -173,6 +173,17 @@ class FileDriver implements ModuleRepositoryInterface
     }
 
     /**
+     * enabled
+     * @param string $moduleName
+     * @return bool
+     */
+    public function enabled(string $moduleName): bool
+    {
+        // TODO: Implement enabled() method.
+        return $this->getEnabled()->pluck('path')->contains($moduleName);
+    }
+
+    /**
      *
      * @param array $module
      * @param Collection $modules

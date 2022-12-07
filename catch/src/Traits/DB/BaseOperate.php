@@ -15,7 +15,9 @@ declare(strict_types=1);
 namespace Catch\Traits\DB;
 
 use Catch\Enums\Status;
+use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Request;
 
 /**
@@ -26,6 +28,12 @@ trait BaseOperate
     protected string $sortField = 'sort';
 
     protected bool $sortDesc = true;
+
+
+    /**
+     * @var string
+     */
+    protected string $parentId = 'parent_id';
 
     /**
      *
@@ -178,7 +186,36 @@ trait BaseOperate
 
         $model->{$field} = $model->{$field} == Status::Enable->value() ? Status::Disable->value() : Status::Enable->value();
 
-        return $model->save();
+        if ($model->save() && in_array($this->parentId, $this->getFillable())) {
+            $this->updateChildren($id, $field, $model->{$field});
+        }
+
+        return true;
+    }
+
+
+    /**
+     * 递归处理
+     *
+     * @param int|array $parentId
+     * @param string $field
+     * @param int $value
+     */
+    public function updateChildren(mixed $parentId, string $field, mixed $value): void
+    {
+        if (! $parentId instanceof Arrayable) {
+            $parentId = Collection::make([$parentId]);
+        }
+
+        $childrenId = $this->whereIn('parent_id', $parentId)->pluck('id');
+
+        if ($childrenId->count()) {
+            if ($this->whereIn('parent_id', $parentId)->update([
+                $field => $value
+            ])) {
+                $this->updateChildren($childrenId, $field, $value);
+            }
+        }
     }
 
     /**

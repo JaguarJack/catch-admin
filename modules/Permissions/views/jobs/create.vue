@@ -27,32 +27,25 @@
 import { useCreate } from '/admin/composables/curd/useCreate'
 import { useShow } from '/admin/composables/curd/useShow'
 
-import { onMounted, watch } from 'vue'
+import { onMounted } from 'vue'
 
 const props = defineProps({
   primary: String | Number,
   api: String,
 })
 
-const emit = defineEmits(['close'])
-
-const { formData, form, loading, submitForm, isClose } = useCreate(props.api, props.primary)
+const { formData, form, loading, submitForm, close } = useCreate(props.api, props.primary)
 
 formData.value.status = 1
 formData.value.sort = 1
 
-watch(isClose, function (value) {
-  if (value) {
-    emit('close')
-  }
-})
+if (props.primary) {
+  useShow(props.api, props.primary, formData)
+}
+const emit = defineEmits(['close'])
 
 onMounted(() => {
-  if (props.primary) {
-    useShow(props.api, props.primary).then(r => {
-      formData.value = r.data
-    })
-  }
+  close(() => emit('close'))
 })
 
 const options = [

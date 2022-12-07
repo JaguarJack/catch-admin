@@ -32,4 +32,6 @@ interface ModuleRepositoryInterface
     public function disOrEnable(string $name): bool|int;
 
     public function getEnabled(): Collection;
+
+    public function enabled(string $moduleName): bool;
 }

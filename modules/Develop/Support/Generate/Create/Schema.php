@@ -128,8 +128,11 @@ class Schema extends Creator
 
                     $column = $column->nullable($structure['nullable']);
 
-                    if ($structure['default']) {
-                        $column = $column->default($structure['default']);
+                    if (is_null($structure['default'])) {
+                    } else {
+                        if (is_numeric($structure['default']) || mb_strlen($structure['default'])) {
+                            $column = $column->default($structure['default']);
+                        }
                     }
 
                     if ($structure['comment']) {
@@ -206,6 +209,7 @@ class Schema extends Creator
                             })
                             ->when(isset($structure['default']), function ($str, $default) {
                                 if (is_numeric($default)) {
+                                    $default = intval($default);
                                     return $str->append("->default({$default})");
                                 }
 

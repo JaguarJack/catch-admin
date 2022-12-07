@@ -22,7 +22,7 @@ class JobsModel extends Model
 {
     protected $table = 'jobs';
 
-    protected $fillable = [ 'id', 'job_name', 'coding', 'status', 'sort', 'description', 'creator_id', 'created_at', 'updated_at', 'deleted_at' ];
+    protected $fillable = ['id', 'job_name', 'coding', 'status', 'sort', 'description', 'creator_id', 'created_at', 'updated_at', 'deleted_at'];
 
     /**
      * @var array
@@ -40,6 +40,4 @@ class JobsModel extends Model
     public array $searchable = [
         'job_name' => 'like'
     ];
-
-
 }

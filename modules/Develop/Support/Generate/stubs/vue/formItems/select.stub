@@ -1,5 +1,5 @@
 <el-form-item label="{label}" prop="{prop}">
- <el-select v-model="{model-value}" placeholder="请选择" clearable ${multiple}>
+ <el-select v-model="{model-value}" placeholder="请选择" clearable multiple>
      <el-option
        v-for="item in options"
        :key="item.value"

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Modules\Permissions\Http\Controllers;
@@ -11,7 +12,8 @@ class JobsController extends Controller
 {
     public function __construct(
         protected readonly JobsModel $model
-    ){}
+    ) {
+    }
 
     /**
      * @param Request $request
@@ -40,5 +42,10 @@ class JobsController extends Controller
     public function destroy($id)
     {
         return $this->model->deleteBy($id);
+    }
+
+    public function enable($id)
+    {
+        return $this->model->disOrEnable($id);
     }
 }

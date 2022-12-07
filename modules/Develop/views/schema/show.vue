@@ -1,5 +1,5 @@
 <template>
-  <el-table :data="data" class="mt-3" v-loading="loading">
+  <el-table :data="data?.columns" class="mt-3" v-loading="loading">
     <el-table-column prop="name" label="字段名称" />
     <el-table-column prop="type" label="类型" />
     <el-table-column prop="nullable" label="nullable">
@@ -17,8 +17,6 @@
 
 <script lang="ts" setup>
 import { useShow } from '/admin/composables/curd/useShow'
-import { onMounted } from 'vue'
-import { ref } from 'vue'
 const props = defineProps({
   id: {
     type: Number,
@@ -26,13 +24,8 @@ const props = defineProps({
   },
 })
 
-const data = ref<Array<object>>()
-
-onMounted(() => {
-  useShow('schema', props.id).then(r => {
-    data.value = r.data.columns
-  })
-})
+// const data = ref<Array<object>>()
+const { data, loading } = useShow('schema', props.id)
 </script>
 
 <style scoped></style>
