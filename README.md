@@ -130,11 +130,11 @@ composer create-project jaguarjack/catchadmin:dev-master
 
 ## 体验地址
 
-[体验地址](http://vue.catchadmin.com)
+[体验地址](https://demo.catchadmin.com)
 - 账号: catch@admin.com
 - 密码: catchadmin
 
-[catchadmin 文档地址](http://doc.catchadmin.com)
+[catchadmin 文档地址](https://catchadmin.com)
 
 ### 系列文章
 如果是刚开始使用 thinkphp6, 以下文章可能会对你有些许帮助，文章基于 RC3 版本。整体架构是不变的。
@@ -148,7 +148,7 @@ composer create-project jaguarjack/catchadmin:dev-master
 - [uctoo 应用开发管理后台](https://gitee.com/uctoo/uctoo)
 
 ### Talking
-- [论坛讨论](http://bbs.catchadmin.com)
+- [论坛讨论](https://bbs.catchadmin.com)
 - 可以提 `ISSUE`，请按照 `issue` 模板提问
 - 加入 Q 群 `302266230` 前请先 star 项目支持一下， 备注填写用户名 + 平台。例如： JaguarJack Github
 
