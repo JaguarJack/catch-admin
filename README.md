@@ -9,8 +9,8 @@
 </p>
 
 <p align="center">
-<a href="https://doc.catchadmin.com/">文档</a> |
-<a href="https://vue.catchadmin.com">演示地址</a> |
+<a href="https://catchadmin.com/">文档</a> |
+<a href="https://demo.catchadmin.com">演示地址</a> |
 <a href="https://bbs.catchadmin.com">论坛交流</a> |
 <a href="https://gitee.com/jaguarjack/catchAdmin">项目源码</a> |
 <a href="https://www.kancloud.cn/akasishikelu/thinkphp6">看云分析</a> 
