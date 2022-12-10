@@ -16,6 +16,8 @@ return new class () extends Migration {
         Schema::create(config('catch.module.table_name'), function (Blueprint $table) {
             $table->increments('id');
 
+            $table->string('title')->comment('模块标题');
+
             $table->string('name')->comment('模块名称');
 
             $table->string('path', 20)->comment('模块目录');

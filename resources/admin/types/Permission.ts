@@ -3,7 +3,7 @@ export interface Permission {
 
   parent_id: number
 
-  title: string
+  permission_name: string
 
   type: number
 

@@ -43,4 +43,15 @@ class PermissionsController extends Controller
     {
         return $this->model->deleteBy($id);
     }
+
+    /**
+     * enable
+     *
+     * @param $id
+     * @return bool
+     */
+    public function enable($id)
+    {
+        return $this->model->disOrEnable($id, 'hidden');
+    }
 }

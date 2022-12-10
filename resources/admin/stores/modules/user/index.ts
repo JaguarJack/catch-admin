@@ -128,7 +128,7 @@ export const useUserStore = defineStore('UserStore', {
     getUserInfo() {
       return new Promise((resolve, reject) => {
         http
-          .get('/user/info')
+          .get('/user/online')
           .then(response => {
             const { id, nickname, email, avatar, permissions, roles, rememberToken, status } = response.data.data
             // set user info

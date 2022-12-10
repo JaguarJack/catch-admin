@@ -89,7 +89,7 @@ class UserController extends Controller
     public function online(Request $request)
     {
         /* @var Users $user */
-        $user = $this->getLoginUser();
+        $user = $this->getLoginUser()->withPermissions();
 
         if ($request->isMethod('post')) {
             return $user->updateBy($user->id, $request->all());

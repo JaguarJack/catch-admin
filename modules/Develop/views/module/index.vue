@@ -3,14 +3,14 @@
     <Search :search="search" :reset="reset">
       <template v-slot:body>
         <el-form-item label="模块名称">
-          <el-input v-model="query.name" name="name" clearable />
+          <el-input v-model="query.title" name="title" clearable />
         </el-form-item>
       </template>
     </Search>
     <div class="pl-2 pr-2 bg-white dark:bg-regal-dark rounded-lg mt-4 pb-6">
       <Operate :show="open" />
       <el-table :data="tableData" class="mt-3" v-loading="loading">
-        <el-table-column prop="name" label="模块名称" width="180" />
+        <el-table-column prop="title" label="模块名称" width="180" />
         <el-table-column prop="path" label="模块目录" width="180" />
         <el-table-column prop="version" label="模块版本">
           <template #default="scope">
@@ -19,7 +19,7 @@
         </el-table-column>
         <el-table-column prop="enable" label="模块状态">
           <template #default="scope">
-            <Status v-model="scope.row.status" :id="scope.row.id" :api="api" />
+            <Status v-model="scope.row.enable" :id="scope.row.name" :api="api" />
           </template>
         </el-table-column>
         <el-table-column label="操作" width="300">
@@ -31,7 +31,7 @@
       </el-table>
     </div>
     <Dialog v-model="visible" :title="title" destroy-on-close>
-      <Create @close="close" :primary="id" :api="api" />
+      <Create @close="close(reset)" :primary="id" :api="api" />
     </Dialog>
   </div>
 </template>
@@ -54,6 +54,6 @@ const tableData = computed(() => data.value?.data)
 onMounted(() => {
   search()
 
-  deleted()
+  deleted(reset)
 })
 </script>

@@ -16,5 +16,6 @@ Route::prefix('permissions')->group(function () {
     Route::put('departments/enable/{id}', [DepartmentsController::class, 'enable']);
 
     Route::apiResource('permissions', PermissionsController::class);
+    Route::put('permissions/enable/{id}', [PermissionsController::class, 'enable']);
     //next
 });

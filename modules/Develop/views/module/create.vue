@@ -2,7 +2,7 @@
   <el-form :model="formData" label-width="120px" ref="form" v-loading="loading" class="pr-4">
     <el-form-item
       :label="$t('module.form.name.title')"
-      prop="name"
+      prop="title"
       :rules="[
         {
           required: true,
@@ -10,7 +10,7 @@
         },
       ]"
     >
-      <el-input v-model="formData.name" />
+      <el-input v-model="formData.title" />
     </el-form-item>
     <el-form-item
       :label="$t('module.form.path.title')"
@@ -48,18 +48,18 @@
 import { useCreate } from '/admin/composables/curd/useCreate'
 import { useShow } from '/admin/composables/curd/useShow'
 
-import { computed, onMounted, watch } from 'vue'
+import { onMounted } from 'vue'
 
 const props = defineProps({
   primary: String | Number,
   api: String,
 })
 
-const { formData, form, loading, submitForm, isClose } = useCreate(
+const { formData, form, loading, submitForm, close } = useCreate(
   props.api,
   props.primary,
   Object.assign({
-    name: '',
+    title: '',
     path: '',
     keywords: '',
     description: '',
@@ -73,13 +73,12 @@ const { formData, form, loading, submitForm, isClose } = useCreate(
 )
 
 const emit = defineEmits(['close'])
-watch(isClose, function (value) {
-  if (value) {
-    emit('close')
-  }
-})
 
 if (props.primary) {
   useShow(props.api, props.primary, formData)
 }
+
+onMounted(() => {
+  close(() => emit('close'))
+})
 </script>

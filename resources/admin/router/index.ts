@@ -1,8 +1,10 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 import type { App } from 'vue'
 // module routers
-import moduleRoutes from './constantRoutes'
+import { getModuleRoutes, getModuleViewComponents } from './constantRoutes'
 
+const moduleRoutes = getModuleRoutes()
+getModuleViewComponents()
 export const constantRoutes: RouteRecordRaw[] = [
   {
     path: '/dashboard',

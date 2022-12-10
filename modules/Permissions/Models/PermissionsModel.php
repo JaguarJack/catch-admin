@@ -55,4 +55,14 @@ class PermissionsModel extends Model
     {
         return self::query()->select($this->fieldsInList)->quickSearch()->get()->toTree();
     }
+
+    /**
+     * is hidden
+     *
+     * @return bool
+     */
+    public function isHidden(): bool
+    {
+        return $this->hidden === 2;
+    }
 }

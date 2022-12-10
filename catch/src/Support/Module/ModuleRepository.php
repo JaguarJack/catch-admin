@@ -59,6 +59,8 @@ class ModuleRepository
      */
     public function create(array $module): bool
     {
+        $module['name'] = lcfirst($module['path']);
+
         Event::dispatch(new Creating($module));
 
         $this->moduleRepository->create($module);
@@ -93,6 +95,8 @@ class ModuleRepository
      */
     public function update(string $name, array $module): bool
     {
+        $module['name'] = lcfirst($module['path']);
+
         Event::dispatch(new Updating($name, $module));
 
         $this->moduleRepository->update($name, $module);

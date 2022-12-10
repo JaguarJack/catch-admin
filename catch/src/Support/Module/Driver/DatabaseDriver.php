@@ -44,8 +44,8 @@ class DatabaseDriver implements ModuleRepositoryInterface
     public function all(array $search): Collection
     {
         return $this->model::query()
-                    ->when($search['name'] ?? false, function ($query) use ($search) {
-                        $query->where('name', 'like', '%'.$search['name'].'%');
+                    ->when($search['title'] ?? false, function ($query) use ($search) {
+                        $query->where('title', 'like', '%'.$search['title'].'%');
                     })->get();
     }
 
@@ -60,7 +60,7 @@ class DatabaseDriver implements ModuleRepositoryInterface
         $this->hasSameModule($module);
 
         return $this->model->save([
-            'name' => $module['name'],
+            'title' => $module['title'],
             'path' => $module['path'],
             'description' => $module['desc'],
             'keywords' => $module['keywords'],
@@ -91,7 +91,8 @@ class DatabaseDriver implements ModuleRepositoryInterface
         return $this->model->where('name', $name)
 
             ->update([
-                'name' => $module['name'],
+                'title' => $module['title'],
+                'name' => $module['path'],
                 'path' => $module['path'],
                 'description' => $module['desc'],
                 'keywords' => $module['keywords'],
@@ -119,7 +120,7 @@ class DatabaseDriver implements ModuleRepositoryInterface
     {
         $module = $this->show($name);
 
-        $module->status = (int) $module->status;
+        $module->enable = (int) $module->enable;
 
         return $module->save();
     }
@@ -132,7 +133,7 @@ class DatabaseDriver implements ModuleRepositoryInterface
     public function getEnabled(): Collection
     {
         // TODO: Implement getEnabled() method.
-        return $this->model->where('status', Status::Enable->value())->get();
+        return $this->model->where('enable', Status::Enable->value())->get();
     }
 
     /**
@@ -144,7 +145,7 @@ class DatabaseDriver implements ModuleRepositoryInterface
     public function enabled(string $moduleName): bool
     {
         // TODO: Implement enabled() method.
-        return $this->getEnabled()->pluck('path')->contains($moduleName);
+        return $this->getEnabled()->pluck('name')->contains($moduleName);
     }
 
     /**
@@ -156,10 +157,6 @@ class DatabaseDriver implements ModuleRepositoryInterface
     {
         if ($this->model->where('name', $module['name'])->first()) {
             throw new FailedException(sprintf('Module [%s] has been created', $module['name']));
-        }
-
-        if ($this->model->where('path', $module['path'])->first()) {
-            throw new FailedException(sprintf('Module Alias [%s] has been exised', $module['alias']));
         }
     }
 

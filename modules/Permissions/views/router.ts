@@ -35,4 +35,4 @@ const router: RouteRecordRaw[] = [
   },
 ]
 
-export default router
+export default []

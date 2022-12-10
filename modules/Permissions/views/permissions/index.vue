@@ -13,7 +13,11 @@
         <el-table-column prop="permission_name" label="菜单名称" />
         <el-table-column prop="route" label="菜单路由" />
         <el-table-column prop="permission_mark" label="权限标识" />
-        <el-table-column prop="hidden" label="状态" />
+        <el-table-column prop="hidden" label="状态">
+          <template #default="scope">
+            <Status v-model="scope.row.hidden" :id="scope.row.id" :api="api" />
+          </template>
+        </el-table-column>
         <el-table-column prop="created_at" label="创建时间" />
         <el-table-column label="操作" width="200">
           <template #default="scope">
@@ -31,8 +35,8 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, watch } from 'vue'
-import Create from './create.vue'
+import { computed, onMounted } from 'vue'
+import Create from './form/create.vue'
 import { useGetList } from '/admin/composables/curd/useGetList'
 import { useDestroy } from '/admin/composables/curd/useDestroy'
 import { useOpen } from '/admin/composables/curd/useOpen'

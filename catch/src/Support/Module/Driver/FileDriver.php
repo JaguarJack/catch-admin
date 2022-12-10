@@ -55,14 +55,14 @@ class FileDriver implements ModuleRepositoryInterface
 
         $modules = Collection::make(\json_decode(File::get($this->moduleJson), true))->values();
 
-        $name = $search['name'] ?? '';
+        $title = $search['title'] ?? '';
 
-        if (! $name) {
+        if (! $title) {
             return $modules;
         }
 
-        return $modules->filter(function ($module) use ($name) {
-            return Str::of($module['name'])->contains($name);
+        return $modules->filter(function ($module) use ($title) {
+            return Str::of($module['title'])->contains($title);
         });
     }
 
@@ -81,6 +81,8 @@ class FileDriver implements ModuleRepositoryInterface
         $module['provider'] = sprintf('\\%s', CatchAdmin::getModuleServiceProvider($module['path']));
         $module['version'] = '1.0.0';
         $module['enable'] = true;
+
+        $this->removeDirs($module);
 
         File::put($this->moduleJson, $modules->push($module)->toJson(JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
 
@@ -115,12 +117,13 @@ class FileDriver implements ModuleRepositoryInterface
     {
         File::put($this->moduleJson, $this->all()->map(function ($m) use ($module, $name) {
             if (Str::of($name)->exactly($m['name'])) {
-                $m['path'] = $module['path'];
                 $m['name'] = $module['name'];
+                $m['title'] = $module['title'];
                 $m['description'] = $module['description'] ?? '';
                 $m['keywords'] = $module['keywords'] ?? '';
                 $m['enable'] = $module['enable'];
             }
+            $this->removeDirs($m);
             return $m;
         })->toJson(JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
 
@@ -180,7 +183,7 @@ class FileDriver implements ModuleRepositoryInterface
     public function enabled(string $moduleName): bool
     {
         // TODO: Implement enabled() method.
-        return $this->getEnabled()->pluck('path')->contains($moduleName);
+        return $this->getEnabled()->pluck('name')->contains($moduleName);
     }
 
     /**
@@ -195,10 +198,18 @@ class FileDriver implements ModuleRepositoryInterface
             if ($modules->pluck('name')->contains($module['name'])) {
                 throw new FailedException(sprintf('Module [%s] has been created', $module['name']));
             }
+        }
+    }
 
-            if ($modules->pluck('path')->contains($module['path'])) {
-                throw new FailedException(sprintf('Module path [%s] has been existed', $module['path']));
-            }
+    /**
+     * remove dirs
+     *
+     * @param array $modules
+     */
+    protected function removeDirs(array &$modules)
+    {
+        if ($modules['dirs'] ?? false) {
+            unset($modules['dirs']);
         }
     }
 }

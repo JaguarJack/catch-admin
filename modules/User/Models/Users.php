@@ -5,6 +5,7 @@ namespace Modules\User\Models;
 use Catch\Base\CatchModel as Model;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Modules\User\Models\Traits\UserRelations;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Auth\Authenticatable;
 
@@ -24,7 +25,7 @@ use Illuminate\Auth\Authenticatable;
  */
 class Users extends Model implements AuthenticatableContract, JWTSubject
 {
-    use Authenticatable;
+    use Authenticatable, UserRelations;
 
     protected $fillable = [
         'id', 'username', 'email', 'avatar', 'password', 'remember_token', 'creator_id', 'status', 'login_ip', 'login_at', 'created_at', 'updated_at', 'deleted_at'

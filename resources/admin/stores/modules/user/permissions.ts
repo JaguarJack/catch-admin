@@ -4,6 +4,8 @@ import { MenuType } from '/admin/enum/app'
 import { Menu } from '/admin/types/Menu'
 import { constantRoutes } from '/admin/router'
 import { RouteRecordRaw } from 'vue-router'
+import { toRaw } from 'vue'
+import { getModuleViewComponents } from '/admin/router/constantRoutes'
 
 interface Permissions {
   menus: Menu[]
@@ -68,15 +70,15 @@ export const usePermissionsStore = defineStore('PermissionsStore', {
       const menus: Permission[] = []
 
       permissions.forEach(permission => {
-        if (permission.type === MenuType.PAGE_TYPE) {
+        if (permission.type === MenuType.PAGE_TYPE || permission.type === MenuType.TOP_TYPE) {
           menus.push(permission)
         }
 
         // set map
-        this.menuPathMap.set(permission.route, permission.title)
+        this.menuPathMap.set(permission.route, permission.permission_name)
       })
 
-      this.setAsyncMenus(this.getAsnycMenus(menus))
+      this.setAsyncMenus(this.getAsnycMenus(menus, 0, '', getModuleViewComponents()))
 
       return this.asyncMenus
     },
@@ -94,7 +96,7 @@ export const usePermissionsStore = defineStore('PermissionsStore', {
       }
       const asyncMenus = this.getAsyncMenusFrom(permissions, force)
 
-      this.setMenus(asyncMenus)
+      this.setMenus(toRaw(asyncMenus))
 
       return this.menus
     },
@@ -118,23 +120,31 @@ export const usePermissionsStore = defineStore('PermissionsStore', {
      * @param permissions
      * @param parentId
      * @param path
+     * @param viewComponents
      * @returns
      */
-    getAsnycMenus(permissions: Permission[], parentId: number = 0, path: string = ''): Menu[] {
+    getAsnycMenus(permissions: Permission[], parentId: number = 0, path: string = '', viewComponents: any): Menu[] {
       const menus: Menu[] = []
-
+      console.log(viewComponents)
       permissions.forEach(permission => {
         if (permission.parent_id === parentId) {
           // menu
+          let importComponent
+          if (permission.type === MenuType.TOP_TYPE) {
+            importComponent = () => import(permission.component)
+          } else {
+            importComponent = viewComponents['/modules' + permission.component]
+          }
           const menu: Menu = Object.assign({
             path: this.resoulveRoutePath(permission.route, path),
             name: permission.module + '_' + permission.permission_mark,
+            component: importComponent,
             redirect: permission.redirect,
-            meta: Object.assign({ title: permission.title, icon: permission.icon, hidden: permission.hidden, is_inner: permission.is_inner }),
+            meta: Object.assign({ title: permission.permission_name, icon: permission.icon, hidden: permission.hidden, is_inner: permission.is_inner }),
           })
 
           // child menu
-          const children = this.getAsnycMenus(permissions, permission.id, menu.path)
+          const children = this.getAsnycMenus(permissions, permission.id, menu.path, viewComponents)
           if (children.length > 0) {
             menu.children = children
           }

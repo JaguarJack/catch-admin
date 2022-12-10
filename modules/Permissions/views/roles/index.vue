@@ -32,7 +32,7 @@
 
 <script lang="ts" setup>
 import { computed, onMounted } from 'vue'
-import Create from './create.vue'
+import Create from './form/create.vue'
 import { useGetList } from '/admin/composables/curd/useGetList'
 import { useDestroy } from '/admin/composables/curd/useDestroy'
 import { useOpen } from '/admin/composables/curd/useOpen'

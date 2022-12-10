@@ -37,7 +37,7 @@ export const enum WhiteListPage {
  * menu 类型
  */
 export const enum MenuType {
-  PAGE_TYPE = 1,
-
-  Button_Type,
+  TOP_TYPE = 1,
+  PAGE_TYPE = 2,
+  Button_Type = 3,
 }

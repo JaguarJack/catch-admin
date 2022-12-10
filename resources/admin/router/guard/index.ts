@@ -5,6 +5,7 @@ import { WhiteListPage } from '/admin/enum/app'
 import { Router, RouteRecordRaw } from 'vue-router'
 import { usePermissionsStore } from '/admin/stores/modules/user/permissions'
 import { Menu } from '/admin/types/Menu'
+import { toRaw } from 'vue'
 
 const guard = (router: Router) => {
   // white list
@@ -36,7 +37,7 @@ const guard = (router: Router) => {
               // 挂载路由（实际是从后端获取用户的权限）
               const permissionStore = usePermissionsStore()
               // 动态路由挂载
-              const asyncRoutes = permissionStore.getAsyncMenusFrom(userStore.getPermissions)
+              const asyncRoutes = permissionStore.getAsyncMenusFrom(toRaw(userStore.getPermissions))
               asyncRoutes.forEach((route: Menu) => {
                 router.addRoute(route as unknown as RouteRecordRaw)
               })
