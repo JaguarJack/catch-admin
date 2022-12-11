@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c454b8140a5fcc9a6f5d7fcbcc0afca9",
+    "content-hash": "d6223e0562e61f80c73a071631bcd7f4",
     "packages": [
         {
             "name": "brick/math",
@@ -61,6 +61,63 @@
                 }
             ],
             "time": "2022-08-10T22:54:19+00:00"
+        },
+        {
+            "name": "catchadmin/core",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/catch-admin/core.git",
+                "reference": "077ec15337596a66d39aad836e18dcf1a5ae5e27"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/catch-admin/core/zipball/077ec15337596a66d39aad836e18dcf1a5ae5e27",
+                "reference": "077ec15337596a66d39aad836e18dcf1a5ae5e27",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "ext-pdo": "*",
+                "ext-zip": "*",
+                "php": "^8.1",
+                "tymon/jwt-auth": "dev-develop"
+            },
+            "default-branch": true,
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Catch\\Providers\\CatchAdminServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Catch\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "JaguarJack",
+                    "email": "njphper@gmail.com"
+                }
+            ],
+            "description": "catchadmin core package",
+            "support": {
+                "issues": "https://github.com/catch-admin/core/issues",
+                "source": "https://github.com/catch-admin/core/tree/main"
+            },
+            "time": "2022-12-10T10:30:05+00:00"
         },
         {
             "name": "dflydev/dot-access-data",
@@ -8414,6 +8471,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "catchadmin/core": 20,
         "tymon/jwt-auth": 20
     },
     "prefer-stable": true,

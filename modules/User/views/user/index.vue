@@ -1,5 +1,7 @@
 <template>
-  <div>
+  <div class="flex flex-col sm:flex-row w-full justify-between">
+  <Department v-model="query.department_id" @searchDepartmentUsers="search" v-if="false"/>
+  <div class="w-full ml-5">
     <Search :search="search" :reset="reset">
       <template v-slot:body>
         <el-form-item label="用户名">
@@ -13,8 +15,8 @@
         </el-form-item>
       </template>
     </Search>
-    <div class="pl-2 pr-2 bg-white dark:bg-regal-dark rounded-lg mt-4">
-      <Operate :show="show" />
+    <div class="pl-2 pr-2 bg-white dark:bg-regal-dark rounded-lg mt-4 pb-6">
+      <Operate :show="open" />
       <el-table :data="tableData" class="mt-3" v-loading="loading">
         <el-table-column prop="username" label="用户名" width="180" />
         <el-table-column prop="avatar" label="头像" width="180" />
@@ -27,7 +29,7 @@
         <el-table-column prop="created_at" label="创建时间" />
         <el-table-column label="操作" width="200">
           <template #default="scope">
-            <Update @click="show(scope.row.id)" />
+            <Update @click="open(scope.row.id)" />
             <Destroy @click="destroy(api, scope.row.id)" />
           </template>
         </el-table-column>
@@ -40,35 +42,24 @@
       <Create @close="close" :primary="id" :api="api" />
     </Dialog>
   </div>
+  </div>
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, onMounted } from 'vue'
 import Create from './create.vue'
 import { useGetList } from '/admin/composables/curd/useGetList'
 import { useDestroy } from '/admin/composables/curd/useDestroy'
-import { t } from '/admin/support/helper'
+import { useOpen } from '/admin/composables/curd/useOpen'
+import Department from './components/department.vue'
 
-const visible = ref<boolean>(false)
-const id = ref(null)
 const api = 'users'
-const title = ref<string>('')
 
 const { data, query, search, reset, loading } = useGetList(api)
 const { destroy, deleted } = useDestroy()
+const { open, close, title, visible, id } = useOpen()
 
 const tableData = computed(() => data.value?.data)
-
-const close = () => {
-  visible.value = false
-  reset()
-}
-
-const show = primary => {
-  title.value = primary ? t('system.edit') : t('system.add')
-  id.value = primary
-  visible.value = true
-}
 
 onMounted(() => {
   search()

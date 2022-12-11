@@ -6,7 +6,7 @@ export function useOpen() {
   const id = ref(null)
   const title = ref<string>('')
 
-  const open = (primary: any) => {
+  const open = (primary: any = null) => {
     title.value = primary ? t('system.edit') : t('system.add')
     id.value = primary
     visible.value = true

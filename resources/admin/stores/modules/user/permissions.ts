@@ -6,7 +6,7 @@ import { constantRoutes } from '/admin/router'
 import { RouteRecordRaw } from 'vue-router'
 import { toRaw } from 'vue'
 import { getModuleViewComponents } from '/admin/router/constantRoutes'
-
+const layout = '/admin/layout/index.vue'
 interface Permissions {
   menus: Menu[]
 
@@ -131,7 +131,7 @@ export const usePermissionsStore = defineStore('PermissionsStore', {
           // menu
           let importComponent
           if (permission.type === MenuType.TOP_TYPE) {
-            importComponent = () => import(permission.component)
+            importComponent = () => import('/admin/layout/index')
           } else {
             importComponent = viewComponents['/modules' + permission.component]
           }

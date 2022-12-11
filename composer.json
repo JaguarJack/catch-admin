@@ -11,6 +11,7 @@
         "php": "^8.1",
         "ext-pdo": "*",
         "ext-zip": "*",
+        "catchadmin/core": "dev-main",
         "doctrine/dbal": "^3.4",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^9.33",
