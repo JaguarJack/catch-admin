@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Stringable;
 use Modules\User\Events\Login as Event;
 use Modules\User\Models\LogLogin;
-use Modules\User\Models\Users;
+use Modules\User\Models\User;
 
 class Login
 {
@@ -26,7 +26,7 @@ class Login
         $this->log($request, (bool) $event->token);
 
         if ($event->token) {
-            /* @var Users $user */
+            /* @var User $user */
             $user = Auth::guard(getGuardName())->user();
 
             $user->login_ip = $request->ip();

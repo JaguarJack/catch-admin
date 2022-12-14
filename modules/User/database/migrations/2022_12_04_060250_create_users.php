@@ -25,6 +25,8 @@ return new class () extends Migration {
 
             $table->string('remember_token', 1000)->nullable()->comment('token');
 
+            $table->integer('department_id')->default(0)->comment('部门ID');
+
             $table->integer('creator_id')->default(0);
 
             $table->status();

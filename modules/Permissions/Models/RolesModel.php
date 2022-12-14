@@ -26,12 +26,18 @@ class RolesModel extends Model
     /**
      * @var array
      */
-    protected array $fieldsInList = ['id', 'role_name','identify','parent_id','description','data_range', 'created_at', 'updated_at'];
+    protected array $fields = ['id', 'role_name','identify','parent_id','description','data_range', 'created_at', 'updated_at'];
 
     /**
      * @var array
      */
     protected array $form = ['role_name','identify','parent_id','description','data_range'];
+
+
+    /**
+     * @var bool
+     */
+    protected bool $isPaginate = false;
 
     /**
      * @var array
@@ -41,11 +47,5 @@ class RolesModel extends Model
     ];
 
 
-    /**
-     * @return mixed
-     */
-    public function getList(): mixed
-    {
-        return self::query()->select($this->fieldsInList)->quickSearch()->get()->toTree();
-    }
+    protected bool $asTree = true;
 }

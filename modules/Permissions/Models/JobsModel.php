@@ -27,7 +27,7 @@ class JobsModel extends Model
     /**
      * @var array
      */
-    protected array $fieldsInList = ['id','job_name','coding','status','sort','description','created_at','updated_at'];
+    protected array $fields = ['id','job_name','coding','status','sort','description','created_at','updated_at'];
 
     /**
      * @var array

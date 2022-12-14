@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace Modules\Permissions\Models;
 
 use Catch\Base\CatchModel as Model;
+use Catch\Enums\Status;
+use Modules\Permissions\Enums\MenuStatus;
+use Modules\Permissions\Enums\MenuType;
 
 /**
  * @property $id
@@ -34,7 +37,9 @@ class PermissionsModel extends Model
     /**
      * @var array
      */
-    protected array $fieldsInList = ['id','parent_id','permission_name','route','icon','module','permission_mark','component','redirect','keepalive','type','hidden','sort','created_at','updated_at'];
+    protected array $fields = ['id','parent_id','permission_name','route','icon','module','permission_mark','component','redirect','keepalive','type','hidden','sort','created_at','updated_at'];
+
+    protected bool $isPaginate = false;
 
     /**
      * @var array
@@ -48,13 +53,21 @@ class PermissionsModel extends Model
         'permission_name' => 'like',
     ];
 
+
     /**
-     * @return mixed
+     * @var bool
      */
-    public function getList(): mixed
-    {
-        return self::query()->select($this->fieldsInList)->quickSearch()->get()->toTree();
-    }
+    protected bool $asTree = true;
+
+    /**
+     * @var string[]
+     */
+    protected $casts = [
+        'type' => MenuType::class,
+
+        'status' => MenuStatus::class
+    ];
+
 
     /**
      * is hidden
@@ -63,6 +76,16 @@ class PermissionsModel extends Model
      */
     public function isHidden(): bool
     {
-        return $this->hidden === 2;
+        return $this->hidden === Status::Disable;
+    }
+
+    /**
+     * action type
+     *
+     * @return bool
+     */
+    public function isAction(): bool
+    {
+        return $this->type == MenuType::Action;
     }
 }

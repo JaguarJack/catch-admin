@@ -26,10 +26,12 @@ class DepartmentsModel extends Model
 
     protected $fillable = ['id', 'parent_id', 'department_name', 'principal', 'mobile', 'email', 'status', 'sort', 'creator_id', 'created_at', 'updated_at', 'deleted_at'];
 
+    protected bool $isPaginate = false;
+
     /**
      * @var array
      */
-    protected array $fieldsInList = ['id','parent_id','department_name','status','sort','created_at'];
+    protected array $fields = ['id','parent_id','department_name','status','sort','created_at'];
 
     /**
      * @var array
@@ -44,8 +46,5 @@ class DepartmentsModel extends Model
         'status' => '=',
     ];
 
-    public function getList(): mixed
-    {
-        return self::query()->select($this->fieldsInList)->quickSearch()->get()->toTree();
-    }
+    protected bool $asTree = true;
 }

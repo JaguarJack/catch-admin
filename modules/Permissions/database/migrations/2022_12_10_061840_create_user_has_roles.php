@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class () extends Migration {
     /**
      * Run the migrations.
      *
@@ -14,11 +13,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('user_has_roles', function (Blueprint $table) {
-                $table->integer('user_id')->comment('users primary key');
+            $table->integer('user_id')->comment('users primary key');
 
-                $table->integer('role_id')->comment('roles primary key');
+            $table->integer('role_id')->comment('roles primary key');
 
-                $table->comment('user relate roles');
+            $table->comment('user relate roles');
         });
     }
 
@@ -29,6 +28,5 @@ return new class extends Migration
      */
     public function down(): void
     {
-
     }
 };

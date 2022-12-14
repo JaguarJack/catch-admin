@@ -33,6 +33,21 @@
         <el-form-item label="密码" prop="password" :rules="passwordRules">
           <el-input v-model="formData.password" type="password" show-password placeholder="请输入密码" />
         </el-form-item>
+
+        <el-form-item label="角色" prop="roles" v-if="hasRoles" :rules="[{ required: true, message: '请选择角色' }]">
+          <el-tree-select
+            v-model="formData.roles"
+            :default-expanded-keys="formData.roles"
+            :data="roles"
+            value-key="id"
+            check-strictly
+            class="w-full"
+            :props="{ label: 'role_name', value: 'id' }"
+            clearable
+            multiple
+            show-checkbox
+          />
+        </el-form-item>
       </div>
 
       <div class="w-1/2" v-if="hasRoles">
@@ -46,9 +61,6 @@
         </el-form-item>
       </div>
     </div>
-    <el-form-item label="角色" prop="role_id" :rules="[{ required: true, message: '请选择角色' }]">
-      <el-tree v-model="formData.role_id" empty-text="" :data="roles" check-strictly :props="{ label: 'role_name', value: 'id' }" show-checkbox class="w-full mt-1" default-checked-keys />
-    </el-form-item>
     <div class="flex justify-end">
       <el-button type="primary" @click="submitForm(form)">{{ $t('system.confirm') }}</el-button>
     </div>
@@ -59,8 +71,8 @@
 import { useCreate } from '/admin/composables/curd/useCreate'
 import { useShow } from '/admin/composables/curd/useShow'
 
-import { onMounted, watch, ref } from 'vue'
-import http from '../../../../resources/admin/support/http'
+import { onMounted, ref } from 'vue'
+import http from '/admin/support/http'
 
 const props = defineProps({
   primary: String | Number,
@@ -91,26 +103,26 @@ const { formData, form, loading, submitForm, close } = useCreate(props.api, prop
 if (props.primary) {
   useShow(props.api, props.primary, formData)
 }
+
 const emit = defineEmits(['close'])
+close(() => emit('close'))
 
 const departments = ref()
 const jobs = ref()
 const roles = ref()
 
 onMounted(() => {
-  close(() => emit('close'))
-
   if (props.hasRoles) {
-    http.get('permissions/roles').then(r => {
-      roles.value = r.data.data
-    })
-
     http.get('permissions/departments').then(r => {
       departments.value = r.data.data
     })
 
     http.get('permissions/jobs').then(r => {
       jobs.value = r.data.data
+    })
+
+    http.get('permissions/roles').then(r => {
+      roles.value = r.data.data
     })
   }
 })

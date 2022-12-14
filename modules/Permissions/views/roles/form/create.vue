@@ -31,6 +31,19 @@
     <el-form-item label="角色描述" prop="description">
       <el-input v-model="formData.description" name="description" clearable type="textarea" />
     </el-form-item>
+    <el-form-item label="选择权限" prop="permissions">
+      <el-tree
+        v-model="formData.permissions"
+        :default-expanded-keys="formData.permissions"
+        :data="permissions"
+        value-key="id"
+        check-strictly
+        class="w-full"
+        :props="{ label: 'permission_name', value: 'id' }"
+        show-checkbox
+      />
+    </el-form-item>
+
     <el-form-item label="数据权限" prop="data_range">
       <Select v-model="formData.data_range" name="data_range" clearable api="dataRange" class="w-full" />
     </el-form-item>
@@ -82,11 +95,22 @@ if (props.primary) {
 
 const emit = defineEmits(['close'])
 const roles = ref()
+const permissions = ref()
 onMounted(() => {
   http.get(props.api).then(r => {
     roles.value = r.data.data
   })
 
   close(() => emit('close'))
+
+  http.get('permissions/permissions').then(r => {
+    permissions.value = r.data.data
+  })
 })
 </script>
+
+<style scoped lang="scss">
+:deep(.el-tree .el-tree-node__children:last-child) {
+  @apply flex flex-row;
+}
+</style>

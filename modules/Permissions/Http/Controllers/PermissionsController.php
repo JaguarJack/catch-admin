@@ -52,6 +52,6 @@ class PermissionsController extends Controller
      */
     public function enable($id)
     {
-        return $this->model->disOrEnable($id, 'hidden');
+        return $this->model->toggleBy($id, 'hidden');
     }
 }

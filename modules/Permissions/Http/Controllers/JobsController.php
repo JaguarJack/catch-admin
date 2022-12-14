@@ -46,6 +46,6 @@ class JobsController extends Controller
 
     public function enable($id)
     {
-        return $this->model->disOrEnable($id);
+        return $this->model->toggleBy($id);
     }
 }

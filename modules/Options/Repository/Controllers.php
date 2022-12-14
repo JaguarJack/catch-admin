@@ -1,9 +1,8 @@
 <?php
+
 namespace Modules\Options\Repository;
 
 use Catch\CatchAdmin;
-use Catch\Support\Composer;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 
@@ -14,7 +13,7 @@ class Controllers implements OptionInterface
         $controllers = [];
 
         if ($module = request()->get('module')) {
-            $controllerFiles = File::glob(CatchAdmin::getModuleControllerPath($module) . '*.php');
+            $controllerFiles = File::glob(CatchAdmin::getModuleControllerPath($module).'*.php');
 
             foreach ($controllerFiles as $controllerFile) {
                 $controllers[] = [
@@ -23,10 +22,8 @@ class Controllers implements OptionInterface
                     'value' => Str::of(File::name($controllerFile))->remove('Controller'),
                 ];
             }
-
         }
 
         return $controllers;
     }
-
 }

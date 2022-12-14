@@ -59,7 +59,7 @@ return [
 
         'namespace' => 'Modules',
 
-        'default' => ['develop', 'user'],
+        'default' => ['develop', 'user', 'permission'],
 
         'default_dirs' => [
             'Http'.DIRECTORY_SEPARATOR,
@@ -82,7 +82,13 @@ return [
 
             // use database driver
             'table_name' => 'admin_modules'
-        ]
+        ],
+
+        /**
+         * module routes collection
+         *
+         */
+        'routes' => [],
     ],
 
     /*
@@ -117,19 +123,19 @@ return [
         'providers' => [
             'admin_users' => [
                 'driver' => 'eloquent',
-                'model' => \Modules\User\Models\Users::class
+                'model' => \Modules\User\Models\User::class
             ]
         ]
     ],
 
-   /*
+    /*
    |--------------------------------------------------------------------------
    | database sql log
    |--------------------------------------------------------------------------
    */
     'listen_db_log' => true,
 
-   /*
+    /*
    |--------------------------------------------------------------------------
    | route config
    |--------------------------------------------------------------------------

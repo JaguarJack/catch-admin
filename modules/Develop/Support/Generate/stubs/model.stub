@@ -18,7 +18,7 @@ class {model} extends Model
     /**
      * @var array
      */
-    protected array $fieldsInList = [{fieldsInList}];
+    protected array $fields = [{fieldsInList}];
 
     /**
      * @var array

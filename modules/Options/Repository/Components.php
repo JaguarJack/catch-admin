@@ -1,9 +1,8 @@
 <?php
+
 namespace Modules\Options\Repository;
 
 use Catch\CatchAdmin;
-use Catch\Support\Composer;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 
@@ -22,7 +21,7 @@ class Components implements OptionInterface
     public function get(): array
     {
         if ($module = request()->get('module')) {
-            $components = File::glob(CatchAdmin::getModuleViewsPath($module) . '*/*.vue');
+            $components = File::glob(CatchAdmin::getModuleViewsPath($module).'*/*.vue');
 
             foreach ($components as $component) {
                 $this->components[] = [
@@ -31,10 +30,8 @@ class Components implements OptionInterface
                     'value' => Str::of($component)->replace(CatchAdmin::moduleRootPath(), '')->prepend('/')
                 ];
             }
-
         }
 
         return $this->components;
     }
-
 }

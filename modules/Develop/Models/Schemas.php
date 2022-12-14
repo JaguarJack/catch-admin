@@ -25,11 +25,6 @@ class Schemas extends CatchModel
     ];
 
     /**
-     * @var bool
-     */
-    protected bool $isPaginate = true;
-
-    /**
      * @var array|string[]
      */
     public array $searchable = ['module' => 'like', 'name' => 'like'];

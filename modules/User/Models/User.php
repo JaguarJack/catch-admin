@@ -23,12 +23,12 @@ use Illuminate\Auth\Authenticatable;
  * @property int $updated_at
  * @property string $remember_token
  */
-class Users extends Model implements AuthenticatableContract, JWTSubject
+class User extends Model implements AuthenticatableContract, JWTSubject
 {
     use Authenticatable, UserRelations;
 
     protected $fillable = [
-        'id', 'username', 'email', 'avatar', 'password', 'remember_token', 'creator_id', 'status', 'login_ip', 'login_at', 'created_at', 'updated_at', 'deleted_at'
+        'id', 'username', 'email', 'avatar', 'password', 'remember_token', 'creator_id', 'status', 'department_id', 'login_ip', 'login_at', 'created_at', 'updated_at', 'deleted_at'
     ];
 
     /**
@@ -45,10 +45,17 @@ class Users extends Model implements AuthenticatableContract, JWTSubject
      */
     protected $table = 'users';
 
+    protected array $fields = ['id', 'username', 'email', 'avatar',  'creator_id', 'status', 'department_id', 'created_at'];
+
     /**
      * @var array|string[]
      */
-    protected array $form = ['username', 'email', 'password'];
+    protected array $form = ['username', 'email', 'password', 'department_id'];
+
+    /**
+     * @var array|string[]
+     */
+    protected array $formRelations = ['roles', 'jobs'];
 
     /**
      *

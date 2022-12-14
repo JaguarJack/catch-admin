@@ -1,22 +1,27 @@
 <?php
-namespace Modules\User\Models\Traits;
 
+namespace Modules\User\Models\Traits;
 
 use Catch\CatchAdmin;
 use Catch\Support\Module\ModuleRepository;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Route;
 
 trait UserRelations
 {
+    protected bool $isPermissionModuleEnabled = false;
 
     /**
      * init traits
      */
     public function initializeUserRelations(): void
     {
-       if (app(ModuleRepository::class)->enabled('permissions')) {
-           $this->with = ['roles', 'jobs'];
-       }
+        $this->isPermissionModuleEnabled = app(ModuleRepository::class)->enabled('permissions');
+
+        if ($this->isPermissionModuleEnabled) {
+            $this->with = ['roles', 'jobs'];
+        }
     }
 
     /**
@@ -56,11 +61,42 @@ trait UserRelations
             $permissions = [];
         }
 
-        $this->setAttribute('permissions', $permissions->each(fn($permission) => $permission->setAttribute('hidden', $permission->isHidden())));
+        $this->setAttribute('permissions', $permissions->each(fn ($permission) => $permission->setAttribute('hidden', $permission->isHidden())));
 
         return $this;
     }
 
+    /**
+     *
+     * permission module controller.action
+     *
+     * @param string|null $permission
+     * @return bool
+     */
+    public function can(string $permission = null): bool
+    {
+        if (! $this->isPermissionModuleEnabled) {
+            return true;
+        }
+
+        if ($this->isSuperAdmin()) {
+            return true;
+        }
+
+        $this->withPermissions();
+
+        $actions = Collection::make();
+
+        $this->permissions->each(function ($permission) use (&$actions) {
+            if ($permission->isAction()) {
+                [$controller, $action] = explode('@', $permission->permission_mark);
+
+                $actions->add(CatchAdmin::getModuleControllerNamespace($permission->module).$controller.'Controller@'.$action);
+            }
+        });
+
+        return $actions->contains($permission ?: Route::currentRouteAction());
+    }
 
     /**
      * get RolesModel
@@ -70,7 +106,7 @@ trait UserRelations
      */
     protected function getRolesModel(): string
     {
-        return '\\' . CatchAdmin::getModuleModelNamespace('permissions') . 'RolesModel';
+        return '\\'.CatchAdmin::getModuleModelNamespace('permissions').'RolesModel';
     }
 
 
@@ -82,7 +118,7 @@ trait UserRelations
      */
     protected function getJobsModel(): string
     {
-        return '\\'. CatchAdmin::getModuleModelNamespace('permissions') . 'JobsModel';
+        return '\\'.CatchAdmin::getModuleModelNamespace('permissions').'JobsModel';
     }
 
     /**
@@ -93,6 +129,6 @@ trait UserRelations
      */
     protected function getPermissionsModel(): string
     {
-        return '\\'. CatchAdmin::getModuleModelNamespace('permissions') . 'PermissionsModel';
+        return '\\'.CatchAdmin::getModuleModelNamespace('permissions').'PermissionsModel';
     }
 }

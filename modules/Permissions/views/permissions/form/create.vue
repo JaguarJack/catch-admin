@@ -39,7 +39,7 @@
           <el-cascader :options="permissions" name="parent_id" v-model="formData.parent_id" clearable :props="{ value: 'id', label: 'permission_name', checkStrictly: true }" class="w-full" />
         </el-form-item>
         <el-form-item label="权限标识" prop="permission_mark" :rules="[{ required: true, message: '权限标识必须填写' }]" v-if="!isTop">
-          <Select v-model="formData.permission_mark" name="permission_mark" :options="actionMenuNames" allow-create v-if="isAction" />
+          <Select v-model="formData.permission_mark" name="permission_mark" :options="actionMenuMark" allow-create v-if="isAction" />
           <Select v-model="formData.permission_mark" placeholder="请选择" api="controllers" :query="{ module: formData.module }" v-else />
         </el-form-item>
         <el-form-item label="菜单Icon" prop="icon" v-if="!isAction">

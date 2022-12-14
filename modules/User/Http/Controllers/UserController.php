@@ -6,12 +6,12 @@ use Catch\Base\CatchController as Controller;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\Request;
 use Modules\User\Models\LogLogin;
-use Modules\User\Models\Users;
+use Modules\User\Models\User;
 
 class UserController extends Controller
 {
     public function __construct(
-        protected readonly Users $user
+        protected readonly User $user
     ) {
     }
 
@@ -44,7 +44,18 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        return $this->user->firstBy($id)->makeHidden('password');
+        return $this->user->setAfterFirstBy(function (User $user){
+            $relations = array_keys($user->getRelations());
+            if (in_array('roles', $relations)) {
+                $user->setRelations([
+                    'roles' => $user->roles->pluck('id'),
+
+                    'jobs' => $user->jobs->pluck('id')
+                ]);
+            }
+
+            return $user;
+        })->firstBy($id)->makeHidden('password');
     }
 
     /**
@@ -78,7 +89,7 @@ class UserController extends Controller
      */
     public function enable($id)
     {
-        return $this->user->disOrEnable($id);
+        return $this->user->toggleBy($id);
     }
 
     /**
@@ -88,7 +99,7 @@ class UserController extends Controller
      */
     public function online(Request $request)
     {
-        /* @var Users $user */
+        /* @var User $user */
         $user = $this->getLoginUser()->withPermissions();
 
         if ($request->isMethod('post')) {
