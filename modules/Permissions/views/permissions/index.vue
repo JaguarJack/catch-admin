@@ -12,7 +12,13 @@
       <el-table :data="tableData" class="mt-3" v-loading="loading" row-key="id" default-expand-all :tree-props="{ children: 'children' }">
         <el-table-column prop="permission_name" label="菜单名称" />
         <el-table-column prop="route" label="菜单路由" />
-        <el-table-column prop="permission_mark" label="权限标识" />
+        <el-table-column prop="permission_mark" label="权限标识" width="300">
+          <template #default="scope">
+            <div v-if="scope.row.actions.length" class="flex gap gap-1">
+              <el-tag v-for="action in scope.row.actions" class="cursor-pointer" @click="open(action.id)" closable @close="destroy(api, action.id)">{{ action.permission_name }}</el-tag>
+            </div>
+          </template>
+        </el-table-column>
         <el-table-column prop="hidden" label="状态">
           <template #default="scope">
             <Status v-model="scope.row.hidden" :id="scope.row.id" :api="api" />

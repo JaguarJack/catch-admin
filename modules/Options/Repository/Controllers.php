@@ -17,9 +17,9 @@ class Controllers implements OptionInterface
 
             foreach ($controllerFiles as $controllerFile) {
                 $controllers[] = [
-                    'label' => Str::of(File::name($controllerFile))->remove('Controller'),
+                    'label' => Str::of(File::name($controllerFile))->lcfirst()->remove('Controller'),
 
-                    'value' => Str::of(File::name($controllerFile))->remove('Controller'),
+                    'value' => Str::of(File::name($controllerFile))->lcfirst()->remove('Controller'),
                 ];
             }
         }

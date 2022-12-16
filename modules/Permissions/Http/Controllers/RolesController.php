@@ -20,7 +20,9 @@ class RolesController extends Controller
      */
     public function index(): mixed
     {
-        return $this->model->getList();
+        return $this->model->setBeforeGetList(function ($query){
+            return $query->with(['permissions' => function($query){ $query->select('id');}]);
+        })->getList();
     }
 
     public function store(RoleRequest $request)
@@ -30,7 +32,11 @@ class RolesController extends Controller
 
     public function show($id)
     {
-        return $this->model->firstBy($id);
+        $role = $this->model->firstBy($id);
+
+        $role->setAttribute('permissions', $role->permissions()->get()->toTree());
+
+        return $role;
     }
 
     public function update($id, RoleRequest $request)

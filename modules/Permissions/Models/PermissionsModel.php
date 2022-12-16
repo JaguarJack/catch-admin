@@ -6,6 +6,7 @@ namespace Modules\Permissions\Models;
 
 use Catch\Base\CatchModel as Model;
 use Catch\Enums\Status;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Modules\Permissions\Enums\MenuStatus;
 use Modules\Permissions\Enums\MenuType;
 
@@ -51,8 +52,11 @@ class PermissionsModel extends Model
      */
     public array $searchable = [
         'permission_name' => 'like',
+
+        'role_id' => '='
     ];
 
+    protected $hidden = ['pivot'];
 
     /**
      * @var bool
@@ -87,5 +91,38 @@ class PermissionsModel extends Model
     public function isAction(): bool
     {
         return $this->type == MenuType::Action;
+    }
+
+    /**
+     * actions
+     *
+     * @return HasMany
+     */
+    public function actions(): HasMany
+    {
+        return $this->hasMany(self::class, 'parent_id', 'id')->where('type', MenuType::Action);
+    }
+
+    /**
+     *
+     * @param array $data
+     * @return bool
+     */
+    public function storeBy(array $data): bool
+    {
+       $model = $this->fill($data);
+
+       if ($model->isAction()) {
+          $parentMenu =  $this->firstBy($model->parent_id, 'id');
+          $model->setAttribute('module', $parentMenu->module);
+          $model->setAttribute('permission_mark', $parentMenu->permission_mark . '@' . $data['permission_mark']);
+          $model->setAttribute('route', '');
+           $model->setAttribute('icon', '');
+           $model->setAttribute('component', '');
+           $model->setAttribute('redirect', '');
+          return $model->setCreatorId()->save();
+       } else {
+           return parent::storeBy($data);
+       }
     }
 }

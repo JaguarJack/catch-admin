@@ -3,6 +3,7 @@
 namespace Modules\User\Http\Controllers;
 
 use Catch\Base\CatchController as Controller;
+use Catch\Support\Module\ModuleRepository;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\Request;
 use Modules\User\Models\LogLogin;
@@ -44,18 +45,17 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        return $this->user->setAfterFirstBy(function (User $user){
-            $relations = array_keys($user->getRelations());
-            if (in_array('roles', $relations)) {
-                $user->setRelations([
-                    'roles' => $user->roles->pluck('id'),
+        $user = $this->user->firstBy($id)->makeHidden('password');
 
-                    'jobs' => $user->jobs->pluck('id')
-                ]);
-            }
+        if (app(ModuleRepository::class)->enabled('permissions')) {
+            $user->setRelations([
+                'roles' => $user->roles->pluck('id'),
 
-            return $user;
-        })->firstBy($id)->makeHidden('password');
+                'jobs' => $user->jobs->pluck('id')
+            ]);
+        }
+
+        return $user;
     }
 
     /**

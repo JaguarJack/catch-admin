@@ -16,7 +16,6 @@ interface Permissions {
 
   menuPathMap: Map<string, string>
 }
-
 export const usePermissionsStore = defineStore('PermissionsStore', {
   state: (): Permissions => {
     return {
@@ -125,7 +124,6 @@ export const usePermissionsStore = defineStore('PermissionsStore', {
      */
     getAsnycMenus(permissions: Permission[], parentId: number = 0, path: string = '', viewComponents: any): Menu[] {
       const menus: Menu[] = []
-      console.log(viewComponents)
       permissions.forEach(permission => {
         if (permission.parent_id === parentId) {
           // menu

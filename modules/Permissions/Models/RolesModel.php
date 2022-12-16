@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Permissions\Models;
 
 use Catch\Base\CatchModel as Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * @property $role_name
@@ -33,6 +34,7 @@ class RolesModel extends Model
      */
     protected array $form = ['role_name','identify','parent_id','description','data_range'];
 
+    protected array $formRelations = ['permissions'];
 
     /**
      * @var bool
@@ -44,8 +46,19 @@ class RolesModel extends Model
      */
     public array $searchable = [
         'role_name' => 'like',
+
+        'id' => '<>'
     ];
 
-
     protected bool $asTree = true;
+
+
+    /**
+     *
+     * @return BelongsToMany
+     */
+    public function permissions(): BelongsToMany
+    {
+        return $this->belongsToMany(PermissionsModel::class, 'role_has_permissions', 'role_id', 'permission_id');
+    }
 }

@@ -136,7 +136,7 @@ onMounted(() => {
   // 监听 form data
   watch(
     formData,
-    (value, oldValue) => {
+    () => {
       const type: number = formData.value.type
 
       if (type === 1) {

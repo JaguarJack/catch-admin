@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Permissions\Http\Controllers;
 
 use Catch\Base\CatchController as Controller;
+use Modules\Permissions\Enums\MenuType;
 use Modules\Permissions\Models\PermissionsModel;
 use Illuminate\Http\Request;
 
@@ -16,12 +17,13 @@ class PermissionsController extends Controller
     }
 
     /**
-     * @param Request $request
      * @return mixed
      */
-    public function index(Request $request): mixed
+    public function index(): mixed
     {
-        return $this->model->getList();
+        return $this->model->setBeforeGetList(function ($query){
+            return $query->with('actions')->whereIn('type', [MenuType::Top->value(), MenuType::Menu->value]);
+        })->getList();
     }
 
     public function store(Request $request)

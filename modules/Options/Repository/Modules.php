@@ -14,9 +14,9 @@ class Modules implements OptionInterface
 
             ->each(function ($module) use (&$modules) {
                 $modules[] = [
-                    'label' => $module['name'],
+                    'label' => $module['title'],
 
-                    'value' => $module['path']
+                    'value' => $module['name']
                 ];
             });
 
