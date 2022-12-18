@@ -32,7 +32,7 @@ class Schemas extends CatchModel
     /**
      * @var string[]
      */
-    protected array $mergeCasts = [
+    protected $casts = [
         'is_soft_delete' => Status::class
     ];
 

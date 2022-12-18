@@ -35,6 +35,8 @@ return new class () extends Migration {
             $table->updatedAt();
             $table->deletedAt();
 
+            $table->index(['module', 'permission_mark']);
+
             $table->engine = 'InnoDB';
             $table->comment('权限表');
         });

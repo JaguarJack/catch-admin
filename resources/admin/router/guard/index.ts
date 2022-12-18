@@ -44,8 +44,9 @@ const guard = (router: Router) => {
             }
             next({ ...to, replace: true })
           } catch (e) {
+            console.log(e)
             removeAuthToken()
-            next({ path: `${WhiteListPage.LOGIN_PATH}?redirect=${to.path}` })
+            next({ path: `${WhiteListPage.LOGIN_PATH}?redirect=/${to.path}` })
           }
         }
       }

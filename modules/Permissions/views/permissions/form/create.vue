@@ -1,5 +1,5 @@
 <template>
-  <el-form :model="formData" label-width="80px" ref="form" v-loading="loading" class="pr-4">
+  <el-form :model="formData" label-width="85px" ref="form" v-loading="loading" class="pr-4">
     <div class="flex flex-row justify-between">
       <div>
         <el-form-item label="菜单类型" prop="type">
@@ -18,7 +18,7 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item label="菜单名称" prop="permission_name" :rules="[{ required: true, message: '菜单名称必须填写' }]">
-          <Select v-model="formData.permission_name" name="permission_name" :options="actionMenuNames" v-if="isAction" />
+          <Select v-model="formData.permission_name" name="permission_name" allow-create :options="actionMenuNames" v-if="isAction" />
           <el-input v-model="formData.permission_name" name="permission_name" clearable v-else />
         </el-form-item>
         <el-form-item label="所属模块" prop="module" :rules="[{ required: true, message: '所属模块必须填写' }]" v-if="!isAction">
@@ -93,9 +93,9 @@
 import { useCreate } from '/admin/composables/curd/useCreate'
 import { useShow } from '/admin/composables/curd/useShow'
 import { useOpen } from '/admin/composables/curd/useOpen'
-
 import { onMounted, ref, watch } from 'vue'
 import http from '/admin/support/http'
+import { MenuType } from '/admin/enum/app'
 
 const props = defineProps({
   primary: String | Number,
@@ -109,11 +109,15 @@ const { open, visible } = useOpen()
 const closeSelectIcon = () => {
   visible.value = false
 }
+const defaultSort = 1
+const defaultKeepalive = 1
+const defaultHidden = 1
+
 // 初始化
-formData.value.sort = 1
-formData.value.keepalive = 1
-formData.value.type = 1
-formData.value.hidden = 1
+formData.value.sort = defaultSort
+formData.value.keepalive = defaultKeepalive
+formData.value.type = MenuType.TOP_TYPE
+formData.value.hidden = defaultHidden
 // 默认目录
 const isTop = ref<boolean>(true)
 const isMenu = ref<boolean>(false)
@@ -121,7 +125,14 @@ const isAction = ref<boolean>(false)
 
 // 回显示表单
 if (props.primary) {
-  useShow(props.api, props.primary, formData)
+  const { afterShow } = useShow(props.api, props.primary, formData)
+
+  afterShow.value = formData => {
+    console.log(formData.value.permission_mark)
+    if (formData.value.permission_mark.indexOf('@') !== -1) {
+      formData.value.permission_mark = formData.value.permission_mark.split('@')[1]
+    }
+  }
 }
 
 const emit = defineEmits(['close'])
@@ -130,7 +141,7 @@ onMounted(() => {
   http.get(props.api).then(r => {
     permissions.value = r.data.data
   })
-  // close dialog
+
   close(() => emit('close'))
 
   // 监听 form data
@@ -138,11 +149,10 @@ onMounted(() => {
     formData,
     () => {
       const type: number = formData.value.type
-
-      if (type === 1) {
+      if (type === MenuType.TOP_TYPE) {
         isTop.value = true
         isMenu.value = isAction.value = false
-      } else if (type === 2) {
+      } else if (type === MenuType.PAGE_TYPE) {
         isMenu.value = true
         isTop.value = isAction.value = false
       } else {
@@ -156,10 +166,10 @@ onMounted(() => {
 
 // 菜单是菜单类型的时，清除模块，那么权限标识&组件也需要清除
 const clearModule = () => {
-  if (formData.value.type === 1 || formData.value.type === 2) {
+  if (formData.value.type === MenuType.TOP_TYPE || formData.value.type === MenuType.PAGE_TYPE) {
     formData.value.component = null
   }
-  if (formData.value.type === 2) {
+  if (formData.value.type === MenuType.PAGE_TYPE) {
     formData.value.permission_mark = null
   }
 }
@@ -197,6 +207,10 @@ beforeUpdate.value = () => {
 }
 
 const getParent = (parentId: any) => {
+  if (typeof parentId === 'number') {
+    return parentId
+  }
+
   return typeof parentId === 'undefined' ? 0 : parentId[parentId.length - 1]
 }
 </script>

@@ -21,7 +21,7 @@ class Components implements OptionInterface
     public function get(): array
     {
         if ($module = request()->get('module')) {
-            $components = File::glob(CatchAdmin::getModuleViewsPath($module).'*/*.vue');
+            $components = File::glob(CatchAdmin::getModuleViewsPath($module).'*'.DIRECTORY_SEPARATOR.'*.vue');
 
             foreach ($components as $component) {
                 $this->components[] = [

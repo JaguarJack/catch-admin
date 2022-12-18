@@ -5,6 +5,7 @@ namespace Modules\Permissions\Providers;
 use Catch\CatchAdmin;
 use Catch\Providers\CatchModuleServiceProvider;
 use Modules\Permissions\Middlewares\PermissionGate;
+use Modules\Permissions\Models\LogOperate;
 
 class PermissionsServiceProvider extends CatchModuleServiceProvider
 {
@@ -34,4 +35,7 @@ class PermissionsServiceProvider extends CatchModuleServiceProvider
         // TODO: Implement path() method.
         return CatchAdmin::getModuleRoutePath('Permissions');
     }
+
+
+
 }

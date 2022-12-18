@@ -1,11 +1,4 @@
 <?php return array (
-  'catchadmin/core' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Catch\\Providers\\CatchAdminServiceProvider',
-    ),
-  ),
   'laravel/tinker' => 
   array (
     'providers' => 

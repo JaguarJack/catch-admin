@@ -188,6 +188,7 @@ class Http {
             router.push('/login')
           })
         } else if (code === Code.LOGIN_BLACKLIST || code === Code.USER_FORBIDDEN) {
+          console.log(123123)
           Message.error(message || 'Error')
           removeAuthToken()
           // to login page

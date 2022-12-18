@@ -14,8 +14,8 @@
         <el-table-column prop="route" label="菜单路由" />
         <el-table-column prop="permission_mark" label="权限标识" width="300">
           <template #default="scope">
-            <div v-if="scope.row.actions.length" class="flex gap gap-1">
-              <el-tag v-for="action in scope.row.actions" class="cursor-pointer" @click="open(action.id)" closable @close="destroy(api, action.id)">{{ action.permission_name }}</el-tag>
+            <div v-if="scope.row.actions.length" class="flex grid gap-1 grid-cols-4">
+              <el-tag v-for="action in scope.row.actions" class="cursor-pointer min-w-fit" @click="open(action.id)" closable @close="destroy(api, action.id)">{{ action.permission_name }}</el-tag>
             </div>
           </template>
         </el-table-column>
@@ -46,6 +46,7 @@ import Create from './form/create.vue'
 import { useGetList } from '/admin/composables/curd/useGetList'
 import { useDestroy } from '/admin/composables/curd/useDestroy'
 import { useOpen } from '/admin/composables/curd/useOpen'
+import { MenuType } from '/admin/enum/app'
 
 const api = 'permissions/permissions'
 

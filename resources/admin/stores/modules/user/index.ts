@@ -11,7 +11,7 @@ export const useUserStore = defineStore('UserStore', {
     return {
       id: 0,
 
-      nickname: '',
+      username: '',
 
       avatar: '',
 
@@ -32,7 +32,7 @@ export const useUserStore = defineStore('UserStore', {
       return this.id
     },
     getNickname(): string {
-      return this.nickname
+      return this.username
     },
 
     getAvatar(): string {
@@ -52,8 +52,8 @@ export const useUserStore = defineStore('UserStore', {
     isSuperAdmin(): boolean {
       return this.id === 1
     },
-    setNickname(nickname: string) {
-      this.nickname = nickname
+    setUsername(username: string) {
+      this.username = username
     },
 
     setId(id: number) {
@@ -130,10 +130,10 @@ export const useUserStore = defineStore('UserStore', {
         http
           .get('/user/online')
           .then(response => {
-            const { id, nickname, email, avatar, permissions, roles, rememberToken, status } = response.data.data
+            const { id, username, email, avatar, permissions, roles, rememberToken, status } = response.data.data
             // set user info
             this.setId(id)
-            this.setNickname(nickname)
+            this.setUsername(username)
             this.setEmail(email)
             this.setRoles(roles)
             this.setRememberToken(rememberToken)

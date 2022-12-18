@@ -7,6 +7,7 @@ use Catch\Support\Module\ModuleRepository;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Route;
+use Modules\Permissions\Models\PermissionsModel;
 
 trait UserRelations
 {
@@ -50,15 +51,21 @@ trait UserRelations
      */
     public function withPermissions(): self
     {
-        /* @var \Modules\Permissions\Models\PermissionsModel $permissionsModel */
+        /* @var PermissionsModel $permissionsModel */
         $permissionsModel = app($this->getPermissionsModel());
 
         if ($this->isSuperAdmin()) {
             $permissions = $permissionsModel->get();
         } else {
-            $roles = app($this->getRolesModel())->with(['permissions'])->get();
+            $permissions = Collection::make();
 
-            $permissions = [];
+            app($this->getRolesModel())->with(['permissions'])->get()
+
+                ->each(function ($role) use (&$permissions){
+                    $permissions = $permissions->concat($role->permissions);
+                });
+
+            $permissions = $permissions->unique();
         }
 
         $this->setAttribute('permissions', $permissions->each(fn ($permission) => $permission->setAttribute('hidden', $permission->isHidden())));
@@ -80,14 +87,14 @@ trait UserRelations
         }
 
         if ($this->isSuperAdmin()) {
-            return true;
+           // return true;
         }
 
         $this->withPermissions();
 
         $actions = Collection::make();
 
-        $this->permissions->each(function ($permission) use (&$actions) {
+        $this->getAttribute('permissions')->each(function ($permission) use (&$actions) {
             if ($permission->isAction()) {
                 [$controller, $action] = explode('@', $permission->permission_mark);
 

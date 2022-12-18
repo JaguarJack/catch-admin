@@ -1,22 +1,21 @@
-
 // login user type
 
 import { Permission } from './permission'
 
 export interface User {
-    id: number,
+  id: number
 
-    nickname: string,
+  username: string
 
-    avatar: string,
+  avatar: string
 
-    email: string,
+  email: string
 
-    status: number,
+  status: number
 
-    remember_token: string,
+  remember_token: string
 
-    roles?: string[],
+  roles?: string[]
 
-    permissions?: Permission[]
+  permissions?: Permission[]
 }

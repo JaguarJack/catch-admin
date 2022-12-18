@@ -94,6 +94,16 @@ class PermissionsModel extends Model
     }
 
     /**
+     * is top menu
+     *
+     * @return bool
+     */
+    public function isTopMenu(): bool
+    {
+        return $this->type == MenuType::Top;
+    }
+
+    /**
      * actions
      *
      * @return HasMany
@@ -117,12 +127,37 @@ class PermissionsModel extends Model
           $model->setAttribute('module', $parentMenu->module);
           $model->setAttribute('permission_mark', $parentMenu->permission_mark . '@' . $data['permission_mark']);
           $model->setAttribute('route', '');
-           $model->setAttribute('icon', '');
-           $model->setAttribute('component', '');
-           $model->setAttribute('redirect', '');
+          $model->setAttribute('icon', '');
+          $model->setAttribute('component', '');
+          $model->setAttribute('redirect', '');
           return $model->setCreatorId()->save();
-       } else {
-           return parent::storeBy($data);
        }
+
+       if ($model->isTopMenu()) {
+           $data['route'] = '/' . trim($data['route'], '/');
+       }
+
+        return parent::storeBy($data);
+    }
+
+
+    /**
+     * update data
+     *
+     * @param $id
+     * @param array $data
+     * @return mixed
+     */
+    public function updateBy($id, array $data): mixed
+    {
+        $model = $this->fill($data);
+
+        if ($model->isAction()) {
+            /* @var PermissionsModel $parentMenu */
+            $parentMenu =  $this->firstBy($model->parent_id, 'id');
+            $data['permission_mark'] = $parentMenu->permission_mark . '@' . $data['permission_mark'];
+        }
+
+        return parent::updateBy($id, $data);
     }
 }
