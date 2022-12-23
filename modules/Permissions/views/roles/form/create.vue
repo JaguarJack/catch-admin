@@ -43,7 +43,18 @@
     <el-form-item label="数据权限" prop="data_range">
       <Select v-model="formData.data_range" name="data_range" clearable api="dataRange" class="w-full" />
     </el-form-item>
-    <el-form-item label="选择权限" prop="permissions">
+    <el-form-item label="自定义权限" prop="department_ids" v-if="showDepartments">
+      <el-cascader
+        :options="departments"
+        name="parent_id"
+        v-model="formData.departmetn_ids"
+        :show-all-levels="false"
+        clearable
+        :props="{ value: 'id', label: 'department_name', checkStrictly: true, multiple: true }"
+        class="w-full"
+      />
+    </el-form-item>
+    <el-form-item label="角色权限" prop="permissions">
       <el-tree
         ref="permissionTree"
         v-model="formData.permissions"
@@ -66,7 +77,7 @@
 <script lang="ts" setup>
 import { useCreate } from '/admin/composables/curd/useCreate'
 import { useShow } from '/admin/composables/curd/useShow'
-import { nextTick, onMounted, ref, unref } from 'vue'
+import { nextTick, onMounted, ref, unref, watch } from 'vue'
 import http from '/admin/support/http'
 
 const props = defineProps({
@@ -74,6 +85,8 @@ const props = defineProps({
   api: String,
   hasPermissions: Array<Object>,
 })
+
+const emit = defineEmits(['close'])
 
 const { formData, form, loading, submitForm, close, beforeCreate, beforeUpdate } = useCreate(props.api, props.primary)
 
@@ -92,11 +105,14 @@ if (props.primary) {
   }
 }
 
-const emit = defineEmits(['close'])
 const roles = ref()
 const permissions = ref()
 // 权限树对象
 const permissionTree = ref()
+//  部门
+const departments = ref()
+const showDepartments = ref<boolean>(false)
+
 const permissionLoadingText = ref<string>('加载中...')
 const getPermissions = async (value: number = 0) => {
   if (value) {
@@ -129,10 +145,23 @@ const getRoles = () => {
   })
 }
 
+const getDepartments = () => {
+  http.get('permissions/departments').then(r => {
+    departments.value = r.data.data
+  })
+}
 onMounted(() => {
   getRoles()
   getPermissions()
+  getDepartments()
   close(() => emit('close'))
+  watch(
+    formData,
+    function (value) {
+      showDepartments.value = value.data_range === 2
+    },
+    { deep: true },
+  )
 })
 
 const selectPermissions = (checkedNodes, checkedKeys) => {

@@ -6,6 +6,7 @@ namespace Modules\Permissions\Models;
 
 use Catch\Base\CatchModel as Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Modules\Permissions\Models\Traits\DataRange;
 
 /**
  * @property $role_name
@@ -18,8 +19,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property $updated_at
  * @property $deleted_at
 */
-class RolesModel extends Model
+class Roles extends Model
 {
+    use DataRange;
+
     protected $table = 'roles';
 
     protected $fillable = ['id', 'role_name', 'identify', 'parent_id', 'description', 'data_range', 'creator_id', 'created_at', 'updated_at', 'deleted_at'];
@@ -59,6 +62,17 @@ class RolesModel extends Model
      */
     public function permissions(): BelongsToMany
     {
-        return $this->belongsToMany(PermissionsModel::class, 'role_has_permissions', 'role_id', 'permission_id');
+        return $this->belongsToMany(Permissions::class, 'role_has_permissions', 'role_id', 'permission_id');
+    }
+
+
+    /**
+     * departments
+     *
+     * @return BelongsToMany
+     */
+    public function departments(): BelongsToMany
+    {
+        return $this->belongsToMany(Departments::class, 'role_has_departments', 'role_id', 'department_id');
     }
 }

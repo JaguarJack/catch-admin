@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Modules\Permissions\Http\Controllers;
 
 use Catch\Base\CatchController as Controller;
-use Modules\Permissions\Models\JobsModel;
+use Modules\Permissions\Models\Jobs;
 use Illuminate\Http\Request;
 
 class JobsController extends Controller
 {
     public function __construct(
-        protected readonly JobsModel $model
+        protected readonly Jobs $model
     ) {
     }
 

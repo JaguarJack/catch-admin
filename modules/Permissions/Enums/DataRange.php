@@ -36,4 +36,15 @@ enum DataRange: int implements Enum
             self::Department_DOWN_Data => '部门及以下数据',
         };
     }
+
+    /**
+     * assert value
+     *
+     * @param int $value
+     * @return bool
+     */
+    public function assert(int $value): bool
+    {
+       return $this->value === $value;
+    }
 }

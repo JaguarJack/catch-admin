@@ -7,7 +7,7 @@ use Catch\Support\Module\ModuleRepository;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Route;
-use Modules\Permissions\Models\PermissionsModel;
+use Modules\Permissions\Models\Permissions;
 
 trait UserRelations
 {
@@ -51,7 +51,7 @@ trait UserRelations
      */
     public function withPermissions(): self
     {
-        /* @var PermissionsModel $permissionsModel */
+        /* @var Permissions $permissionsModel */
         $permissionsModel = app($this->getPermissionsModel());
 
         if ($this->isSuperAdmin()) {
@@ -61,7 +61,7 @@ trait UserRelations
 
             app($this->getRolesModel())->with(['permissions'])->get()
 
-                ->each(function ($role) use (&$permissions){
+                ->each(function ($role) use (&$permissions) {
                     $permissions = $permissions->concat($role->permissions);
                 });
 
@@ -87,7 +87,7 @@ trait UserRelations
         }
 
         if ($this->isSuperAdmin()) {
-           // return true;
+            return true;
         }
 
         $this->withPermissions();
@@ -108,34 +108,34 @@ trait UserRelations
     /**
      * get RolesModel
      *
-     * @see \Modules\Permissions\Models\RolesModel
+     * @see \Modules\Permissions\Models\Roles
      * @return string
      */
     protected function getRolesModel(): string
     {
-        return '\\'.CatchAdmin::getModuleModelNamespace('permissions').'RolesModel';
+        return '\\'.CatchAdmin::getModuleModelNamespace('permissions').'Roles';
     }
 
 
     /**
      * get JobsModel
      *
-     * @see \Modules\Permissions\Models\JobsModel
+     * @see \Modules\Permissions\Models\Jobs
      * @return string
      */
     protected function getJobsModel(): string
     {
-        return '\\'.CatchAdmin::getModuleModelNamespace('permissions').'JobsModel';
+        return '\\'.CatchAdmin::getModuleModelNamespace('permissions').'Jobs';
     }
 
     /**
      * get PermissionsModel
      *
-     * @see \Modules\Permissions\Models\PermissionsModel
      * @return string
+     *@see \Modules\Permissions\Models\Permissions
      */
     protected function getPermissionsModel(): string
     {
-        return '\\'.CatchAdmin::getModuleModelNamespace('permissions').'PermissionsModel';
+        return '\\'.CatchAdmin::getModuleModelNamespace('permissions').'Permissions';
     }
 }

@@ -1,22 +1,26 @@
 import http from '/admin/support/http'
-import {provide, ref, unref} from 'vue'
+import { provide, ref, unref } from 'vue'
 import { Code } from '/admin/enum/app'
 import Message from '/admin/support/message'
 
 const initLimit = 10
-const initPage = 1;
-const initTotal = 10;
+const initPage = 1
+const initTotal = 10
 
 // get table list
-export function useGetList(path: string) {
+export function useGetList(path: string, isPaginate: boolean = true) {
   const data = ref<object>()
   const page = ref<number>(initPage)
   const limit = ref<number>(initLimit)
   const total = ref<number>(initTotal)
-  const query = ref<object>({
-    page: page.value,
-    limit: limit.value,
-  })
+  const query = ref<object>({})
+  if (isPaginate) {
+    query.value = Object.assign({
+      page: page.value,
+      limit: limit.value,
+    })
+  }
+
   const loading = ref(true)
   // fetch list
   function getList() {
@@ -54,7 +58,9 @@ export function useGetList(path: string) {
   function reset() {
     resetPage()
 
-    query.value = Object.assign({ page: page.value, limit: limit.value })
+    if (isPaginate) {
+      query.value = Object.assign({ page: page.value, limit: limit.value })
+    }
 
     getList()
   }
@@ -68,7 +74,7 @@ export function useGetList(path: string) {
   }
 
   function resetPage() {
-      page.value = 1
+    page.value = 1
   }
 
   // change limit
@@ -84,7 +90,7 @@ export function useGetList(path: string) {
   }
 
   // provider for paginate component
-  provide('paginate', {page, limit, total, changePage, changeLimit})
+  provide('paginate', { page, limit, total, changePage, changeLimit })
 
   return { data, query, search, reset, loading }
 }

@@ -5,24 +5,17 @@ namespace Modules\Permissions\Providers;
 use Catch\CatchAdmin;
 use Catch\Providers\CatchModuleServiceProvider;
 use Modules\Permissions\Middlewares\PermissionGate;
-use Modules\Permissions\Models\LogOperate;
 
 class PermissionsServiceProvider extends CatchModuleServiceProvider
 {
     /**
-     * register permission gate
+     * middlewares
      *
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @return string[]
      */
-
-    protected function registering()
+    protected function middlewares(): array
     {
-        $route = $this->app['config']->get('catch.route');
-
-        $route['middlewares'][] = PermissionGate::class;
-
-        $this->app['config']->set('catch.route', $route);
+       return [PermissionGate::class];
     }
 
     /**
@@ -35,7 +28,4 @@ class PermissionsServiceProvider extends CatchModuleServiceProvider
         // TODO: Implement path() method.
         return CatchAdmin::getModuleRoutePath('Permissions');
     }
-
-
-
 }

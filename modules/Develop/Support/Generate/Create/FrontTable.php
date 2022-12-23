@@ -232,7 +232,11 @@ HTML;
      */
     protected function getUseList(): string
     {
-        return 'const { data, query, search, reset, loading } = useGetList(api)';
+        if ($this->hasPaginate) {
+            return 'const { data, query, search, reset, loading } = useGetList(api)';
+        } else {
+            return 'const { data, query, search, reset, loading } = useGetList(api, false)';
+        }
     }
 
     /**

@@ -3,7 +3,7 @@
 namespace Modules\Permissions\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Modules\Permissions\Models\RolesModel;
+use Modules\Permissions\Models\Roles;
 
 class RoleRequest extends FormRequest
 {
@@ -15,9 +15,9 @@ class RoleRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'role_name' => sprintf('required|unique:%s,%s,%s', RolesModel::class, 'role_name', $this->get('id')),
+            'role_name' => sprintf('required|unique:%s,%s,%s', Roles::class, 'role_name', $this->get('id')),
 
-            'identify' => sprintf('required|alpha|unique:%s,%s,%s', RolesModel::class, 'role_name', $this->get('id')),
+            'identify' => sprintf('required|alpha|unique:%s,%s,%s', Roles::class, 'role_name', $this->get('id')),
         ];
     }
 

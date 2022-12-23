@@ -39,7 +39,7 @@ import { useOpen } from '/admin/composables/curd/useOpen'
 
 const api = 'permissions/roles'
 
-const { data, query, search, reset, loading } = useGetList(api)
+const { data, query, search, reset, loading } = useGetList(api, false)
 const { destroy, deleted } = useDestroy()
 const { open, close, title, visible, id } = useOpen()
 

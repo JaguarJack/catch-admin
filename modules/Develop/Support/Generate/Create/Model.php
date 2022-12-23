@@ -114,11 +114,7 @@ class Model extends Creator
             $modelName = Str::of($this->tableName)->camel();
         }
 
-        return $modelName->ucfirst()->whenContains('Model', function ($value) {
-            return Str::of($value);
-        }, function ($value) {
-            return Str::of($value)->append('Model');
-        })->toString();
+        return $modelName->ucfirst()->toString();
     }
 
     /**

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Permissions\Models;
 
 use Catch\Base\CatchModel as Model;
+use Catch\CatchAdmin;
 use Catch\Enums\Status;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Modules\Permissions\Enums\MenuStatus;
@@ -29,7 +30,7 @@ use Modules\Permissions\Enums\MenuType;
  * @property $updated_at
  * @property $deleted_at
 */
-class PermissionsModel extends Model
+class Permissions extends Model
 {
     protected $table = 'permissions';
 
@@ -57,6 +58,22 @@ class PermissionsModel extends Model
     ];
 
     protected $hidden = ['pivot'];
+
+    /**
+     * default permission actions
+     *
+     * @var array|string[]
+     */
+    protected array $defaultActions = [
+        'index' => '列表',
+        'store' => '新增',
+        'show' => '读取',
+        'update' => '更新',
+        'destroy' => '删除',
+        'enable' => '禁用/启用',
+        'import' => '导入',
+        'export' => '导出',
+    ];
 
     /**
      * @var bool
@@ -104,6 +121,16 @@ class PermissionsModel extends Model
     }
 
     /**
+     * is menu
+     *
+     * @return bool
+     */
+    public function isMenu(): bool
+    {
+        return $this->type == MenuType::Menu;
+    }
+
+    /**
      * actions
      *
      * @return HasMany
@@ -117,27 +144,71 @@ class PermissionsModel extends Model
      *
      * @param array $data
      * @return bool
+     * @throws \ReflectionException
      */
     public function storeBy(array $data): bool
     {
-       $model = $this->fill($data);
+        if ($data['actions'] ?? false) {
+            /* @var static $parentMenu */
+            $parentMenu =  $this->firstBy(value: $data['parent_id'], field: 'id');
 
-       if ($model->isAction()) {
-          $parentMenu =  $this->firstBy($model->parent_id, 'id');
-          $model->setAttribute('module', $parentMenu->module);
-          $model->setAttribute('permission_mark', $parentMenu->permission_mark . '@' . $data['permission_mark']);
-          $model->setAttribute('route', '');
-          $model->setAttribute('icon', '');
-          $model->setAttribute('component', '');
-          $model->setAttribute('redirect', '');
-          return $model->setCreatorId()->save();
-       }
+            if (! $parentMenu->isMenu()) {
+                return false;
+            }
 
-       if ($model->isTopMenu()) {
-           $data['route'] = '/' . trim($data['route'], '/');
-       }
+            $actions = CatchAdmin::getControllerActions($parentMenu->module, $parentMenu->permission_mark);
+            foreach ($actions as $k => $action) {
+                if (! isset($this->defaultActions[$action])) {
+                    continue;
+                }
+
+                $this->addAction($this->newInstance([
+                    'type' => MenuType::Action->value(),
+                    'parent_id' => $data['parent_id'],
+                    'permission_name' => $this->defaultActions[$action],
+                    'permission_mark' => $action,
+                    'sort' => $k + 1
+                ]), $parentMenu);
+            }
+
+            return true;
+        }
+
+        $model = $this->fill($data);
+
+        if ($model->isAction()) {
+            $parentMenu = $this->firstBy($model->parent_id, 'id');
+            return $this->addAction($model, $parentMenu);
+        }
+
+        if ($model->isTopMenu()) {
+            $data['route'] = '/'.trim($data['route'], '/');
+        }
 
         return parent::storeBy($data);
+    }
+
+    /**
+     * add action
+     *
+     * @param $model
+     * @param Permissions $parent
+     * @return mixed
+     */
+    protected function addAction($model, mixed $parent): mixed
+    {
+        $model->setAttribute('module', $parent->module);
+        $model->setAttribute('permission_mark', $parent->permission_mark. '@'.  $model->permission_mark);
+        $model->setAttribute('route', '');
+        $model->setAttribute('icon', '');
+        $model->setAttribute('component', '');
+        $model->setAttribute('redirect', '');
+
+        if ($this->where('module', $model->getAttribute('module'))->where('permission_mark', $model->getAttribute('permission_mark'))->first()) {
+            return false;
+        }
+
+        return $model->setCreatorId()->save();
     }
 
 
@@ -153,9 +224,9 @@ class PermissionsModel extends Model
         $model = $this->fill($data);
 
         if ($model->isAction()) {
-            /* @var PermissionsModel $parentMenu */
-            $parentMenu =  $this->firstBy($model->parent_id, 'id');
-            $data['permission_mark'] = $parentMenu->permission_mark . '@' . $data['permission_mark'];
+            /* @var Permissions $parentMenu */
+            $parentMenu = $this->firstBy($model->parent_id, 'id');
+            $data['permission_mark'] = $parentMenu->permission_mark.'@'.$data['permission_mark'];
         }
 
         return parent::updateBy($id, $data);

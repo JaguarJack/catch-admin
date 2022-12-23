@@ -13,3 +13,5 @@ Route::apiResource('users', UserController::class);
 Route::put('users/enable/{id}', [UserController::class, 'enable']);
 Route::match(['post', 'get'], 'user/online', [UserController::class, 'online']);
 Route::get('user/login/log', [UserController::class, 'loginLog']);
+Route::get('user/operate/log', [UserController::class, 'operateLog']);
+

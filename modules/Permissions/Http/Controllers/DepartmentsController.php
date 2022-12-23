@@ -5,21 +5,20 @@ declare(strict_types=1);
 namespace Modules\Permissions\Http\Controllers;
 
 use Catch\Base\CatchController as Controller;
-use Modules\Permissions\Models\DepartmentsModel;
+use Modules\Permissions\Models\Departments;
 use Illuminate\Http\Request;
 
 class DepartmentsController extends Controller
 {
     public function __construct(
-        protected readonly DepartmentsModel $model
+        protected readonly Departments $model
     ) {
     }
 
     /**
-     * @param Request $request
      * @return mixed
      */
-    public function index(Request $request): mixed
+    public function index(): mixed
     {
         return $this->model->getList();
     }

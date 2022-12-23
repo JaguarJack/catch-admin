@@ -13,15 +13,13 @@
         "ext-zip": "*",
         "doctrine/dbal": "^3.4",
         "guzzlehttp/guzzle": "^7.2",
-        "laravel/framework": "^9.33",
+        "laravel/framework": "^9.44",
         "laravel/tinker": "^2.7",
         "tymon/jwt-auth": "dev-develop"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
         "mockery/mockery": "^1.4.4",
-        "nette/php-generator": "^4.0",
-        "nikic/php-parser": "^4.15",
         "pestphp/pest": "^1.22"
     },
     "autoload": {

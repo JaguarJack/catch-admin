@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace Modules\Permissions\Http\Controllers;
 
 use Catch\Base\CatchController as Controller;
-use Modules\Permissions\Models\RolesModel;
+use Catch\Exceptions\FailedException;
+use Modules\Permissions\Models\Roles;
 use Modules\Permissions\Http\Requests\RoleRequest;
 
 class RolesController extends Controller
 {
     public function __construct(
-        protected readonly RolesModel $model
+        protected readonly Roles $model
     ) {
     }
 
@@ -20,8 +21,10 @@ class RolesController extends Controller
      */
     public function index(): mixed
     {
-        return $this->model->setBeforeGetList(function ($query){
-            return $query->with(['permissions' => function($query){ $query->select('id');}]);
+        return $this->model->setBeforeGetList(function ($query) {
+            return $query->with(['permissions' => function ($query) {
+                $query->select('id');
+            }])->dataRange();
         })->getList();
     }
 
@@ -46,6 +49,10 @@ class RolesController extends Controller
 
     public function destroy($id)
     {
+        if ($this->model->where($this->model->getParentIdColumn(), $id)->first()) {
+            throw new FailedException('请先删除子级');
+        }
+
         return $this->model->deleteBy($id);
     }
 }

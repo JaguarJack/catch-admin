@@ -24,14 +24,15 @@ class LogLogin extends Model
 
     /**
      *
-     * @param string $email
+     * @param ?string $email
      * @return LengthAwarePaginator
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    public function getUserLogBy(string $email): LengthAwarePaginator
+    public function getUserLogBy(?string $email): LengthAwarePaginator
     {
-        return self::query()->where('account', $email)
-                        ->paginate(request()->get('limit', 10));
+        return static::when($email, function ($query) use ($email){
+                            $query->where('account', $email);
+                        })->paginate(request()->get('limit', 10));
     }
 }

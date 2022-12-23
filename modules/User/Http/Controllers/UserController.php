@@ -5,9 +5,13 @@ namespace Modules\User\Http\Controllers;
 use Catch\Base\CatchController as Controller;
 use Catch\Support\Module\ModuleRepository;
 use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
 use Modules\User\Models\LogLogin;
+use Modules\User\Models\LogOperate;
 use Modules\User\Models\User;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 class UserController extends Controller
 {
@@ -113,12 +117,26 @@ class UserController extends Controller
     /**
      * login log
      * @param LogLogin $logLogin
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @return LengthAwarePaginator
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function loginLog(LogLogin $logLogin)
     {
-        return $logLogin->getUserLogBy($this->getLoginUser()->email);
+        $user = $this->getLoginUser();
+
+        return $logLogin->getUserLogBy($user->isSuperAdmin() ? null : $user->email);
+    }
+
+    public function operateLog(LogOperate $logOperate, Request $request)
+    {
+        $scope = $request->get('scope', 'self');
+
+        return $logOperate->setBeforeGetList(function ($builder) use ($scope){
+            if ($scope == 'self') {
+                return $builder->where('creator_id', $this->getLoginUserId());
+            }
+            return $builder;
+        })->getList();
     }
 }

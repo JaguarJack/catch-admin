@@ -20,7 +20,7 @@ use Catch\Base\CatchModel as Model;
  * @property $updated_at
  * @property $deleted_at
 */
-class DepartmentsModel extends Model
+class Departments extends Model
 {
     protected $table = 'departments';
 
@@ -47,4 +47,25 @@ class DepartmentsModel extends Model
     ];
 
     protected bool $asTree = true;
+
+
+    /**
+     *
+     * @param int|array $id
+     * @return array
+     */
+    public function findFollowDepartments(int|array $id): array
+    {
+        if (!is_array($id)) {
+           $id = [$id];
+        }
+
+        $followDepartmentIds = $this->whereIn($this->getParentIdColumn(), $id)->pluck('id')->toArray();
+
+        if (! empty($followDepartmentIds)) {
+            $followDepartmentIds = array_merge($followDepartmentIds, $this->findFollowDepartments($followDepartmentIds));
+        }
+
+        return $followDepartmentIds;
+    }
 }

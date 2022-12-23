@@ -16,7 +16,7 @@ import { computed, onMounted, ref, watch } from 'vue'
 import { isMiniScreen } from '/admin/support/Helper'
 
 const isMobile = ref(isMiniScreen())
-const layoutSide = ' h-screen z-[1000] sm:z-0 absolute top-0 left-0 sm:fixed transition-width duration-300 ease-linear sider-bg'
+const layoutSide = ' h-screen z-[1000] sm:z-0 absolute top-0 left-0 sm:fixed transition-width duration-300 ease-linear sider-bg overflow-auto'
 const layoutSideOpenClass = 'w-56' + layoutSide
 const layoutSideHiddenClass = 'w-0 sm:w-16' + layoutSide
 

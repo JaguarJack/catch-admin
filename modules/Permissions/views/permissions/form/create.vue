@@ -18,8 +18,7 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item label="菜单名称" prop="permission_name" :rules="[{ required: true, message: '菜单名称必须填写' }]">
-          <Select v-model="formData.permission_name" name="permission_name" allow-create :options="actionMenuNames" v-if="isAction" />
-          <el-input v-model="formData.permission_name" name="permission_name" clearable v-else />
+          <el-input v-model="formData.permission_name" name="permission_name" clearable />
         </el-form-item>
         <el-form-item label="所属模块" prop="module" :rules="[{ required: true, message: '所属模块必须填写' }]" v-if="!isAction">
           <Select v-model="formData.module" api="modules" @clear="clearModule" />
@@ -39,7 +38,7 @@
           <el-cascader :options="permissions" name="parent_id" v-model="formData.parent_id" clearable :props="{ value: 'id', label: 'permission_name', checkStrictly: true }" class="w-full" />
         </el-form-item>
         <el-form-item label="权限标识" prop="permission_mark" :rules="[{ required: true, message: '权限标识必须填写' }]" v-if="!isTop">
-          <Select v-model="formData.permission_mark" name="permission_mark" :options="actionMenuMark" allow-create v-if="isAction" />
+          <el-input v-model="formData.permission_mark" name="permission_mark" clearable v-if="isAction" />
           <Select v-model="formData.permission_mark" placeholder="请选择" api="controllers" :query="{ module: formData.module }" v-else />
         </el-form-item>
         <el-form-item label="菜单Icon" prop="icon" v-if="!isAction">
@@ -174,28 +173,6 @@ const clearModule = () => {
   }
 }
 
-// 当菜单是按钮类型时, 定义两个初始值
-const actionMenuNames = [
-  { label: '列表', value: '列表' },
-  { label: '新增', value: '新增' },
-  { label: '读取', value: '读取' },
-  { label: '更新', value: '更新' },
-  { label: '删除', value: '删除' },
-  { label: '禁用/启用', value: '禁用/启用' },
-  { label: '导入', value: '导入' },
-  { label: '导出', value: '导出' },
-]
-
-const actionMenuMark = [
-  { label: 'index', value: 'index' },
-  { label: 'store', value: 'store' },
-  { label: 'show', value: 'show' },
-  { label: 'update', value: 'update' },
-  { label: 'destroy', value: 'destroy' },
-  { label: 'enable', value: 'enable' },
-  { label: 'import', value: 'import' },
-  { label: 'export', value: 'export' },
-]
 // 创建前的钩子
 beforeCreate.value = () => {
   formData.value.parent_id = getParent(formData.value.parent_id)

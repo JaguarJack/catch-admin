@@ -18,7 +18,7 @@ use Catch\Base\CatchModel as Model;
  * @property $updated_at
  * @property $deleted_at
 */
-class JobsModel extends Model
+class Jobs extends Model
 {
     protected $table = 'jobs';
 
