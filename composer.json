@@ -18,7 +18,7 @@
     ],
     "require": {
         "php": ">=7.2",
-        "topthink/framework": "6.0.10",
+        "topthink/framework": "6.0.12",
         "topthink/think-orm": "2.0.49",
         "topthink/think-migration": "^3.0",
         "thans/tp-jwt-auth": "^1.1",
