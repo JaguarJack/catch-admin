@@ -37,7 +37,7 @@ class Roles extends Model
      */
     protected array $form = ['role_name','identify','parent_id','description','data_range'];
 
-    protected array $formRelations = ['permissions'];
+    protected array $formRelations = ['permissions', 'departments'];
 
     /**
      * @var bool

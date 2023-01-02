@@ -44,15 +44,16 @@
       <Select v-model="formData.data_range" name="data_range" clearable api="dataRange" class="w-full" />
     </el-form-item>
     <el-form-item label="自定义权限" prop="department_ids" v-if="showDepartments">
+      <!--
       <el-cascader
         :options="departments"
-        name="parent_id"
         v-model="formData.departmetn_ids"
         :show-all-levels="false"
         clearable
-        :props="{ value: 'id', label: 'department_name', checkStrictly: true, multiple: true }"
+        :props="{ value: 'id', label: 'department_name', emitPath: false, multiple: true }"
         class="w-full"
-      />
+      />-->
+      <el-tree-select v-model="formData.departmetn_ids" value-key="id" :data="departments" :render-after-expand="false" show-checkbox multiple :props="{ value: 'id', label: 'department_name' }" />
     </el-form-item>
     <el-form-item label="角色权限" prop="permissions">
       <el-tree
@@ -158,6 +159,7 @@ onMounted(() => {
   watch(
     formData,
     function (value) {
+      // 如果数据权限是自定义数据
       showDepartments.value = value.data_range === 2
     },
     { deep: true },

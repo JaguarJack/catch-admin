@@ -39,6 +39,8 @@ class RolesController extends Controller
 
         $role->setAttribute('permissions', $role->permissions()->get()->toTree());
 
+        $role->setAttribute('departments', $role->departments()->get()->toTree());
+
         return $role;
     }
 
