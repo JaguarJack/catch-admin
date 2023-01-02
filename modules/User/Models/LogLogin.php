@@ -33,6 +33,8 @@ class LogLogin extends Model
     {
         return static::when($email, function ($query) use ($email){
                             $query->where('account', $email);
-                        })->paginate(request()->get('limit', 10));
+                        })
+                        ->orderByDesc('id')
+                        ->paginate(request()->get('limit', 10));
     }
 }

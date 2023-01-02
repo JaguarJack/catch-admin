@@ -69,7 +69,7 @@ class LogOperate extends Model
             'creator_id' => $user->id,
             'http_method' => $request->method(),
             'http_code' => $response->getStatusCode(),
-            'start_at' => $requestStartAt,
+            'start_at' => intval($requestStartAt/1000),
             'time_taken' => $timeTaken,
             'ip' => $request->ip(),
             'params' => \json_encode($params, JSON_UNESCAPED_UNICODE),

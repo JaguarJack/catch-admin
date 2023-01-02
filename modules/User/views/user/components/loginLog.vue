@@ -1,11 +1,11 @@
 <template>
   <div class="pl-2 pr-2 bg-white dark:bg-regal-dark rounded-lg mt-4 pb-6">
     <el-table :data="tableData" class="mt-3" v-loading="loading">
-      <el-table-column prop="account" label="账户" width="150px" />
-      <el-table-column prop="browser" label="浏览器" width="100px" />
-      <el-table-column prop="platform" label="平台" width="100px" />
-      <el-table-column prop="login_ip" label="IP" width="120px" />
-      <el-table-column prop="status" label="状态" width="100px">
+      <el-table-column prop="account" label="账户" />
+      <el-table-column prop="browser" label="浏览器" />
+      <el-table-column prop="platform" label="平台" />
+      <el-table-column prop="login_ip" label="IP" />
+      <el-table-column prop="status" label="状态">
         <template #default="scope">
           <el-tag type="success" v-if="scope.row.status === 1">成功</el-tag>
           <el-tag type="danger" v-else>失败</el-tag>
