@@ -51,6 +51,10 @@ trait UserRelations
      */
     public function withPermissions(): self
     {
+        if (! $this->isPermissionModuleEnabled) {
+            return $this;
+        }
+
         /* @var Permissions $permissionsModel */
         $permissionsModel = app($this->getPermissionsModel());
 

@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col sm:flex-row w-full justify-between">
-    <Department v-model="query.department_id" @searchDepartmentUsers="search" v-if="false" />
-    <div class="w-full ml-5">
+    <Department v-model="query.department_id" @searchDepartmentUsers="search" v-if="hasRoles" />
+    <div :class="hasRoles ? 'w-full ml-5' : 'w-full'">
       <Search :search="search" :reset="reset">
         <template v-slot:body>
           <el-form-item label="用户名">
@@ -39,7 +39,7 @@
       </div>
 
       <Dialog v-model="visible" :title="title" destroy-on-close>
-        <Create @close="close(reset)" :primary="id" :api="api" />
+        <Create @close="close(reset)" :primary="id" :api="api" :has-roles="hasRoles" />
       </Dialog>
     </div>
   </div>
@@ -52,6 +52,10 @@ import { useGetList } from '/admin/composables/curd/useGetList'
 import { useDestroy } from '/admin/composables/curd/useDestroy'
 import { useOpen } from '/admin/composables/curd/useOpen'
 import Department from './components/department.vue'
+import { useUserStore } from '/admin/stores/modules/user'
+import { isUndefined } from '/admin/support/helper'
+
+const userStore = useUserStore()
 
 const api = 'users'
 
@@ -62,9 +66,13 @@ const { open, close, title, visible, id } = useOpen()
 const tableData = computed(() => data.value?.data)
 
 const roles = ref<Array<Object>>()
+const hasRoles = ref<boolean>(false)
+
 onMounted(() => {
   search()
 
   deleted(reset)
+
+  hasRoles.value = !isUndefined(userStore.getRoles)
 })
 </script>

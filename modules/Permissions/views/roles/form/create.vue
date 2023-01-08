@@ -1,6 +1,6 @@
 <template>
   <el-form :model="formData" label-width="120px" ref="form" v-loading="loading" class="pr-6">
-    <el-form-item label="上级角色" prop="parent_id">
+    <el-form-item label="上级角色" prop="parent_id" v-if="!primary">
       <el-cascader
         :options="roles"
         name="parent_id"
@@ -43,17 +43,27 @@
     <el-form-item label="数据权限" prop="data_range">
       <Select v-model="formData.data_range" name="data_range" clearable api="dataRange" class="w-full" />
     </el-form-item>
-    <el-form-item label="自定义权限" prop="department_ids" v-if="showDepartments">
-      <!--
-      <el-cascader
-        :options="departments"
-        v-model="formData.departmetn_ids"
-        :show-all-levels="false"
-        clearable
-        :props="{ value: 'id', label: 'department_name', emitPath: false, multiple: true }"
+    <el-form-item
+      label="自定义权限"
+      prop="departments"
+      v-if="showDepartments"
+      :rules="[
+        {
+          required: true,
+          message: '自定义权限必须选择',
+        },
+      ]"
+    >
+      <el-tree-select
+        v-model="formData.departments"
+        value-key="id"
         class="w-full"
-      />-->
-      <el-tree-select v-model="formData.departmetn_ids" value-key="id" :data="departments" :render-after-expand="false" show-checkbox multiple :props="{ value: 'id', label: 'department_name' }" />
+        :data="departments"
+        :render-after-expand="false"
+        show-checkbox
+        multiple
+        :props="{ value: 'id', label: 'department_name' }"
+      />
     </el-form-item>
     <el-form-item label="角色权限" prop="permissions">
       <el-tree
