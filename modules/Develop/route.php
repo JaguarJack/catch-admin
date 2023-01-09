@@ -6,6 +6,8 @@ use Modules\Develop\Http\Controllers\GenerateController;
 use Modules\Develop\Http\Controllers\SchemaController;
 
 Route::apiResource('module', ModuleController::class);
+Route::post('module/install', [ModuleController::class, 'install']);
+Route::post('module/upload', [ModuleController::class, 'upload']);
 
 Route::put('module/enable/{name}', [ModuleController::class, 'enable']);
 

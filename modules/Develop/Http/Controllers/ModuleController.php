@@ -3,9 +3,13 @@
 namespace Modules\Develop\Http\Controllers;
 
 use Catch\Base\CatchController;
+use Catch\CatchAdmin;
 use Catch\Support\Module\ModuleRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Storage;
+use Modules\Develop\Support\Generate\Module;
+use Modules\Develop\Support\ModuleInstall;
 
 class ModuleController extends CatchController
 {
@@ -87,5 +91,37 @@ class ModuleController extends CatchController
     public function destroy($name): bool|int
     {
         return $this->repository->delete($name);
+    }
+
+    /**
+     * install
+     *
+     * @param Request $request
+     * @return true
+     */
+    public function install(Request $request)
+    {
+        $moduleInstall = new ModuleInstall($request->get('type'));
+
+        $moduleInstall->install($request->all());
+
+        return true;
+    }
+
+    /**
+     * upload
+     *
+     * @param Request $request
+     * @return string
+     */
+    public function upload(Request $request)
+    {   $file = $request->file('file');
+
+        Storage::build([
+            'driver' => 'local',
+            'root' => storage_path('app')
+        ])->put($file->getClientOriginalName(), $file->getContent());
+
+        return storage_path('app') . DIRECTORY_SEPARATOR . $file->getClientOriginalName();
     }
 }

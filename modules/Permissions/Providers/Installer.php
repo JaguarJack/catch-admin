@@ -18,18 +18,6 @@ class Installer extends ModuleInstaller
         ];
     }
 
-    protected function migration(): string
-    {
-        // TODO: Implement migration() method.
-        return '';
-    }
-
-    protected function seeder(): string
-    {
-        // TODO: Implement seeder() method.
-        return '';
-    }
-
     protected function requirePackages(): void
     {
         // TODO: Implement requirePackages() method.

@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col sm:flex-row dark:bg-regal-dark w-full">
-    <el-card shadow="never" class="w-full sm:w-[35rem]">
+    <el-card shadow="never" class="w-full sm:w-[35rem] h-[32rem]">
       <template #header>
         <div class="card-header">
           <span>个人资料</span>
@@ -13,7 +13,7 @@
       </div>
     </el-card>
 
-    <el-tabs v-model="activeName" class="pl-3 pr-3 bg-white dark:bg-regal-dark mt-2 sm:mt-0 w-full ml-2">
+    <el-tabs v-model="activeName" class="pl-3 pr-3 bg-white dark:bg-regal-dark mt-2 sm:mt-0 w-full ml-0 sm:ml-2">
       <el-tab-pane label="登录日志" name="login_log">
         <LoginLog />
       </el-tab-pane>
