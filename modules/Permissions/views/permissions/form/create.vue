@@ -32,6 +32,20 @@
         <el-form-item label="排序" prop="sort">
           <el-input-number v-model="formData.sort" name="sort" :min="1" />
         </el-form-item>
+        <el-form-item label="内页" prop="is_inner" v-if="isMenu">
+          <el-radio-group v-model="formData.is_inner">
+            <el-radio
+              v-for="item in [
+                { label: '是', value: 1 },
+                { label: '否', value: 2 },
+              ]"
+              :key="item.value"
+              :label="item.value"
+              name="hidden"
+              >{{ item.label }}</el-radio
+            >
+          </el-radio-group>
+        </el-form-item>
       </div>
       <div>
         <el-form-item label="父级菜单" prop="parent_id">
@@ -111,12 +125,14 @@ const closeSelectIcon = () => {
 const defaultSort = 1
 const defaultKeepalive = 1
 const defaultHidden = 1
-
+const defaultIsInner = 2
 // 初始化
 formData.value.sort = defaultSort
 formData.value.keepalive = defaultKeepalive
 formData.value.type = MenuType.TOP_TYPE
 formData.value.hidden = defaultHidden
+formData.value.is_inner = defaultIsInner
+
 // 默认目录
 const isTop = ref<boolean>(true)
 const isMenu = ref<boolean>(false)

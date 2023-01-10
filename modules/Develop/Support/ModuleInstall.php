@@ -5,6 +5,7 @@ namespace Modules\Develop\Support;
 use Catch\CatchAdmin;
 use Catch\Exceptions\FailedException;
 use Catch\Facade\Zipper;
+use Illuminate\Support\Facades\File;
 
 /**
  * module install
@@ -63,5 +64,7 @@ class ModuleInstall
         $zipRepository->getArchive()->extractTo(CatchAdmin::getModulePath($title));
 
         $this->installWithTitle($title);
+
+        File::delete($zip);
     }
 }

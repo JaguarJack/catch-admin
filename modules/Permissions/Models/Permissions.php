@@ -7,6 +7,7 @@ namespace Modules\Permissions\Models;
 use Catch\Base\CatchModel as Model;
 use Catch\CatchAdmin;
 use Catch\Enums\Status;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Modules\Permissions\Enums\MenuStatus;
 use Modules\Permissions\Enums\MenuType;
@@ -34,19 +35,19 @@ class Permissions extends Model
 {
     protected $table = 'permissions';
 
-    protected $fillable = ['id', 'parent_id', 'permission_name', 'route', 'icon', 'module', 'permission_mark', 'component', 'redirect', 'keepalive', 'type', 'hidden', 'sort', 'creator_id', 'created_at', 'updated_at', 'deleted_at'];
+    protected $fillable = ['id', 'parent_id', 'permission_name', 'route', 'icon', 'module', 'permission_mark', 'component', 'redirect', 'keepalive', 'type', 'hidden', 'is_inner', 'sort', 'creator_id', 'created_at', 'updated_at', 'deleted_at'];
 
     /**
      * @var array
      */
-    protected array $fields = ['id','parent_id','permission_name','route','icon','module','permission_mark','component','redirect','keepalive','type','hidden','sort','created_at','updated_at'];
+    protected array $fields = ['id','parent_id','permission_name','route','icon','module','permission_mark','component','redirect','keepalive','type','hidden','is_inner','sort','created_at','updated_at'];
 
     protected bool $isPaginate = false;
 
     /**
      * @var array
      */
-    protected array $form = ['parent_id','permission_name','route','icon','module','permission_mark','component','redirect','keepalive','type','hidden','sort'];
+    protected array $form = ['parent_id','permission_name','route','icon','module','permission_mark','component','redirect','keepalive','type','is_inner', 'hidden','sort'];
 
     /**
      * @var array
@@ -89,6 +90,17 @@ class Permissions extends Model
         'status' => MenuStatus::class
     ];
 
+    /**
+     * is inner
+     *
+     * @return Attribute
+     */
+    public function isInner(): Attribute
+    {
+        return Attribute::make(
+            get: fn($value) => $value == 1
+        );
+    }
 
     /**
      * is hidden

@@ -10,8 +10,9 @@ class Installer extends ModuleInstaller
     {
         // TODO: Implement info() method.
         return [
-            'name' => '权限管理',
-            'path' => 'Permissions',
+            'title' => '权限管理',
+            'name' => 'permissions',
+            'path' => 'permissions',
             'keywords' => '权限, 角色, 部门',
             'description' => '权限管理模块',
             'provider' => PermissionsServiceProvider::class
