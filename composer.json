@@ -24,12 +24,8 @@
         "pestphp/pest": "^1.22"
     },
     "autoload": {
-        "files": [
-            "catch/src/Support/helpers.php"
-        ],
         "psr-4": {
             "App\\": "app/",
-            "Catch\\": "catch/src/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/",
             "Modules\\": "modules"
