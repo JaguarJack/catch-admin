@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Options\Repository;
+namespace Modules\Common\Repository\Options;
 
 use Modules\Permissions\Enums\DataRange as DataRangeEnum;
 

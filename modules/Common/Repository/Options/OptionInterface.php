@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Options\Repository;
+namespace Modules\Common\Repository\Options;
 
 interface OptionInterface
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Options\Repository;
+namespace Modules\Common\Repository\Options;
 
 use Exception;
 use Illuminate\Support\Str;

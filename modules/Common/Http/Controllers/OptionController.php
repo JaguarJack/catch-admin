@@ -1,9 +1,9 @@
 <?php
 
-namespace Modules\Options\Http;
+namespace Modules\Common\Http\Controllers;
 
 use Exception;
-use Modules\Options\Repository\Factory;
+use Modules\Common\Repository\Options\Factory;
 
 class OptionController
 {
