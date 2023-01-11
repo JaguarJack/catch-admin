@@ -1,11 +1,14 @@
 import { RouteRecordRaw } from 'vue-router'
+import { isUndefined } from '/admin/support/helper'
 // @ts-ignore
 export function getModuleRoutes() {
   const modules = import.meta.glob('@/module/**/views/router.ts', { eager: true })
   let moduleRoutes: RouteRecordRaw[] = []
 
   Object.keys(modules).forEach(routePath => {
-    moduleRoutes = moduleRoutes.concat(modules[routePath].default)
+    if (!isUndefined(modules[routePath].default)) {
+      moduleRoutes = moduleRoutes.concat(modules[routePath].default)
+    }
   })
 
   return moduleRoutes

@@ -18,6 +18,8 @@ export function useCreate(path: string, id: string | number | null = null, _form
   // 更新前 hook
   const beforeUpdate = ref()
 
+  const afterCreate = ref()
+
   // store
   function store(path: string, id: string | number | null = null) {
     loading.value = true
@@ -41,6 +43,13 @@ export function useCreate(path: string, id: string | number | null = null, _form
         if (r.data.code === Code.SUCCESS) {
           isClose.value = true
           Message.success(r.data.message)
+
+          // 创建后的操作
+          if (!id) {
+            if (isFunction(afterCreate.value)) {
+              afterCreate.value()
+            }
+          }
         } else {
           Message.error(r.data.message)
         }
@@ -72,5 +81,5 @@ export function useCreate(path: string, id: string | number | null = null, _form
     })
   }
 
-  return { formData, loading, form, submitForm, close, beforeCreate, beforeUpdate }
+  return { formData, loading, form, submitForm, close, beforeCreate, beforeUpdate, afterCreate }
 }

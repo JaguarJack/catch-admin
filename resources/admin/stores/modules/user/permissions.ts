@@ -129,7 +129,7 @@ export const usePermissionsStore = defineStore('PermissionsStore', {
           // menu
           let importComponent
           if (permission.type === MenuType.TOP_TYPE) {
-            importComponent = () => import('/admin/layout/index')
+            importComponent = () => import('/admin/layout/index.vue')
           } else {
             importComponent = viewComponents['/modules' + permission.component]
           }
