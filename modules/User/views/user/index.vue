@@ -18,8 +18,12 @@
       <div class="pl-2 pr-2 bg-white dark:bg-regal-dark rounded-lg mt-4 pb-6">
         <Operate :show="open" />
         <el-table :data="tableData" class="mt-3" v-loading="loading">
-          <el-table-column prop="username" label="用户名" width="180" />
-          <el-table-column prop="avatar" label="头像" />
+          <el-table-column prop="username" label="用户名" width="150" />
+          <el-table-column prop="avatar" label="头像">
+            <template #default="scope">
+              <el-avatar :src="scope.row.avatar" />
+            </template>
+          </el-table-column>
           <el-table-column prop="email" label="邮箱" />
           <el-table-column prop="status" label="状态">
             <template #default="scope">

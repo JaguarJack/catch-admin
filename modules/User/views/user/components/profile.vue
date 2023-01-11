@@ -52,7 +52,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref, unref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useCreate } from '/admin/composables/curd/useCreate'
 import http from '/admin/support/http'
 import { Code } from '/admin/enum/app'
@@ -74,15 +74,21 @@ const profile = ref<profile>(
     password: '',
   }),
 )
+const { form, loading, submitForm, afterCreate } = useCreate('user/online', null, profile)
 
-onMounted(() => {
+const getUserInfo = () => {
+  loading.value = true
   http.get('user/online').then(r => {
     profile.value.username = r.data.data.username
     profile.value.avatar = r.data.data.avatar
     profile.value.email = r.data.data.email
+    loading.value = false
   })
+}
+
+onMounted(() => {
+  getUserInfo()
 })
-const { form, loading, submitForm, afterCreate } = useCreate('user/online', null, profile)
 
 const userStore = useUserStore()
 const uploadAvatar = (response, uploadFile) => {
