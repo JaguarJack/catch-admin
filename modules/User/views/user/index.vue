@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col sm:flex-row w-full justify-between">
-    <Department v-model="query.department_id" @searchDepartmentUsers="search" v-if="hasRoles" />
+    <Department v-model="query.department_id" @searchDepartmentUsers="search" v-if="hasRoles" class="dark:bg-regal-dark" />
     <div :class="hasRoles ? 'w-full ml-5' : 'w-full'">
       <Search :search="search" :reset="reset">
         <template v-slot:body>
@@ -19,7 +19,7 @@
         <Operate :show="open" />
         <el-table :data="tableData" class="mt-3" v-loading="loading">
           <el-table-column prop="username" label="用户名" width="180" />
-          <el-table-column prop="avatar" label="头像" width="180" />
+          <el-table-column prop="avatar" label="头像" />
           <el-table-column prop="email" label="邮箱" />
           <el-table-column prop="status" label="状态">
             <template #default="scope">

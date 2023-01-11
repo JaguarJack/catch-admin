@@ -1,14 +1,9 @@
 <template>
   <el-form :model="profile" ref="form" v-loading="loading" label-position="top">
-    <el-upload
-      class="w-28 h-28 rounded-full mx-auto"
-      action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
-      :show-file-list="false"
-      :on-success="handleAvatarSuccess"
-      :before-upload="beforeAvatarUpload"
-    >
-      <img src="https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg" class="h-28 rounded-full" />
-    </el-upload>
+    <Upload class="w-28 h-28 rounded-full mx-auto" action="upload/image" :show-file-list="false" name="image" :on-success="uploadAvatar">
+      <img :src="profile.avatar" class="h-28 rounded-full" v-if="profile.avatar" />
+      <Icon name="plus" v-else />
+    </Upload>
     <el-form-item
       label="昵称"
       prop="username"
@@ -60,6 +55,9 @@
 import { onMounted, ref, unref } from 'vue'
 import { useCreate } from '/admin/composables/curd/useCreate'
 import http from '/admin/support/http'
+import { Code } from '/admin/enum/app'
+import Message from '/admin/support/message'
+import { useUserStore } from '/admin/stores/modules/user'
 
 interface profile {
   avatar: string
@@ -84,5 +82,25 @@ onMounted(() => {
     profile.value.email = r.data.data.email
   })
 })
-const { form, loading, submitForm } = useCreate('user/online', null, profile)
+const { form, loading, submitForm, afterCreate } = useCreate('user/online', null, profile)
+
+const userStore = useUserStore()
+const uploadAvatar = (response, uploadFile) => {
+  if (response.code === Code.SUCCESS) {
+    form.value.avatar = response.data.path
+    profile.value.avatar = response.data.path
+  } else {
+    Message.error(response.message)
+  }
+}
+
+afterCreate.value = () => {
+  userStore.getUserInfo()
+}
 </script>
+
+<style scoped lang="scss">
+:deep(.el-upload) {
+  @apply h-full w-full;
+}
+</style>
