@@ -1,5 +1,5 @@
 <template>
-  <div class="pl-2 pr-2 bg-white dark:bg-regal-dark rounded-lg mt-2 pb-6">
+  <div class="table-default">
     <div class="w-full flex justify-end">
       <el-radio-group v-model="query.scope" size="small" @change="search">
         <el-radio-button label="self">只看自己</el-radio-button>

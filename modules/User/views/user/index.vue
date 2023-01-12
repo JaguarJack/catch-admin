@@ -15,7 +15,7 @@
           </el-form-item>
         </template>
       </Search>
-      <div class="pl-2 pr-2 bg-white dark:bg-regal-dark rounded-lg mt-4 pb-6">
+      <div class="table-default">
         <Operate :show="open" />
         <el-table :data="tableData" class="mt-3" v-loading="loading">
           <el-table-column prop="username" label="用户名" width="150" />

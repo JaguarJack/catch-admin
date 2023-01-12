@@ -1,5 +1,5 @@
 <template>
-  <div class="pl-2 pr-2 bg-white dark:bg-regal-dark rounded-lg mt-4 pb-6">
+  <div class="table-default">
     <el-table :data="tableData" class="mt-3" v-loading="loading">
       <el-table-column prop="account" label="账户" />
       <el-table-column prop="browser" label="浏览器" />

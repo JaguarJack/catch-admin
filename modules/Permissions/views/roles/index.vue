@@ -7,7 +7,7 @@
         </el-form-item>
       </template>
     </Search>
-    <div class="pl-2 pr-2 bg-white dark:bg-regal-dark rounded-lg mt-4 pb-6">
+    <div class="table-default">
       <div class="pt-5 pl-2">
         <Add @click="openRoleForm(null, [])" />
       </div>

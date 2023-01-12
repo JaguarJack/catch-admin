@@ -7,7 +7,7 @@
         </el-form-item>
       </template>
     </Search>
-    <div class="pl-2 pr-2 bg-white dark:bg-regal-dark rounded-lg mt-4 pb-6">
+    <div class="table-default">
       <Operate :show="open" />
       <el-table :data="tableData" class="mt-3" v-loading="loading" row-key="id" default-expand-all :tree-props="{ children: 'children' }">
         <el-table-column prop="department_name" label="部门名称" />
