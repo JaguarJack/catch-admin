@@ -21,7 +21,7 @@
 import { Menu } from '/admin/types/Menu'
 import { PropType } from 'vue'
 import { useAppStore } from '/admin/stores/modules/app'
-import { isMiniScreen } from '/admin/support/Helper'
+import { isMiniScreen } from '/admin/support/helper'
 
 const store = useAppStore()
 

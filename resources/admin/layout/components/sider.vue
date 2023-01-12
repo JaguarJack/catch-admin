@@ -13,7 +13,7 @@
 <script lang="ts" setup>
 import { useAppStore } from '/admin/stores/modules/app'
 import { computed, onMounted, ref, watch } from 'vue'
-import { isMiniScreen } from '/admin/support/Helper'
+import { isMiniScreen } from '/admin/support/helper'
 
 const isMobile = ref(isMiniScreen())
 const layoutSide = ' h-screen z-[1000] sm:z-0 absolute top-0 left-0 sm:fixed transition-width duration-300 ease-linear sider-bg overflow-auto'
