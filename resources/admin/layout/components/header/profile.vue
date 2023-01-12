@@ -6,12 +6,12 @@
         <div class="ml-2 hidden lg:block">{{ userStore.getNickname }}</div>
       </div>
       <template #dropdown>
-        <el-dropdown-menu>
-          <el-dropdown-item>Action 1</el-dropdown-item>
-          <el-dropdown-item>Action 2</el-dropdown-item>
-          <el-dropdown-item>Action 3</el-dropdown-item>
+        <el-dropdown-menu class="w-28">
+            <el-dropdown-item>
+                <Icon name="user"/> <router-link to="/users/center"> 个人信息</router-link>
+            </el-dropdown-item>
           <el-dropdown-item divided @click="logout">
-            <Icon name="logout" class="mr-1" />
+            <Icon name="power" class="mr-1 w-4 h-4" />
             退 出
           </el-dropdown-item>
         </el-dropdown-menu>
