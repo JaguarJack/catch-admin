@@ -1,5 +1,5 @@
 import { useUserStore } from '/admin/stores/modules/user'
-import { getAuthToken, removeAuthToken, setPageTitle } from '/admin/support/Helper'
+import { getAuthToken, removeAuthToken, setPageTitle } from '/admin/support/helper'
 import progress from '/admin/support/progress'
 import { WhiteListPage } from '/admin/enum/app'
 import { Router, RouteRecordRaw } from 'vue-router'
