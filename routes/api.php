@@ -2,7 +2,6 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Modules\Options\Http\OptionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +13,3 @@ use Modules\Options\Http\OptionController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-Route::get('options/{name}', [OptionController::class, 'index']);
-
