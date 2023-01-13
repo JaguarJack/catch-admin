@@ -15,8 +15,7 @@
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^9.44",
         "laravel/tinker": "^2.7",
-        "tymon/jwt-auth": "dev-develop",
-        "catchadmin/core": "^0.1.0"
+        "tymon/jwt-auth": "dev-develop"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
@@ -24,11 +23,15 @@
         "pestphp/pest": "^1.22"
     },
     "autoload": {
+        "files": [
+            "catch/src/Support/helpers.php"
+        ],
         "psr-4": {
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/",
-            "Modules\\": "modules"
+            "Modules\\": "modules",
+            "Catch\\": "catch/src"
         }
     },
     "autoload-dev": {
