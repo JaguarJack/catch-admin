@@ -6,7 +6,7 @@ import { constantRoutes } from '/admin/router'
 import { RouteRecordRaw } from 'vue-router'
 import { toRaw } from 'vue'
 import { getModuleViewComponents } from '/admin/router/constantRoutes'
-const layout = '/admin/layout/index.vue'
+
 interface Permissions {
   menus: Menu[]
 
@@ -134,7 +134,7 @@ export const usePermissionsStore = defineStore('PermissionsStore', {
             importComponent = viewComponents['/modules' + permission.component]
           }
           const menu: Menu = Object.assign({
-            path: this.resoulveRoutePath(permission.route, path),
+            path: this.resolveRoutePathRoutePath(permission.route, path),
             name: permission.module + '_' + permission.permission_mark,
             component: importComponent,
             redirect: permission.redirect,
@@ -168,7 +168,7 @@ export const usePermissionsStore = defineStore('PermissionsStore', {
         }
 
         const menu: Menu = Object.assign({
-          path: this.resoulveRoutePath(route.path, path),
+          path: this.resolveRoutePathRoutePath(route.path, path),
           name: route.name,
           meta: route.meta,
           component: route.component,
@@ -184,12 +184,12 @@ export const usePermissionsStore = defineStore('PermissionsStore', {
     },
 
     /**
-     * resoulve route path
+     * resolve path
      * @param route
      * @param path
      * @returns
      */
-    resoulveRoutePath(route: string, path: string): string {
+    resolveRoutePathRoutePath(route: string, path: string): string {
       if (path.length) {
         return (path + (route.indexOf('/') === -1 ? '/' : '') + route).replace(/\/$/g, '')
       }
