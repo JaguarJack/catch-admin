@@ -1,5 +1,5 @@
 <template>
-  <div class="w-[28rem] min-h-[30rem] bg-white">
+  <div class="w-full sm:w-[28rem] min-h-[30rem] bg-white">
     <el-tree :data="departments" :props="{ label: 'department_name', value: 'id'}" @node-click="clickDepartment" class="p-5" :expand-on-click-node="false" :highlight-current="true"/>
   </div>
 </template>

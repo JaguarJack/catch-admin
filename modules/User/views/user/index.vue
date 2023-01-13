@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col sm:flex-row w-full justify-between">
     <Department v-model="query.department_id" @searchDepartmentUsers="search" v-if="hasRoles" class="dark:bg-regal-dark" />
-    <div :class="hasRoles ? 'w-full ml-5' : 'w-full'">
+    <div :class="hasRoles ? 'w-full ml-0 sm:ml-2 mt-2 sm:mt-0' : 'w-full'">
       <Search :search="search" :reset="reset">
         <template v-slot:body>
           <el-form-item label="用户名">
