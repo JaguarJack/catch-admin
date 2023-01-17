@@ -20,7 +20,6 @@ class RolesController extends Controller
     ) {
     }
 
-
     /**
      * @return mixed
      */
@@ -29,7 +28,7 @@ class RolesController extends Controller
         return $this->model->setBeforeGetList(function ($query) {
             return $query->with(['permissions' => function ($query) {
                 $query->select('id');
-            }])->dataRange();
+            }]);
         })->getList();
     }
 

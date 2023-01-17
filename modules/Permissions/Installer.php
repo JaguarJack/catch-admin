@@ -1,8 +1,9 @@
 <?php
 
-namespace Modules\Permissions\Providers;
+namespace Modules\Permissions;
 
 use Catch\Support\Module\Installer as ModuleInstaller;
+use Modules\Permissions\Providers\PermissionsServiceProvider;
 
 class Installer extends ModuleInstaller
 {

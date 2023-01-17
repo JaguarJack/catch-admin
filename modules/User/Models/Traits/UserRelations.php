@@ -7,6 +7,7 @@ use Catch\Support\Module\ModuleRepository;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
 use Modules\Permissions\Models\Permissions;
 
 trait UserRelations
@@ -105,6 +106,12 @@ trait UserRelations
                 $actions->add(CatchAdmin::getModuleControllerNamespace($permission->module).$controller.'Controller@'.$action);
             }
         });
+
+        if ($permission) {
+            [$module, $controller, $action] = explode('@', $permission);
+
+            $permission = CatchAdmin::getModuleControllerNamespace($module).$controller.'Controller@'.$action;
+        }
 
         return $actions->contains($permission ?: Route::currentRouteAction());
     }
