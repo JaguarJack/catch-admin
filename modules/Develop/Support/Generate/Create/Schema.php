@@ -207,7 +207,9 @@ class Schema extends Creator
                             ->when($structure['nullable'], function ($str) {
                                 return $str->append('->nullable()');
                             })
-                            ->when(isset($structure['default']), function ($str, $default) {
+                            ->when(isset($structure['default']), function ($str) use ($structure){
+                                $default = $structure['default'];
+
                                 if (is_numeric($default)) {
                                     $default = intval($default);
                                     return $str->append("->default({$default})");

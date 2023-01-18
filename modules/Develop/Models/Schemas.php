@@ -56,7 +56,7 @@ class Schemas extends CatchModel
             'columns' => implode(',', array_column($structures, 'field')),
 
             'is_soft_delete' => $schema['deleted_at'] ? Status::Enable : Status::Disable
-        ]);
+        ], true);
 
         try {
             $schemaCreate = new Schema($schema['name'], $schema['engine'], $schema['charset'], $schema['collection'], $schema['comment']);
