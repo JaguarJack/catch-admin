@@ -19,10 +19,10 @@ class UserServiceProvider extends CatchModuleServiceProvider
      *
      * @return string|array
      */
-    public function routePath(): string|array
+    public function moduleName(): string|array
     {
         // TODO: Implement path() method.
-        return CatchAdmin::getModuleRoutePath('user');
+        return 'user';
     }
 
     /**

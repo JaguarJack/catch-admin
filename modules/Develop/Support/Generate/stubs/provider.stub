@@ -10,11 +10,11 @@ class {Module}ServiceProvider extends CatchModuleServiceProvider
     /**
      * route path
      *
-     * @return string|array
+     * @return string
      */
-    public function routePath(): string|array
+    public function moduleName(): string
     {
         // TODO: Implement path() method.
-        return CatchAdmin::getModuleRoutePath('{module}');
+        return '{module}';
     }
 }
