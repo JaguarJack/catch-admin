@@ -13,9 +13,9 @@ class UploadController
     /**
      * @param Request $request
      * @param Uploader $uploader
-     * @return string
+     * @return array
      */
-    public function file(Request $request, Uploader $uploader)
+    public function file(Request $request, Uploader $uploader): array
     {
         return $uploader->upload($request->file('file'));
     }
@@ -25,9 +25,9 @@ class UploadController
      *
      * @param Request $request
      * @param Uploader $uploader
-     * @return string
+     * @return array
      */
-    public function image(Request $request, Uploader $uploader)
+    public function image(Request $request, Uploader $uploader): array
     {
         return $uploader->upload($request->file('image'));
     }
