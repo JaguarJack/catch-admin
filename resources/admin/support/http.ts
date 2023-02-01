@@ -137,7 +137,7 @@ class Http {
     this.config.baseURL = this.baseURL ? this.baseURL : env('VITE_BASE_URL')
 
     // set timeout
-    this.config.timeout = this.timeout ? this.timeout : 5000
+    this.config.timeout = this.timeout ? this.timeout : 10000
 
     // set ajax request
     this.headers['X-Requested-With'] = 'XMLHttpRequest'
@@ -188,7 +188,6 @@ class Http {
             router.push('/login')
           })
         } else if (code === Code.LOGIN_BLACKLIST || code === Code.USER_FORBIDDEN) {
-          console.log(123123)
           Message.error(message || 'Error')
           removeAuthToken()
           // to login page
