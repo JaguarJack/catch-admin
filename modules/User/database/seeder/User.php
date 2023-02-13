@@ -18,7 +18,7 @@ return new class extends Seeder
 
             'email' => 'catch@admin.com',
 
-            'password' => bcrypt('catchadmin'),
+            'password' => 'catchadmin',
 
             'creator_id' => 1,
 
