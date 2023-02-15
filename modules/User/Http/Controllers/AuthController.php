@@ -4,10 +4,12 @@ namespace Modules\User\Http\Controllers;
 
 use Catch\Base\CatchController as Controller;
 use Catch\Exceptions\FailedException;
+use Illuminate\Auth\RequestGuard;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
 use Modules\User\Events\Login;
+use Modules\User\Models\User;
 
 class AuthController extends Controller
 {
@@ -15,11 +17,14 @@ class AuthController extends Controller
      * @param Request $request
      * @return array
      */
-    public function login(Request $request)
+    public function login(Request $request): array
     {
-        $token = Auth::guard(getGuardName())->attempt($request->only(['email', 'password']));
+        /* @var User $user */
+        $user = User::query()->where('email', $request->get('email'))->first();
 
-        Event::dispatch(new Login($request, $token));
+        $token = $user?->createToken('token')->plainTextToken;
+
+        Event::dispatch(new Login($request, $user));
 
         if (! $token) {
             throw new FailedException('登录失败！请检查邮箱或者密码');
@@ -34,10 +39,11 @@ class AuthController extends Controller
      *
      * @return bool
      */
-    public function logout()
+    public function logout(): bool
     {
-        //  Auth::guard(Helper::getGuardName())->logout();
+        /* @var  User $user */
+        $user = Auth::guard(getGuardName())->user();
 
-        return true;
+        return $user->currentAccessToken()->delete();
     }
 }

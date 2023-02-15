@@ -52,7 +52,6 @@ class LogOperate extends Model
         [$module, $controller, $action] = CatchAdmin::parseFromRouteAction();
 
         $requestStartAt = app(Kernel::class)->requestStartedAt()->getPreciseTimestamp(3);
-
         $params = $request->all();
         // 如果参数过长则不记录
         if (!empty($params)) {
@@ -62,7 +61,6 @@ class LogOperate extends Model
         }
 
         $timeTaken = intval(microtime(true) * 1000 - $requestStartAt);
-
         $this->storeBy([
             'module' => $module,
             'action' => $controller . '@' . $action,

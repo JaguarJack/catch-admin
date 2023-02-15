@@ -5,8 +5,8 @@ namespace Modules\User\Models;
 use Catch\Base\CatchModel as Model;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Laravel\Sanctum\HasApiTokens;
 use Modules\User\Models\Traits\UserRelations;
-use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Auth\Authenticatable;
 
 /**
@@ -23,9 +23,9 @@ use Illuminate\Auth\Authenticatable;
  * @property int $updated_at
  * @property string $remember_token
  */
-class User extends Model implements AuthenticatableContract, JWTSubject
+class User extends Model implements AuthenticatableContract
 {
-    use Authenticatable, UserRelations;
+    use Authenticatable, UserRelations, HasApiTokens;
 
     protected $fillable = [
         'id', 'username', 'email', 'avatar', 'password', 'remember_token', 'creator_id', 'status', 'department_id', 'login_ip', 'login_at', 'created_at', 'updated_at', 'deleted_at'
@@ -56,25 +56,6 @@ class User extends Model implements AuthenticatableContract, JWTSubject
      * @var array|string[]
      */
     protected array $formRelations = ['roles', 'jobs'];
-
-    /**
-     *
-     * @return mixed
-     */
-    public function getJWTIdentifier(): mixed
-    {
-        return $this->getKey();
-    }
-
-    /**
-     * Return a key value array, containing any custom claims to be added to the JWT.
-     *
-     * @return array
-     */
-    public function getJWTCustomClaims(): array
-    {
-        return [];
-    }
 
     /**
      * password

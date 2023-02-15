@@ -23,20 +23,16 @@ class Login
     {
         $request = $event->request;
 
-        $this->log($request, (bool) $event->token);
+        $this->log($request, (bool) $event->user);
 
-        if ($event->token) {
-            /* @var User $user */
-            $user = Auth::guard(getGuardName())->user();
-
-            $user->login_ip = $request->ip();
-            $user->login_at = time();
-            $user->remember_token = $event->token;
-            $user->save();
+        if ($event->user) {
+            $event->user->login_ip = $request->ip();
+            $event->user->login_at = time();
+            $event->user->remember_token = null;
+            $event->user->save();
         }
     }
-
-
+    
     /**
      * login log
      *

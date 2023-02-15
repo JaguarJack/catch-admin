@@ -6,6 +6,7 @@ use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Http\Request;
 use Illuminate\Queue\SerializesModels;
+use Modules\User\Models\User;
 
 class Login
 {
@@ -18,7 +19,7 @@ class Login
      */
     public function __construct(
         public  Request $request,
-        public  string $token
+        public  User $user
     ) {
     }
 }
