@@ -19,6 +19,11 @@ export default defineConfig(({ command, mode }) => {
       createHtmlPlugin({
         minify: true,
         template: 'public/admin.html',
+        inject: {
+          data: {
+              title: 'CatchAdmin 后台管理系统',
+          },
+        },
       }),
       alias({
         entries: [

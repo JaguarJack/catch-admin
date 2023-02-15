@@ -41,6 +41,7 @@ const defaultRoutes: RouteRecordRaw[] = [
   {
     path: '/login',
     name: 'login',
+    meta: { title: '登录' },
     component: () => import('/admin/views/login/index.vue'),
   },
   // 未定义路有重定向到 404
