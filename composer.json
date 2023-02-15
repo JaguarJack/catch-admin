@@ -8,13 +8,13 @@
     ],
     "license": "MIT",
     "require": {
-       "php": "^8.1",
+        "php": "^8.1",
         "ext-pdo": "*",
         "ext-zip": "*",
         "doctrine/dbal": "^3.4",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^10.0",
-        "laravel/tinker": "^2.8"
+        "laravel/tinker": "^2.8",
         "catchadmin/core": "^0.1.5"
     },
     "require-dev": {
@@ -27,7 +27,8 @@
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/",
-            "Modules\\": "modules"
+            "Modules\\": "modules",
+            "\\": ""
         }
     },
     "autoload-dev": {
