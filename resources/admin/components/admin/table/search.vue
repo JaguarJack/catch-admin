@@ -4,11 +4,11 @@
       <slot name="body" />
       <el-form-item>
         <el-button type="primary" @click="search()">
-          <Icon name="magnifying-glass" class="w-4 mr-1 -ml-1" />
+          <Icon name="magnifying-glass" className="w-4 h-4 mr-1 -ml-1" />
           搜索
         </el-button>
         <el-button @click="reset()">
-          <Icon name="arrow-path" class="w-4 mr-1 -ml-1" />
+          <Icon name="arrow-path" className="w-4 h-4 mr-1 -ml-1" />
           重置
         </el-button>
       </el-form-item>

@@ -1,5 +1,5 @@
 <template>
-  <el-button type="danger" :size="size"><Icon name="trash" class="w-4 mr-1" /> {{ text }}</el-button>
+  <el-button type="danger" :size="size"><Icon name="trash" className="w-4 h-4 mr-1" /> {{ text }}</el-button>
 </template>
 
 <script lang="ts" setup>

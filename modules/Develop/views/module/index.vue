@@ -11,7 +11,7 @@
       <Operate :show="open">
         <template v-slot:operate>
           <!-- header 插槽的内容放这里 -->
-          <el-button type="success" class="float-right" @click="installVisible = true"><Icon name="cog-6-tooth" class="mr-1 w-4" /> 安装</el-button>
+          <el-button type="success" class="float-right" @click="installVisible = true"><Icon name="cog-6-tooth" class="mr-1 w-4 h-4" /> 安装</el-button>
         </template>
       </Operate>
       <el-table :data="tableData" class="mt-3" v-loading="loading">

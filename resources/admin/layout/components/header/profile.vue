@@ -11,7 +11,7 @@
                 <Icon name="user"/> <router-link to="/users/center"> 个人信息</router-link>
             </el-dropdown-item>
           <el-dropdown-item divided @click="logout">
-            <Icon name="power" class="mr-1 w-4 h-4" />
+            <Icon className="power" class="mr-1 w-4 h-4" />
             退 出
           </el-dropdown-item>
         </el-dropdown-menu>

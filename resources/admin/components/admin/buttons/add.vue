@@ -1,5 +1,5 @@
 <template>
-  <el-button type="primary" :size="size"><Icon name="plus" class="w-4 mr-1" /> {{ text }}</el-button>
+  <el-button type="primary" :size="size"><Icon name="plus" className="w-4 h-4 mr-1" /> {{ text }}</el-button>
 </template>
 
 <script lang="ts" setup>

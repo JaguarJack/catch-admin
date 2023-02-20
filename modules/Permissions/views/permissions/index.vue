@@ -22,7 +22,7 @@
                 <template #reference>
                   <el-tag class="cursor-pointer w-8" v-if="scope.row.type === MenuType.PAGE_TYPE">
                     <Icon name="cog-6-tooth" class="animate-spin w-5 h-5" v-if="actionLoading" />
-                    <Icon name="plus" class="w-4 h-4" v-else />
+                    <Icon name="plus" className="w-4 h-4" v-else />
                   </el-tag>
                 </template>
               </el-popconfirm>
