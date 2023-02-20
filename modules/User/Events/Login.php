@@ -19,7 +19,7 @@ class Login
      */
     public function __construct(
         public  Request $request,
-        public  User $user
+        public  ?User $user
     ) {
     }
 }

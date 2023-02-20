@@ -22,15 +22,15 @@ class AuthController extends Controller
         /* @var User $user */
         $user = User::query()->where('email', $request->get('email'))->first();
 
-        $token = $user?->createToken('token')->plainTextToken;
-
         Event::dispatch(new Login($request, $user));
 
-        if (! $token) {
-            throw new FailedException('登录失败！请检查邮箱或者密码');
+        if ($user && bcrypt($request->get('password')) == $user->password) {
+            $token = $user->createToken('token')->plainTextToken;
+
+            return compact('token');
         }
 
-        return compact('token');
+        throw new FailedException('登录失败！请检查邮箱或者密码');
     }
 
 
