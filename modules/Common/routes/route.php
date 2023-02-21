@@ -17,6 +17,12 @@ use Modules\Common\Http\Controllers\UploadController;
 
 Route::get('options/{name}', [OptionController::class, 'index']);
 
-Route::post('upload/file', [UploadController::class, 'file']);
+Route::controller(UploadController::class)->group(function (){
+    Route::post('upload/file',  'file');
+    Route::post('upload/image', 'image');
+    // get oss signature
+    Route::get('upload/oss', 'oss');
+});
 
-Route::post('upload/image', [UploadController::class, 'image']);
+
+
