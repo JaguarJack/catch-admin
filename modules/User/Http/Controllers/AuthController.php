@@ -8,6 +8,7 @@ use Illuminate\Auth\RequestGuard;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Hash;
 use Modules\User\Events\Login;
 use Modules\User\Models\User;
 
@@ -24,9 +25,8 @@ class AuthController extends Controller
 
         Event::dispatch(new Login($request, $user));
 
-        if ($user && bcrypt($request->get('password')) == $user->password) {
+        if ($user && Hash::check($request->get('password'), $user->password)) {
             $token = $user->createToken('token')->plainTextToken;
-
             return compact('token');
         }
 
