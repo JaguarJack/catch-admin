@@ -13,7 +13,7 @@ const props = defineProps({
     },
     className: {
         type: String,
-        required: true,
+        required: false,
         default: "w-5 h-5"
     }
 })

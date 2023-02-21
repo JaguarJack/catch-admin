@@ -140,7 +140,6 @@ export const useUserStore = defineStore('UserStore', {
             this.setStatus(status)
             this.setAvatar(avatar)
             this.setPermissions(permissions)
-            console.log(this.getAvatar)
             resolve(response.data.data)
           })
           .catch(e => {
