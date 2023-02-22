@@ -1,0 +1,48 @@
+version: '3'
+
+services:
+    php:
+        container_name: catchadmin
+        image: jaguarjack/php82
+        ports:
+            - "8001:8001"
+            - "9000:9000"
+        volumes:
+            - .:/data
+        working_dir: /data
+        restart: always
+        networks:
+            - test
+        environment:
+            - APP_URL=127.0.0.1:8001
+            - DB_HOST=mysql
+            - DB_PORT=3306
+            - DB_DATABASE=catchadmin
+            - DB_USERNAME=root
+            - DB_PASSWORD=root
+        command: cp .env.example .env && php artisan catch:install && php artisan serve --port=8001
+    mysql:
+        container_name: mysql
+        image: mysql:5.7
+        ports:
+            - "3306:3306"
+        environment:
+            - MYSQL_ROOT_PASSWORD=root
+        restart: always
+        networks:
+            - test
+    node:
+        container_name: dashboard
+        image: node:latest
+        ports:
+            - "8000:8000"
+        volumes:
+            -   .:/data
+        working_dir: /data
+        restart: always
+        networks:
+            - test
+        command: yarn install && yarn dev
+networks:
+    test:
+        external: true
