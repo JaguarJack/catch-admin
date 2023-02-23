@@ -56,7 +56,7 @@
           <Select v-model="formData.permission_mark" placeholder="请选择" api="controllers" :query="{ module: formData.module }" v-else />
         </el-form-item>
         <el-form-item label="菜单Icon" prop="icon" v-if="!isAction">
-          <el-input v-model="formData.icon" name="icon" clearable @focus="open" />
+          <el-input v-model="formData.icon" name="icon" clearable @click="open" />
         </el-form-item>
         <el-form-item label="所属组件" prop="component" :rules="[{ required: true, message: '所属组件必须填写' }]" v-if="!isAction">
           <Select v-model="formData.component" placeholder="请选择" allow-create api="components" :query="{ module: formData.module }" />
@@ -116,12 +116,15 @@ const props = defineProps({
 })
 
 const { formData, form, loading, submitForm, close, beforeCreate, beforeUpdate } = useCreate(props.api, props.primary)
-const { open, visible } = useOpen()
 
-// 关闭选择
+// 选择 icon
+const { open, visible } = useOpen()
+// 关闭选择 icon
 const closeSelectIcon = () => {
   visible.value = false
 }
+
+// 默认值
 const defaultSort = 1
 const defaultKeepalive = 1
 const defaultHidden = 1
