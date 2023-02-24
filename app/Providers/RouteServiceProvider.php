@@ -41,7 +41,9 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->booted(function(){
             $this->app->booted(function (){
-                loadCachedAdminRoutes();
+                if (file_exists('loadCachedAdminRoutes')) {
+                    loadCachedAdminRoutes();
+                }
             });
         });
     }
