@@ -46,9 +46,15 @@ class ModuleInstall
      */
     protected function installWithTitle(string $title): void
     {
-        $installer = CatchAdmin::getModuleInstaller($title);
+        try {
+            $installer = CatchAdmin::getModuleInstaller($title);
 
-        $installer->install();
+            $installer->install();
+        } catch (\Exception|\Throwable $e) {
+            CatchAdmin::deleteModulePath($title);
+
+            throw new FailedException('安装失败: ' . $e->getMessage());
+        }
     }
 
     /**
