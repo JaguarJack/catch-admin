@@ -22,7 +22,7 @@ const router: RouteRecordRaw[] = [
       {
         path: 'generate/:schema',
         name: 'generate',
-        meta: { title: '代码生成', hidden: true, is_inner: true },
+        meta: { title: '代码生成', hidden: true, active_menu: '/develop/schemas' },
         component: () => import('./generate/index.vue'),
       },
     ],
