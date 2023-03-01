@@ -132,7 +132,7 @@ const getPermissions = async (value: number = 0) => {
       setCheckedPermissions()
     })
   } else {
-    http.get('permissions/permissions').then(r => {
+    http.get('permissions/permissions', { from: 'role' }).then(r => {
       permissions.value = r.data.data
       setCheckedPermissions()
     })

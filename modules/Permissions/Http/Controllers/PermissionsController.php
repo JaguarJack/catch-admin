@@ -6,11 +6,10 @@ namespace Modules\Permissions\Http\Controllers;
 
 use Catch\Base\CatchController as Controller;
 use Catch\Exceptions\FailedException;
-use Illuminate\Support\Facades\Route;
+use Illuminate\Database\Eloquent\Model;
 use Modules\Permissions\Enums\MenuType;
 use Modules\Permissions\Models\Permissions;
-use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Request;
 
 class PermissionsController extends Controller
 {
@@ -27,6 +26,10 @@ class PermissionsController extends Controller
      */
     public function index(): mixed
     {
+        if (Request::get('from') == 'role') {
+            return $this->model->getList();
+        }
+
         return $this->model->setBeforeGetList(function ($query) {
             return $query->with('actions')->whereIn('type', [MenuType::Top->value(), MenuType::Menu->value()]);
         })->getList();
@@ -36,8 +39,9 @@ class PermissionsController extends Controller
      *
      * @param Request $request
      * @return bool
+     * @throws \ReflectionException
      */
-    public function store(Request $request)
+    public function store(Request $request): bool
     {
         return $this->model->storeBy($request->all());
     }
@@ -45,9 +49,9 @@ class PermissionsController extends Controller
     /**
      *
      * @param $id
-     * @return \Illuminate\Database\Eloquent\Model|null
+     * @return Model|null
      */
-    public function show($id)
+    public function show($id): ?Model
     {
         return $this->model->firstBy($id);
     }
@@ -58,7 +62,7 @@ class PermissionsController extends Controller
      * @param Request $request
      * @return mixed
      */
-    public function update($id, Request $request)
+    public function update($id, Request $request): mixed
     {
         return $this->model->updateBy($id, $request->all());
     }
@@ -68,7 +72,7 @@ class PermissionsController extends Controller
      * @param $id
      * @return bool|null
      */
-    public function destroy($id)
+    public function destroy($id): ?bool
     {
         if ($this->model->where($this->model->getParentIdColumn(), $id)->first()) {
             throw new FailedException('无法进行删除，请先删除子级');
@@ -83,7 +87,7 @@ class PermissionsController extends Controller
      * @param $id
      * @return bool
      */
-    public function enable($id)
+    public function enable($id): bool
     {
         return $this->model->toggleBy($id, 'hidden');
     }
