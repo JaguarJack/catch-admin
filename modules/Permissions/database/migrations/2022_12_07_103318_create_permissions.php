@@ -28,7 +28,6 @@ return new class () extends Migration {
             $table->string('redirect')->nullable()->comment('跳转地址');
             $table->tinyInteger('keepalive')->default(1)->comment('1 缓存 2 不缓存');
             $table->tinyInteger('type')->default(1)->comment('1 目录 2 菜单 3 按钮');
-            $table->tinyInteger('is_inner')->default(2)->comment('1 是 2 否');
             $table->tinyInteger('hidden')->default(1)->comment('1 显示 2 隐藏');
             $table->integer('sort')->default(1)->comment('排序');
             $table->creatorId();

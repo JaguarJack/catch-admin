@@ -138,7 +138,7 @@ export const usePermissionsStore = defineStore('PermissionsStore', {
             name: permission.module + '_' + permission.permission_mark,
             component: importComponent,
             redirect: permission.redirect,
-            meta: Object.assign({ title: permission.permission_name, icon: permission.icon, hidden: permission.hidden, is_inner: permission.is_inner }),
+            meta: Object.assign({ title: permission.permission_name, icon: permission.icon, hidden: permission.hidden, active_menu: permission.active_menu }),
           })
 
           // child menu

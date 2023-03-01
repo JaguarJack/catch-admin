@@ -26,6 +26,7 @@ use Modules\Permissions\Enums\MenuType;
  * @property $type
  * @property $hidden
  * @property $sort
+ * @property $active_menu
  * @property $creator_id
  * @property $created_at
  * @property $updated_at
@@ -35,19 +36,19 @@ class Permissions extends Model
 {
     protected $table = 'permissions';
 
-    protected $fillable = ['id', 'parent_id', 'permission_name', 'route', 'icon', 'module', 'permission_mark', 'component', 'redirect', 'keepalive', 'type', 'hidden', 'is_inner', 'sort', 'creator_id', 'created_at', 'updated_at', 'deleted_at'];
+    protected $fillable = ['id', 'parent_id', 'permission_name', 'route', 'icon', 'module', 'permission_mark', 'component', 'redirect', 'keepalive', 'type', 'hidden', 'active_menu', 'sort', 'creator_id', 'created_at', 'updated_at', 'deleted_at'];
 
     /**
      * @var array
      */
-    protected array $fields = ['id','parent_id','permission_name','route','icon','module','permission_mark','component','redirect','keepalive','type','hidden','is_inner','sort','created_at','updated_at'];
+    protected array $fields = ['id','parent_id','permission_name','route','icon','module','permission_mark','component','redirect','keepalive','type','hidden','active_menu','sort','created_at','updated_at'];
 
     protected bool $isPaginate = false;
 
     /**
      * @var array
      */
-    protected array $form = ['parent_id','permission_name','route','icon','module','permission_mark','component','redirect','keepalive','type','is_inner', 'hidden','sort'];
+    protected array $form = ['parent_id','permission_name','route','icon','module','permission_mark','component','redirect','keepalive','type','active_menu', 'hidden','sort'];
 
     /**
      * @var array

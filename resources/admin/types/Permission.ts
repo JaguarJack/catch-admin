@@ -11,5 +11,5 @@ export interface Permission {
   redirect: string
   keepAlive: boolean
   hidden: boolean
-  is_inner: boolean
+  active_menu: string
 }

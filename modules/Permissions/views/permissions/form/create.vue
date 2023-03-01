@@ -32,20 +32,6 @@
         <el-form-item label="排序" prop="sort">
           <el-input-number v-model="formData.sort" name="sort" :min="1" />
         </el-form-item>
-        <el-form-item label="内页" prop="is_inner" v-if="isMenu">
-          <el-radio-group v-model="formData.is_inner">
-            <el-radio
-              v-for="item in [
-                { label: '是', value: 1 },
-                { label: '否', value: 2 },
-              ]"
-              :key="item.value"
-              :label="item.value"
-              name="hidden"
-              >{{ item.label }}</el-radio
-            >
-          </el-radio-group>
-        </el-form-item>
       </div>
       <div>
         <el-form-item label="父级菜单" prop="parent_id">
@@ -92,6 +78,16 @@
         </el-form-item>
       </div>
     </div>
+    <div>
+      <el-form-item label="激活菜单" prop="active_menu" v-if="isMenu">
+        <div class="w-full flex flex-row">
+          <el-input v-model="formData.active_menu" name="active_menu" clearable class="w-3/4" />
+          <el-tooltip effect="dark" :content="activeMenuIntro" raw-content placement="top">
+            <div class="text-red-500 cursor-pointer w-1/4 ml-2 justify-center flex">说明</div>
+          </el-tooltip>
+        </div>
+      </el-form-item>
+    </div>
     <div class="flex justify-end">
       <el-button type="primary" @click="submitForm(form)">{{ $t('system.confirm') }}</el-button>
     </div>
@@ -115,6 +111,9 @@ const props = defineProps({
   api: String,
 })
 
+const activeMenuIntro =
+  '<div>如果是访问内页的菜单路由，例如创建文章 create/post, 虽然它隶属于文章列表，但实际上并不会嵌套在文章列表路由里</div><div>而是单独的一个路由，并且是不显示在左侧菜单的。所以在访问它的时候，需要左侧菜单高亮，则需要设置该参数</div>'
+
 const { formData, form, loading, submitForm, close, beforeCreate, beforeUpdate } = useCreate(props.api, props.primary)
 
 // 选择 icon
@@ -128,13 +127,12 @@ const closeSelectIcon = () => {
 const defaultSort = 1
 const defaultKeepalive = 1
 const defaultHidden = 1
-const defaultIsInner = 2
+
 // 初始化
 formData.value.sort = defaultSort
 formData.value.keepalive = defaultKeepalive
 formData.value.type = MenuType.TOP_TYPE
 formData.value.hidden = defaultHidden
-formData.value.is_inner = defaultIsInner
 
 // 默认目录
 const isTop = ref<boolean>(true)

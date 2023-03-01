@@ -19,9 +19,9 @@ const breadcrumbs = ref<string[]>([])
 
 // 监听当前路由的变化
 watch(router.currentRoute, (newValue, oldValue) => {
-  // 如果是内页，则不切换激活菜单
-  if (newValue.meta.is_inner === undefined || !newValue.meta.is_inner) {
-    appStore.setActiveMenu(newValue.path)
+  // 激活菜单
+  if (newValue.meta.active_menu) {
+    appStore.setActiveMenu(newValue.meta.active_menu)
   }
   getBreadcrumbs(newValue)
 })
@@ -29,7 +29,12 @@ watch(router.currentRoute, (newValue, oldValue) => {
 // get init breadcrumb
 onMounted(() => {
   if (router.currentRoute.value.path !== '/') {
-    appStore.setActiveMenu(router.currentRoute.value.path)
+    // 如果是内页，并且设置激活菜单
+    if (router.currentRoute.value.meta.active_menu) {
+      appStore.setActiveMenu(router.currentRoute.value.meta.active_menu)
+    } else {
+      appStore.setActiveMenu(router.currentRoute.value.path)
+    }
   }
 
   getBreadcrumbs(router.currentRoute.value)

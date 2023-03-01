@@ -141,6 +141,8 @@ class Http {
 
     // set ajax request
     this.headers['X-Requested-With'] = 'XMLHttpRequest'
+    // set dashboard request
+    this.headers['Request-from'] = 'Dashboard'
     this.config.headers = this.headers
 
     return this.config

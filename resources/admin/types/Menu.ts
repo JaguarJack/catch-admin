@@ -14,7 +14,7 @@ export interface Meta {
 
   keepalive?: boolean
 
-  is_inner?: boolean
+  active_menu?: string
 }
 
 // @ts-ignore
