@@ -37,13 +37,15 @@ class AuthController extends Controller
     /**
      * logout
      *
-     * @return bool
+     * @return array
      */
-    public function logout(): bool
+    public function logout(): array
     {
         /* @var  User $user */
         $user = Auth::guard(getGuardName())->user();
 
-        return $user->currentAccessToken()->delete();
+        $user->currentAccessToken()->delete();
+
+        return [];
     }
 }
