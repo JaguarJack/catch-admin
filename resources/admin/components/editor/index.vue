@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Editor :api-key="aipKey" :init="config" v-model="content" />
+    <Editor :api-key="aipKey" :init="config" v-model="content" v-bind="$attrs" />
   </div>
 </template>
 
@@ -52,6 +52,7 @@ const props = defineProps({
     ],
   },
 })
+
 const aipKey: string = 's1ntkmnev0ggx0hhaqnubrdxhv0ly99uyrdbckeaycx7iz6v'
 const uploaded = (blobInfo, progress) =>
   new Promise((resolve, reject) => {
@@ -88,9 +89,18 @@ const config = {
 
 const emits = defineEmits(['update:modelValue'])
 const content = ref(props.modelValue)
+// 创建的时候
 watch(content, value => {
   emits('update:modelValue', value)
 })
+
+// 回显监听
+watch(
+  () => props.modelValue,
+  value => {
+    content.value = value
+  },
+)
 </script>
 
 <style scoped>
