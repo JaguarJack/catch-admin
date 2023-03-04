@@ -15,7 +15,7 @@
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^10.0",
         "laravel/tinker": "^2.8",
-        "catchadmin/core": "^0.1.6"
+        "catchadmin/core": "^0.1.7"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
