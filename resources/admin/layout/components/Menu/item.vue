@@ -2,16 +2,16 @@
   <el-sub-menu :index="menu?.path" :class="subMenuClass" v-if="menu?.children?.length">
     <template #title>
       <el-icon>
-        <Icon :name="menu?.meta?.icon" v-if="menu?.meta?.icon" class="text-sm"/>
+        <Icon :name="menu?.meta?.icon" v-if="menu?.meta?.icon" class="text-sm" />
       </el-icon>
       <span>{{ menu?.meta?.title }}</span>
     </template>
-    <slot/>
+    <slot />
   </el-sub-menu>
 
   <el-menu-item v-else class="ct-menu-item" :index="menu?.path" @click="isMiniScreen() && store.changeExpaned()">
     <el-icon>
-      <Icon :name="menu?.meta?.icon" v-if="menu?.meta?.icon" class="text-sm"/>
+      <Icon :name="menu?.meta?.icon" v-if="menu?.meta?.icon" class="text-sm" />
     </el-icon>
     <span>{{ menu?.meta?.title }}</span>
   </el-menu-item>
@@ -19,7 +19,7 @@
 
 <script lang="ts" name="MenuItem" setup>
 import { Menu } from '/admin/types/Menu'
-import { PropType } from 'vue'
+import { onMounted, PropType, ref } from 'vue'
 import { useAppStore } from '/admin/stores/modules/app'
 import { isMiniScreen } from '/admin/support/helper'
 

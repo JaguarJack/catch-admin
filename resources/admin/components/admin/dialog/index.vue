@@ -6,9 +6,9 @@
           <div>
             <h4 :id="titleId" :class="titleClass">{{ title }}</h4>
           </div>
-          <div class="flex w-14 justify-between">
-            <Icon :name="fullscreenIcon" @click="fullscreen" class="hover:cursor-pointer" />
-            <Icon name="x-mark" class="hover:cursor-pointer" @click="close" />
+          <div class="flex w-12 justify-end">
+            <!--<Icon :name="fullscreenIcon" @click="fullscreen" className="hover:cursor-pointer w-4 h-4" />-->
+            <Icon name="x-mark" className="hover:cursor-pointer w-5 h-5" @click="close" />
           </div>
         </div>
       </template>
