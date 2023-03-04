@@ -18,7 +18,6 @@ const next = () => {
     active.value = 2
   }
 }
-console.log(123)
 const prev = () => {
   if (active.value-- === 1) {
     active.value = 1

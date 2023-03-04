@@ -5,18 +5,18 @@ const router: RouteRecordRaw[] = [
   {
     path: '/develop',
     component: () => import('/admin/layout/index.vue'),
-    meta: { title: '开发工具', icon: 'wrench-screwdriver', hidden: false },
+    meta: { title: '开发工具', icon: 'wrench-screwdriver' },
     children: [
       {
         path: 'modules',
         name: 'modules',
-        meta: { title: '模块管理', icon: 'home', hidden: false },
+        meta: { title: '模块管理', icon: 'queue-list' },
         component: () => import('./module/index.vue'),
       },
       {
         path: 'schemas',
         name: 'schemas',
-        meta: { title: 'Schemas', icon: 'home', hidden: false },
+        meta: { title: 'Schemas', icon: 'list-bullet' },
         component: () => import('./schema/index.vue'),
       },
       {

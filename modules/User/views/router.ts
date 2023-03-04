@@ -9,13 +9,13 @@ const router: RouteRecordRaw[] = [
     children: [
       {
         path: 'index',
-        name: 'users',
+        name: 'user-account',
         meta: { title: '账号管理', icon: 'home' },
         component: () => import('./user/index.vue'),
       },
       {
         path: 'center',
-        name: 'center',
+        name: 'user-center',
         meta: { title: '个人中心', icon: 'home' },
         component: () => import('./user/center.vue'),
       },

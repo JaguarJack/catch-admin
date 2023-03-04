@@ -63,7 +63,6 @@ const uploaded = (blobInfo, progress) =>
       params.append('image', blobInfo.blob())
       Http.post(env('VITE_BASE_URL') + 'upload/image', params)
         .then(res => {
-          console.log(res)
           if (res.data.code === 10000) {
             resolve(res.data.data.path)
           } else {

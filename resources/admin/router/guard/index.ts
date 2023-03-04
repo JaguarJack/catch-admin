@@ -43,11 +43,11 @@ const guard = (router: Router) => {
               })
               // 在动态路由之后挂载匹配 404 路由
               router.addRoute({
-                  path: '/:pathMatch(.*)*',
-                  redirect: '/404',
+                path: '/:pathMatch(.*)*',
+                redirect: '/404',
               })
             }
-            next({ ...to, replace: true });
+            next({ ...to, replace: true })
           } catch (e) {
             removeAuthToken()
             next({ path: `${WhiteListPage.LOGIN_PATH}?redirect=/${to.path}` })
@@ -58,7 +58,6 @@ const guard = (router: Router) => {
     } else {
       // 如果不在白名单
       if (whiteList.indexOf(to.path) !== -1) {
-          console.log(123)
         next()
       } else {
         next({ path: WhiteListPage.LOGIN_PATH })

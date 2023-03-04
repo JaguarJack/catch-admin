@@ -23,22 +23,26 @@ watch(router.currentRoute, (newValue, oldValue) => {
   if (newValue.meta.active_menu) {
     appStore.setActiveMenu(newValue.meta.active_menu)
   }
+  setActiveMenu(newValue)
   getBreadcrumbs(newValue)
 })
 
 // get init breadcrumb
 onMounted(() => {
-  if (router.currentRoute.value.path !== '/') {
-    // 如果是内页，并且设置激活菜单
-    if (router.currentRoute.value.meta.active_menu) {
-      appStore.setActiveMenu(router.currentRoute.value.meta.active_menu)
-    } else {
-      appStore.setActiveMenu(router.currentRoute.value.path)
-    }
-  }
-
+  setActiveMenu(router.currentRoute.value)
   getBreadcrumbs(router.currentRoute.value)
 })
+
+const setActiveMenu = route => {
+  if (route.path !== '/') {
+    // 如果是内页，并且设置激活菜单
+    if (route.meta.active_menu) {
+      appStore.setActiveMenu(route.meta.active_menu)
+    } else {
+      appStore.setActiveMenu(route.path)
+    }
+  }
+}
 
 // get breadcrums
 function getBreadcrumbs(newRoute: RouteLocationNormalizedLoaded) {
