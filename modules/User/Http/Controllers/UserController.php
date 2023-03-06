@@ -82,7 +82,12 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        return $this->user->deleteBy($id);
+        if ($this->user->deleteBy($id)) {
+            // 撤销用户的所有令牌
+            $this->user->tokens()->delete();
+        }
+
+        return true;
     }
 
     /**
