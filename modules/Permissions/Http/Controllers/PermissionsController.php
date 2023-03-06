@@ -9,7 +9,7 @@ use Catch\Exceptions\FailedException;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Permissions\Enums\MenuType;
 use Modules\Permissions\Models\Permissions;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Request;
 
 class PermissionsController extends Controller
 {

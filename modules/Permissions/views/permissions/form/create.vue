@@ -144,7 +144,6 @@ if (props.primary) {
   const { afterShow } = useShow(props.api, props.primary, formData)
 
   afterShow.value = formData => {
-    console.log(formData.value.permission_mark)
     if (formData.value.permission_mark.indexOf('@') !== -1) {
       formData.value.permission_mark = formData.value.permission_mark.split('@')[1]
     }

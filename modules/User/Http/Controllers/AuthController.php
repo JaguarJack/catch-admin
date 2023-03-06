@@ -4,7 +4,6 @@ namespace Modules\User\Http\Controllers;
 
 use Catch\Base\CatchController as Controller;
 use Catch\Exceptions\FailedException;
-use Illuminate\Auth\RequestGuard;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
