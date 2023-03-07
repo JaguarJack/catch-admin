@@ -74,7 +74,7 @@
         class="w-full"
         :props="{ label: 'permission_name', value: 'id' }"
         show-checkbox
-        default-expand-all
+        :default-expand-all="false"
         @check="selectPermissions"
         :empty-text="permissionLoadingText"
       />
