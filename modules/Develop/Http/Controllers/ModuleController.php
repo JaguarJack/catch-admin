@@ -4,6 +4,8 @@ namespace Modules\Develop\Http\Controllers;
 
 use Catch\Base\CatchController;
 use Catch\CatchAdmin;
+use Catch\Contracts\ModuleRepositoryInterface;
+use Catch\Exceptions\FailedException;
 use Catch\Support\Module\ModuleRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -97,10 +99,15 @@ class ModuleController extends CatchController
      * install
      *
      * @param Request $request
+     * @param ModuleRepositoryInterface $moduleRepository
      * @return true
      */
-    public function install(Request $request)
+    public function install(Request $request, ModuleRepositoryInterface $moduleRepository)
     {
+        if ($moduleRepository->all()->pluck('name')->contains($request->get('title'))) {
+            throw new FailedException('模块已安装，无法再次安装');
+        }
+
         $moduleInstall = new ModuleInstall($request->get('type'));
 
         $moduleInstall->install($request->all());

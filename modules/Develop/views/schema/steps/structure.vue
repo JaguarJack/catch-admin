@@ -129,7 +129,6 @@ onMounted(() => {
     onEnd({ newIndex, oldIndex }) {
       const newStructures = []
       const s = structures.splice(oldIndex, newIndex - oldIndex)
-      console.log(s, structures, oldIndex, newIndex)
       s.concat(structures).forEach(item => {
         newStructures.push(item)
       })
