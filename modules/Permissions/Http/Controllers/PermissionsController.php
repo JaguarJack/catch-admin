@@ -22,11 +22,12 @@ class PermissionsController extends Controller
     }
 
     /**
+     * @param Request $request
      * @return mixed
      */
-    public function index(): mixed
+    public function index(Request $request): mixed
     {
-        if (Request::get('from') == 'role') {
+        if ($request->get('from') == 'role') {
             return $this->model->getList();
         }
 
