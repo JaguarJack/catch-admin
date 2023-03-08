@@ -21,6 +21,9 @@
 - [x] Schema 管理 生成表结构 
 - [x] 模块管理 系统模块管理
 
+## 额外模块
+- [CMS 模块](https://github.com/catch-admin/cms)
+
 ## 项目地址
 - [github catchadmin](https://github.com/jaguarjack/catch-admin)
 ## 文档地址
