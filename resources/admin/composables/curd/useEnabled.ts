@@ -1,5 +1,5 @@
 import http from '/admin/support/http'
-import { Code } from '/admin/assets/enum/app'
+import { Code } from '/admin/enum/app'
 import Message from '/admin/support/message'
 import { ref, watch } from 'vue'
 import { isFunction } from '/admin/support/helper'

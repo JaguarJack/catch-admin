@@ -5,6 +5,42 @@
 </template>
 
 <script setup lang="ts">
+import '/admin/public/tinymce/tinymce.min'
+import '/admin/public/tinymce/themes/silver/theme.min'
+import '/admin/public/tinymce/icons/default/icons.min'
+import '/admin/public/tinymce/models/dom/model.min'
+// css
+import '/admin/public/tinymce/skins/ui/oxide/skin.min.css'
+
+// plugins
+import '/admin/public/tinymce/plugins/preview/plugin.min'
+import '/admin/public/tinymce/plugins/searchreplace/plugin.min'
+import '/admin/public/tinymce/plugins/autolink/plugin.min'
+import '/admin/public/tinymce/plugins/directionality/plugin.min'
+import '/admin/public/tinymce/plugins/visualblocks/plugin.min'
+import '/admin/public/tinymce/plugins/visualchars/plugin.min'
+import '/admin/public/tinymce/plugins/fullscreen/plugin.min'
+import '/admin/public/tinymce/plugins/image/plugin.min'
+import '/admin/public/tinymce/plugins/link/plugin.min'
+import '/admin/public/tinymce/plugins/media/plugin.min'
+import '/admin/public/tinymce/plugins/template/plugin.min'
+import '/admin/public/tinymce/plugins/code/plugin.min'
+import '/admin/public/tinymce/plugins/codesample/plugin.min'
+import '/admin/public/tinymce/plugins/table/plugin.min'
+import '/admin/public/tinymce/plugins/charmap/plugin.min'
+import '/admin/public/tinymce/plugins/pagebreak/plugin.min'
+import '/admin/public/tinymce/plugins/nonbreaking/plugin.min'
+import '/admin/public/tinymce/plugins/anchor/plugin.min'
+import '/admin/public/tinymce/plugins/insertdatetime/plugin.min'
+import '/admin/public/tinymce/plugins/advlist/plugin.min'
+import '/admin/public/tinymce/plugins/lists/plugin.min'
+import '/admin/public/tinymce/plugins/wordcount/plugin.min'
+import '/admin/public/tinymce/plugins/autosave/plugin.min'
+import '/admin/public/tinymce/plugins/emoticons/plugin.min'
+
+// lang
+import '/admin/public/tinymce/langs/zh-CN'
+
 import Editor from '@tinymce/tinymce-vue'
 import { env } from '/admin/support/helper'
 import Http from '/admin/support/http'
@@ -29,7 +65,7 @@ const props = defineProps({
   },
   language: {
     type: String,
-    default: 'zh_CN',
+    default: 'zh-CN',
   },
 
   placeholder: {
@@ -75,6 +111,7 @@ const uploaded = (blobInfo, progress) =>
     }
   })
 const config = {
+  base_url: '/admin/public/tinymce',
   language: props.language,
   placeholder: props.placeholder,
   width: props.width,
@@ -115,5 +152,9 @@ watch(
 
 .tox {
   z-index: 9999 !important;
+}
+
+.tox-promotion {
+  display: none !important;
 }
 </style>
