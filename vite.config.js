@@ -21,7 +21,7 @@ export default defineConfig(({ command, mode }) => {
         template: 'public/admin.html',
         inject: {
           data: {
-              title: 'CatchAdmin 后台管理系统',
+            title: env.APP_NAME,
           },
         },
       }),

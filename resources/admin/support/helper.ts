@@ -76,7 +76,7 @@ export function isUndefined(value: any): boolean {
  * @param title
  */
 export function setPageTitle(title: string) {
-  document.title = title
+  document.title = title + '-' + env('VITE_APP_NAME')
 }
 
 /**
