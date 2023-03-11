@@ -87,3 +87,16 @@ export function setPageTitle(title: string) {
 export function isFunction(value: any) {
   return typeof value === 'function'
 }
+
+export function _window(key: string) {
+  if (window.hasOwnProperty('admin_config')) {
+    //@ts-ignore
+    return window.admin_config[key]
+  }
+
+  return null
+}
+
+export function getBaseUrl() {
+  return _window('BASE_URL') ? _window('BASE_URL') : env('VITE_BASE_URL')
+}

@@ -1,6 +1,6 @@
 import { Code } from '/admin/enum/app'
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios'
-import { env, getAuthToken, removeAuthToken } from './helper'
+import { getAuthToken, getBaseUrl, removeAuthToken } from './helper'
 import Message from './message'
 import router from '/admin/router'
 import ResponseData from '/admin/types/responseData'
@@ -134,7 +134,7 @@ class Http {
    */
   protected getConfig(): AxiosRequestConfig {
     // set base url
-    this.config.baseURL = this.baseURL ? this.baseURL : env('VITE_BASE_URL')
+    this.config.baseURL = getBaseUrl()
 
     // set timeout
     this.config.timeout = this.timeout ? this.timeout : 10000
