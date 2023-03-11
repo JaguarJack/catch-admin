@@ -20,7 +20,7 @@
     // "types": ["element-plus/golbal"],
     "paths": {
       "@/*": [
-        "resources/js/*"
+        "resources/*"
       ],
       "/admin/*": [
         "resources/admin/*"
@@ -28,12 +28,12 @@
     }
   },
   "include": [
-    "resources/admin/js/**/*.ts",
-    "resources/admin/js/**/*.d.ts",
-    "resources/admin/js/**/*.tsx",
-    "resources/admin/js/**/*.vue",
-    "resources/admin/js/**/*.js",
-    "resources/admin/js/env.d.ts"
+    "resources/admin/**/*.ts",
+    "resources/admin/**/*.d.ts",
+    "resources/admin/**/*.tsx",
+    "resources/admin/**/*.vue",
+    "resources/admin/**/*.js",
+    "resources/admin/env.d.ts"
   ],
   "references": [
     {
