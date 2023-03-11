@@ -8,6 +8,7 @@ import { bootstrapStore } from '/admin/stores'
 import Cache from './cache'
 import { bootstrapI18n } from '/admin/i18n'
 import guard from '/admin/router/guard'
+import { bootstrapDirectives } from '/admin/directives'
 
 /**
  * catchadmin
@@ -31,7 +32,7 @@ export default class CatchAdmin {
    * admin boot
    */
   bootstrap(): void {
-    this.useElementPlus().usePinia().useI18n().useRouter().mount()
+    this.useElementPlus().usePinia().useI18n().installDirectives().useRouter().mount()
   }
 
   /**
@@ -83,6 +84,17 @@ export default class CatchAdmin {
    */
   protected useI18n(): CatchAdmin {
     bootstrapI18n(this.app)
+
+    return this
+  }
+
+  /**
+   * install directives
+   *
+   * @protected
+   */
+  protected installDirectives(): CatchAdmin {
+    bootstrapDirectives(this.app)
 
     return this
   }
