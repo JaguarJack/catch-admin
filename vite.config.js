@@ -60,7 +60,7 @@ export default defineConfig(({ command, mode }) => {
         autoInstall: true,
       }),
     ],
-    publicDir: false,
+    publicDir: './resources/admin/public',
     define: {
       BASE_URL: env.BASE_URL,
     },
