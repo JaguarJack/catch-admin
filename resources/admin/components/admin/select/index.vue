@@ -48,7 +48,7 @@ const getOptions = () => {
   })
 }
 
-const elOptions = props.group ? ref<Array<GroupOption>>() : ref<Array<Option>>()
+const elOptions: any = props.group ? ref<Array<GroupOption>>() : ref<Array<Option>>()
 if (props.api) {
   if (!props.query) {
     getOptions()

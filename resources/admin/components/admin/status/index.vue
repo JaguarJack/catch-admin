@@ -8,13 +8,19 @@ import { Status } from '/admin/enum/app'
 import { ref } from 'vue'
 
 const props = defineProps({
-  modelValue: Boolean | Number | String,
-  api: String,
-  id: Number | String,
+  modelValue: [Boolean, Number, String],
+  api: {
+    required: true,
+    type: String,
+  },
+  id: {
+    required: true,
+    type: [String, Number],
+  },
 })
 
 const emits = defineEmits(['update:modelValue', 'refresh'])
-
+// @ts-ignore
 const { enabled, success, loading, afterEnabled } = useEnabled()
 
 const activeValue = ref<boolean | number | string>()

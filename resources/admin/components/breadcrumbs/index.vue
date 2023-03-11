@@ -21,7 +21,7 @@ const breadcrumbs = ref<string[]>([])
 watch(router.currentRoute, (newValue, oldValue) => {
   // 激活菜单
   if (newValue.meta.active_menu) {
-    appStore.setActiveMenu(newValue.meta.active_menu)
+    appStore.setActiveMenu(newValue.meta.active_menu as string)
   }
   setActiveMenu(newValue)
   getBreadcrumbs(newValue)
@@ -33,11 +33,11 @@ onMounted(() => {
   getBreadcrumbs(router.currentRoute.value)
 })
 
-const setActiveMenu = route => {
+const setActiveMenu = (route: RouteLocationNormalizedLoaded) => {
   if (route.path !== '/') {
     // 如果是内页，并且设置激活菜单
     if (route.meta.active_menu) {
-      appStore.setActiveMenu(route.meta.active_menu)
+      appStore.setActiveMenu(route.meta.active_menu as string)
     } else {
       appStore.setActiveMenu(route.path)
     }

@@ -11,7 +11,15 @@ const layout = 'total,sizes,prev, pager,next'
 
 const pageSizes = [10, 20, 30, 50]
 
-const { page, limit, total, changePage, changeLimit } = inject('paginate')
+interface paginate {
+  page: number
+  limit: number
+  total: number
+  changePage: number
+  changeLimit: number
+}
+
+const { page, limit, total, changePage, changeLimit } = inject('paginate') as paginate
 </script>
 
 <style scoped></style>

@@ -153,7 +153,8 @@ class Http {
    *
    */
   public interceptorsOfRequest(): void {
-    this.request.interceptors.request.use(function (config: AxiosRequestConfig) {
+    // @ts-ignore
+    this.request.interceptors.request.use((config: AxiosRequestConfig) => {
       const token = getAuthToken()
       if (token) {
         if (!config.headers) {

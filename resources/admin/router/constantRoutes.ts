@@ -6,7 +6,9 @@ export function getModuleRoutes() {
   let moduleRoutes: RouteRecordRaw[] = []
 
   Object.keys(modules).forEach(routePath => {
+    // @ts-ignore
     if (!isUndefined(modules[routePath].default)) {
+      // @ts-ignore
       moduleRoutes = moduleRoutes.concat(modules[routePath].default)
     }
   })

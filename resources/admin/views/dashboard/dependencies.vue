@@ -14,7 +14,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import packages from '/admin/../package.json'
+import packages from '../../../../package.json'
 import { computed } from 'vue'
 
 const dependencies = computed(() => {

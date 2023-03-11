@@ -90,7 +90,7 @@ const props = defineProps({
 })
 
 const aipKey: string = 's1ntkmnev0ggx0hhaqnubrdxhv0ly99uyrdbckeaycx7iz6v'
-const uploaded = (blobInfo, progress) =>
+const uploaded = (blobInfo: any, progress: any) =>
   new Promise((resolve, reject) => {
     if (blobInfo.blob().size / 1024 / 1024 > 10) {
       Message.error('上传失败，图片大小请控制在 10M 以内')
@@ -102,7 +102,7 @@ const uploaded = (blobInfo, progress) =>
           if (res.data.code === 10000) {
             resolve(res.data.data.path)
           } else {
-            Message.error(res.message)
+            Message.error(res.data.message)
           }
         })
         .catch(() => {
