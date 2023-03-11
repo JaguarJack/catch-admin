@@ -1,5 +1,5 @@
 <template>
-  <el-breadcrumb separator="/" class="flex">
+  <el-breadcrumb separator="/" class="flex sm:text-sm lg:text-base">
     <transition-group name="breadcrumb">
       <!--<el-breadcrumb-item :to="{ path: '/' }" class="text-blue=">Dashboard</el-breadcrumb-item>-->
 
@@ -64,5 +64,8 @@ function getBreadcrumbs(newRoute: RouteLocationNormalizedLoaded) {
 .breadcrumb-leave-to {
   opacity: 0;
   transition: all 0.3s linear;
+}
+.el-breadcrumb {
+  font-size: 13px;
 }
 </style>
