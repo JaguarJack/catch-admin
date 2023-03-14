@@ -66,18 +66,20 @@
       />
     </el-form-item>
     <el-form-item label="角色权限" prop="permissions">
-      <el-tree
-        ref="permissionTree"
-        v-model="formData.permissions"
-        :data="permissions"
-        node-key="id"
-        class="w-full"
-        :props="{ label: 'permission_name', value: 'id' }"
-        show-checkbox
-        :default-expand-all="false"
-        @check="selectPermissions"
-        :empty-text="permissionLoadingText"
-      />
+      <div class="h-40 overflow-auto w-full border border-gray-300 rounded pt-2 pl-2">
+        <el-tree
+          ref="permissionTree"
+          v-model="formData.permissions"
+          :data="permissions"
+          node-key="id"
+          class="w-full"
+          :props="{ label: 'permission_name', value: 'id' }"
+          show-checkbox
+          :default-expand-all="true"
+          @check="selectPermissions"
+          :empty-text="permissionLoadingText"
+        />
+      </div>
     </el-form-item>
     <div class="flex justify-end">
       <el-button type="primary" @click="submitForm(form)">{{ $t('system.confirm') }}</el-button>
