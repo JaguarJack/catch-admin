@@ -21,21 +21,38 @@ class {controller} extends Controller
         return $this->model->getList();
     }
 
+    /**
+     * @param Request $request
+     * @return mixed
+     */
     public function store({request} $request)
     {
         return $this->model->storeBy($request->all());
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function show($id)
     {
         return $this->model->firstBy($id);
     }
 
+    /**
+     * @param Request $request
+     * @param $id
+     * @return mixed
+     */
     public function update($id, {request} $request)
     {
         return $this->model->updateBy($id, $request->all());
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function destroy($id)
     {
         return $this->model->deleteBy($id);
