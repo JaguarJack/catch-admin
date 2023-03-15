@@ -39,10 +39,10 @@ class PermissionsController extends Controller
     /**
      *
      * @param Request $request
-     * @return bool
+     * @return mixed
      * @throws \ReflectionException
      */
-    public function store(Request $request): bool
+    public function store(Request $request)
     {
         return $this->model->storeBy($request->all());
     }
@@ -71,9 +71,9 @@ class PermissionsController extends Controller
     /**
      *
      * @param $id
-     * @return bool|null
+     * @return mixed
      */
-    public function destroy($id): ?bool
+    public function destroy($id)
     {
         if ($this->model->where($this->model->getParentIdColumn(), $id)->first()) {
             throw new FailedException('无法进行删除，请先删除子级');
