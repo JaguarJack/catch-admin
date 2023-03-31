@@ -3,6 +3,7 @@
 namespace Modules\Permissions\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 use Modules\Permissions\Models\Roles;
 
 class RoleRequest extends FormRequest
@@ -15,9 +16,24 @@ class RoleRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'role_name' => sprintf('required|unique:%s,%s,%s', Roles::class, 'role_name', $this->get('id')),
+            'role_name' => [
+              'required',
+               Rule::unique('roles')->where(function ($query) {
+                   return $query->when($this->get('id'), function ($query){
+                       $query->where('id', '<>', $this->get('id'));
+                   })->where('deleted_at', 0);
+               })
+            ],
 
-            'identify' => sprintf('required|alpha|unique:%s,%s,%s', Roles::class, 'role_name', $this->get('id')),
+            'identify' => [
+                'required',
+                'alpha',
+                 Rule::unique('roles')->where(function ($query) {
+                     return $query->when($this->get('id'), function ($query){
+                         $query->where('id', '<>', $this->get('id'));
+                     })->where('deleted_at', 0);
+                 })
+            ]
         ];
     }
 

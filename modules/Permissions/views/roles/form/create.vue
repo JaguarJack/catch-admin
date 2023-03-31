@@ -75,7 +75,7 @@
           class="w-full"
           :props="{ label: 'permission_name', value: 'id' }"
           show-checkbox
-          :default-expand-all="true"
+          :default-expand-all="false"
           @check="selectPermissions"
           :empty-text="permissionLoadingText"
         />
@@ -189,6 +189,11 @@ beforeCreate.value = () => {
 
 // 更新前的钩子
 beforeUpdate.value = () => {
+  const permissionIds = []
+  formData.value.permissions.forEach(item => {
+    permissionIds.push(item)
+  })
+  formData.value.permissions = permissionIds
   formData.value.parent_id = getParent(formData.value.parent_id)
 }
 
