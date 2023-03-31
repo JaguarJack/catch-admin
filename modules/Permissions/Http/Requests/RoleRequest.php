@@ -36,7 +36,7 @@ class RoleRequest extends FormRequest
 
             'identify.required' => '角色标识必须填写',
 
-            'identify.alpha' => '角色名称只允许字母组成',
+            'identify.alpha' => '角色标识只允许字母组成',
 
             'identify.unique' => '角色标识已存在',
         ];
