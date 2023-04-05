@@ -107,7 +107,7 @@ export default defineComponent({
     // 后端的 permissions 返回 undefined，则认为该后端无权限系统
     const permissions = userStore.getPermissions === undefined ? [] : userStore.getPermissions
 
-    const vnodes = getVNodes(filterMenus(permissionsStore.getMenusFrom(permissions)), props.subMenuClass)
+    const vnodes = getVNodes(filterMenus(permissionsStore.getMenusFrom(permissions, true)), props.subMenuClass)
     return () => {
       return h(
         menus,
