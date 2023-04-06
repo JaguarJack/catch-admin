@@ -91,9 +91,7 @@ class User extends Model implements AuthenticatableContract
         if (isset($data['password']) && ! $data['password']) {
             unset($data['password']);
         }
-
-        $data['password'] = bcrypt($data['password']);
-
-         return parent::updateBy($id, $data);
+        
+        return parent::updateBy($id, $data);
     }
 }
