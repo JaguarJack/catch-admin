@@ -27,7 +27,13 @@ class UserController extends Controller
      */
     public function index()
     {
-        return $this->user->getList();
+        return $this->user->setBeforeGetList(function ($query){
+            if (! $this->getLoginUser()->isSuperAdmin()) {
+                return $query->where('id', '<>', config('catch.super_admin'));
+            }
+
+            return $query;
+        })->getList();
     }
 
     /**

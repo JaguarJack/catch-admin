@@ -70,6 +70,13 @@ class User extends Model implements AuthenticatableContract
         );
     }
 
+    protected function DepartmentId(): Attribute
+    {
+        return new Attribute(
+            get: fn($value) => $value ? : null
+        );
+    }
+
     /**
      * is super admin
      *
@@ -91,7 +98,7 @@ class User extends Model implements AuthenticatableContract
         if (isset($data['password']) && ! $data['password']) {
             unset($data['password']);
         }
-        
+
         return parent::updateBy($id, $data);
     }
 }
