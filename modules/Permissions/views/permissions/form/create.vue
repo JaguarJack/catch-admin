@@ -21,7 +21,7 @@
           <el-input v-model="formData.permission_name" name="permission_name" clearable />
         </el-form-item>
         <el-form-item label="所属模块" prop="module" :rules="[{ required: true, message: '所属模块必须填写' }]" v-if="!isAction">
-          <Select v-model="formData.module" api="modules" @clear="clearModule" />
+          <Select v-model="formData.module" api="modules" allow-create @clear="clearModule" />
         </el-form-item>
         <el-form-item label="路由Path" prop="route" :rules="[{ required: true, message: '路由Path必须填写' }]" v-if="!isAction">
           <el-input v-model="formData.route" name="route" clearable />

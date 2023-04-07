@@ -24,8 +24,13 @@ class Components implements OptionInterface
             $components = File::glob(CatchAdmin::getModuleViewsPath($module).'*'.DIRECTORY_SEPARATOR.'*.vue');
 
             foreach ($components as $component) {
+                $_component = Str::of($component)
+                                ->replace(CatchAdmin::moduleRootPath(), '')
+                                ->explode(DIRECTORY_SEPARATOR);
+                $_component->shift(2);
+
                 $this->components[] = [
-                    'label' => Str::of($component)->explode(DIRECTORY_SEPARATOR)->pop(2)->pop(),
+                    'label' => Str::of($_component->implode('/'))->replace('.vue', ''),
 
                     'value' => Str::of($component)->replace(CatchAdmin::moduleRootPath(), '')->prepend('/')
                 ];

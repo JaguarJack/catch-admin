@@ -9,6 +9,7 @@ use Catch\CatchAdmin;
 use Catch\Enums\Status;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\DB;
 use Modules\Permissions\Enums\MenuStatus;
 use Modules\Permissions\Enums\MenuType;
 
@@ -156,49 +157,50 @@ class Permissions extends Model
     /**
      *
      * @param array $data
-     * @return bool
-     * @throws \ReflectionException
+     * @return mixed
      */
-    public function storeBy(array $data): bool
+    public function storeBy(array $data): mixed
     {
-        if ($data['actions'] ?? false) {
-            /* @var static $parentMenu */
-            $parentMenu =  $this->firstBy(value: $data['parent_id'], field: 'id');
+        return DB::transaction(function () use ($data){
+            if ($data['actions'] ?? false) {
+                /* @var static $parentMenu */
+                $parentMenu =  $this->firstBy(value: $data['parent_id'], field: 'id');
 
-            if (! $parentMenu->isMenu()) {
-                return false;
-            }
-
-            $actions = CatchAdmin::getControllerActions($parentMenu->module, $parentMenu->permission_mark);
-            foreach ($actions as $k => $action) {
-                if (! isset($this->defaultActions[$action])) {
-                    continue;
+                if (! $parentMenu->isMenu()) {
+                    return false;
                 }
 
-                $this->addAction($this->newInstance([
-                    'type' => MenuType::Action->value(),
-                    'parent_id' => $data['parent_id'],
-                    'permission_name' => $this->defaultActions[$action],
-                    'permission_mark' => $action,
-                    'sort' => $k + 1
-                ]), $parentMenu);
+                $actions = CatchAdmin::getControllerActions($parentMenu->module, $parentMenu->permission_mark);
+                foreach ($actions as $k => $action) {
+                    if (! isset($this->defaultActions[$action])) {
+                        continue;
+                    }
+
+                    $this->addAction($this->newInstance([
+                        'type' => MenuType::Action->value(),
+                        'parent_id' => $data['parent_id'],
+                        'permission_name' => $this->defaultActions[$action],
+                        'permission_mark' => $action,
+                        'sort' => $k + 1
+                    ]), $parentMenu);
+                }
+
+                return true;
             }
 
-            return true;
-        }
+            $model = $this->fill($data);
 
-        $model = $this->fill($data);
+            if ($model->isAction()) {
+                $parentMenu = $this->firstBy($model->parent_id, 'id');
+                return $this->addAction($model, $parentMenu);
+            }
 
-        if ($model->isAction()) {
-            $parentMenu = $this->firstBy($model->parent_id, 'id');
-            return $this->addAction($model, $parentMenu);
-        }
+            if ($model->isTopMenu()) {
+                $data['route'] = '/'.trim($data['route'], '/');
+            }
 
-        if ($model->isTopMenu()) {
-            $data['route'] = '/'.trim($data['route'], '/');
-        }
-
-        return parent::storeBy($data);
+            return parent::storeBy($data);
+        });
     }
 
     /**
