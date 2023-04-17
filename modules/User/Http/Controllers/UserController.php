@@ -7,6 +7,7 @@ use Catch\Support\Module\ModuleRepository;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
+use Modules\Permissions\Models\Departments;
 use Modules\User\Models\LogLogin;
 use Modules\User\Models\LogOperate;
 use Modules\User\Models\User;
@@ -29,7 +30,14 @@ class UserController extends Controller
     {
         return $this->user->setBeforeGetList(function ($query){
             if (! $this->getLoginUser()->isSuperAdmin()) {
-                return $query->where('id', '<>', config('catch.super_admin'));
+                $query = $query->where('id', '<>', config('catch.super_admin'));
+            }
+
+            if (\request()->has('department_id')) {
+                $departmentId = \request()->get('department_id');
+                $followDepartmentIds = app(Departments::class)->findFollowDepartments(\request()->get('department_id'));
+                $followDepartmentIds[] = $departmentId;
+                $query = $query->whereIn('department_id', $followDepartmentIds);
             }
 
             return $query;
