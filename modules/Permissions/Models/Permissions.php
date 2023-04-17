@@ -111,7 +111,7 @@ class Permissions extends Model
      */
     public function isHidden(): bool
     {
-        return $this->hidden === Status::Disable;
+        return $this['hidden'] == Status::Disable->value();
     }
 
     /**

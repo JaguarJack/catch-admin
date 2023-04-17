@@ -39,12 +39,12 @@
         </el-form-item>
         <el-form-item label="权限标识" prop="permission_mark" :rules="[{ required: true, message: '权限标识必须填写' }]" v-if="!isTop">
           <el-input v-model="formData.permission_mark" name="permission_mark" clearable v-if="isAction" />
-          <Select v-model="formData.permission_mark" placeholder="请选择" api="controllers" :query="{ module: formData.module }" v-else />
+          <Select v-model="formData.permission_mark" allow-create placeholder="请选择" api="controllers" :query="{ module: formData.module }" v-else />
         </el-form-item>
         <el-form-item label="菜单Icon" prop="icon" v-if="!isAction">
           <el-input v-model="formData.icon" name="icon" clearable @click="open" />
         </el-form-item>
-        <el-form-item label="所属组件" prop="component" :rules="[{ required: true, message: '所属组件必须填写' }]" v-if="!isAction">
+        <el-form-item label="所属组件" prop="component" v-if="!isAction">
           <Select v-model="formData.component" placeholder="请选择" allow-create api="components" :query="{ module: formData.module }" />
         </el-form-item>
 
