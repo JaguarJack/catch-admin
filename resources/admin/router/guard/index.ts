@@ -38,7 +38,8 @@ const guard = (router: Router) => {
               const permissionStore = usePermissionsStore()
               // 动态路由挂载
               const asyncRoutes = permissionStore.getAsyncMenusFrom(toRaw(userStore.getPermissions))
-              asyncRoutes.forEach((route: Menu) => {
+              console.log(asyncRoutes)
+                asyncRoutes.forEach((route: Menu) => {
                 router.addRoute(route as unknown as RouteRecordRaw)
               })
               // 在动态路由之后挂载匹配 404 路由

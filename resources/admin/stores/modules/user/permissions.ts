@@ -191,7 +191,7 @@ export const usePermissionsStore = defineStore('PermissionsStore', {
      */
     resolveRoutePathRoutePath(route: string, path: string): string {
       if (path.length) {
-        return (path + (route.indexOf('/') === -1 ? '/' : '') + route).replace(/\/$/g, '')
+        return (path + (!route.startsWith('/') ? '/' : '') + route).replace(/\/$/g, '')
       }
 
       // 去除尾部的 /
