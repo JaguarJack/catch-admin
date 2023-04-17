@@ -1,5 +1,5 @@
 <template>
-  <el-upload ref="upload" :action="actionApi" :auto-upload="auto" :headers="{ authorization: token }" v-bind="$attrs">
+  <el-upload ref="upload" :action="actionApi" :auto-upload="auto" :headers="{ authorization: token, 'Request-from': 'Dashboard' }" v-bind="$attrs">
     <template v-for="(index, name) in $slots" v-slot:[name]>
       <slot :name="name"></slot>
     </template>
