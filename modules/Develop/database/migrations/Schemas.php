@@ -14,7 +14,7 @@ return new class () extends Migration {
 
             $table->string('name')->nullable(false)->comment('schema 名称');
 
-            $table->string('columns')->nullable(false)->comment('字段');
+            $table->string('columns', 2000)->nullable(false)->comment('字段');
 
             $table->boolean('is_soft_delete')->default(1)->comment('1 是 2 否');
 
