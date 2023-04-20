@@ -57,7 +57,7 @@ class RolesController extends Controller
     {
         $role = $this->model->firstBy($id);
 
-        $role->setAttribute('permissions', $role->permissions()->get()->toTree());
+        $role->setAttribute('permissions', $role->permissions()->get()->pluck('id'));
 
         $role->setAttribute('departments', $role->departments()->pluck('id'));
 
@@ -72,13 +72,13 @@ class RolesController extends Controller
      */
     public function update($id, RoleRequest $request)
     {
-        $dataRange = $request->get('data_range');
+        $data = $request->all();
 
-        if ($dataRange && ! DataRange::Personal_Choose->assert($request->get('data_range'))) {
-            $request['departments'] = [];
+        if ($request->get('data_range') && ! DataRange::Personal_Choose->assert($data['data_range'])) {
+            $data['departments'] = [];
         }
 
-        return $this->model->updateBy($id, $request->all());
+        return $this->model->updateBy($id,$data);
     }
 
     /**

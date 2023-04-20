@@ -193,6 +193,7 @@ beforeUpdate.value = () => {
   formData.value.permissions.forEach(item => {
     permissionIds.push(item)
   })
+
   formData.value.permissions = permissionIds
   formData.value.parent_id = getParent(formData.value.parent_id)
 }
