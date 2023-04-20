@@ -7,6 +7,7 @@
 /fixer
 /catch
 .env
+nohup.out
 .env.backup
 .env.production
 .phpunit.result.cache
