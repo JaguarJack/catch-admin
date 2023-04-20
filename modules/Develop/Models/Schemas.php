@@ -27,6 +27,11 @@ class Schemas extends CatchModel
     /**
      * @var array|string[]
      */
+    protected array $fields = ['*'];
+
+    /**
+     * @var array|string[]
+     */
     public array $searchable = ['module' => 'like', 'name' => 'like'];
 
     /**
