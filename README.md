@@ -40,7 +40,7 @@
 - 账户: `catch@admin.com`
 - 密码: `catchadmin`
 
-## 视频教程
+## 视频教程(😂记得一键三连哦)
 - [catchadmin 安装](https://www.bilibili.com/video/BV1eY411v71J/)
 - [catchadmin 开发之模块创建](https://www.bilibili.com/video/BV1jP41127aW/)
 
