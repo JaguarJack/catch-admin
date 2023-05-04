@@ -43,6 +43,7 @@
 ## 视频教程(😂记得一键三连哦)
 - [catchadmin 安装](https://www.bilibili.com/video/BV1eY411v71J/)
 - [catchadmin 开发之模块创建](https://www.bilibili.com/video/BV1jP41127aW/)
+- [catchadmin 之快速开发](https://www.bilibili.com/video/BV1Qh4y1J7eB/)
 
 ## 赞助
 如果项目对你有帮助，或者在工作上帮你节省了开发时间。在力所能及的情况下，可以支持下`Catchadmin`项目, 非常感谢🙏
