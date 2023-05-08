@@ -4,6 +4,7 @@ namespace Modules\Common\Support\Upload\Uses;
 
 
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class LocalUpload extends Upload
 {
@@ -25,6 +26,10 @@ class LocalUpload extends Upload
      */
     protected function addUrl($path): mixed
     {
+        if (Str::of($path['path'])->contains('\\')) {
+            $path['path'] = Str::of($path['path'])->replace('\\', '/');
+        }
+
         $path['path'] = config('app.url') . '/'. $path['path'];
 
         return $path;
