@@ -73,7 +73,8 @@ class User extends Model implements AuthenticatableContract
     protected function DepartmentId(): Attribute
     {
         return new Attribute(
-            get: fn($value) => $value ? : null
+            get: fn($value) => $value ? : null,
+            set: fn($value) => $value ? : 0
         );
     }
 

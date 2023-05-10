@@ -63,18 +63,14 @@ trait UserRelations
             $permissions = $permissionsModel->get();
         } else {
             $permissions = Collection::make();
-
-            app($this->getRolesModel())->with(['permissions'])->get()
-
+            $this->roles()->with('permissions')->get()
                 ->each(function ($role) use (&$permissions) {
                     $permissions = $permissions->concat($role->permissions);
                 });
-
             $permissions = $permissions->unique();
         }
 
         $this->setAttribute('permissions', $permissions->each(fn ($permission) => $permission->setAttribute('hidden', $permission->isHidden())));
-
         return $this;
     }
 
@@ -103,14 +99,15 @@ trait UserRelations
             if ($permission->isAction()) {
                 [$controller, $action] = explode('@', $permission->permission_mark);
 
-                $actions->add(CatchAdmin::getModuleControllerNamespace($permission->module).$controller.'Controller@'.$action);
+                $actions->add(CatchAdmin::getModuleControllerNamespace($permission->module). ucfirst($controller).'Controller@'.$action);
             }
         });
 
+        // 自定义权限判断
         if ($permission) {
             [$module, $controller, $action] = explode('@', $permission);
 
-            $permission = CatchAdmin::getModuleControllerNamespace($module).$controller.'Controller@'.$action;
+            $permission = CatchAdmin::getModuleControllerNamespace($module). ucfirst($controller) .'Controller@'.$action;
         }
 
         return $actions->contains($permission ?: Route::currentRouteAction());
