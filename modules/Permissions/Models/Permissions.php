@@ -10,6 +10,7 @@ use Catch\Enums\Status;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Modules\Permissions\Enums\MenuStatus;
 use Modules\Permissions\Enums\MenuType;
 
@@ -199,6 +200,7 @@ class Permissions extends Model
                 $data['route'] = '/'.trim($data['route'], '/');
             }
 
+            $data['component']  = Str::of($data['component'])->replace('\\', '/')->toString();
             return parent::storeBy($data);
         });
     }
@@ -244,6 +246,7 @@ class Permissions extends Model
             $data['permission_mark'] = $parentMenu->permission_mark.'@'.$data['permission_mark'];
         }
 
+        $data['component']  = Str::of($data['component'])->replace('\\', '/')->toString();
         return parent::updateBy($id, $data);
     }
 }
