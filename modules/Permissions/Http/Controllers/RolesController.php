@@ -6,6 +6,7 @@ namespace Modules\Permissions\Http\Controllers;
 
 use Catch\Base\CatchController as Controller;
 use Catch\Exceptions\FailedException;
+use Illuminate\Http\Request;
 use Modules\Permissions\Enums\DataRange;
 use Modules\Permissions\Models\Roles;
 use Modules\Permissions\Http\Requests\RoleRequest;
@@ -39,13 +40,15 @@ class RolesController extends Controller
      */
     public function store(RoleRequest $request)
     {
-        $dataRange = $request->get('data_range');
+        $data = $request->all();
 
-        if ($dataRange && ! DataRange::Personal_Choose->assert($request->get('data_range'))) {
-            $request['departments'] = [];
+        if ($request->get('data_range') && ! DataRange::Personal_Choose->assert($data['data_range'])) {
+            $data['departments'] = [];
+        } else {
+            $data['data_range'] = 0;
         }
 
-        return $this->model->storeBy($request->all());
+        return $this->model->storeBy($data);
     }
 
     /**
@@ -53,11 +56,15 @@ class RolesController extends Controller
      * @param $id
      * @return \Illuminate\Database\Eloquent\Model|null
      */
-    public function show($id)
+    public function show($id, Request $request)
     {
         $role = $this->model->firstBy($id);
 
-        $role->setAttribute('permissions', $role->permissions()->get()->pluck('id'));
+        if ($request->has('from') && $request->get('from') == 'parent_role') {
+            $role->setAttribute('permissions', $role->permissions()->get()->toTree());
+        } else {
+            $role->setAttribute('permissions', $role->permissions()->get()->pluck('id'));
+        }
 
         $role->setAttribute('departments', $role->departments()->pluck('id'));
 
@@ -76,9 +83,11 @@ class RolesController extends Controller
 
         if ($request->get('data_range') && ! DataRange::Personal_Choose->assert($data['data_range'])) {
             $data['departments'] = [];
+        } else {
+            $data['data_range'] = 0;
         }
 
-        return $this->model->updateBy($id,$data);
+        return $this->model->updateBy($id, $data);
     }
 
     /**

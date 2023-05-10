@@ -105,7 +105,7 @@ const { formData, form, loading, submitForm, close, beforeCreate, beforeUpdate }
 
 if (props.primary) {
   const { afterShow } = useShow(props.api, props.primary, formData)
-
+  // 更新角色值
   afterShow.value = formData => {
     const data = unref(formData)
     data.parent_id = data.parent_id ? [data.parent_id] : 0
@@ -115,6 +115,8 @@ if (props.primary) {
     }
 
     formData.value = data
+    // 这里需要获取角色的上级的权限以限制可用权限范围
+    getPermissions(data.parent_id)
   }
 }
 
@@ -127,9 +129,12 @@ const departments = ref()
 const showDepartments = ref<boolean>(false)
 
 const permissionLoadingText = ref<string>('加载中...')
+
+// 获取权限
 const getPermissions = async (value: number = 0) => {
   if (value) {
-    http.get('permissions/roles/' + getParent(value)).then(r => {
+    // 获取角色权限
+    http.get('permissions/roles/' + getParent(value), { from: 'parent_role' }).then(r => {
       permissions.value = r.data.data.permissions
       setCheckedPermissions()
     })
@@ -141,6 +146,7 @@ const getPermissions = async (value: number = 0) => {
   }
 }
 
+// 设置已选权限
 const setCheckedPermissions = () => {
   nextTick(() => {
     props.hasPermissions.forEach(p => {
@@ -152,6 +158,8 @@ const setCheckedPermissions = () => {
     permissionLoadingText.value = '暂无数据'
   }
 }
+
+// 获取角色信息
 const getRoles = () => {
   http.get(props.api, { id: props.primary ? props.primary : '' }).then(r => {
     roles.value = r.data.data
@@ -163,9 +171,15 @@ const getDepartments = () => {
     departments.value = r.data.data
   })
 }
+
+// 新增默认获取全部权限
+if (!props.primary) {
+  getPermissions()
+}
+
+// 页面挂载完成后
 onMounted(() => {
   getRoles()
-  getPermissions()
   getDepartments()
   close(() => emit('close'))
   watch(
