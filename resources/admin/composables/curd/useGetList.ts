@@ -57,11 +57,7 @@ export function useGetList(path: string, isPaginate: boolean = true) {
   // reset
   function reset() {
     resetPage()
-
-    if (isPaginate) {
-      query.value = Object.assign({ page: page.value, limit: limit.value })
-    }
-
+    query.value = Object.assign(isPaginate ? { page: page.value, limit: limit.value } : {})
     getList()
   }
 
