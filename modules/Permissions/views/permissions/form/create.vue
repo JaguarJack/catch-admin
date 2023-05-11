@@ -42,7 +42,14 @@
           <Select v-model="formData.permission_mark" allow-create placeholder="请选择" api="controllers" :query="{ module: formData.module }" v-else />
         </el-form-item>
         <el-form-item label="菜单Icon" prop="icon" v-if="!isAction">
-          <el-input v-model="formData.icon" name="icon" clearable @click="open" />
+          <el-popover placement="right" :width="400" trigger="click">
+            <template #reference>
+              <el-input v-model="formData.icon" name="icon" clearable />
+            </template>
+            <div>
+              <Icons v-model="formData.icon" @close="closeSelectIcon" />
+            </div>
+          </el-popover>
         </el-form-item>
         <el-form-item label="所属组件" prop="component" v-if="!isAction">
           <Select v-model="formData.component" placeholder="请选择" allow-create api="components" :query="{ module: formData.module }" />
@@ -92,10 +99,6 @@
       <el-button type="primary" @click="submitForm(form)">{{ $t('system.confirm') }}</el-button>
     </div>
   </el-form>
-
-  <Dialog v-model="visible" title="选择 Icon" width="1000px" destroy-on-close>
-    <Icons v-model="formData.icon" @close="closeSelectIcon" />
-  </Dialog>
 </template>
 
 <script lang="ts" setup>

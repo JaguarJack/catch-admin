@@ -1,20 +1,28 @@
 <template>
-  <div :class="`grid ${grid} gap-y-6`">
-    <div v-for="icon in icons" :key="icon" class="flex justify-center hover:cursor-pointer" @click="selectIcon(icon)">
-      <div v-if="modelValue === icon">
-        <div class="flex justify-center w-full text-violet-700"><Icon :name="icon" /></div>
-        <div class="text-sm text-violet-700">{{ icon }}</div>
-      </div>
+  <div class="h-84 pl-2 pr-2">
+    <div :class="`grid ${grid} gap-y-4 gap-x-4` + ' mt-3 h-72'">
+      <div v-for="icon in icons" :key="icon" class="flex justify-center hover:cursor-pointer" @click="selectIcon(icon)">
+        <div v-if="modelValue === icon">
+          <div class="flex justify-center w-full text-violet-700"><Icon :name="icon" className="w-5 h-5" /></div>
+          <div class="text-[1px] text-violet-700">{{ icon }}</div>
+        </div>
 
-      <div v-else>
-        <div class="flex justify-center w-full"><Icon :name="icon" /></div>
-        <div class="text-sm">{{ icon }}</div>
+        <div v-else>
+          <div class="flex justify-center w-full"><Icon :name="icon" className="w-5 h-5" /></div>
+          <div class="text-[1px]">{{ icon }}</div>
+        </div>
       </div>
+    </div>
+
+    <div class="flex justify-center mt-6">
+      <el-pagination layout="prev,next" :page-size="limit" :total="total" prev-text="上一页" next-text="下一页" @next-click="handleNext" @prev-click="handlePrev" />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { onMounted, ref } from 'vue'
+
 const props = defineProps({
   modelValue: {
     type: String,
@@ -22,18 +30,38 @@ const props = defineProps({
   },
   grid: {
     type: String,
-    default: 'grid-cols-5',
+    default: 'grid-cols-4',
   },
 })
 
 const emits = defineEmits(['update:modelValue', 'close'])
 
+const limit = ref(16)
+const icons = ref([])
+const total = ref(0)
+function getIcons(page = 1) {
+  const start = (page - 1) * limit.value
+  const end = start + limit.value
+  icons.value = constIcons.slice(start, end)
+}
+
+onMounted(() => {
+  getIcons()
+  total.value = constIcons.length
+})
+const handleNext = value => {
+  getIcons(value)
+}
+
+const handlePrev = value => {
+  getIcons(value)
+}
 const selectIcon = (icon: string) => {
   emits('update:modelValue', icon)
   emits('close')
 }
 // icons
-const icons = [
+const constIcons = [
   'academic-cap',
   'adjustments-horizontal',
   'adjustments-vertical',
