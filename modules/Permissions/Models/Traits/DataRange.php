@@ -9,6 +9,9 @@ use Modules\Permissions\Models\Departments;
 use Modules\Permissions\Models\Roles;
 use Modules\Permissions\Enums\DataRange as DataRangeEnum;
 
+/**
+ * @method aliasField(string $field)
+ */
 trait DataRange
 {
 
@@ -28,7 +31,7 @@ trait DataRange
 
         $userIds = $this->getDepartmentUserIdsBy($roles, $currenUser);
 
-        if (empty($userIds)) {
+        if ($userIds->isEmpty()) {
             return $query;
         }
 
