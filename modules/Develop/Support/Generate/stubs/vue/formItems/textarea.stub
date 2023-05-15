@@ -1,0 +1,3 @@
+<el-form-item label="{label}" prop="{prop}">
+  <el-input v-model="{model-value}" name="{prop}" type="textarea" clearable />
+</el-form-item>

@@ -1,0 +1,4 @@
+<el-form-item label="{label}" prop="{prop}">
+    <Upload action="upload/image" :show-file-list="false" name="image" :on-success="uploadSuccess">
+    </Upload>
+</el-form-item>

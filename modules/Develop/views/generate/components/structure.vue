@@ -95,5 +95,5 @@ const validates: string[] = [
   'prohibited',
 ]
 
-const formComponents: string[] = ['cascader', 'date', 'datetime', 'input', 'input-number', 'radio', 'rate', 'select', 'tree', 'tree-select']
+const formComponents: string[] = ['cascader', 'date', 'datetime', 'input', 'input-number', 'radio', 'rate', 'select', 'tree', 'tree-select', 'textarea', 'upload']
 </script>
