@@ -6,13 +6,14 @@ use Catch\Base\CatchController as Controller;
 use Catch\Support\Module\ModuleRepository;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Http\Request;
 use Modules\Permissions\Models\Departments;
 use Modules\User\Models\LogLogin;
 use Modules\User\Models\LogOperate;
 use Modules\User\Models\User;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
+use Modules\User\Http\Requests\UserRequest;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -47,10 +48,10 @@ class UserController extends Controller
     /**
      * store
      *
-     * @param Request $request
+     * @param UserRequest $request
      * @return false|mixed
      */
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
         return $this->user->storeBy($request->all());
     }
@@ -80,10 +81,10 @@ class UserController extends Controller
      * update
      *
      * @param $id
-     * @param Request $request
+     * @param UserRequest $request
      * @return mixed
      */
-    public function update($id, Request $request)
+    public function update($id, UserRequest $request)
     {
         return $this->user->updateBy($id, $request->all());
     }
