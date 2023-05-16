@@ -1,9 +1,6 @@
 <template>
   <el-form :model="profile" ref="form" v-loading="loading" label-position="top">
-    <Upload class="w-28 h-28 rounded-full mx-auto" action="upload/image" :show-file-list="false" name="image" :on-success="uploadAvatar">
-      <img :src="profile.avatar" class="h-28 rounded-full" v-if="profile.avatar" />
-      <Icon name="plus" v-else />
-    </Upload>
+    <Upload imageClass="w-28 h-28 rounded-full mx-auto" v-model="profile.avatar" />
     <el-form-item
       label="昵称"
       prop="username"
@@ -66,14 +63,12 @@ interface profile {
   password: string
 }
 
-const profile = ref<profile>(
-  Object.assign({
-    avatar: '',
-    username: '',
-    email: '',
-    password: '',
-  }),
-)
+const profile = ref<profile>({
+  avatar: '',
+  username: '',
+  email: '',
+  password: '',
+})
 const { form, loading, submitForm, afterCreate } = useCreate('user/online', null, profile)
 
 const getUserInfo = () => {
@@ -91,15 +86,6 @@ onMounted(() => {
 })
 
 const userStore = useUserStore()
-const uploadAvatar = (response, uploadFile) => {
-  if (response.code === Code.SUCCESS) {
-    form.value.avatar = response.data.path
-    profile.value.avatar = response.data.path
-  } else {
-    Message.error(response.message)
-  }
-}
-
 afterCreate.value = () => {
   userStore.getUserInfo()
 }
