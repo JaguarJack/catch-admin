@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-row h-16 w-full drop-shadow border-l dark:border-l-0 border-gray-200" style="background-color: var(--header-bg-color)">
-    <div class="flex flex-row justify-between w-full">
+    <div class="flex flex-row justify-between w-full h-16">
       <div class="flex flex-row min-w-[17rem]">
         <div class="h-full flex items-center w-8 ml-2 hover:cursor-pointer" @click="store.changeExpaned">
           <Icon name="list-bullet" class="w-6 h-8" />
