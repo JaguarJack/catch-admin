@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { Permission } from '/admin/types/permission'
+import { Permission } from '/admin/types/Permission'
 import { MenuType } from '/admin/enum/app'
 import { Menu } from '/admin/types/Menu'
 import { constantRoutes } from '/admin/router'

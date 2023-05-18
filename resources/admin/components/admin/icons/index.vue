@@ -36,9 +36,9 @@ const props = defineProps({
 
 const emits = defineEmits(['update:modelValue', 'close'])
 
-const limit = ref(16)
-const icons = ref([])
-const total = ref(0)
+const limit = ref<number>(16)
+const icons = ref<Array<string>>([])
+const total = ref<number>(0)
 function getIcons(page = 1) {
   const start = (page - 1) * limit.value
   const end = start + limit.value
@@ -49,11 +49,11 @@ onMounted(() => {
   getIcons()
   total.value = constIcons.length
 })
-const handleNext = value => {
+const handleNext = (value: number) => {
   getIcons(value)
 }
 
-const handlePrev = value => {
+const handlePrev = (value: number) => {
   getIcons(value)
 }
 const selectIcon = (icon: string) => {

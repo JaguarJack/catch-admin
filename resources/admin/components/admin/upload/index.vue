@@ -56,7 +56,7 @@ actionApi.value = baseURL + props.action
 const token = ref<string>()
 token.value = 'Bearer ' + getAuthToken()
 
-const handleSuccess = (response: any, uploadFile) => {
+const handleSuccess = (response: any) => {
   if (response.code === Code.SUCCESS) {
     emits('update:modelValue', response.data.path)
   } else {

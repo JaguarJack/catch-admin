@@ -1,6 +1,5 @@
 // login user type
-
-import { Permission } from './permission'
+import { Permission } from './Permission'
 
 export interface User {
   id: number

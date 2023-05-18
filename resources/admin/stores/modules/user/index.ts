@@ -1,10 +1,10 @@
 import { defineStore } from 'pinia'
-import { User } from '/admin/types/user'
 import http from '/admin/support/http'
 import { rememberAuthToken, removeAuthToken } from '/admin/support/helper'
 import Message from '/admin/support/message'
 import router from '/admin/router'
-import { Permission } from '/admin/types/permission'
+import { User } from '/admin/types/User'
+import { Permission } from '/admin/types/Permission'
 
 export const useUserStore = defineStore('UserStore', {
   state: (): User => {
