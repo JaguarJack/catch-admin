@@ -220,4 +220,10 @@ const getParent = (parentId: any) => {
 :deep(.el-tree .el-tree__empty-block .el-tree__empty-text) {
   @apply left-10 top-4;
 }
+:deep(.el-tree-node .is-expanded .el-tree-node__children) {
+  @apply flex flex-wrap pl-9;
+}
+:deep(.el-tree-node .is-expanded .el-tree-node__children .el-tree-node__content) {
+  padding-left: 0 !important;
+}
 </style>
