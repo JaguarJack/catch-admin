@@ -37,7 +37,7 @@ class User extends Model implements AuthenticatableContract
     public array $searchable = [
         'username' => 'like',
         'email' => 'like',
-        'status' => '='
+        'status' => '=',
     ];
 
     /**

@@ -21,7 +21,8 @@
           <el-table-column prop="username" label="用户名" width="150" />
           <el-table-column prop="avatar" label="头像">
             <template #default="scope">
-              <el-avatar :src="scope.row.avatar" />
+              <el-avatar :icon="UserFilled" v-if="!scope.row.avatar" />
+              <el-avatar :src="scope.row.avatar" v-else />
             </template>
           </el-table-column>
           <el-table-column prop="email" label="邮箱" />
@@ -50,6 +51,7 @@
 </template>
 
 <script lang="ts" setup>
+// @ts-nocheck
 import { computed, onMounted, ref } from 'vue'
 import Create from './create.vue'
 import { useGetList } from '/admin/composables/curd/useGetList'
@@ -58,11 +60,11 @@ import { useOpen } from '/admin/composables/curd/useOpen'
 import Department from './components/department.vue'
 import { useUserStore } from '/admin/stores/modules/user'
 import { isUndefined } from '/admin/support/helper'
+import { UserFilled } from '@element-plus/icons-vue'
 
 const userStore = useUserStore()
 
 const api = 'users'
-
 const { data, query, search, reset, loading } = useGetList(api)
 const { destroy, deleted } = useDestroy()
 const { open, close, title, visible, id } = useOpen()
@@ -74,9 +76,7 @@ const hasRoles = ref<boolean>(false)
 
 onMounted(() => {
   search()
-
   deleted(reset)
-
   hasRoles.value = !isUndefined(userStore.getRoles)
 })
 </script>
