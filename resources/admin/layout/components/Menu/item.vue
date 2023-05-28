@@ -13,13 +13,16 @@
     <el-icon>
       <Icon :name="menu?.meta?.icon" v-if="menu?.meta?.icon" class="text-sm" />
     </el-icon>
-    <span>{{ menu?.meta?.title }}</span>
+    <span v-if="menu?.path.indexOf('https://') !== -1 || menu?.path.indexOf('http://') !== -1">
+      <span @click="openUrl(menu?.path as string)">{{ menu?.meta?.title }}</span>
+    </span>
+    <span v-else>{{ menu?.meta?.title }}</span>
   </el-menu-item>
 </template>
 
-<script lang="ts" name="MenuItem" setup>
+<script lang="ts" setup>
 import { Menu } from '/admin/types/Menu'
-import { onMounted, PropType, ref } from 'vue'
+import { PropType } from 'vue'
 import { useAppStore } from '/admin/stores/modules/app'
 import { isMiniScreen } from '/admin/support/helper'
 
@@ -37,6 +40,12 @@ defineProps({
     require: true,
   },
 })
+
+const openUrl = (path: string) => {
+  const start = path.indexOf('https://') || path.indexOf('http://')
+  window.open(path.substring(start))
+  return false
+}
 </script>
 
 <style scoped lang="scss">

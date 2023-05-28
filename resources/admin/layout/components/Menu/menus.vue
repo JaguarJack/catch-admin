@@ -7,22 +7,15 @@
     :collapse="!appStore.isExpand"
     :collapse-transition="false"
     :router="true"
-    @select="selectMenu"
     :unique-opened="true"
   >
     <slot />
   </el-menu>
 </template>
-<script lang="ts" setup name="menus">
+<script lang="ts" setup>
 import { useAppStore } from '/admin/stores/modules/app'
 
 const appStore = useAppStore()
-
-const selectMenu = (index: string) => {
-  if (index.startsWith('http') || index.startsWith('https')) {
-    window.open(index)
-  }
-}
 </script>
 
 <style scoped lang="scss">
