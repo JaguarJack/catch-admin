@@ -96,10 +96,10 @@ class User extends Model implements AuthenticatableContract
      */
     public function updateBy($id, array $data): mixed
     {
-        if (isset($data['password']) && ! $data['password']) {
+        if (empty($data['password'])) {
             unset($data['password']);
         }
-
+        
         return parent::updateBy($id, $data);
     }
 }
