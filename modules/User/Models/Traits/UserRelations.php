@@ -58,16 +58,16 @@ trait UserRelations
 
         /* @var Permissions $permissionsModel */
         $permissionsModel = app($this->getPermissionsModel());
-
         if ($this->isSuperAdmin()) {
             $permissions = $permissionsModel->get();
         } else {
-            $permissions = Collection::make();
+            $permissionIds = Collection::make();
             $this->roles()->with('permissions')->get()
-                ->each(function ($role) use (&$permissions) {
-                    $permissions = $permissions->concat($role->permissions);
+                ->each(function ($role) use (&$permissionIds) {
+                    $permissionIds = $permissionIds->concat($role->permissions?->pluck('id'));
                 });
-            $permissions = $permissions->unique();
+
+            $permissions = $permissionsModel->whereIn('id', $permissionIds->unique())->get();
         }
 
         $this->setAttribute('permissions', $permissions->each(fn ($permission) => $permission->setAttribute('hidden', $permission->isHidden())));

@@ -99,7 +99,7 @@ class User extends Model implements AuthenticatableContract
         if (empty($data['password'])) {
             unset($data['password']);
         }
-        
+
         return parent::updateBy($id, $data);
     }
 }
