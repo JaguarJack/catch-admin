@@ -41,7 +41,8 @@ class RolesController extends Controller
     public function store(RoleRequest $request)
     {
         $data = $request->all();
-        if ($data['data_range'] && ! DataRange::Personal_Choose->assert($data['data_range'])) {
+        $data['data_range'] = (int) $data['data_range'];
+        if (!$data['data_range'] || !DataRange::Personal_Choose->assert($data['data_range'])) {
             $data['departments'] = [];
         }
 
@@ -77,7 +78,8 @@ class RolesController extends Controller
     public function update($id, RoleRequest $request)
     {
         $data = $request->all();
-        if ($data['data_range'] && ! DataRange::Personal_Choose->assert($data['data_range'])) {
+        $data['data_range'] = (int) $data['data_range'];
+        if (!$data['data_range'] || !DataRange::Personal_Choose->assert($data['data_range'])) {
             $data['departments'] = [];
         }
 
