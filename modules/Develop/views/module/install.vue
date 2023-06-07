@@ -22,6 +22,16 @@
           required: true,
           message: '模块名称必须填写',
         },
+        {
+          validator: (rule: any, value: any, callback: any) => {
+            if (! /^[A-Za-z]+$/.test(value)) {
+                callback('模块名称只允许大小字母组合')
+            } else  {
+                callback()
+            }
+          },
+          trigger: 'blur',
+        },
       ]"
     >
       <el-input v-model="formData.title" />

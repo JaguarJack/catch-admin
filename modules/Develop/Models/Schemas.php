@@ -8,7 +8,6 @@ use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Modules\Develop\Support\Generate\Create\Schema;
-use Illuminate\Support\Facades\Schema as SchemaFacade;
 
 class Schemas extends CatchModel
 {
@@ -107,23 +106,5 @@ class Schemas extends CatchModel
         $schema->columns = $columns;
 
         return $schema;
-    }
-
-    /**
-     * delete
-     *
-     * @param $id
-     * @param bool $force
-     * @return bool|null
-     */
-    public function deleteBy($id, bool $force = false): ?bool
-    {
-        $schema = parent::firstBy($id);
-
-        if ($schema->delete()) {
-            SchemaFacade::dropIfExists($schema->name);
-        }
-
-        return true;
     }
 }

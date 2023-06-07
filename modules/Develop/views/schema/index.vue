@@ -64,7 +64,7 @@ const schemaVisible = ref<boolean>(false)
 const api = 'schema'
 
 const { data, query, search, reset, loading } = useGetList(api)
-const { destroy, deleted } = useDestroy('确认删除吗? 将会删除数据库的 Schema，请提前做好备份，一旦删除，将无法恢复!')
+const { destroy, deleted } = useDestroy('确认删除吗? 删除后数据表将会保留，如需删除相关表，请手动进行删除!')
 const { open, close, title, visible, id } = useOpen()
 
 const tableData = computed(() => data.value?.data)
