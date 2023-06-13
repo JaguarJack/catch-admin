@@ -13,6 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
+        if (Schema::hasTable('{table}')) { return; }
+
         Schema::{method}('{table}', function (Blueprint $table) {
             {content}
         });
