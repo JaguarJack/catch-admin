@@ -159,4 +159,16 @@ class UserController extends Controller
             return $builder;
         })->getList();
     }
+
+    /**
+     * @return void
+     */
+    public function export()
+    {
+        return User::query()
+                    ->select('id', 'username', 'email', 'created_at')
+                    ->without('roles')
+                    ->get()
+                    ->download(['id', '昵称', '邮箱', '创建时间']);
+    }
 }

@@ -16,7 +16,11 @@
         </template>
       </Search>
       <div class="table-default">
-        <Operate :show="open" />
+        <Operate :show="open">
+          <template #operate>
+            <el-button @click="download('/user')">导出</el-button>
+          </template>
+        </Operate>
         <el-table :data="tableData" class="mt-3" v-loading="loading">
           <el-table-column prop="username" label="用户名" width="150" />
           <el-table-column prop="avatar" label="头像">
@@ -61,6 +65,7 @@ import Department from './components/department.vue'
 import { useUserStore } from '/admin/stores/modules/user'
 import { isUndefined } from '/admin/support/helper'
 import { UserFilled } from '@element-plus/icons-vue'
+import { useExcelDownload } from '/resources/admin/composables/curd/useExcelDownload'
 
 const userStore = useUserStore()
 
@@ -68,6 +73,7 @@ const api = 'users'
 const { data, query, search, reset, loading } = useGetList(api)
 const { destroy, deleted } = useDestroy()
 const { open, close, title, visible, id } = useOpen()
+const { download } = useExcelDownload()
 
 const tableData = computed(() => data.value?.data)
 
