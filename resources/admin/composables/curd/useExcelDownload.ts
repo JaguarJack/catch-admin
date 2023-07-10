@@ -1,8 +1,9 @@
 import Request from '/admin/support/request'
 import { ref, watch } from 'vue'
+import Message from '/admin/support/message'
 
-const http = new Request()
 export function useExcelDownload() {
+  const http = new Request()
   const isSuccess = ref(false)
   const loading = ref<boolean>(false)
   const afterDownload = ref()
@@ -13,13 +14,25 @@ export function useExcelDownload() {
       .init()
       .get(path + '/export', data)
       .then(r => {
-        const downloadLink = document.createElement('a')
-        const blob = new Blob([r.data], { type: r.headers['content-type'] })
-        downloadLink.href = URL.createObjectURL(blob)
-        downloadLink.download = r.headers.filename
-        document.body.appendChild(downloadLink)
-        downloadLink.click()
-        document.body.removeChild(downloadLink)
+        if (r.headers['content-type'] === 'application/json') {
+          const blob = new Blob([r.data], { type: r.headers['content-type'] })
+          const blobReader = new Response(blob).json()
+          blobReader.then(res => {
+            if (res.code === 1e4) {
+              Message.success(res.message)
+            } else {
+              Message.error(res.message)
+            }
+          })
+        } else {
+          const downloadLink = document.createElement('a')
+          const blob = new Blob([r.data], { type: r.headers['content-type'] })
+          downloadLink.href = URL.createObjectURL(blob)
+          downloadLink.download = r.headers.filename
+          document.body.appendChild(downloadLink)
+          downloadLink.click()
+          document.body.removeChild(downloadLink)
+        }
       })
       .finally(() => {
         loading.value = false
