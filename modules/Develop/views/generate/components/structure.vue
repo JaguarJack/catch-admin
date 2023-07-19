@@ -60,6 +60,20 @@ import { Delete } from '@element-plus/icons-vue'
 const generateStore = useGenerateStore()
 
 const structures = computed(() => {
+  generateStore.getStructures.forEach(struct => {
+    if (struct.field === 'id' || struct.field === 'created_at' || struct.field === 'updated_at') {
+      struct.form = false
+    }
+
+    if (struct.field === 'sort') {
+      struct.form_component = 'input-number'
+    }
+
+    if (struct.field === 'status') {
+      struct.form_component = 'select'
+    }
+  })
+
   return generateStore.getStructures
 })
 

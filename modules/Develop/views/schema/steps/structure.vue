@@ -88,14 +88,13 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { computed, onMounted, Ref, ref } from 'vue'
+import { computed, Ref, ref } from 'vue'
 import { useSchemaStore, Structure } from '../store'
 import { Delete, Plus, Edit } from '@element-plus/icons-vue'
 import type { FormInstance } from 'element-plus'
 import Message from '/admin/support/message'
 import http from '/admin/support/http'
 import { Code } from '/admin/enum/app'
-import Sortable from 'sortablejs'
 
 const schemaStore = useSchemaStore()
 const emits = defineEmits(['prev', 'next'])
@@ -119,27 +118,6 @@ const updateField = (id: number) => {
     }
   })
 }
-
-onMounted(() => {
-  const tbody = document.querySelector('.draggable .el-table__body-wrapper tbody')
-  const structures = schemaStore.getStructures
-
-  Sortable.create(tbody, {
-    draggable: 'tr',
-    onEnd({ newIndex, oldIndex }) {
-      const newStructures = []
-      const s = structures.splice(oldIndex, newIndex - oldIndex)
-      s.concat(structures).forEach(item => {
-        newStructures.push(item)
-      })
-      schemaStore.setStructures(newStructures)
-
-      // console.log(structure)
-      // structures[newIndex] = structures[oldIndex]
-      // structures[oldIndex] = temp
-    },
-  })
-})
 
 const form = ref<FormInstance>()
 const submitStructure = (formEl: FormInstance | undefined) => {
