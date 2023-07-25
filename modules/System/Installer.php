@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Develop;
+namespace Modules\System;
 
 use Catch\Support\Module\Installer as ModuleInstaller;
 use Modules\System\Providers\SystemServiceProvider;
