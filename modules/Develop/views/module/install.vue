@@ -34,7 +34,9 @@
         },
       ]"
     >
-      <el-input v-model="formData.title" />
+      <el-select v-model="formData.title" placeholder="选择安装模块">
+        <el-option v-for="item in modules" :key="item.value" :label="item.label" :value="item.value" />
+      </el-select>
     </el-form-item>
     <el-form-item label="上传 ZIP" prop="file" v-if="formData.type === 2">
       <Upload action="module/upload" :limit="1" accept=".zip" :on-success="moduleUpload">
@@ -73,4 +75,19 @@ const moduleUpload = (response, uploadFile) => {
     Message.error(response.message)
   }
 }
+
+const modules = [
+  {
+    label: '权限管理',
+    value: 'permissions',
+  },
+  {
+    label: '内容管理',
+    value: 'cms',
+  },
+  {
+    label: '系统管理',
+    value: 'system',
+  },
+]
 </script>

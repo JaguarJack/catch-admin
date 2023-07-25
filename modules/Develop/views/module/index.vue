@@ -41,7 +41,7 @@
 
     <!-- 安装 -->
     <Dialog v-model="installVisible" title="安装模块" destroy-on-close>
-      <Install />
+      <Install @close="closeInstall" />
     </Dialog>
   </div>
 </template>
@@ -62,6 +62,9 @@ const { open, close, title, visible, id } = useOpen()
 
 const tableData = computed(() => data.value?.data)
 const installVisible = ref<boolean>(false)
+const closeInstall = () => {
+  installVisible.value = false
+}
 
 onMounted(() => {
   search()
