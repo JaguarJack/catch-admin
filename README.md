@@ -45,11 +45,6 @@
 - [catchadmin 开发之模块创建](https://www.bilibili.com/video/BV1jP41127aW/)
 - [catchadmin 之快速开发](https://www.bilibili.com/video/BV1Qh4y1J7eB/)
 
-## 赞助
-如果项目对你有帮助，或者在工作上帮你节省了开发时间。在力所能及的情况下，可以支持下`Catchadmin`项目, 非常感谢🙏
-
-<img src="https://i.imgtg.com/2023/02/16/dAV0a.jpg" width = "200" alt="support"/>
-
 ## 规范
 ### PHP
 使用 fixer 进行代码检查, 具体请查看根目录下 `.php-cs-fixer.dist.php` 文件的规范，还需要进行以下两步骤
