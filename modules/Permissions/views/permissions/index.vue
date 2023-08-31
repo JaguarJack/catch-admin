@@ -21,7 +21,7 @@
               <el-popconfirm confirm-button-text="确认" title="添加基础actions" @confirm="actionGenerate(scope.row.id)" placement="top">
                 <template #reference>
                   <el-tag class="cursor-pointer w-8" v-if="scope.row.type === MenuType.PAGE_TYPE">
-                    <Icon name="cog-6-tooth" class="animate-spin w-5 h-5" v-if="actionLoading" />
+                    <Icon name="cog-6-tooth" class="animate-spin w-5 h-5" v-if="generateId === scope.row.id" />
                     <Icon name="plus" className="w-4 h-4" v-else />
                   </el-tag>
                 </template>
@@ -73,11 +73,18 @@ onMounted(() => {
 })
 
 const actionLoading = ref<boolean>(false)
+const generateId = ref<number>(0)
 const actionGenerate = async (id: number) => {
-  actionLoading.value = true
-  http.post(api, { parent_id: id, actions: true }).then(r => {
-    search()
-    actionLoading.value = false
-  })
+  generateId.value = id
+  http
+    .post(api, { parent_id: id, actions: true })
+    .then(r => {
+      search()
+      generateId.value = 0
+    })
+    .catch(e => {
+      generateId.value = 0
+      catchtable.value.reset()
+    })
 }
 </script>
