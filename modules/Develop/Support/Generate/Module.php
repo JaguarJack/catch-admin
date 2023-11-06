@@ -81,6 +81,13 @@ class Module
      */
     protected function createRoute(): void
     {
-        File::copy(__DIR__.DIRECTORY_SEPARATOR.'stubs'.DIRECTORY_SEPARATOR.'route.stub', CatchAdmin::getModuleRoutePath($this->module));
+        $content = Str::of(
+            File::get(__DIR__.DIRECTORY_SEPARATOR.'stubs'.DIRECTORY_SEPARATOR.'route.stub')
+        )->replace(['{module}'], [lcfirst($this->module)]);
+
+        File::put(
+            CatchAdmin::getModuleRoutePath($this->module),
+            $content
+        );
     }
 }
