@@ -200,7 +200,9 @@ class Permissions extends Model
                 $data['route'] = '/'.trim($data['route'], '/');
             }
 
-            $data['component']  = Str::of($data['component'])->replace('\\', '/')->toString();
+            if (isset($data['component'])) {
+                $data['component'] = Str::of($data['component'])->replace('\\', '/')->toString();
+            }
             return parent::storeBy($data);
         });
     }
@@ -246,7 +248,9 @@ class Permissions extends Model
             $data['permission_mark'] = $parentMenu->permission_mark.'@'.$data['permission_mark'];
         }
 
-        $data['component']  = Str::of($data['component'])->replace('\\', '/')->toString();
+        if (isset($data['component'])) {
+            $data['component'] = Str::of($data['component'])->replace('\\', '/')->toString();
+        }
         return parent::updateBy($id, $data);
     }
 }
