@@ -65,7 +65,7 @@ export default class CatchAdmin {
   protected useElementPlus(): CatchAdmin {
     // @ts-ignore
     this.app.use(ElementPlus, {
-      locale: Cache.get('language') === 'zh' && zh,
+      locale: Cache.get('language') === 'zh' || zh,
     })
     return this
   }
