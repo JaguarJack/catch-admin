@@ -185,7 +185,6 @@ return [
         /*
          * Package Service Providers...
          */
-        \Catch\Providers\CatchAdminServiceProvider::class,
 
         /*
          * Application Service Providers...
