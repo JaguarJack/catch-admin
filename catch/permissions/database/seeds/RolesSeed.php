@@ -20,7 +20,7 @@ class RolesSeed extends Seeder
      * More information on writing seeders is available here:
      * http://docs.phinx.org/en/latest/seeding.html
      */
-    public function run()
+    public function run(): void
     {
         \catchAdmin\permissions\model\Roles::create([
             'role_name' => '超级管理员',
