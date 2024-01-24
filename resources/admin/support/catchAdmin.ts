@@ -4,11 +4,14 @@ import App from '/admin/App.vue'
 import router, { bootstrapRouter } from '/admin/router'
 import ElementPlus from 'element-plus'
 import zh from 'element-plus/es/locale/lang/zh-cn'
+import en from 'element-plus/es/locale/lang/en'
+
 import { bootstrapStore } from '/admin/stores'
 import Cache from './cache'
 import { bootstrapI18n } from '/admin/i18n'
 import guard from '/admin/router/guard'
 import { bootstrapDirectives } from '/admin/directives'
+import { Language } from 'element-plus/es/locale'
 
 /**
  * catchadmin
@@ -63,9 +66,14 @@ export default class CatchAdmin {
    * @returns
    */
   protected useElementPlus(): CatchAdmin {
-    // @ts-ignore
+     // @ts-ignore
+    const languages = {
+       zh, en
+    }
+
+    const language = Cache.get('language') || 'zh'
     this.app.use(ElementPlus, {
-      locale: Cache.get('language') === 'zh' || zh,
+      locale: languages[language]
     })
     return this
   }
