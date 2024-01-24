@@ -66,8 +66,7 @@ export default class CatchAdmin {
    * @returns
    */
   protected useElementPlus(): CatchAdmin {
-     // @ts-ignore
-    const languages = {
+    const languages: Record<string, Language> = {
        zh, en
     }
 
