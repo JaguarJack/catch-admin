@@ -3,6 +3,7 @@
 namespace Modules\User\Models;
 
 use Catch\Base\CatchModel as Model;
+use Catch\Enums\Status;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Laravel\Sanctum\HasApiTokens;
@@ -101,5 +102,11 @@ class User extends Model implements AuthenticatableContract
         }
 
         return parent::updateBy($id, $data);
+    }
+
+    public function isDisabled(): bool
+    {
+
+        return $this->status == Status::Disable->value;
     }
 }

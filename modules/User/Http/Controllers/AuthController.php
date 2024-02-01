@@ -22,11 +22,17 @@ class AuthController extends Controller
         /* @var User $user */
         $user = User::query()->where('email', $request->get('email'))->first();
 
-        Event::dispatch(new Login($request, $user));
+        Event::dispatch(new Login($request, $user ? ($user->isDisabled() ? null : $user) : null));
 
-        if ($user && Hash::check($request->get('password'), $user->password)) {
-            $token = $user->createToken('token')->plainTextToken;
-            return compact('token');
+        if ($user) {
+            if ($user->isDisabled()) {
+                throw new FailedException('账号被禁用，请联系管理员');
+            }
+
+            if (Hash::check($request->get('password'), $user->password)) {
+                $token = $user->createToken('token')->plainTextToken;
+                return compact('token');
+            }
         }
 
         throw new FailedException('登录失败！请检查邮箱或者密码');
