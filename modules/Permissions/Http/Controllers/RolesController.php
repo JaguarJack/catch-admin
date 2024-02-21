@@ -6,6 +6,7 @@ namespace Modules\Permissions\Http\Controllers;
 
 use Catch\Base\CatchController as Controller;
 use Catch\Exceptions\FailedException;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Modules\Permissions\Enums\DataRange;
 use Modules\Permissions\Models\Roles;
@@ -41,9 +42,13 @@ class RolesController extends Controller
     public function store(RoleRequest $request)
     {
         $data = $request->all();
-        $data['data_range'] = (int) $data['data_range'];
-        if (!$data['data_range'] || !DataRange::Personal_Choose->assert($data['data_range'])) {
-            $data['departments'] = [];
+        if (!isset($data['data_range'])) {
+            $data['data_range'] = 0;
+        } else {
+            $data['data_range'] = (int)$data['data_range'];
+            if (!DataRange::Personal_Choose->assert($data['data_range'])) {
+                $data['departments'] = [];
+            }
         }
 
         return $this->model->storeBy($data);
@@ -52,7 +57,8 @@ class RolesController extends Controller
     /**
      *
      * @param $id
-     * @return \Illuminate\Database\Eloquent\Model|null
+     * @param Request $request
+     * @return Model|null
      */
     public function show($id, Request $request)
     {
@@ -79,7 +85,7 @@ class RolesController extends Controller
     {
         $data = $request->all();
         $data['data_range'] = (int) $data['data_range'];
-        if (!$data['data_range'] || !DataRange::Personal_Choose->assert($data['data_range'])) {
+        if (!DataRange::Personal_Choose->assert($data['data_range'])) {
             $data['departments'] = [];
         }
 
