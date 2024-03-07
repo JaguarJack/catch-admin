@@ -8,7 +8,7 @@ function checkAction(el: any, action: any) {
     action = action.value.replace('@', '.').toLowerCase()
     const hasAction = permissions?.some(permission => {
       if (permission.type === MenuType.Button_Type) {
-        const a: string = permission.module + '.' + permission.permission_mark.replace('@', '.')
+        const a: string = permission.module + '.' + permission.permission_mark.replaceAll('@', '.')
         return action === a.toLowerCase()
       }
     })
