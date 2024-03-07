@@ -20,23 +20,27 @@ class Components implements OptionInterface
 
     public function get(): array
     {
-        if ($module = request()->get('module')) {
-            $components = File::glob(CatchAdmin::getModuleViewsPath($module).'*'.DIRECTORY_SEPARATOR.'*.vue');
+        try {
+            if ($module = request()->get('module')) {
+                $components = File::glob(CatchAdmin::getModuleViewsPath($module) . '*' . DIRECTORY_SEPARATOR . '*.vue');
 
-            foreach ($components as $component) {
-                $_component = Str::of($component)
-                                ->replace(CatchAdmin::moduleRootPath(), '')
-                                ->explode(DIRECTORY_SEPARATOR);
-                $_component->shift(2);
+                foreach ($components as $component) {
+                    $_component = Str::of($component)
+                        ->replace(CatchAdmin::moduleRootPath(), '')
+                        ->explode(DIRECTORY_SEPARATOR);
+                    $_component->shift(2);
 
-                $this->components[] = [
-                    'label' => Str::of($_component->implode('/'))->replace('.vue', ''),
+                    $this->components[] = [
+                        'label' => Str::of($_component->implode('/'))->replace('.vue', ''),
 
-                    'value' => Str::of($component)->replace(CatchAdmin::moduleRootPath(), '')->prepend('/')
-                ];
+                        'value' => Str::of($component)->replace(CatchAdmin::moduleRootPath(), '')->prepend('/')
+                    ];
+                }
             }
-        }
 
-        return $this->components;
+            return $this->components;
+        } catch (\Throwable $exception) {
+            return [];
+        }
     }
 }
