@@ -21,7 +21,7 @@ class {request} extends Request
      *
      * @return array
      */
-    public function message(): array
+    public function messages(): array
     {
         return [];
     }
