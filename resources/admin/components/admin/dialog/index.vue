@@ -12,7 +12,9 @@
           </div>
         </div>
       </template>
-      <slot />
+        <div class="pt-4">
+            <slot />
+        </div>
       <template #footer v-if="showFooter">
         <span class="dialog-footer">
           <el-button @click="close">{{ $t('system.cancel') }}</el-button>
