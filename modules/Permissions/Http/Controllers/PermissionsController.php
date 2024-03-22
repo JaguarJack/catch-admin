@@ -28,7 +28,9 @@ class PermissionsController extends Controller
     public function index(Request $request): mixed
     {
         if ($request->get('from') == 'role') {
-            return $this->model->getList();
+            return $this->model->setBeforeGetList(function ($query){
+                return $query->orderByDesc('sort');
+            })->getList();
         }
 
         return $this->model->setBeforeGetList(function ($query) {
