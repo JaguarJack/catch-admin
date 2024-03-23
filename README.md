@@ -15,9 +15,7 @@
 
 ## ⚠️Thinkphp 用户注意
 由于新版本使用 `Laravel` 开发，所以请使用 `thinkphp` 分支或者 tag2.6.2，thinkphp 版本已经非常稳定了。
-
-## 为什么是 Laravel
-`V2` 版本使用`Thinkphp`，但从其社区来看，从我个人角度来看开发组的心思已经不在维护框架上，因为据观察，每一次小版本发布都会引发一些小问题，虽然不大，但给人一种不够稳定的感觉，所以思索再三，使用 `Laravel`。`Laravel` 社区非常繁荣，他们每周都会发布新版本，以及围绕`Laravel`构建的生态也非常完善，有 `Horizon` 队列管理工具, `Telescope` 调试工具，`Octane`（基于 `Swoole` 和 `RoadRunner` 提高性能）等等一系列的工具，而且都是免费的。
+[thinkphp 8.0 仓库，开发中...](https://gitee.com/catchamin/catchadmin-tp)
 
 ## 功能
 - [x] 用户管理 后台用户管理
