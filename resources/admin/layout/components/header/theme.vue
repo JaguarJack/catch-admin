@@ -1,5 +1,5 @@
 <template>
-  <div class="w-10 h-10 grid place-items-center rounded-full mt-3 hover:cursor-pointer">
+  <div class="w-10 h-10 grid place-items-center rounded-full mt-2 hover:cursor-pointer">
     <Icon name="moon" @click="changeTheme()" v-if="isDark" />
     <Icon name="sun" @click="changeTheme()" v-else />
   </div>

@@ -1,5 +1,5 @@
 <template>
-  <div class="w-10 h-10 grid place-items-center rounded-full mt-3 hover:cursor-pointer">
+  <div class="w-10 h-10 grid place-items-center rounded-full mt-2 hover:cursor-pointer">
     <div class="flex hover:cursor-pointer pl-1 pr-1">
       <el-dropdown size="large" class="flex items-center justify-center hover:cursor-pointer w-full" @command="selectLanguage">
         <Icon name="language" />

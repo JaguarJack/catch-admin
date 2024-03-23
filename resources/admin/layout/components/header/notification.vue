@@ -1,6 +1,6 @@
 <template>
   <!-- 通知 -->
-  <div class="w-10 h-10 grid place-items-center rounded-full mt-3 hover:cursor-pointer" ref="messageRef" v-click-outside="onClickOutside">
+  <div class="w-10 h-10 grid place-items-center rounded-full mt-2 hover:cursor-pointer" ref="messageRef" v-click-outside="onClickOutside">
     <el-badge :value="3">
       <Icon name="bell" />
     </el-badge>

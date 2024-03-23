@@ -1,6 +1,6 @@
 <template>
-  <div class="flex flex-row h-16 w-full drop-shadow border-l dark:border-l-0 border-gray-200" style="background-color: var(--header-bg-color)">
-    <div class="flex flex-row justify-between w-full h-16">
+  <div class="flex flex-row h-14 w-full drop-shadow border-l border-gray-200" style="background-color: var(--header-bg-color)">
+    <div class="flex flex-row justify-between w-full h-14">
       <div class="flex flex-row min-w-[17rem]">
         <div class="h-full flex items-center w-8 ml-2 hover:cursor-pointer" @click="store.changeExpaned">
           <Icon name="list-bullet" class="w-6 h-8" />
@@ -24,11 +24,12 @@
       </div>
     </div>
   </div>
+  <Tabs/>
 </template>
 <script setup lang="ts">
 import { useAppStore } from '/admin/stores/modules/app'
 import Notification from './notification.vue'
 import MenuSearch from './menuSearch.vue'
-
+import Tabs from './tabs.vue'
 const store = useAppStore()
 </script>

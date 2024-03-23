@@ -14,8 +14,25 @@
 </template>
 <script lang="ts" setup>
 import { useAppStore } from '/admin/stores/modules/app'
+import { watch } from 'vue'
+import router from '/admin/router'
+import { useNavTabStore } from '/admin/stores/modules/tabs'
 
 const appStore = useAppStore()
+const navTabStore = useNavTabStore()
+watch(() => router.currentRoute, (to, from) => {
+    const tab: any = {
+        name: to.value.name,
+        fullPath: to.value.fullPath,
+        path: to.value.path,
+        is_active: true,
+        meta: {
+            title: to.value.meta.title,
+            affix: false,
+        }
+    }
+    navTabStore.addTabs(tab)
+}, {deep:true, immediate:true})
 </script>
 
 <style scoped lang="scss">

@@ -1,5 +1,5 @@
 <template>
-  <el-sub-menu :index="menu?.path" :class="subMenuClass" v-if="menu?.children?.length">
+  <el-sub-menu :index="menu?.path" :class="subMenuClass" v-if="menu?.children?.length" :key="menu?.path">
     <template #title>
       <el-icon>
         <Icon :name="menu?.meta?.icon" v-if="menu?.meta?.icon" class="text-sm" />
@@ -9,7 +9,7 @@
     <slot />
   </el-sub-menu>
 
-  <el-menu-item v-else class="ct-menu-item" :index="menu?.path" @click="isMiniScreen() && store.changeExpaned()">
+  <el-menu-item v-else class="ct-menu-item" :index="menu?.path" @click="isMiniScreen() && store.changeExpaned()" :key="menu?.name">
     <el-icon>
       <Icon :name="menu?.meta?.icon" v-if="menu?.meta?.icon" class="text-sm" />
     </el-icon>
