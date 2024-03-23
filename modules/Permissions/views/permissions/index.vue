@@ -18,9 +18,9 @@
               <el-tag v-for="action in scope.row.actions" class="cursor-pointer min-w-fit" @click="open(action.id)" closable @close="destroy(api, action.id)">{{ action.permission_name }}</el-tag>
             </div>
             <div v-else>
-              <el-popconfirm confirm-button-text="确认" title="添加基础actions" @confirm="actionGenerate(scope.row.id)" placement="top">
+              <el-popconfirm v-if="scope.row.type === MenuType.PAGE_TYPE" confirm-button-text="确认" title="添加基础actions" @confirm="actionGenerate(scope.row.id)" placement="top">
                 <template #reference>
-                  <el-tag class="cursor-pointer w-8" v-if="scope.row.type === MenuType.PAGE_TYPE">
+                  <el-tag class="cursor-pointer w-8">
                     <Icon name="cog-6-tooth" class="animate-spin w-5 h-5" v-if="generateId === scope.row.id" />
                     <Icon name="plus" className="w-4 h-4" v-else />
                   </el-tag>

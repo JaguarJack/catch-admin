@@ -11,7 +11,7 @@
                 { label: '按钮', value: 3 },
               ]"
               :key="item.value"
-              :label="item.value"
+              :value="item.value"
               name="type"
               >{{ item.label }}
             </el-radio-button>
@@ -63,7 +63,7 @@
                 { label: '隐藏', value: 2 },
               ]"
               :key="item.value"
-              :label="item.value"
+              :value="item.value"
               name="hidden"
               >{{ item.label }}</el-radio
             >
@@ -77,7 +77,7 @@
                 { label: '禁用', value: 2 },
               ]"
               :key="item.value"
-              :label="item.value"
+              :value="item.value"
               name="keepalive"
               >{{ item.label }}
             </el-radio>
@@ -110,7 +110,7 @@ import http from '/admin/support/http'
 import { MenuType } from '/admin/enum/app'
 
 const props = defineProps({
-  primary: String | Number,
+  primary: [String,Number],
   api: String,
 })
 

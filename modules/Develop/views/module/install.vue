@@ -8,7 +8,7 @@
             { label: 'ZIP 安装', value: 2 },
           ]"
           :key="item.value"
-          :label="item.value"
+          :value="item.value"
           name="type"
           >{{ item.label }}
         </el-radio-button>

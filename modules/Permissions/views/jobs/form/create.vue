@@ -8,7 +8,7 @@
     </el-form-item>
     <el-form-item label="状态" prop="status">
       <el-radio-group v-model="formData.status">
-        <el-radio v-for="item in options" :key="item.value" :label="item.value" name="status">{{ item.label }}</el-radio>
+        <el-radio v-for="item in options" :key="item.value" :value="item.value" name="status">{{ item.label }}</el-radio>
       </el-radio-group>
     </el-form-item>
     <el-form-item label="排序" prop="sort">
@@ -30,7 +30,7 @@ import { useShow } from '/admin/composables/curd/useShow'
 import { onMounted } from 'vue'
 
 const props = defineProps({
-  primary: String | Number,
+  primary: [Number, String],
   api: String,
 })
 

@@ -2,8 +2,8 @@
   <div class="table-default">
     <div class="w-full flex justify-end">
       <el-radio-group v-model="query.scope" size="small" @change="search">
-        <el-radio-button label="self">只看自己</el-radio-button>
-        <el-radio-button label="all">全部</el-radio-button>
+        <el-radio-button value="self">只看自己</el-radio-button>
+        <el-radio-button value="all">全部</el-radio-button>
       </el-radio-group>
     </div>
     <el-table :data="tableData" class="mt-3" v-loading="loading">
