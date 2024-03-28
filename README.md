@@ -12,10 +12,12 @@
 
 我深信，付费后台管理系统将为您带来更多的价值和便利，帮助您提升工作效率
 
+## 其他版本
+- [tp8 新版本](https://gitee.com/catchamin/catchadmin-tp)
+- [webman 高性能版本](https://gitee.com/catchamin/catchadmin-webman)
 
 ## ⚠️Thinkphp 用户注意
 由于新版本使用 `Laravel` 开发，所以请使用 `thinkphp` 分支或者 tag2.6.2，thinkphp 版本已经非常稳定了。
-[thinkphp 8.0 仓库，开发中...](https://gitee.com/catchamin/catchadmin-tp)
 
 ## 功能
 - [x] 用户管理 后台用户管理
