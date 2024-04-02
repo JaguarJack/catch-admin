@@ -82,9 +82,15 @@ export const useNavTabStore = defineStore('nav_tabs', {
         },
 
         removeTab(index: number): void {
-            const goPath = this.tabs[index - 1].fullPath
-            this.tabs = this.tabs.filter((_, idx) => idx !== index);
-            router.push(goPath)
+            const activeIndex = this.getActiveTabIndex()
+            if (index === activeIndex) {
+                this.tabs = this.tabs.filter((_, idx) => idx !== index);
+                router.push(this.tabs[index - 1].fullPath)
+            } else {
+                const goPath = activeIndex ? this.tabs[activeIndex].fullPath : this.tabs[index - 1].fullPath
+                this.tabs = this.tabs.filter((_, idx) => idx !== index);
+                router.push(goPath)
+            }
         },
 
 
