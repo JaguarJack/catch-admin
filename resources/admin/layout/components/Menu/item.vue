@@ -9,7 +9,7 @@
     <slot />
   </el-sub-menu>
 
-  <el-menu-item v-else class="ct-menu-item" :index="menu?.path" @click="isMiniScreen() && store.changeExpaned()" :key="menu?.name">
+  <el-menu-item v-else class="ct-menu-item" :index="menu?.path" @click="isMiniScreen() && store.changeExpaned()" :key="menu?.path">
     <el-icon>
       <Icon :name="menu?.meta?.icon" v-if="menu?.meta?.icon" class="text-sm" />
     </el-icon>
