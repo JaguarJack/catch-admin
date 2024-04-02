@@ -135,7 +135,7 @@ export const usePermissionsStore = defineStore('PermissionsStore', {
           }
           const menu: Menu = Object.assign({
             path: this.resolveRoutePathRoutePath(permission.route, path),
-            name: permission.module + '_' + permission.permission_mark + '_' + (permission.type === MenuType.PAGE_TYPE && permission.hidden ? permission.route : ''),
+              name: permission.module + '_' + permission.permission_mark + permission.route.replace('/', '_'),
             component: importComponent,
             redirect: permission.redirect,
             meta: Object.assign({ title: permission.permission_name, icon: permission.icon, hidden: permission.hidden, active_menu: permission.active_menu }),
