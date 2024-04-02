@@ -30,4 +30,8 @@ defineProps({
 })
 </script>
 
-<style scoped></style>
+<style scoped>
+:deep(.el-form-item) {
+    min-width: 240px;
+}
+</style>
