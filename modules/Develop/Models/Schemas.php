@@ -6,8 +6,8 @@ use Catch\Base\CatchModel;
 use Catch\Enums\Status;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 use Modules\Develop\Support\Generate\Create\Schema;
+use Illuminate\Support\Facades\Schema as SchemaFacade;
 
 class Schemas extends CatchModel
 {
@@ -90,16 +90,13 @@ class Schemas extends CatchModel
     {
         $schema = parent::firstBy($id);
 
-        $columns = [];
-
-        foreach (getTableColumns($schema->name) as $columnString) {
-            $column = DB::connection()->getDoctrineColumn(DB::connection()->getTablePrefix().$schema->name, $columnString);
+        foreach (SchemaFacade::getColumns($schema->name) as $column) {
             $columns[] = [
-                'name' => $column->getName(),
-                'type' => $column->getType()->getName(),
-                'nullable' => ! $column->getNotnull(),
-                'default' => $column->getDefault(),
-                'comment' => $column->getComment()
+                'name' => $column['name'],
+                'type' => $column['type_name'],
+                'nullable' => $column['nullable'],
+                'default' => $column['default'],
+                'comment' => $column['comment'],
             ];
         }
 
