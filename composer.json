@@ -11,13 +11,12 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^8.1",
+        "php": "^8.2",
         "ext-pdo": "*",
         "ext-zip": "*",
-        "doctrine/dbal": "^3.4",
-        "guzzlehttp/guzzle": "^7.2",
-        "laravel/framework": "^10.0",
-        "laravel/tinker": "^2.8",
+        "guzzlehttp/guzzle": "^7.8.1",
+        "laravel/framework": "^11.0",
+        "laravel/tinker": "^v2.9.0",
         "catchadmin/core": "^0.2.7"
     },
     "require-dev": {
