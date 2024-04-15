@@ -17,12 +17,12 @@
         "guzzlehttp/guzzle": "^7.8.1",
         "laravel/framework": "^11.0",
         "laravel/tinker": "^v2.9.0",
-        "catchadmin/core": "^0.3.2"
+        "catchadmin/core": "^0.2.7"
     },
     "require-dev": {
-        "fakerphp/faker": "^1.9.1",
-        "mockery/mockery": "^1.4.4",
-        "pestphp/pest": "^1.22"
+        "fakerphp/faker": "^v1.23.1",
+        "mockery/mockery": "^1.6.9",
+        "pestphp/pest": "^v2.34.2"
     },
     "autoload": {
         "psr-4": {
