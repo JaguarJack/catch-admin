@@ -1,27 +1,29 @@
 <template>
   <div>
-    <el-table :data="structures" class="draggable">
-      <el-table-column prop="field" :label="$t('generate.schema.structure.field_name.name')" />
-      <el-table-column prop="type" :label="$t('generate.schema.structure.type.name')">
-        <template #default="scope">
-          <el-tag type="success">{{ scope.row.type }}</el-tag>
-        </template>
-      </el-table-column>
-      <el-table-column prop="nullable" :label="$t('generate.schema.structure.nullable')" width="90px">
-        <template #default="scope">
-          <el-tag v-if="scope.row.nullable">{{ $t('system.yes') }}</el-tag>
-          <el-tag v-else type="info">{{ $t('system.no') }}</el-tag>
-        </template>
-      </el-table-column>
-      <el-table-column prop="default" :label="$t('generate.schema.structure.default')" />
-      <!--<el-table-column prop="comment" label="注释" />-->
-      <el-table-column prop="id" :label="$t('generate.schema.structure.operate')" width="120px">
-        <template #default="scope">
-          <el-button type="primary" :icon="Edit" @click="updateField(scope.row.id)" size="small" />
-          <el-button type="danger" :icon="Delete" @click="deleteField(scope.row.id)" size="small" />
-        </template>
-      </el-table-column>
-    </el-table>
+      <VueDraggable v-model="structures" target=".el-table__body tbody" animation="150" @end="onEnd">
+          <el-table :data="structures" class="draggable" :lazy="false">
+          <el-table-column prop="field" :label="$t('generate.schema.structure.field_name.name')" />
+          <el-table-column prop="type" :label="$t('generate.schema.structure.type.name')">
+            <template #default="scope">
+              <el-tag type="success">{{ scope.row.type }}</el-tag>
+            </template>
+          </el-table-column>
+          <el-table-column prop="nullable" :label="$t('generate.schema.structure.nullable')" width="90px">
+            <template #default="scope">
+              <el-tag v-if="scope.row.nullable">{{ $t('system.yes') }}</el-tag>
+              <el-tag v-else type="info">{{ $t('system.no') }}</el-tag>
+            </template>
+          </el-table-column>
+          <el-table-column prop="default" :label="$t('generate.schema.structure.default')" />
+          <!--<el-table-column prop="comment" label="注释" />-->
+          <el-table-column prop="id" :label="$t('generate.schema.structure.operate')" width="120px">
+            <template #default="scope">
+              <el-button type="primary" :icon="Edit" @click="updateField(scope.row.id)" size="small" />
+              <el-button type="danger" :icon="Delete" @click="deleteField(scope.row.id)" size="small" />
+            </template>
+          </el-table-column>
+        </el-table>
+    </VueDraggable>
 
     <div class="flex justify-end mt-4">
       <el-button type="success" :icon="Plus" @click="addField">{{ $t('system.add') }}</el-button>
@@ -95,14 +97,14 @@ import type { FormInstance } from 'element-plus'
 import Message from '/admin/support/message'
 import http from '/admin/support/http'
 import { Code } from '/admin/enum/app'
+import { VueDraggable } from 'vue-draggable-plus'
 
 const schemaStore = useSchemaStore()
 const emits = defineEmits(['prev', 'next'])
 const visible = ref(false)
 
-const structures = computed(() => {
-  return schemaStore.getStructures
-})
+// 初始化
+const structures = ref(schemaStore.getStructures)
 
 const structure: Ref<Structure> = ref(schemaStore.initStructure())
 // structure
@@ -149,7 +151,11 @@ const next = () => {
     })
   }
 }
-
+// 调整数据结构
+const onEnd = () => {
+    console.log(structures.value)
+    schemaStore.setStructures(structures.value)
+}
 const types: string[] = [
   'id',
   'smallIncrements',
