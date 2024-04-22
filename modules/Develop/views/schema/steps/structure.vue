@@ -211,7 +211,6 @@ const types: string[] = [
   'tinyIncrements',
   'tinyInteger',
   'tinyText',
-  'unsignedDecimal',
   'uuid',
   'year',
 ]
