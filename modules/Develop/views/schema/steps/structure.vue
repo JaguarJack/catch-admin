@@ -90,7 +90,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { computed, Ref, ref } from 'vue'
+import { Ref, ref } from 'vue'
 import { useSchemaStore, Structure } from '../store'
 import { Delete, Plus, Edit } from '@element-plus/icons-vue'
 import type { FormInstance } from 'element-plus'
@@ -119,6 +119,8 @@ const updateField = (id: number) => {
       structure.value = s
     }
   })
+
+  schemaStore.setStructures(structures.value)
 }
 
 const form = ref<FormInstance>()
@@ -136,7 +138,10 @@ const submitStructure = (formEl: FormInstance | undefined) => {
 }
 
 const deleteField = (id: number) => {
-  schemaStore.filterStructures(id)
+    structures.value = structures.value.filter((s: Structure) => {
+        return !(s.id === id)
+    })
+    schemaStore.setStructures(structures.value)
 }
 
 const next = () => {
@@ -153,7 +158,6 @@ const next = () => {
 }
 // 调整数据结构
 const onEnd = () => {
-    console.log(structures.value)
     schemaStore.setStructures(structures.value)
 }
 const types: string[] = [
