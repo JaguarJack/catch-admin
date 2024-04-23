@@ -15,6 +15,8 @@ const zh = {
     finish: '完成',
     back: '返回',
     update: '更新',
+    search: '搜索',
+    reset: '重置'
   },
 
   login: {

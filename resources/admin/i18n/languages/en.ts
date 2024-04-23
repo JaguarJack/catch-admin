@@ -14,6 +14,8 @@ const en = {
     finish: 'Finish',
     back: 'Back',
     update: 'Update',
+    search: 'Search',
+    reset: 'Reset'
   },
 
   login: {

@@ -100,3 +100,29 @@ export function _window(key: string) {
 export function getBaseUrl() {
   return _window('BASE_URL') ? _window('BASE_URL') : env('VITE_BASE_URL')
 }
+
+/**
+ * is boolean
+ * @param value
+ * @returns
+ */
+export function isBoolean(value: any): boolean {
+    return typeof value === 'boolean'
+}
+
+/**
+ *
+ * @param value
+ * @returns
+ */
+export function isNumber(value: any): boolean {
+    return typeof value === 'number'
+}
+export const getFileExt = (filename: string): string => {
+    return filename.substring(filename.lastIndexOf('.')).toLowerCase()
+}
+
+// 获取文件名
+export const getFilename = (filename: string): string => {
+    return filename.substring(filename.lastIndexOf('/') + 1)
+}

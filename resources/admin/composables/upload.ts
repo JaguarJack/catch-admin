@@ -1,7 +1,7 @@
 import { ref } from 'vue'
-import { getFileExt, getFilename } from '@/form/support/helper'
-import { Code } from '@/form/enum/app'
-import Message from '@/form/support/message'
+import { getFileExt, getFilename } from '/admin/support/helper'
+import { Code } from '/admin/enum/app'
+import Message from '/admin/support/message'
 import { genFileId } from 'element-plus'
 import type { UploadInstance, UploadProps, UploadRawFile } from 'element-plus'
 
