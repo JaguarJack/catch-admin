@@ -25,6 +25,12 @@ const router: RouteRecordRaw[] = [
         meta: { title: '代码生成', hidden: true, active_menu: '/develop/schemas' },
         component: () => import('./generate/index.vue'),
       },
+      {
+        path: 'dymaic',
+        name: 'dymaic',
+        meta: { title: '动态表格' },
+        component: () => import('./dymaic/index.vue'),
+      },
     ],
   },
 ]
