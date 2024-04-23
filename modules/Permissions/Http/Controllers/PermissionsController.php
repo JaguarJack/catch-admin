@@ -34,7 +34,7 @@ class PermissionsController extends Controller
         }
 
         return $this->model->setBeforeGetList(function ($query) {
-            return $query->with('actions')->whereIn('type', [MenuType::Top->value(), MenuType::Menu->value()]);
+            return $query->with('actions')->whereIn('type', [MenuType::Top->value(), MenuType::Menu->value()])->orderByDesc('sort');
         })->getList();
     }
 

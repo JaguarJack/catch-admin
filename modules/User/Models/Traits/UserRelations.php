@@ -59,7 +59,7 @@ trait UserRelations
         /* @var Permissions $permissionsModel */
         $permissionsModel = app($this->getPermissionsModel());
         if ($this->isSuperAdmin()) {
-            $permissions = $permissionsModel->get();
+            $permissions = $permissionsModel->orderByDesc('sort')->get();
         } else {
             $permissionIds = Collection::make();
             $this->roles()->with('permissions')->get()
@@ -67,7 +67,7 @@ trait UserRelations
                     $permissionIds = $permissionIds->concat($role->permissions?->pluck('id'));
                 });
 
-            $permissions = $permissionsModel->whereIn('id', $permissionIds->unique())->get();
+            $permissions = $permissionsModel->whereIn('id', $permissionIds->unique())->orderByDesc('sort')->get();
         }
 
         $this->setAttribute('permissions', $permissions->each(fn ($permission) => $permission->setAttribute('hidden', $permission->isHidden())));
