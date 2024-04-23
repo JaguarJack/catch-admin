@@ -1,0 +1,10 @@
+/* eslint-disable symbol-description */
+export const $global = Symbol()
+export const $schema = Symbol()
+export const $formValues = Symbol()
+export const $selectData = Symbol()
+export const $formEvents = Symbol()
+export const $initialValues = Symbol()
+export const $current = Symbol()
+export const $methods = Symbol()
+export const $hoverKey = Symbol()
