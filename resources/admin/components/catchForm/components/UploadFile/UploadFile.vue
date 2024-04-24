@@ -3,8 +3,7 @@ import { watch } from 'vue'
 import { uploadFile } from '/admin/composables/upload'
 const props = defineProps({
     action: {
-        type: String,
-        required: true
+        type: String
     },
     name: {
         type: String,
@@ -29,7 +28,9 @@ const props = defineProps({
     },
     ext: {
         type: Array,
-        required: true
+        default: () => {
+            return ['docx', 'pdf', 'txt', 'html', 'zip', 'tar', 'doc', 'css', 'csv', 'ppt', 'xlsx', 'xls', 'xml']
+        }
     }
 })
 

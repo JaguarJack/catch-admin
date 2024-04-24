@@ -64,7 +64,7 @@ const props = defineProps({
     },
     ext: {
         type: Array,
-        required: true
+        default: () => ['jpg', 'jpeg', 'png', 'bmp', 'gif']
     }
 })
 

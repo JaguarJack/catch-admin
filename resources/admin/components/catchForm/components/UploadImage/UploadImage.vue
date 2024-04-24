@@ -26,8 +26,7 @@ import { Plus } from '@element-plus/icons-vue'
 
 const props = defineProps({
   action: {
-    type: String,
-    required: true
+    type: String
   },
   name: {
     type: String,
@@ -47,12 +46,11 @@ const props = defineProps({
    default: 'Dashboard'
   },
   token:{
-     type: String,
-     required: true
+     type: String
   },
   ext: {
     type: Array,
-    required: true
+    default: () => ['jpg', 'jpeg', 'png', 'bmp', 'gif']
   }
 })
 

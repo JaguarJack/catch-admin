@@ -18,7 +18,7 @@ import { $global} from '/admin/components/catchForm/config/symbol'
 const tree = ref()
 const  modelValue = defineModel()
 const currentCheckedKeys = ref<Array<number>|Array<string>|string|number>([])
-const data = ref([])
+const data = ref<any>([])
 const { http } = inject($global)
 
 const props = defineProps({
@@ -49,7 +49,7 @@ const props = defineProps({
 })
 
 if (props.api) {
-    http.get(props.api).then(r => {
+    http.get(props.api).then((r:any) => {
         data.value = r.data.data
     })
 } else {

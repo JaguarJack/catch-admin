@@ -32,7 +32,9 @@ const props = defineProps({
     },
     ext: {
         type: Array,
-        required: true
+        default: () => {
+            return ['docx', 'pdf', 'txt', 'html', 'zip', 'tar', 'doc', 'css', 'csv', 'ppt', 'xlsx', 'xls', 'xml']
+        }
     }
 })
 
