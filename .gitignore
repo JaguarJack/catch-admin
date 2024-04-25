@@ -1,5 +1,3 @@
-/node_modules
-/public/build
 /public/hot
 /public/storage
 /storage/*.key
@@ -14,13 +12,8 @@ nohup.out
 .php-cs-fixer.cache
 Homestead.json
 Homestead.yaml
-auth.json
-npm-debug.log
-yarn-error.log
-yarn.lock
 composer.lock
 /.fleet
 /.idea
 /.vscode
-components.d.ts
-auto-imports.d.ts
+/web
