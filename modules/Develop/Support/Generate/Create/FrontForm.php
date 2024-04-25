@@ -95,8 +95,10 @@ class FrontForm extends Creator
      */
     public function getFile(): string
     {
+        $path = config('catch.views_path').lcfirst($this->module).DIRECTORY_SEPARATOR;
+
         // TODO: Implement getFile() method.
-        return CatchAdmin::makeDir(CatchAdmin::getModuleViewsPath($this->module).Str::of($this->controller)->replace('Controller', '')->lcfirst()).DIRECTORY_SEPARATOR.'create.vue';
+        return CatchAdmin::makeDir($path.Str::of($this->controller)->replace('Controller', '')->lcfirst()).DIRECTORY_SEPARATOR.'create.vue';
     }
 
     /**

@@ -114,7 +114,9 @@ class FrontTable extends Creator
     public function getFile(): string
     {
         // TODO: Implement getFile() method.
-        return CatchAdmin::makeDir(CatchAdmin::getModuleViewsPath($this->module).Str::of($this->controller)->replace('Controller', '')->lcfirst()).DIRECTORY_SEPARATOR.'index.vue';
+        $path = config('catch.views_path').lcfirst($this->module).DIRECTORY_SEPARATOR;
+
+        return CatchAdmin::makeDir($path.Str::of($this->controller)->replace('Controller', '')->lcfirst()).DIRECTORY_SEPARATOR.'index.vue';
     }
 
 
