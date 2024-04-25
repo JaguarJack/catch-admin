@@ -20,7 +20,7 @@ return new class extends Seeder
     public function menus(): array
     {
         return array (
-  0 => 
+  0 =>
   array (
     'id' => 96,
     'parent_id' => 0,
@@ -41,7 +41,7 @@ return new class extends Seeder
     'updated_at' => 1683535826,
     'deleted_at' => 0,
   ),
-  1 => 
+  1 =>
   array (
     'id' => 97,
     'parent_id' => 96,
@@ -50,7 +50,7 @@ return new class extends Seeder
     'icon' => '',
     'module' => 'system',
     'permission_mark' => 'dictionary',
-    'component' => '/System/views/dictionary/index.vue',
+    'component' => '/system/dictionary/index.vue',
     'redirect' => '',
     'keepalive' => 1,
     'type' => 2,
@@ -62,7 +62,7 @@ return new class extends Seeder
     'updated_at' => 1683535874,
     'deleted_at' => 0,
   ),
-  2 => 
+  2 =>
   array (
     'id' => 103,
     'parent_id' => 97,
@@ -83,7 +83,7 @@ return new class extends Seeder
     'updated_at' => 1683535980,
     'deleted_at' => 0,
   ),
-  3 => 
+  3 =>
   array (
     'id' => 99,
     'parent_id' => 97,
@@ -104,7 +104,7 @@ return new class extends Seeder
     'updated_at' => 1683535980,
     'deleted_at' => 0,
   ),
-  4 => 
+  4 =>
   array (
     'id' => 101,
     'parent_id' => 97,
@@ -125,7 +125,7 @@ return new class extends Seeder
     'updated_at' => 1683535980,
     'deleted_at' => 0,
   ),
-  5 => 
+  5 =>
   array (
     'id' => 100,
     'parent_id' => 97,
@@ -146,7 +146,7 @@ return new class extends Seeder
     'updated_at' => 1683535980,
     'deleted_at' => 0,
   ),
-  6 => 
+  6 =>
   array (
     'id' => 102,
     'parent_id' => 97,
@@ -167,7 +167,7 @@ return new class extends Seeder
     'updated_at' => 1683535980,
     'deleted_at' => 0,
   ),
-  7 => 
+  7 =>
   array (
     'id' => 98,
     'parent_id' => 96,
@@ -176,7 +176,7 @@ return new class extends Seeder
     'icon' => '',
     'module' => 'system',
     'permission_mark' => 'dictionaryValues',
-    'component' => '/System/views/dictionaryValues/index.vue',
+    'component' => '/system/dictionaryValues/index.vue',
     'redirect' => '',
     'keepalive' => 2,
     'type' => 2,
