@@ -2,7 +2,6 @@
 
 namespace Modules\Common\Repository\Options;
 
-use Catch\CatchAdmin;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 
@@ -14,26 +13,38 @@ class Components implements OptionInterface
     protected array $components = [
         [
             'label' => 'layout',
-            'value' => '/admin/layout/index.vue'
-        ]
+            'value' => '/layout/index.vue',
+        ],
     ];
 
     public function get(): array
     {
         try {
+            $viewRootPath = config('catch.views_path');
+
             if ($module = request()->get('module')) {
-                $components = File::glob(CatchAdmin::getModuleViewsPath($module) . '*' . DIRECTORY_SEPARATOR . '*.vue');
+                if (!File::exists($viewRootPath . $module . DIRECTORY_SEPARATOR)) {
+                    return [];
+                }
+
+                $components = File::allFiles($viewRootPath . $module . DIRECTORY_SEPARATOR);
 
                 foreach ($components as $component) {
-                    $_component = Str::of($component)
-                        ->replace(CatchAdmin::moduleRootPath(), '')
+                    // 过滤非 vue 文件
+                    if ($component->getExtension() !== 'vue') {
+                        continue;
+                    }
+
+                    $_component = Str::of($component->getPathname())
+                        ->replace($viewRootPath, '')
                         ->explode(DIRECTORY_SEPARATOR);
-                    $_component->shift(2);
+
+                    $_component->shift(1);
 
                     $this->components[] = [
                         'label' => Str::of($_component->implode('/'))->replace('.vue', ''),
 
-                        'value' => Str::of($component)->replace(CatchAdmin::moduleRootPath(), '')->prepend('/')
+                        'value' => Str::of($component)->replace($viewRootPath, '')->prepend('/'),
                     ];
                 }
             }
