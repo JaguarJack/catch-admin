@@ -94,7 +94,7 @@ composer cs-diff
 - [Laravel](https://laravel.com)
 - [Vue](https://cn.vuejs.org/)
 - [ElementPlus](https://element-plus.org)
-- [Docusaurus](https://docusaurus.com)
+- [VitePress](https://vitepress.dev/zh/)
 - [JetBrains](https://www.jetbrains.com/)
 
 
