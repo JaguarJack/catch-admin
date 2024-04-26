@@ -13,7 +13,7 @@ import { useShow } from '/admin/composables/curd/useShow'
 import { onMounted } from 'vue'
 
 const props = defineProps({
-  primary: String | Number,
+  primary: [String, Number],
   api: String,
 })
 
