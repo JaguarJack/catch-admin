@@ -17,10 +17,10 @@ const props = defineProps({
   api: String,
 })
 
-const { formData, form, loading, submitForm, close } = useCreate(props.api, props.primary)
+const { formData, form, loading, submitForm, close } = useCreate(props.api as string, props.primary)
 
 if (props.primary) {
-  useShow(props.api, props.primary, formData)
+  useShow(props.api as string, props.primary, formData)
 }
 
 const emit = defineEmits(['close'])
