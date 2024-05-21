@@ -19,7 +19,8 @@ $router->group(function () use ($router){
     $router->resource('users', '\catchAdmin\permissions\controller\User');
     // 切换状态
     $router->put('users/switch/status/<id>', '\catchAdmin\permissions\controller\User@switchStatus');
-    $router->put('user/profile', '\catchAdmin\permissions\controller\User@profile');
     $router->get('user/info', '\catchAdmin\permissions\controller\User@info');
     $router->get('user/export', '\catchAdmin\permissions\controller\User@export');
 })->middleware('auth');
+
+$router->put('user/profile', '\catchAdmin\permissions\controller\User@profile');// 修改自己的资料，无需鉴权
