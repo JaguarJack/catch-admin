@@ -5,6 +5,9 @@
 ## 前端项目
 [catchadmin-vue](https://gitee.com/catchadmin/catch-admin-vue)
 
+## Laravel 入门教程
+[Laravel 免费入门教程](https://laravel-study.catchadmin.com)
+
 [中文](./README.md)|[英文](./README-en.md)
 ## 其他版本
 - [tp8 新版本](https://gitee.com/catchamin/catchadmin-tp)
