@@ -7,6 +7,7 @@ namespace Modules\Permissions\Models;
 use Catch\Base\CatchModel as Model;
 use Catch\CatchAdmin;
 use Catch\Enums\Status;
+use Catch\Exceptions\FailedException;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\DB;
@@ -163,6 +164,10 @@ class Permissions extends Model
     public function storeBy(array $data): mixed
     {
         return DB::transaction(function () use ($data){
+            if ($data['type'] != self::isTopMenu() && ! $data['parent_id']) {
+                throw new FailedException('请选择父级菜单');
+            }
+
             if ($data['actions'] ?? false) {
                 /* @var static $parentMenu */
                 $parentMenu =  $this->firstBy(value: $data['parent_id'], field: 'id');
@@ -240,6 +245,10 @@ class Permissions extends Model
      */
     public function updateBy($id, array $data): mixed
     {
+        if ($data['type'] != self::isTopMenu() && ! $data['parent_id']) {
+            throw new FailedException('请选择父级菜单');
+        }
+
         $model = $this->fill($data);
 
         if ($model->isAction()) {
