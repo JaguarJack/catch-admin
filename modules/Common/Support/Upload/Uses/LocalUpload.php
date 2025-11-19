@@ -26,9 +26,7 @@ class LocalUpload extends Upload
      */
     protected function addUrl($path): mixed
     {
-        $path['path'] = config('app.url') . '/'.
-
-                        Str::of($path['path'])->replace('\\', '/')->toString();
+        $path['path'] = Storage::disk('uploads')->url($path['path']);
 
         return $path;
     }
@@ -43,14 +41,11 @@ class LocalUpload extends Upload
     {
         $this->checkSize();
 
-        $storePath = 'uploads' . DIRECTORY_SEPARATOR . $this->getUploadedFileMimeType() . DIRECTORY_SEPARATOR . date('Y-m-d', time());
+        $storePath = $this->getUploadedFileMimeType() . DIRECTORY_SEPARATOR . date('Y-m-d', time());
 
         $filename = $this->generateImageName($this->getUploadedFileExt());
 
-        Storage::build([
-            'driver' => 'local',
-            'root' => $storePath
-        ])->put($filename, $this->file->getContent());
+        Storage::disk('uploads')->put($storePath . DIRECTORY_SEPARATOR . $filename, $this->file->getContent());
 
         return $storePath . DIRECTORY_SEPARATOR . $filename;
     }
