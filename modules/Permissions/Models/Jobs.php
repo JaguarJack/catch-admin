@@ -17,27 +17,18 @@ use Catch\Base\CatchModel as Model;
  * @property $created_at
  * @property $updated_at
  * @property $deleted_at
-*/
+ */
 class Jobs extends Model
 {
-    protected $table = 'jobs';
+    protected $table = 'positions';
 
     protected $fillable = ['id', 'job_name', 'coding', 'status', 'sort', 'description', 'creator_id', 'created_at', 'updated_at', 'deleted_at'];
 
-    /**
-     * @var array
-     */
-    protected array $fields = ['id','job_name','coding','status','sort','description','created_at','updated_at'];
+    protected array $fields = ['id', 'job_name', 'coding', 'status', 'sort', 'description', 'created_at', 'updated_at'];
 
-    /**
-     * @var array
-     */
-    protected array $form = ['job_name','coding','status','sort','description'];
+    protected array $form = ['job_name', 'coding', 'status', 'sort', 'description'];
 
-    /**
-     * @var array
-     */
     public array $searchable = [
-        'job_name' => 'like'
+        'job_name' => 'like',
     ];
 }

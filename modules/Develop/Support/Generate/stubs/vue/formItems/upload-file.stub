@@ -1,0 +1,4 @@
+文件上传
+<el-form-item label="{label}" prop="{prop}" {rule}>
+    <UploadFile v-model="{model-value}" />
+</el-form-item>

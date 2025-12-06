@@ -12,7 +12,6 @@ enum DataRange: int implements Enum
     case Department_Data = 4; // 部门数据
     case Department_DOWN_Data = 5; // 部门及以下数据
 
-
     public function value(): int
     {
         // TODO: Implement value() method.
@@ -39,12 +38,9 @@ enum DataRange: int implements Enum
 
     /**
      * assert value
-     *
-     * @param int $value
-     * @return bool
      */
     public function assert(int $value): bool
     {
-       return $this->value === $value;
+        return $this->value === $value;
     }
 }

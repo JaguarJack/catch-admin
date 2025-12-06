@@ -15,7 +15,6 @@ class Install extends Installer
         return [];
     }
 
-
     protected function migration(): string
     {
         // TODO: Implement migration() method.

@@ -19,7 +19,7 @@ use Catch\Base\CatchModel as Model;
  * @property $created_at
  * @property $updated_at
  * @property $deleted_at
-*/
+ */
 class Departments extends Model
 {
     protected $table = 'departments';
@@ -28,19 +28,10 @@ class Departments extends Model
 
     protected bool $isPaginate = false;
 
-    /**
-     * @var array
-     */
-    protected array $fields = ['id','parent_id','department_name','status','sort','created_at'];
+    protected array $fields = ['id', 'parent_id', 'department_name', 'status', 'sort', 'created_at'];
 
-    /**
-     * @var array
-     */
-    protected array $form = ['parent_id','department_name','principal','mobile','email','sort'];
+    protected array $form = ['parent_id', 'department_name', 'principal', 'mobile', 'email', 'sort'];
 
-    /**
-     * @var array
-     */
     public array $searchable = [
         'department_name' => 'like',
         'status' => '=',
@@ -48,21 +39,15 @@ class Departments extends Model
 
     protected bool $asTree = true;
 
-
-    /**
-     *
-     * @param int|array $id
-     * @return array
-     */
     public function findFollowDepartments(int|array $id): array
     {
         if (!is_array($id)) {
-           $id = [$id];
+            $id = [$id];
         }
 
         $followDepartmentIds = $this->whereIn($this->getParentIdColumn(), $id)->pluck('id')->toArray();
 
-        if (! empty($followDepartmentIds)) {
+        if (!empty($followDepartmentIds)) {
             $followDepartmentIds = array_merge($followDepartmentIds, $this->findFollowDepartments($followDepartmentIds));
         }
 

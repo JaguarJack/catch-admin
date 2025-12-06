@@ -1,7 +1,8 @@
-<el-form-item label="{label}" prop="{prop}">
- <el-select v-model="{model-value}" placeholder="请选择" clearable multiple>
+下拉选择器
+<el-form-item label="{label}" prop="{prop}" {rule}>
+ <el-select v-model="{model-value}" placeholder="请选择{label}" clearable>
      <el-option
-       v-for="item in options"
+       v-for="item in {options}"
        :key="item.value"
        :label="item.label"
        :value="item.value"

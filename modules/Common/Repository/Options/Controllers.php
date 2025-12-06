@@ -3,12 +3,13 @@
 namespace Modules\Common\Repository\Options;
 
 use Catch\CatchAdmin;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 
 class Controllers implements OptionInterface
 {
-    public function get(): array
+    public function get(): array|Collection
     {
         $controllers = [];
 

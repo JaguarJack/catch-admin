@@ -1,0 +1,22 @@
+<template>
+  <div v-loading="loading" class="min-h-96">
+    <catch-table v-bind="table" v-if="!loading">
+      <template #operation>
+        <router-link to="{create_route}">
+          <Add text="创建" />
+        </router-link>
+      </template>
+      <template #_operate="scope">
+        <router-link :to="'{create_route}' + scope.row.id">
+          <Update />
+        </router-link>
+      </template>
+    </catch-table>
+  </div>
+</template>
+
+<script lang="ts" setup>
+import { ref } from 'vue'
+import { useDynamic } from '@/composables/useDynamic'
+const { table, form, loading } = useDynamic('{api}')
+</script>

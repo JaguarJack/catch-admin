@@ -1,6 +1,6 @@
 <?php
-namespace Modules\Develop\Support;
 
+namespace Modules\Develop\Support;
 
 use Catch\CatchAdmin;
 use Catch\Exceptions\FailedException;
@@ -12,15 +12,14 @@ use Illuminate\Support\Facades\File;
  */
 class ModuleInstall
 {
-    const NORMAL_INSTALL = 1;
-    const ZIP_INSTALL = 2;
+    public const NORMAL_INSTALL = 1;
 
-    public function __construct(protected readonly int|string $type){}
+    public const ZIP_INSTALL = 2;
 
-    /**
-     *
-     * @param array $params
-     */
+    public function __construct(protected readonly int|string $type)
+    {
+    }
+
     public function install(array $params): void
     {
         try {
@@ -36,14 +35,10 @@ class ModuleInstall
                 CatchAdmin::deleteModulePath($params['title']);
             }
 
-            throw new FailedException('安装失败: ' . $e->getMessage());
+            throw new FailedException('安装失败: '.$e->getMessage());
         }
     }
 
-    /**
-     *
-     * @param string $title
-     */
     protected function installWithTitle(string $title): void
     {
         try {
@@ -53,15 +48,12 @@ class ModuleInstall
         } catch (\Exception|\Throwable $e) {
             // CatchAdmin::deleteModulePath($title);
 
-            throw new FailedException('安装失败: ' . $e->getMessage());
+            throw new FailedException('安装失败: '.$e->getMessage());
         }
     }
 
     /**
      * get
-     *
-     * @param string $title
-     * @param string $zip
      */
     protected function installWithZip(string $title, string $zip): void
     {

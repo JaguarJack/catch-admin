@@ -12,7 +12,6 @@ class PermissionForbidden extends CatchException
 
     protected $code = Code::PERMISSION_FORBIDDEN;
 
-
     public function statusCode(): int
     {
         return Response::HTTP_FORBIDDEN;

@@ -1,10 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Modules\Permissions\Http\Controllers\RolesController;
-use Modules\Permissions\Http\Controllers\JobsController;
 use Modules\Permissions\Http\Controllers\DepartmentsController;
+use Modules\Permissions\Http\Controllers\JobsController;
 use Modules\Permissions\Http\Controllers\PermissionsController;
+use Modules\Permissions\Http\Controllers\RolesController;
 
 Route::prefix('permissions')->group(function () {
     Route::apiResource('roles', RolesController::class);

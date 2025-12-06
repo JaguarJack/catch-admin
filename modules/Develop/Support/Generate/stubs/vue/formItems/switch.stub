@@ -1,3 +1,4 @@
-<el-form-item label="{label}" prop="{prop}">
-  <el-switch v-model="{model-value}" name="{prop}" />
+开关
+<el-form-item label="{label}" prop="{prop}" {rule}>
+  <el-switch v-model="{model-value}" name="{prop}" :active-value="{active}" :inactive-value="{inactive}"/>
 </el-form-item>

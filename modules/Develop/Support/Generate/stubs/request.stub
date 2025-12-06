@@ -6,6 +6,8 @@ use Illuminate\Foundation\Http\FormRequest as Request;
 
 class {request} extends Request
 {
+    protected $stopOnFirstFailure = true;
+
     /**
      * @return array
      */

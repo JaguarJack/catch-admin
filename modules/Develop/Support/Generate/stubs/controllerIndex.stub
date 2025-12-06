@@ -1,0 +1,31 @@
+<?php
+declare(strict_types=1);
+
+namespace {namespace}
+
+use Catch\Base\CatchController as Controller;
+{uses}
+
+class {controller} extends Controller
+{
+    public function __construct(
+        protected readonly {model} $model
+    ){}
+
+    /**
+     * @return mixed
+     */
+    public function index(): mixed
+    {
+        return $this->model->getList();
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function destroy($id)
+    {
+        return $this->model->deleteBy($id);
+    }
+}

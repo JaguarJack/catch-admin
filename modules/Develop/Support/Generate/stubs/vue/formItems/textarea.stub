@@ -1,3 +1,4 @@
-<el-form-item label="{label}" prop="{prop}">
+文本域
+<el-form-item label="{label}" prop="{prop}" {rule}>
   <el-input v-model="{model-value}" name="{prop}" type="textarea" clearable />
 </el-form-item>

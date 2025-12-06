@@ -1,35 +1,45 @@
 {
-    "name": "jaguarjack/catchadmin",
+    "$schema": "https://getcomposer.org/schema.json",
+    "name": "catchadmin/management",
     "type": "project",
     "description": "The CatchAdmin Background management",
     "keywords": [
         "framework",
         "catchadmin",
         "management",
+        "admin",
         "permissions",
-        "modules"
+        "modules",
+        "plugin"
     ],
-    "license": "MIT",
+    "license": "Apache-2.0",
+    "homepage": "https://catchadmin.com",
+    "support": {
+        "email": "support@catchadmin.com",
+        "issues": "https://gitee.com/catchadmin/catchAdmin/issues",
+        "source": "https://gitee.com/catchadmin/catchAdmin"
+    },
     "require": {
         "php": "^8.2",
-        "ext-pdo": "*",
-        "ext-zip": "*",
-        "laravel/framework": "^v12.8.1",
-        "laravel/tinker": "^v2.10.1",
-        "catchadmin/core": "^0.4.8"
+        "laravel/framework": "^12.0",
+        "laravel/tinker": "^2.10.1",
+        "catchadmin/core": "^1.0.1"
     },
     "require-dev": {
-        "fakerphp/faker": "^v1.24.1",
-        "mockery/mockery": "^1.6.12",
-        "pestphp/pest": "^v3.7.2"
+        "fakerphp/faker": "^1.23",
+        "laravel/pail": "^1.2.2",
+        "laravel/pint": "^1.24",
+        "laravel/sail": "^1.41",
+        "mockery/mockery": "^1.6",
+        "nunomaduro/collision": "^8.6",
+        "phpunit/phpunit": "^11.5.3"
     },
     "autoload": {
         "psr-4": {
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/",
-            "Modules\\": "modules",
-            "\\": ""
+            "Modules\\": "modules/"
         }
     },
     "autoload-dev": {
@@ -38,10 +48,25 @@
         }
     },
     "scripts": {
+        "setup": [
+            "composer install",
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
+            "@php artisan key:generate",
+            "@php artisan migrate --force",
+            "npm install",
+            "npm run build"
+        ],
+        "dev": [
+            "Composer\\Config::disableProcessTimeout",
+            "npx concurrently -c \"#93c5fd,#c4b5fd\" \"cd web && yarn dev\" \"php artisan serve\" --names='vite,server'"
+        ],
+        "test": [
+            "@php artisan config:clear --ansi",
+            "@php artisan test"
+        ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-            "@php artisan package:discover --ansi",
-            "@composer dump-autoload --no-scripts"
+            "@php artisan package:discover --ansi"
         ],
         "post-update-cmd": [
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
@@ -50,14 +75,13 @@
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
         ],
         "post-create-project-cmd": [
-            "@php artisan key:generate --ansi"
+            "@php artisan key:generate --ansi",
+            "@php -r \"file_exists('database/database.sqlite') || touch('database/database.sqlite');\"",
+            "@php artisan migrate --graceful --ansi"
         ],
-        "dev": [
-            "Composer\\Config::disableProcessTimeout",
-            "npx concurrently -c \"#93c5fd,#c4b5fd\" \"cd web && yarn dev\" \"php artisan serve\" --names='vite,server'"
-        ],
-        "cs-diff": "./fixer/vendor/bin/php-cs-fixer fix --dry-run --diff",
-        "cs": "./fixer/vendor/bin/php-cs-fixer fix"
+        "pre-package-uninstall": [
+            "Illuminate\\Foundation\\ComposerScripts::prePackageUninstall"
+        ]
     },
     "extra": {
         "laravel": {
@@ -69,9 +93,11 @@
         "preferred-install": "dist",
         "sort-packages": true,
         "allow-plugins": {
-            "pestphp/pest-plugin": true
+            "catchadmin/plugin-hook": true,
+            "pestphp/pest-plugin": true,
+            "php-http/discovery": true
         }
     },
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "prefer-stable": true
 }

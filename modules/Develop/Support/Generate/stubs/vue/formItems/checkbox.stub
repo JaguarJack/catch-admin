@@ -1,0 +1,13 @@
+多选框
+<el-form-item label="{label}" prop="{prop}" {rule}>
+  <el-checkbox-group v-model="{model-value}">
+    <el-checkbox
+      v-for="item in {options}"
+      :key="item.value"
+      :label="item.label"
+      :value="item.value"
+    >
+      {{ item.label }}
+    </el-checkbox>
+  </el-checkbox-group>
+</el-form-item>

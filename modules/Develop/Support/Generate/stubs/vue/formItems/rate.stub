@@ -1,3 +1,4 @@
-<el-form-item label="{label}" prop="{prop}">
+评分
+<el-form-item label="{label}" prop="{prop}" {rule}>
   <el-rate v-model="{model-value}" name="{prop}" clearable />
 </el-form-item>

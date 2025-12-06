@@ -17,3 +17,5 @@ composer.lock
 /.idea
 /.vscode
 /web
+/packages
+auth.json

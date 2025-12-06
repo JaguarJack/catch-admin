@@ -7,23 +7,19 @@ namespace Modules\Develop\Support\Generate\Create;
 use Catch\CatchAdmin;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
+use Modules\Openapi\Exceptions\FailedException;
 
 /**
  * Route
  */
 class Route extends Creator
 {
-    /**
-     * @param string $controller
-     */
     public function __construct(public readonly string $controller)
     {
     }
 
     /**
      * get file
-     *
-     * @return string
      */
     public function getFile(): string
     {
@@ -32,8 +28,6 @@ class Route extends Creator
 
     /**
      * get content
-     *
-     * @return string
      */
     public function getContent(): string
     {
@@ -42,7 +36,7 @@ class Route extends Creator
         // 添加路由
         $route = Str::of('');
 
-        $originContent = File::get(CatchAdmin::getModuleRoutePath($this->module));
+        $originContent = $this->getOriginContent();
 
         // 如果已经有 controller，就不再追加路由
         if (Str::of($originContent)->contains($this->getUserController())) {
@@ -64,23 +58,50 @@ class Route extends Creator
                 }
             });
 
-        $apiResource = "Route::apiResource('{api}', {controller}::class);";
+        $apiResource = "Route::adminResource('{api}', {controller}::class);";
 
-        return Str::of($route->toString())->replace(
-            ['{module}', '//next'],
-            [
-                lcfirst($this->module),
-                Str::of($apiResource)->replace(['{api}', '{controller}'], [$this->getApiString(), $this->getControllerName()])
-                    ->prepend("\t")
-                    ->prepend(PHP_EOL)
-                    ->newLine()->append("\t//next")]
-        )->toString();
+        $replaceStr = Str::of($apiResource)->replace(['{api}', '{controller}'], [$this->getApiString(), $this->getControllerName()])
+            ->prepend("\t")
+            ->prepend(PHP_EOL)
+            ->newLine()
+            ->append("\t//next");
+
+
+        if ($route->contains('//next')) {
+            return $route->replace(
+                ['{module}', '//next'],
+                [
+                    lcfirst($this->module),
+                    $replaceStr,
+                ]
+            )->toString();
+        }
+
+        if ($route->contains('// next')) {
+            return $route->replace(
+                ['{module}', '// next'],
+                [
+                    lcfirst($this->module),
+                    $replaceStr,
+                ]
+            )->toString();
+        }
+
+        throw new FailedException('路由写入失败，请检查');
+    }
+
+    public function getOriginContent(): string
+    {
+        return File::get(CatchAdmin::getModuleRoutePath($this->module));
+    }
+
+    public function putOriginContent(string $content): bool|int
+    {
+        return File::put(CatchAdmin::getModuleRoutePath($this->module), $content);
     }
 
     /**
      * get api
-     *
-     * @return string
      */
     public function getApiString(): string
     {
@@ -89,18 +110,14 @@ class Route extends Creator
 
     /**
      * get api route
-     *
-     * @return string
      */
-    public function getApiRute(): string
+    public function getApiRoute(): string
     {
         return lcfirst($this->module).'/'.$this->getApiString();
     }
 
     /**
      * use controller
-     *
-     * @return string
      */
     protected function getUserController(): string
     {
@@ -109,8 +126,6 @@ class Route extends Creator
 
     /**
      * get controller name
-     *
-     * @return string
      */
     protected function getControllerName(): string
     {

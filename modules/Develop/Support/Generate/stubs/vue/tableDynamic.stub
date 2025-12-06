@@ -1,0 +1,15 @@
+<template>
+  <div v-loading="loading" class="min-h-96">
+    <catch-table :paginate="false" v-bind="table" v-if="!loading">
+      <template #dialog="row">
+        <Create :config="{ ...form, primary: row?.id }" />
+      </template>
+    </catch-table>
+  </div>
+</template>
+
+<script lang="ts" setup>
+import Create from './form/create.vue'
+import { useDynamic } from '@/composables/useDynamic'
+const { table, form, loading } = useDynamic('{api}')
+</script>

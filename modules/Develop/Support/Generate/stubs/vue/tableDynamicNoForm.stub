@@ -1,0 +1,11 @@
+<template>
+    <div v-loading="loading" class="min-h-96">
+        <catch-table :paginate="false" v-bind="table" v-if="!loading">
+        </catch-table>
+    </div>
+</template>
+
+<script lang="ts" setup>
+import { useDynamic } from '@/composables/useDynamic'
+const { table, loading } = useDynamic('{api}')
+</script>

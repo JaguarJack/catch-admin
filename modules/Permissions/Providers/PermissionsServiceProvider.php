@@ -2,12 +2,23 @@
 
 namespace Modules\Permissions\Providers;
 
-use Catch\CatchAdmin;
 use Catch\Providers\CatchModuleServiceProvider;
 use Modules\Permissions\Middlewares\PermissionGate;
+use Modules\Permissions\Events\EnableModuleMenusEvent;
+use Modules\Permissions\Events\DisableModuleMenusEvent;
+use Modules\Permissions\Listeners\EnableModuleMenusListener;
+use Modules\Permissions\Listeners\DisableModuleMenusListener;
+use Modules\Permissions\Events\DeleteModuleMenusEvent;
+use Modules\Permissions\Listeners\DeleteModuleMenusListener;
 
 class PermissionsServiceProvider extends CatchModuleServiceProvider
 {
+    protected array $events = [
+        EnableModuleMenusEvent::class => EnableModuleMenusListener::class,
+        DisableModuleMenusEvent::class => DisableModuleMenusListener::class,
+        DeleteModuleMenusEvent::class => DeleteModuleMenusListener::class,
+    ];
+
     /**
      * middlewares
      *
@@ -15,13 +26,11 @@ class PermissionsServiceProvider extends CatchModuleServiceProvider
      */
     protected function middlewares(): array
     {
-       return [PermissionGate::class];
+        return [PermissionGate::class];
     }
 
     /**
      * route path
-     *
-     * @return string|array
      */
     public function moduleName(): string|array
     {

@@ -1,16 +1,11 @@
 <?php
+
 namespace Modules\Common\Support\Upload;
 
 class OssUpload
 {
-    /**
-     * @var string
-     */
     protected string $dir = 'upload/';
 
-    /**
-     * @var int
-     */
     protected int $expire = 30;
 
     protected string $accessKeyId;
@@ -29,7 +24,7 @@ class OssUpload
 
         $this->accessKeyId = config('common.upload.oss.access_id');
 
-        $this->dir = date('Y-m-d') . '/';
+        $this->dir = date('Y-m-d').'/';
 
         $this->endpoint = config('common.upload.oss.endpoint');
 
@@ -40,8 +35,6 @@ class OssUpload
 
     /**
      * config
-     *
-     * @return array
      */
     public function config(): array
     {
@@ -60,29 +53,21 @@ class OssUpload
 
             'dir' => $this->dir,
 
-            'url' => $this->endpoint . $this->dir
+            'url' => $this->endpoint.$this->dir,
         ];
     }
 
-    /**
-     *
-     * @return string
-     */
     protected function policy(): string
     {
         return base64_encode(json_encode([
-           'expiration' => $this->getExpiration(),
-           'conditions' => [
-               ['starts-with', '$key', $this->dir],
-               ['content-length-range', 0, $this->maxSize]
-           ]
+            'expiration' => $this->getExpiration(),
+            'conditions' => [
+                ['starts-with', '$key', $this->dir],
+                ['content-length-range', 0, $this->maxSize],
+            ],
         ]));
     }
 
-    /**
-     *
-     * @return string
-     */
     protected function signature(): string
     {
         return base64_encode(
@@ -90,10 +75,6 @@ class OssUpload
         );
     }
 
-    /**
-     *
-     * @return string
-     */
     protected function getExpiration(): string
     {
         return date('Y-m-d\TH:i:s\Z', time() + $this->expire);

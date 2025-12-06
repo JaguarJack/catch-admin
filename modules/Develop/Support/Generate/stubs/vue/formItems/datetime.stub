@@ -1,9 +1,11 @@
-<el-form-item label="{label}" prop="{prop}">
+日期时间选择器
+<el-form-item label="{label}" prop="{prop}" {rule}>
   <el-date-picker
       v-model="{model-value}"
       type="datetime"
       name="{prop}"
-      placeholder="Pick a day"
+      placeholder="选择日期"
+      value-format="YYYY-MM-DD"
       clearable
   />
 </el-form-item>

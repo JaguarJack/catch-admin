@@ -1,29 +1,23 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Modules\Permissions\Models\Traits;
 
+use Catch\Facade\Admin;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Auth;
+use Modules\Permissions\Enums\DataRange as DataRangeEnum;
 use Modules\Permissions\Models\Departments;
 use Modules\Permissions\Models\Roles;
-use Modules\Permissions\Enums\DataRange as DataRangeEnum;
 
 /**
  * @method aliasField(string $field)
  */
 trait DataRange
 {
-
-    /**
-     *
-     * @param $query
-     * @param array|Collection $roles
-     * @return mixed
-     */
     public function scopeDataRange($query, array|Collection $roles = []): mixed
     {
-        $currenUser = Auth::guard(getGuardName())->user();
+        $currenUser = Admin::currentLoginUser();
 
         if ($currenUser->isSuperAdmin()) {
             return $query;
@@ -32,7 +26,7 @@ trait DataRange
         $userIds = $this->getDepartmentUserIdsBy($roles, $currenUser);
 
         if ($userIds->isEmpty()) {
-            return $query;
+             return $query;
         }
 
         return $query->whereIn($this->aliasField('creator_id'), $userIds);
@@ -40,10 +34,6 @@ trait DataRange
 
     /**
      * get department ids
-     *
-     * @param array $roles
-     * @param $currentUser
-     * @return Collection
      */
     public function getDepartmentUserIdsBy(array $roles, $currentUser): Collection
     {
@@ -84,15 +74,16 @@ trait DataRange
             }
         }
 
+        // 如果查出来没有任何用户，说明无法查看数据
+        if ($userIds->isEmpty()) {
+            $userIds = $userIds->push(0);
+        }
+
         return $userIds->unique();
     }
 
-
     /**
      * get user ids by department is
-     *
-     * @param array|Collection $departmentIds
-     * @return Collection
      */
     protected function getUserIdsByDepartmentId(array|Collection $departmentIds): Collection
     {

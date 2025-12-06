@@ -10,7 +10,11 @@ use Modules\User\Models\User;
 
 class Login
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
+    use Dispatchable;
+    use InteractsWithSockets;
+    use SerializesModels;
+
+    public Request $request;
 
     /**
      * Create a new event instance.
@@ -18,8 +22,9 @@ class Login
      * @return void
      */
     public function __construct(
-        public  Request $request,
-        public  ?User $user
+        public ?User $user,
+        public ?string $token = null
     ) {
+        $this->request = request();
     }
 }

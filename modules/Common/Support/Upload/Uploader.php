@@ -3,39 +3,41 @@
 namespace Modules\Common\Support\Upload;
 
 use Catch\Exceptions\FailedException;
-use Modules\Common\Support\Upload\Uses\LocalUpload;
 use Illuminate\Http\UploadedFile;
+use Modules\Common\Events\UploadedEvent;
+use Modules\Common\Support\Upload\Uses\LocalUpload;
+use Modules\Common\Support\Upload\Uses\ChunkUpload;
 
 class Uploader
 {
     protected string $driver = 'local';
 
+    protected int $categoryId = 0;
+
     /**
      * path
-     *
-     * @var string
      */
     protected string $path = '';
 
     /**
      * upload
-     *
-     * @param UploadedFile $file
-     * @return array
      */
     public function upload(UploadedFile $file): array
     {
         try {
-            return $this->getDriver()->setUploadedFile($file)->upload();
+            $uploadInfo = $this->getDriver()->setUploadedFile($file)->upload();
+            // 附件分类ID
+            $uploadInfo['category_id'] = $this->categoryId;
+            UploadedEvent::dispatch($uploadInfo);
+
+            return $uploadInfo;
         } catch (\Exception $exception) {
             throw new FailedException($exception->getMessage());
         }
     }
 
-
     /**
      *  get driver
-     *
      */
     public function getDriver()
     {
@@ -50,16 +52,24 @@ class Uploader
         return app($driver);
     }
 
-
     /**
      * set driver
      *
-     * @param string $driver
      * @return $this
      */
     public function setDriver(string $driver): static
     {
-        $this->driver =  $driver;
+        $this->driver = $driver;
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function withCategoryId(mixed $categoryId): static
+    {
+        $this->categoryId = intval($categoryId);
 
         return $this;
     }
@@ -72,7 +82,8 @@ class Uploader
     public function getDrivers(): array
     {
         return [
-          'local' => LocalUpload::class
+            'local' => LocalUpload::class,
+            'chunk' => ChunkUpload::class,
         ];
     }
 }

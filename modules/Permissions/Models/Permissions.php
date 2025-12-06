@@ -34,35 +34,33 @@ use Modules\Permissions\Enums\MenuType;
  * @property $created_at
  * @property $updated_at
  * @property $deleted_at
-*/
+ */
 class Permissions extends Model
 {
     protected $table = 'permissions';
 
     protected $fillable = ['id', 'parent_id', 'permission_name', 'route', 'icon', 'module', 'permission_mark', 'component', 'redirect', 'keepalive', 'type', 'hidden', 'active_menu', 'sort', 'creator_id', 'created_at', 'updated_at', 'deleted_at'];
 
-    /**
-     * @var array
-     */
-    protected array $fields = ['id','parent_id','permission_name','route','icon','module','permission_mark','component','redirect','keepalive','type','hidden','active_menu','sort','created_at','updated_at'];
+    protected array $fields = ['id', 'parent_id', 'permission_name', 'route', 'icon', 'module', 'permission_mark', 'component', 'redirect', 'keepalive', 'type', 'hidden', 'active_menu', 'sort', 'created_at', 'updated_at'];
 
     protected bool $isPaginate = false;
 
-    /**
-     * @var array
-     */
-    protected array $form = ['parent_id','permission_name','route','icon','module','permission_mark','component','redirect','keepalive','type','active_menu', 'hidden','sort'];
+    protected array $form = ['parent_id', 'permission_name', 'route', 'icon', 'module', 'permission_mark', 'component', 'redirect', 'keepalive', 'type', 'active_menu', 'hidden', 'sort'];
 
-    /**
-     * @var array
-     */
     public array $searchable = [
         'permission_name' => 'like',
 
-        'role_id' => '='
+        'role_id' => '=',
     ];
 
     protected $hidden = ['pivot'];
+
+    /**
+     * 子父级字段同步
+     *
+     * @var array|string[]
+     */
+    protected array $syncParentFields = ['status', 'hidden'];
 
     /**
      * default permission actions
@@ -80,9 +78,6 @@ class Permissions extends Model
         'export' => '导出',
     ];
 
-    /**
-     * @var bool
-     */
     protected bool $asTree = true;
 
     /**
@@ -91,25 +86,21 @@ class Permissions extends Model
     protected $casts = [
         'type' => MenuType::class,
 
-        'status' => MenuStatus::class
+        'status' => MenuStatus::class,
     ];
 
     /**
      * is inner
-     *
-     * @return Attribute
      */
     public function isInner(): Attribute
     {
         return Attribute::make(
-            get: fn($value) => $value == 1
+            get: fn ($value) => $value == 1
         );
     }
 
     /**
      * is hidden
-     *
-     * @return bool
      */
     public function isHidden(): bool
     {
@@ -118,38 +109,40 @@ class Permissions extends Model
 
     /**
      * action type
-     *
-     * @return bool
      */
     public function isAction(): bool
     {
-        return $this->type == MenuType::Action;
+        return $this->type === MenuType::Action;
     }
 
     /**
      * is top menu
-     *
-     * @return bool
      */
     public function isTopMenu(): bool
     {
-        return $this->type == MenuType::Top;
+        return $this->type === MenuType::Top;
     }
 
     /**
      * is menu
-     *
-     * @return bool
      */
     public function isMenu(): bool
     {
-        return $this->type == MenuType::Menu;
+        return $this->type === MenuType::Menu;
     }
 
     /**
-     * actions
+     * is keepalive
      *
-     * @return HasMany
+     * @return bool
+     */
+    public function isKeepAlive(): bool
+    {
+        return $this->keepalive == 1;
+    }
+
+    /**
+     * 获取菜单的动作，也是就是对应操作
      */
     public function actions(): HasMany
     {
@@ -157,22 +150,45 @@ class Permissions extends Model
     }
 
     /**
+     * component 添加 .vue 后缀
      *
-     * @param array $data
+     * @return Attribute
+     */
+    public function component(): Attribute
+    {
+        return Attribute::make(
+            get: function ($value) {
+                if (! $value) {
+                    return $value;
+                }
+
+                return pathinfo($value, PATHINFO_EXTENSION) == 'vue' ? $value : $value.'.vue';
+            }
+        );
+    }
+
+    /**
+     * 保存菜单
+     *
+     * @param  array  $data
      * @return mixed
      */
     public function storeBy(array $data): mixed
     {
-        return DB::transaction(function () use ($data){
+        return DB::transaction(function () use ($data) {
             if ($data['actions'] ?? false) {
                 /* @var static $parentMenu */
-                $parentMenu =  $this->firstBy(value: $data['parent_id'], field: 'id');
+                $parentMenu = $this->firstBy(value: $data['parent_id'], field: 'id');
 
                 if (! $parentMenu->isMenu()) {
                     return false;
                 }
+                try {
+                    $actions = CatchAdmin::getControllerActions($parentMenu->module, $parentMenu->permission_mark);
+                } catch (\ReflectionException $e) {
+                    throw new FailedException('没有可生成的 action');
+                }
 
-                $actions = CatchAdmin::getControllerActions($parentMenu->module, $parentMenu->permission_mark);
                 foreach ($actions as $k => $action) {
                     if (! isset($this->defaultActions[$action])) {
                         continue;
@@ -181,16 +197,19 @@ class Permissions extends Model
                     $this->addAction($this->newInstance([
                         'type' => MenuType::Action->value(),
                         'parent_id' => $data['parent_id'],
-                        'permission_name' => $this->defaultActions[$action],
+                        // 如果不是 defaultActions 中的，则默认使用方法名称作为 permission_name
+                        'permission_name' => $this->defaultActions[$action] ?? $action,
                         'permission_mark' => $action,
-                        'sort' => $k + 1
+                        'sort' => $k + 1,
+                        'created_at' => time(),
+                        'updated_at' => time(),
                     ]), $parentMenu);
                 }
 
                 return true;
             }
 
-            if ($data['type'] != MenuType::Top->value() && ! $data['parent_id']) {
+            if (! MenuType::Top->asset($data['type']) && ! $data['parent_id']) {
                 throw new FailedException('请选择父级菜单');
             }
 
@@ -198,16 +217,22 @@ class Permissions extends Model
 
             if ($model->isAction()) {
                 $parentMenu = $this->firstBy($model->parent_id, 'id');
+
                 return $this->addAction($model, $parentMenu);
             }
 
             if ($model->isTopMenu()) {
+                if ($this->where('module', $model->module)->where('type', MenuType::Top)->first()) {
+                    throw new FailedException('模块已存在目录类型菜单，模块只允许创建一个目录类型菜单');
+                }
+
                 $data['route'] = '/'.trim($data['route'], '/');
             }
 
             if (isset($data['component'])) {
                 $data['component'] = Str::of($data['component'])->replace('\\', '/')->toString();
             }
+
             return parent::storeBy($data);
         });
     }
@@ -215,14 +240,12 @@ class Permissions extends Model
     /**
      * add action
      *
-     * @param $model
-     * @param Permissions $parent
-     * @return mixed
+     * @param  Permissions  $parent
      */
     protected function addAction($model, mixed $parent): mixed
     {
         $model->setAttribute('module', $parent->module);
-        $model->setAttribute('permission_mark', $parent->permission_mark. '@'.  $model->permission_mark);
+        $model->setAttribute('permission_mark', $parent->permission_mark.'@'.$model->permission_mark);
         $model->setAttribute('route', '');
         $model->setAttribute('icon', '');
         $model->setAttribute('component', '');
@@ -235,17 +258,12 @@ class Permissions extends Model
         return $model->setCreatorId()->save();
     }
 
-
     /**
      * update data
-     *
-     * @param $id
-     * @param array $data
-     * @return mixed
      */
     public function updateBy($id, array $data): mixed
     {
-        if ($data['type'] != MenuType::Top->value() && ! $data['parent_id']) {
+        if (! MenuType::Top->asset($data['type']) && ! $data['parent_id']) {
             throw new FailedException('请选择父级菜单');
         }
 
@@ -260,6 +278,7 @@ class Permissions extends Model
         if (isset($data['component'])) {
             $data['component'] = Str::of($data['component'])->replace('\\', '/')->toString();
         }
+
         return parent::updateBy($id, $data);
     }
 }

@@ -1,0 +1,4 @@
+树形控件（远程数据）
+<el-form-item label="{label}" prop="{prop}" {rule}>
+   <RemoteTree table="{table}" value="{option-value}" label="{option-label}" v-model="{model-value}" pid="{pid}"/>
+</el-form-item>

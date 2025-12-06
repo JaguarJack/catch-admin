@@ -1,5 +1,6 @@
-<el-form-item label="{label}" prop="{prop}">
+单选框
+<el-form-item label="{label}" prop="{prop}" {rule}>
   <el-radio-group v-model="{model-value}">
-    <el-radio v-for="item in options" :key="item.value" :label="item.value" name="{prop}">{{ item.label }}</el-radio>
+    <el-radio v-for="item in {options}" :key="item.value" :value="item.value" name="{prop}">{{ item.label }}</el-radio>
   </el-radio-group>
 </el-form-item>

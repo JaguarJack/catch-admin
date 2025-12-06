@@ -13,6 +13,9 @@ class {model} extends Model
 
     protected $table = '{table}';
 
+    {dateFormat}
+    {timestamps}
+
     protected $fillable = [{fillable} ];
 
     /**

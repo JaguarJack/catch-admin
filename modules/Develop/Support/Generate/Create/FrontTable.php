@@ -19,246 +19,238 @@ use Illuminate\Support\Str;
 
 class FrontTable extends Creator
 {
-    /**
-     * @var string
-     */
-    protected string $label = '{label}';
+    protected string $columns = '{columns}';
 
-    /**
-     * @var string
-     */
-    protected string $prop = '{prop}';
-
-    /**
-     * @var string
-     */
-    protected string $modelValue = '{model-value}';
-
-    /**
-     * @var string
-     */
-    protected string $table = '{table}';
-
-    /**
-     * @var string
-     */
     protected string $search = '{search}';
 
-    /**
-     * @var string
-     */
     protected string $api = '{api}';
 
-    /**
-     * @var string
-     */
-    protected string $formItems = '{formItems}';
+    protected string $createForm = '{createForm}';
 
-    /**
-     * @var string
-     */
+    protected string $tree = '{row-key}';
+
     protected string $paginate = '{paginate}';
 
-    /**
-     * @var string
-     */
-    protected string $useList = '{useList}';
-
-    /**
-     * @var string
-     */
-    protected string $tree = '{tree}';
-
-    /**
-     * @var array
-     */
     protected array $structures;
 
-    /**
-     * @param string $controller
-     * @param bool $hasPaginate
-     * @param string $apiString
-     */
+    protected string $createRoute = '{create_route}';
+
     public function __construct(
         protected readonly string $controller,
         protected readonly bool $hasPaginate,
-        protected readonly string $apiString
+        protected readonly string $apiString,
+        protected readonly bool $needForm,
+        protected readonly bool $isDynamic,
+        protected readonly bool $isDialogForm,
+        protected readonly array $operations = []
     ) {
     }
 
     /**
      * get content
-     *
-     * @return string
      */
     public function getContent(): string
     {
-        // TODO: Implement getContent() method.
-        return Str::of(File::get($this->getTableStub()))->replace([
-            $this->table, $this->search, $this->api, $this->paginate, $this->useList, $this->tree
-        ], [
-            $this->getTableContent(),
-            $this->getSearchContent(),
-            $this->apiString,
-            $this->getPaginateStubContent(),
-            $this->getUseList(),
-            $this->getTreeProps()
-        ])->toString();
+        if ($this->isDynamic) {
+            if ($this->isDialogForm) {
+                return str_replace([$this->api], [$this->apiString.'/dynamic/r'], File::get($this->getTableStub()));
+            } else {
+                return str_replace(
+                    [$this->api, $this->createRoute],
+                    [$this->apiString.'/dynamic/r', '/'.$this->module.'/'.lcfirst($this->controller).'/create'],
+                    File::get($this->getTableStub())
+                );
+            }
+        }
+
+        $apiPathArr = explode('/', $this->apiString);
+        $last = array_pop($apiPathArr);
+
+        $hasSearchForm = $this->getSearchContent() ? ':search-form="search"' : '';
+        $rowKey = $this->isTree() ? 'row-key="id"' : '';
+        $paginate = $this->isTree() ? ':paginate="false"' : ($this->paginate ? '' : ':paginate="false"');
+
+        $formDialog = $this->getCreateForm() ? $this->formDialog() : '';
+
+        $searchForm = $hasSearchForm ? 'const search = '.$this->getSearchContent() : '';
+        $columns = 'const columns = '.$this->getTableContent();
+        $api = 'const api = "'.$this->apiString.'"';
+        $operate = ! $this->getCreateForm() ? ':operation="false"' : '';
+        // exportUrl="/user"
+        //      importUrl="/user/import"
+        $exportUrl = $importUrl = $exports = '';
+        if (in_array('export', $this->operations)) {
+            $exportUrl = implode('/', $apiPathArr).'/export/'.$last;
+            $exportUrl = sprintf('exportUrl="%s"', $exportUrl);
+            $exports = ':exports="true"';
+        }
+        if (in_array('import', $this->operations)) {
+            $importUrl = implode('/', $apiPathArr).'/import/'.$last;
+            $importUrl = sprintf('importUrl="%s"', $importUrl);
+        }
+
+        $str = <<<TEPLATE
+<template>
+  <div>
+    <catch-table
+      :columns="columns"
+      :api="api"
+      {$operate}
+      {$hasSearchForm}
+      {$rowKey}
+      {$paginate}
+      {$exports}
+      {$exportUrl}
+      {$importUrl}
+    >
+      {$formDialog}
+    </catch-table>
+  </div>
+</template>
+
+<script lang="ts" setup>
+import { ref } from 'vue'
+{$this->getCreateForm()}
+{$api}
+
+// table columns
+{$columns}
+// table search
+{$searchForm}
+</script>
+TEPLATE;
+        return preg_replace('/^\s*[\r\n]+/m', '', $str);
     }
 
     /**
      * get file
-     *
-     * @return string
      */
     public function getFile(): string
     {
-        // TODO: Implement getFile() method.
         $path = config('catch.views_path').lcfirst($this->module).DIRECTORY_SEPARATOR;
 
         return CatchAdmin::makeDir($path.Str::of($this->controller)->replace('Controller', '')->lcfirst()).DIRECTORY_SEPARATOR.'index.vue';
     }
 
-
     /**
      * get search content
-     *
-     * @return string
      */
     protected function getSearchContent(): string
     {
-        $search = Str::of('');
-
-        $formComponents = $this->formComponents();
+        $hasSearch = false;
+        $search = Str::of('[')->append(PHP_EOL);
 
         foreach ($this->structures as $structure) {
-            if ($structure['label'] && $structure['form_component'] && $structure['search']) {
-                if (isset($formComponents[$structure['form_component']])) {
-                    $search = $search->append(
-                        Str::of($formComponents[$structure['form_component']])
-                            ->replace(
-                                [$this->label, $this->prop, $this->modelValue],
-                                [$structure['label'], $structure['field'], sprintf('query.%s', $structure['field'])]
-                            )
-                    );
+            if ($structure['search']) {
+                $hasSearch = true;
+                // options 专门使用 select 组件
+                if ($structure['options'] ?? false) {
+                    $structure['form_component'] = 'select';
                 }
+                $search = $search->append("\t{".PHP_EOL)->append("\t")
+                    ->append("\ttype: '{$structure['form_component']}'")->append(','.PHP_EOL)->append("\t")
+                    ->append("\tname: '{$structure['field']}'")->append(','.PHP_EOL)->append("\t")
+                    ->append("\tlabel: '{$structure['label']}'")->append(','.PHP_EOL)->append("\t")
+                    ->when($structure['options'] ?? false, function ($content) use ($structure) {
+                        return $content->append("\toptions: {$this->parseOptions2JsObject($structure['options'])}")->append(','.PHP_EOL)->append("\t");
+                    })
+                    // 如果是远程 select
+                    ->when($structure['form_component'] == 'remote-select', function ($content) use ($structure) {
+                        return $content->append("\tprops: {")
+                            ->append("\t\ttable: '{$structure['remote_data_params']['table']}'")->append(','.PHP_EOL)->append("\t\t")
+                            ->append("\t\tvalue: '{$structure['remote_data_params']['value']}'")->append(','.PHP_EOL)->append("\t\t")
+                            ->append("\t\tlabel: '{$structure['remote_data_params']['label']}'")->append(','.PHP_EOL)->append("\t\t")
+                            ->when($structure['remote_data_params']['pid'], function ($content) use ($structure) {
+                                return $content->append("\t\tpid: '{$structure['remote_data_params']['pid']}'")->append(','.PHP_EOL)->append("\t\t");
+                            })
+                            ->append("\t}")->append(','.PHP_EOL)->append("\t");
+                    })
+                    ->append('},')->append(PHP_EOL);
             }
         }
 
-        return $search->trim(PHP_EOL)->toString();
+        return $hasSearch ? $search->trim(',')->append(']')->toString() : '';
     }
 
     /**
      * get list content;
-     *
-     * @return string
      */
     protected function getTableContent(): string
     {
-        $tableColumn = <<<HTML
-<el-table-column prop="{prop}" label="{label}" />
-HTML;
+        $columns = Str::of('[')->append(PHP_EOL);
 
-        $table = Str::of('');
+        $enumFields = [];
+
+        foreach ($this->enumsFields($this->structures) as $enumField) {
+            $enumFields[$enumField['field']] = $enumField['field_text'];
+        }
+
+        $switchFields = $this->getSwitchFields($this->structures);
 
         foreach ($this->structures as $structure) {
-            if ($structure['field'] && $structure['label'] && $structure['list']) {
-                $table = $table->append(
-                    Str::of($tableColumn)->replace([$this->label, $this->prop], [$structure['label'], $structure['field']])
-                )->newLine();
+            if (! $structure['list']) {
+                continue;
             }
+
+            if ($structure['field'] == 'id') {
+                $structure['label'] = $structure['label'] ?: 'ID';
+            }
+
+            // 转换 enum 字段
+            if (isset($enumFields[$structure['field']]) && ! in_array($structure['field'], $switchFields)) {
+                $structure['field'] = $enumFields[$structure['field']];
+            }
+
+            // 如果 label 为空，使用 field 作为 label
+            $structure['label'] = $structure['label'] ?: $structure['field'];
+            $columns = $columns->append("\t{".PHP_EOL)->append("\t")
+                ->append("\tprop: '{$structure['field']}'")->append(','.PHP_EOL)->append("\t")
+                ->append("\tlabel: '{$structure['label']}'")->append(','.PHP_EOL)->append("\t")
+                ->when(in_array($structure['field'], $switchFields), function ($content) {
+                    return $content->append("\tswitch: true")->append(','.PHP_EOL)->append("\t");
+                })
+                ->when(in_array($structure['form_component'], ['upload-oss', 'upload-image', 'upload-images']), function ($content) {
+                    return $content->append("\timage: true")->append(','.PHP_EOL)->append("\t");
+                })
+                ->when($structure['form_component'] == 'upload-images', function ($content) {
+                    return $content->append("\tpreview: true")->append(','.PHP_EOL)->append("\t");
+                })
+                ->append('},')->append(PHP_EOL);
         }
 
-        return $table->trim(PHP_EOL)->toString();
+        $columns = $columns->append("\t{".PHP_EOL)->append("\t")
+            ->append("\ttype: 'operate'")->append(','.PHP_EOL)->append("\t")
+            ->append("\tlabel: '操作'")->append(','.PHP_EOL)->append("\t")
+            ->append('},')->append(PHP_EOL);
+
+        return $columns->trim(',')->append(']')->toString();
     }
-
-    /**
-     * form components
-     *
-     * @return array
-     */
-    protected function formComponents(): array
-    {
-        $components = [];
-
-        foreach (File::glob(
-            $this->getFormItemStub()
-        ) as $stub) {
-            $components[File::name($stub)] = File::get($stub);
-        }
-
-        return $components;
-    }
-
-
-    /**
-     * get formItem stub
-     *
-     * @return string
-     */
-    protected function getFormItemStub(): string
-    {
-        return dirname(__DIR__).DIRECTORY_SEPARATOR.'stubs'
-
-            .DIRECTORY_SEPARATOR.'vue'.DIRECTORY_SEPARATOR
-
-            .'formItems'.DIRECTORY_SEPARATOR.'*.stub';
-    }
-
 
     /**
      * get table stub
-     *
-     * @return string
      */
     protected function getTableStub(): string
     {
-        return dirname(__DIR__).DIRECTORY_SEPARATOR.'stubs'
-
-            .DIRECTORY_SEPARATOR.'vue'.DIRECTORY_SEPARATOR.'table.stub';
-    }
-
-    /**
-     * get paginate stub content
-     *
-     * @return string
-     */
-    protected function getPaginateStubContent(): string
-    {
-        return $this->hasPaginate ? '<Paginate />' : '';
-    }
-
-    /**
-     * get use List
-     * @return string
-     */
-    protected function getUseList(): string
-    {
-        if ($this->hasPaginate) {
-            return 'const { data, query, search, reset, loading } = useGetList(api)';
+        if ($this->isDynamic && ! $this->isDialogForm) {
+            $stub = 'tableDynamicNotDialogForm.stub';
         } else {
-            return 'const { data, query, search, reset, loading } = useGetList(api, false)';
+            $stub = $this->isDynamic ? ($this->needForm ? 'tableDynamic.stub' : 'tableDynamicNoForm.stub') : 'table.stub';
         }
+
+        return dirname(__DIR__).DIRECTORY_SEPARATOR.'stubs'.DIRECTORY_SEPARATOR.'vue'.DIRECTORY_SEPARATOR.$stub;
     }
 
     /**
      * get tree props
-     *
-     * @return string
      */
-    public function getTreeProps(): string
+    public function isTree(): bool
     {
-        if (in_array('parent_id', array_column($this->structures, 'field'))) {
-            return ' row-key="id" default-expand-all :tree-props="{ children: \'children\' }"';
-        }
-
-        return ' ';
+        return in_array('parent_id', array_column($this->structures, 'field'));
     }
 
     /**
      * set structures
      *
-     * @param array $structures
      * @return $this
      */
     public function setStructures(array $structures): static
@@ -266,5 +258,22 @@ HTML;
         $this->structures = $structures;
 
         return $this;
+    }
+
+    /**
+     * get create form
+     */
+    protected function getCreateForm(): string
+    {
+        return $this->needForm ? "import Create from './form/create.vue'" : '';
+    }
+
+    protected function formDialog(): string
+    {
+        return <<<'TEXT'
+<template #dialog="row">
+        <Create :primary="row?.id" :api="api" />
+    </template>
+TEXT;
     }
 }

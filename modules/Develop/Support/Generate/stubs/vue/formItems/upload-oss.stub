@@ -1,0 +1,4 @@
+OSS上传
+<el-form-item label="{label}" prop="{prop}" {rule}>
+    <OssUpload v-model="{model-value}" />
+</el-form-item>

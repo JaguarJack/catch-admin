@@ -4,39 +4,35 @@ namespace Modules\Permissions\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use Modules\Permissions\Models\Roles;
 
 class RoleRequest extends FormRequest
 {
     /**
      * rules
-     *
-     * @return array
      */
     public function rules(): array
     {
         return [
             'role_name' => [
-              'required',
-               Rule::unique('roles')->where(function ($query) {
-                   return $query->when($this->get('id'), function ($query){
-                       $query->where('id', '<>', $this->get('id'));
-                   })->where('deleted_at', 0);
-               })
+                'required',
+                Rule::unique('roles')->where(function ($query) {
+                    return $query->when($this->get('id'), function ($query) {
+                        $query->where('id', '<>', $this->get('id'));
+                    })->where('deleted_at', 0);
+                }),
             ],
 
             'identify' => [
                 'required',
                 'alpha',
-                 Rule::unique('roles')->where(function ($query) {
-                     return $query->when($this->get('id'), function ($query){
-                         $query->where('id', '<>', $this->get('id'));
-                     })->where('deleted_at', 0);
-                 })
-            ]
+                Rule::unique('roles')->where(function ($query) {
+                    return $query->when($this->get('id'), function ($query) {
+                        $query->where('id', '<>', $this->get('id'));
+                    })->where('deleted_at', 0);
+                }),
+            ],
         ];
     }
-
 
     /**
      * messages

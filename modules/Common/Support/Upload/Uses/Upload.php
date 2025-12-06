@@ -10,21 +10,14 @@ abstract class Upload
 {
     /**
      * uploadFile object
-     *
-     * @var mixed
      */
     protected mixed $file;
 
-    /**
-     *
-     * @var array
-     */
     protected array $params;
 
-    public abstract function upload();
+    abstract public function upload();
 
     /**
-     *
      * @return mixed|true
      */
     protected function dealBeforeUpload(): mixed
@@ -40,16 +33,12 @@ abstract class Upload
         }
 
         // if ($this instanceof OssUploadService) {
-         //   return $this->file->getPathname();
+        //   return $this->file->getPathname();
         // }
 
         return true;
     }
 
-    /**
-     *
-     * @return array
-     */
     public function getUploadPath(): array
     {
         $method = $this->getUploadMethod();
@@ -61,26 +50,22 @@ abstract class Upload
      * 生成文件名称
      *
      * @time 2019年07月26日
-     * @param string $ext
-     * @return string
      */
-    protected function generateImageName(string $ext): string
+    protected function generateName(string $ext): string
     {
         $filename = $this->params['filename'] ?? '';
 
-        $randomString = date('Y') . Str::random(10) . time();
+        $randomString = date('Y').Str::random(10).time();
 
         if ($filename) {
-            $randomString = $filename . '_' . $randomString;
+            $randomString = $filename.'_'.$randomString;
         }
 
-        return $randomString . '.' . $ext;
+        return md5($randomString).'.'.$ext;
     }
 
     /**
      * upload method
-     *
-     * @return string
      */
     protected function getUploadMethod(): string
     {
@@ -101,18 +86,15 @@ abstract class Upload
 
     /**
      * get uploaded file info
-     *
-     * @param $path
-     * @return array
      */
     protected function info($path): array
     {
         return [
-            'path'         => $path,
-            'ext'          => $this->getUploadedFileExt(),
-            'type'         => $this->getUploadedFileMimeType(),
-            'size'         => $this->getUploadedFileSize(),
-            'originalName' => $this->getOriginName(),
+            'path' => $path,
+            'ext' => $this->getUploadedFileExt(),
+            'type' => $this->getUploadedFileMimeType(),
+            'size' => $this->getUploadedFileSize(),
+            'original_name' => $this->getOriginName(),
         ];
     }
 
@@ -121,7 +103,7 @@ abstract class Upload
      */
     protected function checkExt(): void
     {
-        $extensions = config(sprintf('upload.%s.ext', $this->getUploadedFileMimeType()));
+        $extensions = config(sprintf('common.upload.%s.ext', $this->getUploadedFileMimeType()));
 
         $fileExt = $this->getUploadedFileExt();
 
@@ -135,40 +117,29 @@ abstract class Upload
      */
     protected function checkSize(): void
     {
-        $size = 10 * 1024 * 1024;
+        $limitSize = config('common.upload.max_size', 5 * 1024 * 1024);
 
-        if ($this->getUploadedFileSize() > $size) {
-            throw new FailedException('超过文件最大支持的大小');
+        $size = $limitSize / (1024 * 1024);
+
+        if ($this->getUploadedFileSize() > $limitSize) {
+            throw new FailedException('上传最大支持'.$size.'MB');
         }
     }
 
     /**
      * get uploaded file mime type
-     *
-     * @return string
      */
     protected function getUploadedFileMimeType(): string
     {
         if ($this->file instanceof UploadedFile) {
-
-            $imageMimeType = [
-                'image/gif', 'image/jpeg', 'image/png', 'application/x-shockwave-flash',
-                'image/psd', 'image/bmp', 'image/tiff', 'image/jp2',
-                'application/x-shockwave-flash', 'image/iff', 'image/vnd.wap.wbmp', 'image/xbm',
-                'image/vnd.microsoft.icon', 'image/x-icon', 'image/*', 'image/jpg',
-            ];
-
-            return in_array($this->file->getClientMimeType(), $imageMimeType) ? 'image' : 'file';
+            return $this->file->getClientMimeType();
         }
 
-        return in_array($this->getUploadedFileExt(), config('upload.image.ext')) ? 'image' : 'file';
+        return in_array($this->getUploadedFileExt(), config('common.upload.image.ext')) ? 'image' : 'file';
     }
-
 
     /**
      * get uploaded file extension
-     *
-     * @return array|string
      */
     protected function getUploadedFileExt(): array|string
     {
@@ -196,8 +167,6 @@ abstract class Upload
 
     /**
      * get origin name
-     *
-     * @return string|null
      */
     public function getOriginName(): ?string
     {
@@ -209,13 +178,10 @@ abstract class Upload
         return '';
     }
 
-
     /**
      * 参数设置
      *
      * @time 2019年07月25日
-     * @param $name
-     * @param $value
      */
     public function __set($name, $value)
     {
@@ -225,7 +191,6 @@ abstract class Upload
     /**
      * set uploaded file
      *
-     * @param mixed $file
      * @return $this
      */
     public function setUploadedFile(mixed $file): static

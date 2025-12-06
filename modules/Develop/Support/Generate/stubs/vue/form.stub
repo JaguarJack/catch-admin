@@ -8,23 +8,25 @@
 </template>
 
 <script lang="ts" setup>
+// @ts-nocheck
 import { useCreate } from '@/composables/curd/useCreate'
 import { useShow } from '@/composables/curd/useShow'
-import { onMounted } from 'vue'
+
+import { inject, onMounted } from 'vue'
 
 const props = defineProps({
   primary: [String, Number],
-  api: String,
+  api: String
 })
 
-const { formData, form, loading, submitForm, close } = useCreate(props.api, props.primary)
-
+const { formData, form, loading, submitForm, close } = useCreate(props.api as string, props.primary)
+{defaultValue}
 if (props.primary) {
-  useShow(props.api, props.primary, formData)
+  useShow(props.api as string, props.primary, formData)
 }
 
-const emit = defineEmits(['close'])
+const closeDialog = inject('closeDialog') as Function
 onMounted(() => {
-  close(() => emit('close'))
+  close(() => closeDialog())
 })
 </script>

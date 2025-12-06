@@ -16,7 +16,7 @@ class Modules implements OptionInterface
                 $modules[] = [
                     'label' => $module['title'],
 
-                    'value' => $module['name']
+                    'value' => $module['name'],
                 ];
             });
 

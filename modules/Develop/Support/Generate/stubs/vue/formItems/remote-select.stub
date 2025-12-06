@@ -1,0 +1,4 @@
+下拉（远程数据）
+<el-form-item label="{label}" prop="{prop}" {rule}>
+   <RemoteSelect table="{table}" value="{option-value}" label="{option-label}" v-model="{model-value}" placeholder="请选择{label}"/>
+</el-form-item>

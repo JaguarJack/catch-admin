@@ -2,10 +2,9 @@
 
 namespace Modules\Common\Repository\Options;
 
+use Illuminate\Support\Collection;
+
 interface OptionInterface
 {
-    /**
-     * @return array{label: string, value: string|number }
-     */
-    public function get(): array;
+    public function get(): array|Collection;
 }

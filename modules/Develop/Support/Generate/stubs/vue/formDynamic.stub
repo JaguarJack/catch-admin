@@ -1,0 +1,13 @@
+<template>
+  <catch-form ref="formRef" :config="config"/>
+</template>
+
+<script lang="ts" setup>
+// @ts-nocheck
+import { ref } from 'vue'
+defineProps({
+  config: Object
+})
+// const formRef = ref()
+// const form = formRef.value?.getForm()
+</script>

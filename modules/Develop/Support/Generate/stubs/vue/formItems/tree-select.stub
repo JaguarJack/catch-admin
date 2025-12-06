@@ -1,7 +1,8 @@
-<el-form-item label="{label}" prop="{prop}">
+树形选择器
+<el-form-item label="{label}" prop="{prop}" {rule}>
  <el-tree-select
      v-model="{model-value}"
-     :data="data"
+     :data="[]"
      check-strictly
      multiple
      show-checkbox

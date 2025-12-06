@@ -17,12 +17,6 @@ class DeletedListener
         //
     }
 
-    /**
-     *
-     *
-     * @param Deleted $event
-     * @return void
-     */
     public function handle(Deleted $event): void
     {
         CatchAdmin::deleteModulePath($event->module['path']);

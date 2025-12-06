@@ -1,0 +1,4 @@
+单附件上传
+<el-form-item label="{label}" prop="{prop}" {rule}>
+    <AttachUpload v-model="{model-value}" />
+</el-form-item>

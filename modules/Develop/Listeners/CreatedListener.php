@@ -17,12 +17,6 @@ class CreatedListener
         //
     }
 
-    /**
-     *
-     *
-     * @param Created $event
-     * @return void
-     */
     public function handle(Created $event): void
     {
         $module = $event->module;
@@ -32,7 +26,10 @@ class CreatedListener
             $module['dirs']['controllers'],
             $module['dirs']['models'],
             $module['dirs']['requests'],
-            $module['dirs']['database']
+            $module['dirs']['database'],
+            $module['title'],
+            $module['keywords'] ?? '',
+            $module['description'] ?? '',
         )
         )->create();
     }

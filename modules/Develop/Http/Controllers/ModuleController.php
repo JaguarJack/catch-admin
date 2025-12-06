@@ -3,32 +3,43 @@
 namespace Modules\Develop\Http\Controllers;
 
 use Catch\Base\CatchController;
-use Catch\CatchAdmin;
 use Catch\Contracts\ModuleRepositoryInterface;
 use Catch\Exceptions\FailedException;
 use Catch\Support\Module\ModuleRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
-use Modules\Develop\Support\Generate\Module;
 use Modules\Develop\Support\ModuleInstall;
+use Modules\Permissions\Models\Permissions;
 
+/**
+ * @group 开发模块
+ *
+ * @subgroup 模块管理
+ * @subgroupDescription CatchAdmin 后台模块管理
+ */
 class ModuleController extends CatchController
 {
     protected ModuleRepository $repository;
 
-    /**
-     * @param ModuleRepository $repository
-     */
     public function __construct(ModuleRepository $repository)
     {
         $this->repository = $repository;
     }
 
     /**
-     * index
+     * 模块列表
      *
-     * @param Request $request
+     * @urlParam title string 模块名称
+     *
+     * @responseField title string 模块名称
+     * @responseField path string 模块目录
+     * @responseField keywords string 模块关键字
+     * @responseField description string 模块描述
+     * @responseField enable boolean 是否启用
+     * @responseField version string 版本
+     *
+     * @param  Request  $request
      * @return Collection
      */
     public function index(Request $request): Collection
@@ -37,9 +48,14 @@ class ModuleController extends CatchController
     }
 
     /**
-     * store
+     * 新增模块
      *
-     * @param Request $request
+     * @bodyParam name string required 模块名称
+     * @bodyParam path string required 模块目录
+     * @bodyParam keywords string 模块关键字
+     * @bodyParam description string 模块描述
+     *
+     * @param  Request  $request
      * @return bool|int
      */
     public function store(Request $request): bool|int
@@ -48,10 +64,12 @@ class ModuleController extends CatchController
     }
 
     /**
-     * show
+     * 模块查询
      *
-     * @param string $name
-     * @return Collection
+     * @urlParam name string required 模块名称
+     *
+     * @param  string  $name
+     *
      * @throws \Exception
      */
     public function show(mixed $name): Collection
@@ -60,46 +78,67 @@ class ModuleController extends CatchController
     }
 
     /**
-     * update
+     * 更新模块
      *
-     * @param $name
-     * @param Request $request
-     * @return bool|int
+     * @urlParam name string required 模块名称
+     *
+     * @bodyParam name string required 模块名称
+     * @bodyParam path string required 模块目录
+     * @bodyParam keywords string 模块关键字
+     * @bodyParam description string 模块描述
+     *
      */
     public function update($name, Request $request): bool|int
     {
         return $this->repository->update($name, $request->all());
     }
 
-
     /**
-     * update
+     * 禁用/启用模块
      *
-     * @param $name
+     * @urlParam name string required 模块名称
+     *
+     * @param  $name
      * @return bool|int
      */
     public function enable($name): bool|int
     {
-        return $this->repository->disOrEnable($name);
+        if ($enable = $this->repository->disOrEnable($name)) {
+            // 权限模块开启的时候
+            if ($this->repository->enabled('permissions')) {
+                // 如果是关闭状态，将菜单删除
+                if (! $this->repository->enabled($name)) {
+                    Permissions::where('module', $name)->delete();
+                } else {
+                    Permissions::where('module', $name)->restores();
+                }
+            }
+        }
+
+        return $enable;
     }
 
     /**
-     * destroy
+     * 删除模块
      *
-     * @param $name
+     * @urlParam name string required 模块名称
+     *
+     * @param  $name
      * @return bool|int
-     * @throws \Exception
      */
     public function destroy($name): bool|int
     {
-        return $this->repository->delete($name);
+        throw new FailedException('模块禁止删除');
     }
 
     /**
-     * install
+     * 安装模块
      *
-     * @param Request $request
-     * @param ModuleRepositoryInterface $moduleRepository
+     * @bodyParam type string required 模块类型
+     * @bodyParam title string required 模块名称
+     *
+     * @param  Request  $request
+     * @param  ModuleRepositoryInterface  $moduleRepository
      * @return true
      */
     public function install(Request $request, ModuleRepositoryInterface $moduleRepository)
@@ -116,19 +155,22 @@ class ModuleController extends CatchController
     }
 
     /**
-     * upload
+     * 上传模块
      *
-     * @param Request $request
+     * @bodyParam `file` file required 文件
+     *
+     * @param  Request  $request
      * @return string
      */
     public function upload(Request $request)
-    {   $file = $request->file('file');
+    {
+        $file = $request->file('file');
 
         Storage::build([
             'driver' => 'local',
-            'root' => storage_path('app')
+            'root' => storage_path('app'),
         ])->put($file->getClientOriginalName(), $file->getContent());
 
-        return storage_path('app') . DIRECTORY_SEPARATOR . $file->getClientOriginalName();
+        return storage_path('app').DIRECTORY_SEPARATOR.$file->getClientOriginalName();
     }
 }

@@ -1,0 +1,4 @@
+多文件上传
+<el-form-item label="{label}" prop="{prop}" {rule}>
+    <UploadFiles v-model="{model-value}" />
+</el-form-item>

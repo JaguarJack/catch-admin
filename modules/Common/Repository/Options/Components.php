@@ -23,11 +23,11 @@ class Components implements OptionInterface
             $viewRootPath = config('catch.views_path');
 
             if ($module = request()->get('module')) {
-                if (!File::exists($viewRootPath . $module . DIRECTORY_SEPARATOR)) {
+                if (! File::exists($viewRootPath.$module.DIRECTORY_SEPARATOR)) {
                     return [];
                 }
 
-                $components = File::allFiles($viewRootPath . $module . DIRECTORY_SEPARATOR);
+                $components = File::allFiles($viewRootPath.$module.DIRECTORY_SEPARATOR);
 
                 foreach ($components as $component) {
                     // 过滤非 vue 文件

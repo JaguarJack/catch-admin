@@ -2,18 +2,19 @@
 
 namespace Modules\Common\Providers;
 
-use Catch\CatchAdmin;
 use Catch\Providers\CatchModuleServiceProvider;
-use Modules\User\Events\Login;
-use Modules\User\Listeners\Login as LoginListener;
-use Modules\User\Middlewares\OperatingMiddleware;
+use Modules\Common\Console\Area;
+use Modules\Common\Console\CleanupChunks;
 
 class CommonServiceProvider extends CatchModuleServiceProvider
 {
+    protected array $commands = [
+        Area::class,
+        CleanupChunks::class
+    ];
+
     /**
      * route path
-     *
-     * @return string|array
      */
     public function moduleName(): string|array
     {

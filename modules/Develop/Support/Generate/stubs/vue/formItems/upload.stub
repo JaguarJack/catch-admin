@@ -1,3 +1,0 @@
-<el-form-item label="{label}" prop="{prop}">
-    <Upload v-model="{model-value}" />
-</el-form-item>

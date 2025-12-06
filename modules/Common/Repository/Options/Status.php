@@ -11,13 +11,13 @@ class Status implements OptionInterface
         return [
             [
                 'label' => StatusEnum::Enable->name(),
-                'value' => StatusEnum::Enable->value()
+                'value' => StatusEnum::Enable->value(),
             ],
 
             [
                 'label' => StatusEnum::Disable->name(),
-                'value' => StatusEnum::Disable->value()
-            ]
+                'value' => StatusEnum::Disable->value(),
+            ],
         ];
     }
 }

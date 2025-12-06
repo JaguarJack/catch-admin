@@ -2,8 +2,8 @@
 
 namespace Modules\User\Providers;
 
-use Catch\CatchAdmin;
 use Catch\Providers\CatchModuleServiceProvider;
+use Modules\User\Console\PasswordCommand;
 use Modules\User\Events\Login;
 use Modules\User\Listeners\Login as LoginListener;
 use Modules\User\Middlewares\OperatingMiddleware;
@@ -11,13 +11,15 @@ use Modules\User\Middlewares\OperatingMiddleware;
 class UserServiceProvider extends CatchModuleServiceProvider
 {
     protected array $events = [
-        Login::class => LoginListener::class
+        Login::class => LoginListener::class,
+    ];
+
+    protected array $commands = [
+        PasswordCommand::class,
     ];
 
     /**
      * route path
-     *
-     * @return string|array
      */
     public function moduleName(): string|array
     {

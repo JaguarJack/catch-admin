@@ -9,8 +9,7 @@ class Factory
 {
     /**
      * make
-     * @param string $optionName
-     * @return OptionInterface
+     *
      * @throws Exception
      */
     public function make(string $optionName): OptionInterface
@@ -19,7 +18,7 @@ class Factory
 
         $class = new $className();
 
-        if (! $class instanceof OptionInterface) {
+        if (!$class instanceof OptionInterface) {
             throw new Exception('option must be implement [OptionInterface]');
         }
 

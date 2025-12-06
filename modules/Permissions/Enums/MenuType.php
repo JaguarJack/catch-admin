@@ -29,4 +29,10 @@ enum MenuType: int implements Enum
             self::Action => '按钮类型',
         };
     }
+
+
+    public function asset($value)
+    {
+        return $this->value() == $value;
+    }
 }

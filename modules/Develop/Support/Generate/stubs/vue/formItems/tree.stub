@@ -1,6 +1,7 @@
-<el-form-item label="{label}" prop="{prop}">
+树形控件
+<el-form-item label="{label}" prop="{prop}" {rule}>
  <el-tree
-   :data="data"
+   :data="[]"
    show-checkbox
    node-key="id"
  />

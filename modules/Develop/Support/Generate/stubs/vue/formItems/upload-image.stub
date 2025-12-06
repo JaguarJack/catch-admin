@@ -1,0 +1,4 @@
+图片上传
+<el-form-item label="{label}" prop="{prop}" {rule}>
+    <UploadImage v-model="{model-value}" />
+</el-form-item>

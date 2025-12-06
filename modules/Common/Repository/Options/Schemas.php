@@ -2,6 +2,7 @@
 
 namespace Modules\Common\Repository\Options;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
@@ -15,7 +16,9 @@ class Schemas implements OptionInterface
         $databaseName = $connection->getDatabaseName();
         $tablePrefix = $connection->getTablePrefix();
 
-        foreach (Schema::getTables($databaseName) as $table) {
+        $tables = Schema::getTables(is_pgsql(DB::getDefaultConnection()) ? '' : $databaseName);
+
+        foreach ($tables as $table) {
             $tableName = Str::of($table['name'])->replaceStart($tablePrefix, '');
 
             $options[] = [

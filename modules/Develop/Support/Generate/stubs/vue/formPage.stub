@@ -1,0 +1,26 @@
+<template>
+    <div class="w-full px-5 pt-5 pr-4 bg-white dark:bg-regal-dark">
+        <catch-form ref="formRef" :is-page="true" :config="{ rules: form.rules, options: form.options, api: table.api, primary: primary }" v-if="!loading" :afterSubmit="afterSubmit" />
+    </div>
+</template>
+<script lang="ts" setup>
+// @ts-nocheck
+import { onMounted, ref, beforeMount, watch } from 'vue'
+import { useDynamic } from '@/composables/useDynamic'
+import router from '@/router'
+
+const formRef = ref()
+const { table, form, loading } = useDynamic('{api}')
+// 这里获取编辑时候ID值
+const primary = ref(null)
+primary.value = router.currentRoute.value.params.id
+
+const afterSubmit = () => {
+    // 提交之后处理
+}
+</script>
+<style scoped>
+    :deep(.fc-form-footer) {
+        @apply flex justify-center !important;
+    }
+</style>

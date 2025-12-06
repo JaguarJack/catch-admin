@@ -1,0 +1,32 @@
+<?php
+
+namespace Modules\{Module};
+
+use Catch\Support\Module\Installer as ModuleInstaller;
+use Modules\{Module}\Providers\{provider}ServiceProvider;
+
+class Installer extends ModuleInstaller
+{
+    protected function info(): array
+    {
+        // TODO: Implement info() method.
+        return [
+            'title' => '{title}',
+            'name' => '{name}',
+            'path' => '{path}',
+            'keywords' => '{keywords}',
+            'description' => '{description}',
+            'provider' => {provider}ServiceProvider::class,
+        ];
+    }
+
+    protected function requirePackages(): void
+    {
+        // TODO: Implement requirePackages() method.
+    }
+
+    protected function removePackages(): void
+    {
+        // TODO: Implement removePackages() method.
+    }
+}

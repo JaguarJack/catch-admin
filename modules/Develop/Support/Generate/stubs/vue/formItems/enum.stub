@@ -1,0 +1,4 @@
+字典选择器
+<el-form-item label="{label}" prop="{prop}" {rule}>
+    <Select v-model="{model-value}" api="dictionaryValues?dic_id={dic_id}"/>
+</el-form-item>

@@ -13,14 +13,15 @@ class Module
         protected bool $controller,
         protected bool $models,
         protected bool $requests,
-        protected bool $database
+        protected bool $database,
+        protected string $title,
+        protected string $keywords,
+        protected string $description,
     ) {
     }
 
     /**
      * create
-     *
-     * @return void
      */
     public function create(): void
     {
@@ -44,13 +45,12 @@ class Module
         $this->createProvider();
 
         $this->createRoute();
-    }
 
+        $this->createInstaller();
+    }
 
     /**
      * delete
-     *
-     * @return void
      */
     public function delete(): void
     {
@@ -58,8 +58,6 @@ class Module
 
     /**
      * create provider
-     *
-     * @return void
      */
     protected function createProvider(): void
     {
@@ -73,11 +71,8 @@ class Module
         );
     }
 
-
     /**
      * create route
-     *
-     * @return void
      */
     protected function createRoute(): void
     {
@@ -87,6 +82,27 @@ class Module
 
         File::put(
             CatchAdmin::getModuleRoutePath($this->module),
+            $content
+        );
+    }
+
+    protected function createInstaller(): void
+    {
+        $content = Str::of(
+            File::get(__DIR__.DIRECTORY_SEPARATOR.'stubs'.DIRECTORY_SEPARATOR.'installer.stub')
+        )->replace([
+            '{Module}',
+            '{name}',
+            '{title}',
+            '{path}',
+            '{keywords}',
+            '{description}',
+            '{provider}',
+        ], [ucfirst($this->module), lcfirst($this->module), $this->title,
+            ucfirst($this->module), $this->keywords, $this->description, ucfirst($this->module)]);
+
+        File::put(
+            CatchAdmin::getModulePath($this->module).'Installer.php',
             $content
         );
     }

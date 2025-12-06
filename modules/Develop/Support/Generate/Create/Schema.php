@@ -17,59 +17,35 @@ use Catch\CatchAdmin;
 use Exception;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Schema as MigrationSchema;
+use Illuminate\Support\Str;
 
 /**
  * schema
  */
 class Schema extends Creator
 {
-    /**
-     * @var bool
-     */
     protected bool $createdAt = true;
 
-    /**
-     * @var bool
-     */
     protected bool $updatedAt = true;
 
-    /**
-     * @var bool
-     */
     protected bool $deletedAt = true;
 
-    /**
-     * @var bool
-     */
     protected bool $creatorId = true;
 
-    /**
-     * @var array
-     */
     protected array $structures = [];
 
-    /**
-     * @param string $table
-     * @param string $engine
-     * @param string $charset
-     * @param string $collection
-     * @param string $comment
-     */
     public function __construct(
         public readonly string $table,
         public readonly string $engine,
         public readonly string $charset,
         public readonly string $collection,
         public readonly string $comment
-    ) {
-    }
+    ) {}
 
     /**
      * create
      *
-     * @return string|bool
      * @throws Exception
      */
     public function create(): string|bool
@@ -98,8 +74,6 @@ class Schema extends Creator
 
     /**
      * get file
-     *
-     * @return string
      */
     public function getFile(): string
     {
@@ -170,20 +144,16 @@ class Schema extends Creator
 
     /**
      * get migration content
-     *
-     * @return string
      */
     public function getContent(): string
     {
         $stub = File::get($this->getStub());
 
-        return Str::of($stub)->replace(['{method}','{table}', '{content}'], ['create', $this->table, $this->getMigrationContent()])->toString();
+        return Str::of($stub)->replace(['{method}', '{table}', '{content}'], ['create', $this->table, $this->getMigrationContent()])->toString();
     }
 
     /**
      * get content
-     *
-     * @return string
      */
     public function getMigrationContent(): string
     {
@@ -204,31 +174,32 @@ class Schema extends Creator
             }
 
             $content = $content->append($begin)
-                            ->when($structure['nullable'], function ($str) {
-                                return $str->append('->nullable()');
-                            })
-                            ->when(isset($structure['default']), function ($str) use ($structure){
-                                $default = $structure['default'];
+                ->when($structure['nullable'], function ($str) {
+                    return $str->append('->nullable()');
+                })
+                ->when(isset($structure['default']), function ($str) use ($structure) {
+                    $default = $structure['default'];
 
-                                if (is_numeric($default)) {
-                                    $default = intval($default);
-                                    return $str->append("->default({$default})");
-                                }
+                    if (is_numeric($default)) {
+                        $default = intval($default);
 
-                                if ($default) {
-                                    return $str->append("->default('{$default}')");
-                                }
+                        return $str->append("->default({$default})");
+                    }
 
-                                return $str;
-                            })
-                            ->when($structure['unique'], function ($str) {
-                                return $str->append("->unique()");
-                            })
-                            ->when($structure['comment'], function ($str, $comment) {
-                                return $str->append("->comment('{$comment}')");
-                            })
-                            ->append(';')
-                            ->newLine();
+                    if ($default) {
+                        return $str->append("->default('{$default}')");
+                    }
+
+                    return $str;
+                })
+                ->when($structure['unique'], function ($str) {
+                    return $str->append('->unique()');
+                })
+                ->when($structure['comment'], function ($str, $comment) {
+                    return $str->append("->comment('{$comment}')");
+                })
+                ->append(';')
+                ->newLine();
         }
 
         if ($this->creatorId) {
@@ -248,16 +219,15 @@ class Schema extends Creator
         }
 
         return $content->newLine()
-                       ->append("\$table->engine='{$this->engine}'")
-                       ->append(';')
-                       ->newLine()
-                       ->append("\$table->comment('{$this->comment}')")
-                       ->append(';')
-                       ->toString();
+            ->append("\$table->engine='{$this->engine}'")
+            ->append(';')
+            ->newLine()
+            ->append("\$table->comment('{$this->comment}')")
+            ->append(';')
+            ->toString();
     }
 
     /**
-     * @param bool $createdAt
      * @return $this
      */
     public function setCreatedAt(bool $createdAt): static
@@ -268,7 +238,6 @@ class Schema extends Creator
     }
 
     /**
-     * @param bool $updatedAt
      * @return $this
      */
     public function setUpdatedAt(bool $updatedAt): static
@@ -279,7 +248,6 @@ class Schema extends Creator
     }
 
     /**
-     * @param bool $deletedAt
      * @return $this
      */
     public function setDeletedAt(bool $deletedAt): static
@@ -290,7 +258,6 @@ class Schema extends Creator
     }
 
     /**
-     * @param bool $creatorId
      * @return $this
      */
     public function setCreatorId(bool $creatorId): static
@@ -301,7 +268,6 @@ class Schema extends Creator
     }
 
     /**
-     * @param array $structures
      * @return $this
      */
     public function setStructures(array $structures): static
@@ -313,8 +279,6 @@ class Schema extends Creator
 
     /**
      * get stub
-     *
-     * @return string
      */
     protected function getStub(): string
     {
