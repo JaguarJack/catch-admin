@@ -22,19 +22,17 @@ class Models implements OptionInterface
             foreach ($modules as $modulePath) {
                 $moduleName = pathinfo($modulePath)['basename'];
 
-                try {
-                    $moduleInstaller = CatchAdmin::getModuleInstaller($moduleName);
-                } catch (\Throwable $e) {
+                if (! CatchAdmin::isModulePathExist($moduleName)) {
                     continue;
                 }
 
-                $info = $moduleInstaller->getInfo();
                 $models[$moduleName] = [
-                    'title' => $info['title'],
+                    'title' => $moduleName . ' 模块',
                 ];
+
                 $moduleModels = [];
-                $modelFiles = File::glob(CatchAdmin::getModuleModelPath($info['name']).'*.php');
-                $modelNamespace = CatchAdmin::getModuleModelNamespace($info['name']);
+                $modelFiles = File::glob(CatchAdmin::getModuleModelPath($moduleName).'*.php');
+                $modelNamespace = CatchAdmin::getModuleModelNamespace($moduleName);
                 foreach ($modelFiles as $modelFile) {
                     $modelClass = $modelNamespace.pathinfo($modelFile, PATHINFO_FILENAME);
                     $class = new \ReflectionClass($modelClass);

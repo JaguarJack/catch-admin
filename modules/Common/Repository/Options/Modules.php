@@ -2,7 +2,8 @@
 
 namespace Modules\Common\Repository\Options;
 
-use Catch\Support\Module\ModuleRepository;
+use Catch\CatchAdmin;
+use Illuminate\Support\Facades\File;
 
 class Modules implements OptionInterface
 {
@@ -10,15 +11,13 @@ class Modules implements OptionInterface
     {
         $modules = [];
 
-        app(ModuleRepository::class)->all([])
+        foreach (File::directories(CatchAdmin::moduleRootPath()) as $dir) {
+            $modules[] = [
+                'label' => pathinfo($dir, PATHINFO_BASENAME) . ' 模块',
 
-            ->each(function ($module) use (&$modules) {
-                $modules[] = [
-                    'label' => $module['title'],
-
-                    'value' => $module['name'],
-                ];
-            });
+                'value' => pathinfo($dir, PATHINFO_BASENAME),
+            ];
+        }
 
         return $modules;
     }
