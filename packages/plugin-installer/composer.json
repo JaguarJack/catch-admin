@@ -1,0 +1,30 @@
+{
+    "name": "catchadmin/plugin-installer",
+    "description": "CatchAdmin 插件安装器 - 将特定类型的 Composer 包安装到自定义目录",
+    "type": "composer-plugin",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Catch\\PluginInstaller\\": "src/"
+        }
+    },
+    "require": {
+        "php": "^8.1",
+        "composer-plugin-api": "^2.0"
+    },
+    "require-dev": {
+        "composer/composer": "^2.0"
+    },
+    "authors": [
+        {
+            "name": "CatchAdmin",
+            "email": "support@catchadmin.com"
+        }
+    ],
+    "extra": {
+        "class": "Catch\\PluginInstaller\\PluginInstallerPlugin",
+        "plugin-modifies-install-path": true
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
