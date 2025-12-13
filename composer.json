@@ -82,6 +82,10 @@
         ],
         "pre-package-uninstall": [
             "Illuminate\\Foundation\\ComposerScripts::prePackageUninstall"
+        ],
+        "latest": [
+            "git pull origin v5",
+            "cd web && git pull origin v5"
         ]
     },
     "extra": {
@@ -102,5 +106,11 @@
         }
     },
     "minimum-stability": "stable",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://catchadmin.vip/plugin"
+        }
+    ]
 }
