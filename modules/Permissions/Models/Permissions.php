@@ -190,10 +190,6 @@ class Permissions extends Model
                 }
 
                 foreach ($actions as $k => $action) {
-                    if (! isset($this->defaultActions[$action])) {
-                        continue;
-                    }
-
                     $this->addAction($this->newInstance([
                         'type' => MenuType::Action->value(),
                         'parent_id' => $data['parent_id'],
