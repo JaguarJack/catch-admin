@@ -97,7 +97,11 @@ trait UserRelations
         if ($permission) {
             [$module, $controller, $action] = explode('@', $permission);
 
-            $permission = CatchAdmin::getModuleControllerNamespace($module).ucfirst($controller).'Controller@'.$action;
+            if (! CatchAdmin::isModulePathExist($module)) {
+                // todo
+            } else {
+                $permission = CatchAdmin::getModuleControllerNamespace($module).ucfirst($controller).'Controller@'.$action;
+            }
         }
 
         return $actions->contains($permission ?: Route::currentRouteAction());
