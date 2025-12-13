@@ -182,11 +182,17 @@ class Model extends Creator
             }
 
             foreach ($relationModels as $relationModel) {
+                if (! isset($relationModel['relation'])) {
+                    continue;
+                }
                 $relationClassName = class_basename($relationModel['relation_class']);
                 // 关联关系相关参数
                 $relationParams = [];
                 // 处理这四个相关方法 hasOne/hasMany/belongsTo/belongsToMany
                 if (in_array($relationModel['relation_method'], ['hasOne', 'hasMany', 'belongsTo', 'belongsToMany'])) {
+                    if (! isset($relationModel['relatedModel'])) {
+                        continue;
+                    }
                     $relationParams = ['related' => $this->addModelClass($namespace, $relationModel['relatedModel'])];
                     // hasMany/hasOne/belongsTo
                     if (! empty($relationModel['foreignKey'])) {

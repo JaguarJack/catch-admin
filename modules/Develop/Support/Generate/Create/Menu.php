@@ -40,16 +40,17 @@ class Menu
             return DB::transaction(function () {
                 $topMenu = Permissions::where('module', $this->gen['module'])->first();
                 // 如果系统模块没有顶级菜单，则需要创建顶级菜单
+                $module = lcfirst($this->gen['module']);
                 if (! $topMenu) {
-                    $module = Module::show($this->gen['module']);
+                    // $module = Module::show($this->gen['module']);
                     $topMenuId = app(Permissions::class)->storeBy([
                         'component' => '/layout/index.vue',
                         'hidden' => 1,
                         'keepalive' => 1,
-                        'module' => $this->gen['module'],
+                        'module' => $module,
                         'parent_id' => 0,
-                        'permission_name' => $module['title'],
-                        'route' => '/'.$this->gen['module'],
+                        'permission_name' => $this->gen['module'] . '模块',
+                        'route' => '/'. $module,
                         'sort' => 1,
                         'type' => MenuType::Top->value,
                     ]);
@@ -65,10 +66,10 @@ class Menu
                         throw new MenuCreateFailException('文件创建成功，但是由于存在下有相同菜单，创建菜单失败，请手动添加');
                     }
                     $id = app(Permissions::class)->storeBy([
-                        'component' => '/'.$this->gen['module'].'/'.$controller.'/index.vue',
+                        'component' => '/'.$module.'/'.$controller.'/index.vue',
                         'hidden' => 1,
                         'keepalive' => 1,
-                        'module' => $this->gen['module'],
+                        'module' => $module,
                         'parent_id' => $topMenuId,
                         'permission_name' => $this->gen['menu'],
                         'permission_mark' => $controller,

@@ -7,7 +7,7 @@ namespace Modules\Develop\Support\Generate\Create;
 use Catch\CatchAdmin;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
-use Modules\Openapi\Exceptions\FailedException;
+use Catch\Exceptions\FailedException;
 
 /**
  * Route

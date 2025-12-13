@@ -104,6 +104,9 @@ trait Format
 
         foreach ($relations as $relation) {
             $relationModel = [];
+            if (! isset($relation['relation'])) {
+                continue;
+            }
             $relationModel['relation_method'] = $relation['relation'];
             $relationModel = array_merge($relationModel, $relation['data']);
             if (! empty($relationModel) && isset($relationModel['relation_method'])) {

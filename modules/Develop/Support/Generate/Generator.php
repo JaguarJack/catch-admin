@@ -85,7 +85,7 @@ class Generator
         } catch (MenuCreateFailException $e) {
             throw $e;
         } catch (Exception $e) {
-            Log::error('代码生成错误'.$e->getMessage());
+            Log::error('代码生成错误: '.$e->getMessage());
             $this->rollback();
             throw $e;
         } finally {
