@@ -93,6 +93,7 @@
         "optimize-autoloader": true,
         "preferred-install": "dist",
         "sort-packages": true,
+        "platform-check": false,
         "allow-plugins": {
             "catchadmin/plugin-hook": true,
             "catchadmin/plugin-installer": true,
