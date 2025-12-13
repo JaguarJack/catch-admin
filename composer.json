@@ -23,7 +23,7 @@
         "php": "^8.2",
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1",
-        "catchadmin/core": "^1.0.2"
+        "catchadmin/core": "^v1.0.4"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
