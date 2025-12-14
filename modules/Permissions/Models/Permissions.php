@@ -53,6 +53,10 @@ class Permissions extends Model
         'role_id' => '=',
     ];
 
+    public $appends = [
+        'remote_component'
+    ];
+
     protected $hidden = ['pivot'];
 
     /**
@@ -168,10 +172,21 @@ class Permissions extends Model
     }
 
     /**
+     * remote component
+     */
+    public function remoteComponent(): Attribute
+    {
+        return Attribute::make(
+            get: fn($value) => Str::of($this->component)->startsWith(['api', '/api', 'http', 'https']) ? url($this->component) : ''
+        );
+    }
+
+    /**
      * 保存菜单
      *
-     * @param  array  $data
+     * @param array $data
      * @return mixed
+     * @throws \Throwable
      */
     public function storeBy(array $data): mixed
     {
