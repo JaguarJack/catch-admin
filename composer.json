@@ -23,8 +23,8 @@
         "php": "^8.2",
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1",
-        "catchadmin/core": "^v1.0.5",
-        "catchadmin/plugin": "^v1.0.4"
+        "catchadmin/core": "^v1.0.6",
+        "catchadmin/plugin": "^v1.0.8"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
@@ -84,6 +84,8 @@
             "Illuminate\\Foundation\\ComposerScripts::prePackageUninstall"
         ],
         "latest": [
+            "composer update catchadmin/core",
+            "composer update catchadmin/plugin",
             "git pull origin v5",
             "cd web && git pull origin v5"
         ]
