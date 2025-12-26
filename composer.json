@@ -24,7 +24,7 @@
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1",
         "catchadmin/core": "^v1.0.6",
-        "catchadmin/plugin": "^v1.0.8"
+        "catchadmin/plugin": "^v1.0.9"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
@@ -33,7 +33,8 @@
         "laravel/sail": "^1.41",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.6",
-        "phpunit/phpunit": "^11.5.3"
+        "phpunit/phpunit": "^11.5.3",
+        "larastan/larastan": "^3.6"
     },
     "autoload": {
         "psr-4": {
@@ -88,6 +89,14 @@
             "composer update catchadmin/plugin",
             "git pull origin v5",
             "cd web && git pull origin v5"
+        ],
+        "format": "@php vendor/bin/pint",
+        "analyse": "@php vendor/bin/phpstan analyse --memory-limit=-1 --fail-without-result-cache",
+        "check": [
+            "echo '🔍 Pre-commit 检查开始...'",
+            "@format",
+            "@analyse",
+            "echo '✅ Pre-commit 检查通过！'"
         ]
     },
     "extra": {

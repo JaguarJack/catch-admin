@@ -1,0 +1,27 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+    - vendor/nesbot/carbon/extension.neon
+
+parameters:
+    paths:
+        - app/
+        - modules/
+    # Level 10 is the highest level
+    level: 5
+
+    ignoreErrors:
+        # 忽略PHPDoc格式错误
+        - '#PHPDoc tag @property has invalid value#'
+        # 忽略 Catch\Facade\Admin 的静态调用错误（Larastan 无法正确识别 vendor 包中的自定义 Facade）
+        - '#Static call to instance method Catch\\Facade\\Admin::#'
+        # 忽略 Catch\Facade\Admin 属性访问
+        - '#Access to an undefined property Catch\\Facade\\Admin::#'
+        # 忽略 PHPDoc 属性类型不兼容检查
+        - identifier: property.phpDocType
+
+    excludePaths:
+        # 排除vendor目录
+        - vendor/
+        # 排除一些生成的文件
+        - bootstrap/cache/
+        - storage/
