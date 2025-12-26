@@ -91,6 +91,7 @@ class RolesController extends Controller
      */
     public function show($id, Request $request)
     {
+        /* @var Roles $role */
         $role = $this->model->firstBy($id);
 
         if ($request->has('from') && $request->get('from') == 'parent_role') {

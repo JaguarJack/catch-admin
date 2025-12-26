@@ -51,7 +51,8 @@ trait UserRelations
         } else {
             $permissionIds = Collection::make();
             $this->roles()->with('permissions')->get()
-                ->each(function ($role) use (&$permissionIds) {
+                /* @var Roles $role */
+                ->each(function (Roles $role) use (&$permissionIds) {
                     $rolePermissionIds = $role->permissions?->pluck('id');
                     if ($rolePermissionIds) {
                         $permissionIds = $permissionIds->merge($rolePermissionIds);

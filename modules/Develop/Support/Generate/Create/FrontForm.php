@@ -136,7 +136,7 @@ class FrontForm extends Creator
                                 return $content->replace('{rule}', $rules);
                             }, function ($content) {
                                 return $content->replace('{rule}', '');
-                            })
+                            })->toString()
                     );
                 }
             }

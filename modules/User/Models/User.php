@@ -26,7 +26,11 @@ use Modules\User\Models\Traits\UserRelations;
  * @property int $login_at
  * @property int $created_at
  * @property int $updated_at
- * @property string $remember_token
+ * @property string|null $remember_token
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Modules\Permissions\Models\Roles> $roles
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Modules\Permissions\Models\Jobs> $jobs
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Modules\Permissions\Models\Permissions>|null $permissions
+ * /
  */
 class User extends Model implements AuthenticatableContract
 {

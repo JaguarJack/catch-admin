@@ -96,6 +96,7 @@ class Schemas extends CatchModel
 
     public function show($id): Model
     {
+        /* @var Schemas $schema */
         $schema = parent::firstBy($id);
 
         $columns = [];

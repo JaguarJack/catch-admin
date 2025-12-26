@@ -14,7 +14,7 @@ class DictionaryValues implements OptionInterface
         DictionaryValuesModel::where('status', Status::Enable->value())
             ->where('dic_id', request()->get('dic_id'))
             ->get()
-            ->each(function ($item) use (&$dictionary){
+            ->each(function (DictionaryValuesModel $item) use (&$dictionary){
                 $dictionary[] = [
                     'label' => $item->label,
                     'value' => $item->value

@@ -14,7 +14,7 @@ class Dictionaries implements OptionInterface
         // TODO: Implement get() method.
         Dictionary::where('status',Status::Enable->value())
             ->get()
-            ->each(function ($item) use (&$dictionary){
+            ->each(function (Dictionary $item) use (&$dictionary){
                $dictionary[] = [
                    'label' => $item->name,
                    'value' => $item->id

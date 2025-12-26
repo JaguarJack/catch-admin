@@ -32,7 +32,7 @@ class Login
     /**
      * login log
      */
-    protected function log(Request $request, int $isSuccess, ?string $token): void
+    protected function log(Request $request, int|bool $isSuccess, ?string $token): void
     {
         $tokenId = 0;
         if ($token) {

@@ -143,7 +143,7 @@ class ModuleController extends CatchController
      */
     public function install(Request $request, ModuleRepositoryInterface $moduleRepository)
     {
-        if ($moduleRepository->all()->pluck('name')->contains($request->get('title'))) {
+        if ($moduleRepository->all([])->pluck('name')->contains($request->get('title'))) {
             throw new FailedException('模块已安装，无法再次安装');
         }
 

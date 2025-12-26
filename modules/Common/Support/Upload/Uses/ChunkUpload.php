@@ -133,7 +133,7 @@ class ChunkUpload extends Upload
         $this->validateMergedFile($finalPath, $fileHash, $totalSize);
 
         // 清理临时文件和缓存
-        $this->cleanup($fileHash, $totalChunks);
+        $this->cleanup($fileHash);
 
         // 构造返回信息
         $info = [

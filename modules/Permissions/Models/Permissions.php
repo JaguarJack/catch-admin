@@ -34,6 +34,7 @@ use Modules\Permissions\Enums\MenuType;
  * @property $created_at
  * @property $updated_at
  * @property $deleted_at
+ * @property $remote_component
  */
 class Permissions extends Model
 {

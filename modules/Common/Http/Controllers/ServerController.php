@@ -28,7 +28,6 @@ class ServerController
      * @responseField max_execution_time string 最大执行时间
      * @responseField upload_max_filesize string 上传文件大小
      *
-     * @param  Request  $request
      * @return array
      */
     public function info()

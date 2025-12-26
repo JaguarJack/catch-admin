@@ -4,7 +4,6 @@ use Catch\Middleware\AuthMiddleware;
 use Illuminate\Support\Facades\Route;
 use Modules\Common\Http\Controllers\AreaController;
 use Modules\Common\Http\Controllers\DemoController;
-use Modules\Common\Http\Controllers\DynamicController;
 use Modules\Common\Http\Controllers\LangController;
 use Modules\Common\Http\Controllers\OptionController;
 use Modules\Common\Http\Controllers\ServerController;
@@ -75,9 +74,3 @@ Route::prefix('demo')->group(function () {
     Route::get('exception', [DemoController::class, 'exception']);
     Route::get('dd', [DemoController::class, 'dd']);
 });
-
-Route::prefix('dynamic')->controller(DynamicController::class)
-    ->group(function () {
-        Route::get('permission', 'permission');
-        Route::get('role', 'role');
-    });

@@ -83,7 +83,7 @@ class SystemConfig extends Model
     public static function loaded(): mixed
     {
         if (! Cache::get('system_config')) {
-            (new self())->cache();
+            (new Configure())->cache();
         }
 
         return Cache::get('system_config');

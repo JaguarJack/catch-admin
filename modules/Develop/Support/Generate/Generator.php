@@ -34,7 +34,7 @@ use Modules\Develop\Support\Generate\Exception\MenuCreateFailException;
 class Generator
 {
     /**
-     * @var array{module:string,controller:string,model:string,paginate: bool,schema: string}
+     * @var array{module:string,controller:string,model:string,paginate:bool,schema:string,dialogForm?:bool,form?:bool,dymaic?:bool,operations?:array,relations?:array}
      */
     protected array $gen;
 
@@ -186,7 +186,7 @@ class Generator
             throw new FailedException('模型名称不能为空');
         }
 
-        $model = new Model($this->gen['model'], $this->gen['schema'], $this->gen['module'], $this->gen['relations']);
+        $model = new Model($this->gen['model'], $this->gen['schema'], $this->gen['paginate'], $this->gen['relations']);
 
         $this->modelName = $model->getModelName();
 

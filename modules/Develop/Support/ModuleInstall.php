@@ -45,7 +45,7 @@ class ModuleInstall
             $installer = CatchAdmin::getModuleInstaller($title);
 
             $installer->install();
-        } catch (\Exception|\Throwable $e) {
+        } catch (\Throwable $e) {
             // CatchAdmin::deleteModulePath($title);
 
             throw new FailedException('安装失败: '.$e->getMessage());

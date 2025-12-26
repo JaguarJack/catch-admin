@@ -7,9 +7,6 @@ namespace Modules\Permissions\Models;
 use Catch\Base\CatchModel as Model;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Modules\System\Models\RoleHasColumns;
-use Modules\System\Models\TableColumn;
-use mysql_xdevapi\Schema;
 
 /**
  * @property $role_name
@@ -21,6 +18,8 @@ use mysql_xdevapi\Schema;
  * @property $created_at
  * @property $updated_at
  * @property $deleted_at
+ * @property null|Collection<Permissions> $permissions
+ * @property null|Collection<Departments> $departments
  */
 class Roles extends Model
 {
@@ -55,87 +54,6 @@ class Roles extends Model
     public function departments(): BelongsToMany
     {
         return $this->belongsToMany(Departments::class, 'role_has_departments', 'role_id', 'department_id');
-    }
-
-    // 可读字段
-    public function readableColumns(): BelongsToMany
-    {
-        return $this->belongsToMany(
-            TableColumn::class,
-            RoleHasColumns::class,
-            'role_id',
-            'table_column_id',
-        )->wherePivot('type', RoleHasColumns::READABLE); // 可读类型
-    }
-
-    // 可写字段
-    public function writeableColumns(): BelongsToMany
-    {
-        return $this->belongsToMany(
-            TableColumn::class,
-            RoleHasColumns::class,
-            'role_id',
-            'table_column_id',
-        )->wherePivot('type', RoleHasColumns::WRITABLE); // 可写类型
-    }
-
-    /**
-     * 保存可读字段
-     *
-     * @param $id
-     * @param $columnIds
-     * @return array
-     */
-    public function saveReadableColumns($id, $saveColumnIds, $ColumnIds): array
-    {
-        return $this->find($id)
-                    ->readableColumns()
-                    ->wherePivotIn('table_column_id', $ColumnIds)
-                    ->syncWithPivotValues($saveColumnIds, ['type' => RoleHasColumns::READABLE]);
-    }
-
-    /**
-     * 移除可读字段
-     *
-     * @param $id
-     * @param $columnIds
-     * @return void
-     */
-    public function detachReadableColumns($id, $columnIds): void
-    {
-        $this->find($id)
-                    ->readableColumns()
-                    ->detach($columnIds);
-    }
-
-    /**
-     * 保存可写字段
-     *
-     * @param $id
-     * @param $saveColumnIds
-     * @param $columnIds
-     * @return array
-     */
-    public function saveWriteableColumns($id, $saveColumnIds, $columnIds): array
-    {
-        return $this->find($id)
-            ->writeableColumns()
-            ->wherePivotIn('table_column_id', $columnIds)
-            ->syncWithPivotValues($saveColumnIds, ['type' => RoleHasColumns::WRITABLE]);
-    }
-
-    /**
-     * 移除可写字段
-     *
-     * @param $id
-     * @param $columnIds
-     * @return void
-     */
-    public function detachWriteableColumns($id, $columnIds): void
-    {
-        $this->find($id)
-            ->writeableColumns()
-            ->detach($columnIds);
     }
 
     /**

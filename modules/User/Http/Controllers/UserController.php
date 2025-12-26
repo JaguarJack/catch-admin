@@ -116,6 +116,7 @@ class UserController extends Controller
      */
     public function show($id): mixed
     {
+        /* @var User $user */
         $user = $this->user->firstBy($id)->makeHidden('password');
 
         if (app(ModuleRepository::class)->enabled('permissions')) {

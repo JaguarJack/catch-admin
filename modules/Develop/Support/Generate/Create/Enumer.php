@@ -13,7 +13,7 @@ class Enumer extends Creator
      * @param  string  $title
      * @param  string  $description
      * @param  string  $enumClass
-     * @param  array<array<label, value>>  $values
+     * @param  array<array<string, string>>  $values
      */
     public function __construct(
         protected string $title,

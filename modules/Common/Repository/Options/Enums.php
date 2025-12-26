@@ -5,6 +5,6 @@ class Enums implements OptionInterface
 {
     public function get(): array
     {
-
+        return [];
     }
 }

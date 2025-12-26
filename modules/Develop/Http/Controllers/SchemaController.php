@@ -147,7 +147,7 @@ class SchemaController extends CatchController
      * @responseField table_path string 前端列表页文件路径
      * @responseField form_path string 前端表单文件路径
      *
-     * @return bool|null
+     * @return mixed
      */
     public function files($id, SchemaFiles $schemaFiles, Request $request)
     {

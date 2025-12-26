@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 class Components implements OptionInterface
 {
     /**
-     * @var array|string[]
+     * @var array
      */
     protected array $components = [
         [

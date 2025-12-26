@@ -85,9 +85,10 @@ class Configure
     /**
      * load
      *
-     * @param  null  $callback
+     * @param $config
+     * @param \Closure|null $callback
      */
-    public function loadToLaravelConfig($config, $callback = null): void
+    public function loadToLaravelConfig($config, ?\Closure $callback = null): void
     {
         $systemConfig = admin_cache_get($this->systemConfigKey, []);
 

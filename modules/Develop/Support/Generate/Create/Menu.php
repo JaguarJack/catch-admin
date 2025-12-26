@@ -32,12 +32,14 @@ class Menu
 
     /**
      * 菜单生成
+     * @throws \Throwable
      */
     public function generate(): mixed
     {
         // 如果设置了名称
         if ($this->gen['menu']) {
             return DB::transaction(function () {
+                /* @var Permissions $topMenu */
                 $topMenu = Permissions::where('module', $this->gen['module'])->first();
                 // 如果系统模块没有顶级菜单，则需要创建顶级菜单
                 $module = lcfirst($this->gen['module']);

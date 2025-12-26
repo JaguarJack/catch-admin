@@ -173,7 +173,7 @@ class Schema extends Creator
                 $begin = $begin->append(sprintf("%s('%s')", $structure['type'], $structure['field']));
             }
 
-            $content = $content->append($begin)
+            $content = $content->append($begin->toString())
                 ->when($structure['nullable'], function ($str) {
                     return $str->append('->nullable()');
                 })
@@ -203,19 +203,19 @@ class Schema extends Creator
         }
 
         if ($this->creatorId) {
-            $content = $content->append(Str::of('$table->')->append('creatorId();'))->newLine();
+            $content = $content->append(Str::of('$table->')->append('creatorId();')->toString())->newLine();
         }
 
         if ($this->createdAt) {
-            $content = $content->append(Str::of('$table->')->append('createdAt();'))->newLine();
+            $content = $content->append(Str::of('$table->')->append('createdAt();')->toString())->newLine();
         }
 
         if ($this->updatedAt) {
-            $content = $content->append(Str::of('$table->')->append('updatedAt();'))->newLine();
+            $content = $content->append(Str::of('$table->')->append('updatedAt();')->toString())->newLine();
         }
 
         if ($this->deletedAt) {
-            $content = $content->append(Str::of('$table->')->append('deletedAt();'))->newLine();
+            $content = $content->append(Str::of('$table->')->append('deletedAt();')->toString())->newLine();
         }
 
         return $content->newLine()
