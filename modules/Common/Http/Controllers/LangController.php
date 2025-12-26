@@ -9,15 +9,14 @@ class LangController
     public function translate($lang)
     {
         //return admin_cache('lang_'.$lang, 300, function () use ($lang) {
-            $translations = [];
-            $files = File::allFiles(lang_path($lang));
+        $translations = [];
+        $files = File::allFiles(lang_path($lang));
 
-            foreach ($files as $file) {
-                $translations[$file->getFilenameWithoutExtension()] = require $file->getRealPath();
-            }
+        foreach ($files as $file) {
+            $translations[$file->getFilenameWithoutExtension()] = require $file->getRealPath();
+        }
 
-
-            return $translations;
-       // });
+        return $translations;
+        // });
     }
 }

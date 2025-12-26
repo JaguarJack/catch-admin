@@ -1,4 +1,5 @@
 <?php
+
 namespace Modules\Permissions\Listeners;
 
 use Illuminate\Support\Facades\DB;

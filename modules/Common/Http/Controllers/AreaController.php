@@ -9,6 +9,7 @@ use Modules\Common\Models\Area;
  * @group 公共模块
  *
  * @subgroup 地区管理
+ *
  * @subgroupDescription CatchAdmin 后台地区管理
  */
 class AreaController

@@ -9,12 +9,11 @@ class ImageExts implements OptionInterface
         $extensions = [];
 
         foreach (
-            ['jpeg', 'jpg', 'gif', 'png', 'svg', 'ico', 'doc', 'psd', 'bmp', 'tiff', 'webp', 'tif', 'pjpeg']
-            as $value
+            ['jpeg', 'jpg', 'gif', 'png', 'svg', 'ico', 'doc', 'psd', 'bmp', 'tiff', 'webp', 'tif', 'pjpeg'] as $value
         ) {
             $extensions[] = [
                 'label' => $value,
-                'value' => $value
+                'value' => $value,
             ];
         }
 

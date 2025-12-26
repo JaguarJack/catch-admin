@@ -18,13 +18,14 @@ class Export extends Creator
         protected string $module,
         protected string $model,
         protected array $structures
-    ) {}
+    ) {
+    }
 
     public function getFile(): string
     {
-        CatchAdmin::makeDir(CatchAdmin::getModulePath($this->module).DIRECTORY_SEPARATOR.'Excel'.DIRECTORY_SEPARATOR.'Export');
+        CatchAdmin::makeDir(CatchAdmin::getModulePath($this->module) . DIRECTORY_SEPARATOR . 'Excel' . DIRECTORY_SEPARATOR . 'Export');
 
-        return CatchAdmin::getModulePath($this->module).$this->getExportName().$this->ext;
+        return CatchAdmin::getModulePath($this->module) . $this->getExportName() . $this->ext;
     }
 
     /**
@@ -32,7 +33,7 @@ class Export extends Creator
      */
     public function getContent(): string|bool|PhpFile
     {
-        $file = new PhpFile;
+        $file = new PhpFile();
         $file->setStrictTypes();
 
         $labels = $fields = [];
@@ -65,7 +66,7 @@ class Export extends Creator
 
         $class->addComment('导出数据')
             ->addComment("\n")
-            ->addComment('@class '.$this->getExportName());
+            ->addComment('@class ' . $this->getExportName());
 
         $class->addProperty('header', $labels)->setType('array')->setProtected();
 
@@ -73,12 +74,12 @@ class Export extends Creator
         if ($isHasEnumFields) {
             $class->addMethod('array')
                 ->setReturnType('array')
-                ->addBody('return '.$modelBaseName.'::query()->get()->select(?)->toArray();', [$fields])
+                ->addBody('return ' . $modelBaseName . '::query()->get()->select(?)->toArray();', [$fields])
                 ->addComment('@return array');
         } else {
             $class->addMethod('array')
                 ->setReturnType('array')
-                ->addBody('return '.$modelBaseName.'::query()->select(?)->get()->toArray();', [$fields])
+                ->addBody('return ' . $modelBaseName . '::query()->select(?)->get()->toArray();', [$fields])
                 ->addComment('@return array');
         }
 
@@ -100,7 +101,7 @@ class Export extends Creator
      */
     public function getExportName(): ?string
     {
-        return Str::of('Excel'.DIRECTORY_SEPARATOR.'Export'.DIRECTORY_SEPARATOR)->append(
+        return Str::of('Excel' . DIRECTORY_SEPARATOR . 'Export' . DIRECTORY_SEPARATOR)->append(
             Str::of(class_basename($this->model))->remove('Model')->append('Export')->ucfirst()->toString()
         )->toString();
     }
@@ -110,6 +111,6 @@ class Export extends Creator
      */
     public function getExportClass(): string
     {
-        return $this->getNamespace().'\\'.class_basename($this->getExportName());
+        return $this->getNamespace() . '\\' . class_basename($this->getExportName());
     }
 }

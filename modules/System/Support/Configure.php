@@ -85,8 +85,8 @@ class Configure
     /**
      * load
      *
-     * @param $config
-     * @param \Closure|null $callback
+     * @param  $config
+     * @param  \Closure|null  $callback
      */
     public function loadToLaravelConfig($config, ?\Closure $callback = null): void
     {

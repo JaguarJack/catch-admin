@@ -2,7 +2,6 @@
 
 namespace Modules\System\Providers;
 
-use Catch\Events\ReportException;
 use Catch\Providers\CatchModuleServiceProvider;
 use Modules\Common\Events\UploadedEvent;
 use Modules\System\Listeners\UploadedListener;
@@ -18,7 +17,7 @@ class SystemServiceProvider extends CatchModuleServiceProvider
     public function boot(): void
     {
         // 加载动态配置到 Laravel 系统的 Config 中
-        (new Configure)->loadToLaravelConfig($this->app->make('config'));
+        (new Configure())->loadToLaravelConfig($this->app->make('config'));
     }
 
     /**

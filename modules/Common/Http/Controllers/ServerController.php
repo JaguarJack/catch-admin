@@ -3,7 +3,6 @@
 namespace Modules\Common\Http\Controllers;
 
 use Catch\Support\Decomposer;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
 /**

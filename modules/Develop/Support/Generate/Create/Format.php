@@ -85,7 +85,7 @@ trait Format
                 krsort($newOptions);
                 $enumFields[] = [
                     'field' => $structure['field'],
-                    'field_text' => $structure['field'].'_text',
+                    'field_text' => $structure['field'] . '_text',
                     'options' => $newOptions,
                 ];
             }
@@ -93,7 +93,6 @@ trait Format
 
         return $enumFields;
     }
-
 
     /**
      * 格式化关联关系数据

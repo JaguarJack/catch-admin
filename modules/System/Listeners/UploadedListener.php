@@ -20,7 +20,7 @@ class UploadedListener
     /**
      * Handle the event.
      *
-     * @param UploadedEvent $event
+     * @param  UploadedEvent  $event
      * @return void
      */
     public function handle(UploadedEvent $event): void

@@ -5,7 +5,6 @@ namespace Modules\Common\Support\Upload\Uses;
 use Catch\Exceptions\FailedException;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -37,6 +36,7 @@ class ChunkUpload extends Upload
     public function setParams(array $params): static
     {
         $this->requestParams = $params;
+
         return $this;
     }
 
@@ -56,7 +56,7 @@ class ChunkUpload extends Upload
     {
         $action = $this->getParam('action', 'chunk');
 
-        return match($action) {
+        return match ($action) {
             'chunk' => $this->uploadChunk(),
             'merge' => $this->mergeChunks(),
             'check' => $this->checkProgress(),
@@ -80,7 +80,7 @@ class ChunkUpload extends Upload
         $totalSize = (int) $this->getParam('total_size');
 
         // 验证分片文件
-        if (!$this->file instanceof UploadedFile) {
+        if (! $this->file instanceof UploadedFile) {
             throw new FailedException('分片文件不能为空');
         }
 
@@ -94,15 +94,15 @@ class ChunkUpload extends Upload
         $this->updateProgress($fileHash, $chunkIndex, $totalChunks, [
             'file_name' => $fileName,
             'total_size' => $totalSize,
-            'chunk_size' => $chunkSize
+            'chunk_size' => $chunkSize,
         ]);
 
         return [
 
-                'file_hash' => $fileHash,
-                'chunk_index' => $chunkIndex,
-                'chunk_path' => $chunkPath,
-                'uploaded' => true
+            'file_hash' => $fileHash,
+            'chunk_index' => $chunkIndex,
+            'chunk_path' => $chunkPath,
+            'uploaded' => true,
 
         ];
     }
@@ -117,12 +117,12 @@ class ChunkUpload extends Upload
         $totalChunks = (int) $this->getParam('total_chunks');
         $totalSize = (int) $this->getParam('total_size');
 
-        if (!$fileName || !$fileHash || !$totalChunks) {
+        if (! $fileName || ! $fileHash || ! $totalChunks) {
             throw new FailedException('合并参数不完整');
         }
 
         // 检查所有分片是否都已上传
-        if (!$this->allChunksUploaded($fileHash, $totalChunks)) {
+        if (! $this->allChunksUploaded($fileHash, $totalChunks)) {
             throw new FailedException('分片上传不完整，无法合并文件');
         }
 
@@ -142,7 +142,7 @@ class ChunkUpload extends Upload
             'type' => $this->getFileMimeType($fileName),
             'size' => $totalSize,
             'original_name' => $fileName,
-            'driver' => 'chunk'
+            'driver' => 'chunk',
         ];
 
         return $this->addUrl($info);
@@ -155,7 +155,7 @@ class ChunkUpload extends Upload
     {
         $fileHash = $this->getParam('file_hash');
 
-        if (!$fileHash) {
+        if (! $fileHash) {
             throw new FailedException('文件哈希值不能为空');
         }
 
@@ -168,7 +168,7 @@ class ChunkUpload extends Upload
                 'uploaded_chunks' => 0,
                 'total_chunks' => 0,
                 'percentage' => 0,
-                'status' => 'not_started'
+                'status' => 'not_started',
             ];
         }
 
@@ -183,7 +183,7 @@ class ChunkUpload extends Upload
             'total_chunks' => $totalChunks,
             'percentage' => $percentage,
             'total_size' => $progress['total_size'] ?? 0,
-            'status' => $percentage == 100 ? 'completed' : 'uploading'
+            'status' => $percentage == 100 ? 'completed' : 'uploading',
         ];
     }
 
@@ -195,7 +195,7 @@ class ChunkUpload extends Upload
         $required = ['file_name', 'file_hash', 'chunk_index', 'chunk_hash', 'total_chunks', 'chunk_size', 'total_size'];
 
         foreach ($required as $param) {
-            if (!isset($this->requestParams[$param])) {
+            if (! isset($this->requestParams[$param])) {
                 throw new FailedException("缺少必需参数: {$param}");
             }
         }
@@ -240,7 +240,7 @@ class ChunkUpload extends Upload
 
         // 根据哈希长度判断算法类型
         $hashLength = strlen($expectedHashValue);
-        $actualHash = match($hashLength) {
+        $actualHash = match ($hashLength) {
             40 => sha1($chunkContent),          // SHA1
             64 => hash('sha256', $chunkContent), // SHA256
             default => md5($chunkContent)       // 默认使用MD5
@@ -251,13 +251,13 @@ class ChunkUpload extends Upload
             $debugInfo = [
                 'expected_hash' => $expectedHashValue,
                 'actual_hash' => $actualHash,
-                'hash_algorithm' => match($hashLength) {
+                'hash_algorithm' => match ($hashLength) {
                     40 => 'SHA1',
                     64 => 'SHA256',
                     default => 'MD5'
                 },
                 'chunk_index' => $chunkIndex,
-                'chunk_size' => strlen($chunkContent)
+                'chunk_size' => strlen($chunkContent),
             ];
 
             throw new FailedException("分片 {$chunkIndex} 哈希验证失败。调试信息: " . json_encode($debugInfo));
@@ -277,7 +277,7 @@ class ChunkUpload extends Upload
 
             return $chunkPath;
         } catch (\Exception $e) {
-            throw new FailedException("分片存储失败: " . $e->getMessage());
+            throw new FailedException('分片存储失败: ' . $e->getMessage());
         }
     }
 
@@ -294,13 +294,13 @@ class ChunkUpload extends Upload
             'file_name' => $metadata['file_name'] ?? '',
             'total_size' => $metadata['total_size'] ?? 0,
             'chunk_size' => $metadata['chunk_size'] ?? 0,
-            'start_time' => now()->timestamp
+            'start_time' => now()->timestamp,
         ]);
 
         $progress['chunks'][$chunkIndex] = [
             'index' => $chunkIndex,
             'uploaded_at' => now()->timestamp,
-            'status' => 'uploaded'
+            'status' => 'uploaded',
         ];
 
         Cache::put($cacheKey, $progress, $this->cacheExpiry);
@@ -313,7 +313,7 @@ class ChunkUpload extends Upload
     {
         for ($i = 0; $i < $totalChunks; $i++) {
             $chunkPath = "{$this->tempPath}/{$fileHash}/chunk_{$i}";
-            if (!Storage::disk($this->getDisk())->exists($chunkPath)) {
+            if (! Storage::disk($this->getDisk())->exists($chunkPath)) {
                 return false;
             }
         }
@@ -345,7 +345,7 @@ class ChunkUpload extends Upload
                 basename($finalPath)
             );
 
-            if (!$storedPath) {
+            if (! $storedPath) {
                 throw new FailedException('存储合并文件失败');
             }
 
@@ -369,7 +369,7 @@ class ChunkUpload extends Upload
         $disk = Storage::disk($this->getDisk());
 
         $tempHandle = fopen($tempFile, 'wb');
-        if (!$tempHandle) {
+        if (! $tempHandle) {
             throw new FailedException('无法创建临时合并文件');
         }
 
@@ -378,13 +378,13 @@ class ChunkUpload extends Upload
                 $chunkPath = "{$this->tempPath}/{$fileHash}/chunk_{$i}";
 
                 // 检查分片是否存在
-                if (!$disk->exists($chunkPath)) {
+                if (! $disk->exists($chunkPath)) {
                     throw new FailedException("分片 {$i} 不存在");
                 }
 
                 // 使用Laravel的流式读取
                 $chunkStream = $disk->readStream($chunkPath);
-                if (!$chunkStream) {
+                if (! $chunkStream) {
                     throw new FailedException("无法读取分片 {$i}");
                 }
 
@@ -425,7 +425,7 @@ class ChunkUpload extends Upload
         $disk = Storage::disk($this->getDisk());
 
         // 使用Laravel的exists方法检查文件
-        if (!$disk->exists($filePath)) {
+        if (! $disk->exists($filePath)) {
             throw new FailedException('文件合并失败，最终文件不存在');
         }
 
@@ -451,7 +451,7 @@ class ChunkUpload extends Upload
     {
         // 使用Laravel的readStream方法获取文件流
         $stream = $disk->readStream($filePath);
-        if (!$stream) {
+        if (! $stream) {
             throw new FailedException('无法打开文件流进行哈希计算');
         }
 
@@ -459,7 +459,7 @@ class ChunkUpload extends Upload
 
         try {
             // 使用流式读取，每次64KB
-            while (!feof($stream)) {
+            while (! feof($stream)) {
                 $buffer = fread($stream, 65536); // 64KB缓冲区
                 if ($buffer === false) {
                     break;
@@ -482,7 +482,7 @@ class ChunkUpload extends Upload
     protected function calculateFileHashStream(string $filePath, string $algorithm = 'sha256'): string
     {
         $handle = fopen($filePath, 'rb');
-        if (!$handle) {
+        if (! $handle) {
             throw new FailedException('无法打开文件进行哈希计算');
         }
 
@@ -490,7 +490,7 @@ class ChunkUpload extends Upload
 
         try {
             // 分块读取文件，每次64KB
-            while (!feof($handle)) {
+            while (! feof($handle)) {
                 $buffer = fread($handle, 65536); // 64KB缓冲区
                 if ($buffer === false) {
                     throw new FailedException('读取文件进行哈希计算失败');
@@ -518,7 +518,6 @@ class ChunkUpload extends Upload
         // 清理缓存
         Cache::forget($this->getProgressCacheKey($fileHash));
     }
-
 
     /**
      * 清理过期的分片文件
@@ -618,6 +617,7 @@ class ChunkUpload extends Upload
 
         // 对于分片上传，从请求参数获取文件名
         $fileName = $this->getParam('file_name', '');
+
         return $this->getFileExtension($fileName);
     }
 
@@ -645,6 +645,7 @@ class ChunkUpload extends Upload
 
         // 对于分片上传，根据文件名判断类型
         $fileName = $this->getParam('file_name', '');
+
         return $this->getFileMimeType($fileName);
     }
 

@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Modules\System\Http\Controllers;
 
 use Catch\Base\CatchController as Controller;
+use Catch\Enums\Status;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Str;
 use Modules\Develop\Support\Generate\Create\Enumer;
-use Modules\System\Models\Dictionary;
 use Modules\System\Http\Requests\DictionaryRequest;
-use Catch\Enums\Status;
+use Modules\System\Models\Dictionary;
 
 /**
  * @group 系统管理
@@ -59,7 +59,7 @@ class DictionaryController extends Controller
      * @bodyParam key string required 键
      * @bodyParam description string 描述
      *
-     * @param DictionaryRequest $request
+     * @param  DictionaryRequest  $request
      * @return mixed
      */
     public function store(DictionaryRequest $request)
@@ -80,7 +80,7 @@ class DictionaryController extends Controller
      * @responseField data.key string 键
      * @responseField data.description string 描述
      *
-     * @param $id
+     * @param  $id
      * @return \Illuminate\Database\Eloquent\Model|null
      */
     public function show($id)
@@ -97,8 +97,8 @@ class DictionaryController extends Controller
      * @bodyParam key string required 键
      * @bodyParam description string 描述
      *
-     * @param $id
-     * @param DictionaryRequest $request
+     * @param  $id
+     * @param  DictionaryRequest  $request
      * @return mixed
      */
     public function update($id, DictionaryRequest $request)
@@ -111,7 +111,7 @@ class DictionaryController extends Controller
      *
      * @urlParam id int required 字典ID
      *
-     * @param $id
+     * @param  $id
      * @return false
      */
     public function destroy($id)
@@ -130,7 +130,7 @@ class DictionaryController extends Controller
      *
      * @urlParam id int required 字典ID
      *
-     * @param $id
+     * @param  $id
      * @return bool
      */
     public function enable($id)
@@ -148,21 +148,22 @@ class DictionaryController extends Controller
      * @responseField data boolean 是否成功
      *
      * @return true
+     *
      * @throws FileNotFoundException
      */
     public function enums($id)
     {
         $this->model->where('status', Status::Enable)
-             ->when($id, fn ($query) => $query->where('id', $id))
-             ->with('values')
-             ->get()
-             ->each(function ($item) {
-                 $values = $item->values->toArray();
-                 if (count($values)) {
-                     $enumer = new Enumer($item->name, $item->description, Str::of($item->key)->studly()->toString(), $item->values->toArray());
-                     $enumer->create();
-                 }
-             });
+            ->when($id, fn ($query) => $query->where('id', $id))
+            ->with('values')
+            ->get()
+            ->each(function ($item) {
+                $values = $item->values->toArray();
+                if (count($values)) {
+                    $enumer = new Enumer($item->name, $item->description, Str::of($item->key)->studly()->toString(), $item->values->toArray());
+                    $enumer->create();
+                }
+            });
 
         return true;
     }

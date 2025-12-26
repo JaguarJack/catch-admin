@@ -12,13 +12,13 @@ class Area extends Model
 
     public function getAll()
     {
-        if (!Schema::hasTable('areas')) {
+        if (! Schema::hasTable('areas')) {
             throw new FailedException('请使用 php artisan catch:areas 获取地区数据源');
         }
 
-        return $this->whereIn('level', [1,2])->get(['id', 'parent_id', 'name'])->toTree(0, 'parent_id')
-                        ->filter(function ($area) {
-                            return isset($area['children']);
-                        })->values();
+        return $this->whereIn('level', [1, 2])->get(['id', 'parent_id', 'name'])->toTree(0, 'parent_id')
+            ->filter(function ($area) {
+                return isset($area['children']);
+            })->values();
     }
 }

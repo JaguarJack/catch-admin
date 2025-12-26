@@ -59,6 +59,6 @@ class SchemaFiles extends Model
 
     protected function removeWebPath($path)
     {
-        return Str::of($path)->replace(base_path('web'.DIRECTORY_SEPARATOR.'src'), '')->replace('\\', '/');
+        return Str::of($path)->replace(base_path('web' . DIRECTORY_SEPARATOR . 'src'), '')->replace('\\', '/');
     }
 }

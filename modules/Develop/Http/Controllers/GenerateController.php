@@ -12,6 +12,7 @@ use Modules\Develop\Support\Generate\Generator;
  * @group 开发模块
  *
  * @subgroup 代码生成
+ *
  * @subgroupDescription CatchAdmin 代码生成
  */
 class GenerateController extends Controller
@@ -20,7 +21,6 @@ class GenerateController extends Controller
      * 代码生成
      *
      * @bodyParam schemaId int required schema id
-     *
      * @bodyParam codeGen object required 代码生成的参数对象
      * @bodyParam codeGen.module string required 模块名称
      * @bodyParam codeGen.controller string required 控制器名称
@@ -29,7 +29,6 @@ class GenerateController extends Controller
      * @bodyParam codeGen.schema string 表名
      * @bodyParam codeGen.form boolean 是否开启表单
      * @bodyParam codeGen.menu string 菜单名称(填写则生成对应菜单，不填则不生成)
-     *
      * @bodyParam structures object[] required
      * @bodyParam structures[].field string 字段名称: id
      * @bodyParam structures[].label string 表单label名称
@@ -46,6 +45,7 @@ class GenerateController extends Controller
      * @param  Request  $request
      * @param  Generator  $generator
      * @return bool
+     *
      * @throws Exception
      */
     public function index(Request $request, Generator $generator)

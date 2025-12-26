@@ -13,6 +13,7 @@ use Modules\Permissions\Models\Departments;
  * @group 权限模块
  *
  * @subgroup 部门管理
+ *
  * @subgroupDescription CatchAdmin 后台部门管理
  */
 class DepartmentsController extends Controller
@@ -52,7 +53,7 @@ class DepartmentsController extends Controller
      * @bodyParam email string 负责人邮箱
      * @bodyParam sort int 排序
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return mixed
      */
     public function store(Request $request)
@@ -65,7 +66,7 @@ class DepartmentsController extends Controller
      *
      * @urlParam id int required 部门ID
      *
-     * @param $id
+     * @param  $id
      * @return \Illuminate\Database\Eloquent\Model|null
      */
     public function show($id)
@@ -85,8 +86,8 @@ class DepartmentsController extends Controller
      * @bodyParam email string 负责人邮箱
      * @bodyParam sort int 排序
      *
-     * @param $id
-     * @param Request $request
+     * @param  $id
+     * @param  Request  $request
      * @return mixed
      */
     public function update($id, Request $request)
@@ -99,7 +100,7 @@ class DepartmentsController extends Controller
      *
      * @urlParam id int required 部门ID
      *
-     * @param $id
+     * @param  $id
      * @return bool|null
      */
     public function destroy($id)
@@ -114,7 +115,7 @@ class DepartmentsController extends Controller
      *
      * @urlParam id int required 部门ID
      *
-     * @param $id
+     * @param  $id
      * @return bool
      */
     public function enable($id)

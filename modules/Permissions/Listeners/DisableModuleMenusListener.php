@@ -1,13 +1,13 @@
 <?php
+
 namespace Modules\Permissions\Listeners;
 
+use Catch\Enums\Status;
 use Modules\Permissions\Events\DisableModuleMenusEvent;
 use Modules\Permissions\Models\Permissions;
-use Catch\Enums\Status;
 
 class DisableModuleMenusListener
 {
-
     public function handle(DisableModuleMenusEvent $event)
     {
         Permissions::where('module', $event->moduleName)
@@ -17,5 +17,6 @@ class DisableModuleMenusListener
             ->when(is_string($event->permissionMark), function ($query) use ($event) {
                 $query->whereNot('permission_mark', $event->permissionMark);
             })
-            ->update(['hidden' => Status::Disable->value]);    }
+            ->update(['hidden' => Status::Disable->value]);
+    }
 }

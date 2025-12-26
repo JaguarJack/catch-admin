@@ -140,14 +140,14 @@ class User extends Model implements AuthenticatableContract
     }
 
     /**
-     * @param $id
-     * @param bool $force
-     * @param bool $softForce
+     * @param  $id
+     * @param  bool  $force
+     * @param  bool  $softForce
      * @return bool|null
      */
     public function deleteBy($id, bool $force = false, bool $softForce = false): ?bool
     {
-        return $this->transaction(function () use ($id){
+        return $this->transaction(function () use ($id) {
             /* @var  User $user */
             $user = $this->where('id', $id)->first();
 

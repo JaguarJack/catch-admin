@@ -41,13 +41,13 @@ class Departments extends Model
 
     public function findFollowDepartments(int|array $id): array
     {
-        if (!is_array($id)) {
+        if (! is_array($id)) {
             $id = [$id];
         }
 
         $followDepartmentIds = $this->whereIn($this->getParentIdColumn(), $id)->pluck('id')->toArray();
 
-        if (!empty($followDepartmentIds)) {
+        if (! empty($followDepartmentIds)) {
             $followDepartmentIds = array_merge($followDepartmentIds, $this->findFollowDepartments($followDepartmentIds));
         }
 

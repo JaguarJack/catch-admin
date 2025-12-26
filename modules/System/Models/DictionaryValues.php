@@ -26,7 +26,7 @@ class DictionaryValues extends Model
 
     protected $fillable = ['id', 'dic_id', 'label', 'key', 'value', 'sort', 'status', 'description', 'creator_id', 'created_at', 'updated_at', 'deleted_at'];
 
-    protected array $fields = ['id', 'label', 'key','value', 'sort', 'status', 'description', 'created_at', 'updated_at'];
+    protected array $fields = ['id', 'label', 'key', 'value', 'sort', 'status', 'description', 'created_at', 'updated_at'];
 
     protected array $form = ['dic_id', 'label', 'key', 'value', 'sort', 'description'];
 
@@ -37,7 +37,7 @@ class DictionaryValues extends Model
     ];
 
     /**
-     * @param $id
+     * @param  $id
      * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Support\Collection
      */
     public static function getEnabledValues($id)

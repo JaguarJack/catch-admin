@@ -9,13 +9,11 @@ class FileExts implements OptionInterface
         $extensions = [];
 
         foreach (
-            ['docx', 'pdf', 'txt', 'html', 'zip', 'tar', 'doc', 'css', 'csv', 'ppt', 'xlsx', 'xls', 'xml']
-
-               as $value
+            ['docx', 'pdf', 'txt', 'html', 'zip', 'tar', 'doc', 'css', 'csv', 'ppt', 'xlsx', 'xls', 'xml'] as $value
         ) {
             $extensions[] = [
                 'label' => $value,
-                'value' => $value
+                'value' => $value,
             ];
         }
 

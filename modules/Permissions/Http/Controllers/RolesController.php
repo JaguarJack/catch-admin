@@ -17,6 +17,7 @@ use Modules\Permissions\Models\Roles;
  * @group 权限模块
  *
  * @subgroup 角色管理
+ *
  * @subgroupDescription CatchAdmin 后台角色管理
  */
 class RolesController extends Controller
@@ -85,8 +86,8 @@ class RolesController extends Controller
      *
      * @urlParam id int required 角色ID
      *
-     * @param $id
-     * @param Request $request
+     * @param  $id
+     * @param  Request  $request
      * @return Model|null
      */
     public function show($id, Request $request)
@@ -137,7 +138,7 @@ class RolesController extends Controller
      *
      * @urlParam id int required 角色ID
      *
-     * @param $id
+     * @param  $id
      * @return bool|null
      */
     public function destroy($id)

@@ -2,7 +2,6 @@
 
 namespace Modules\Common\Repository\Options;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
@@ -22,7 +21,7 @@ class Schemas implements OptionInterface
             $tableName = Str::of($table['name'])->replaceStart($tablePrefix, '');
 
             $options[] = [
-                'label' => $tableName."\t\t\t\t".$table['comment'],
+                'label' => $tableName . "\t\t\t\t" . $table['comment'],
                 'value' => $tableName,
             ];
         }

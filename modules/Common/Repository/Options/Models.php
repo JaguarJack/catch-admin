@@ -31,16 +31,16 @@ class Models implements OptionInterface
                 ];
 
                 $moduleModels = [];
-                $modelFiles = File::glob(CatchAdmin::getModuleModelPath($moduleName).'*.php');
+                $modelFiles = File::glob(CatchAdmin::getModuleModelPath($moduleName) . '*.php');
                 $modelNamespace = CatchAdmin::getModuleModelNamespace($moduleName);
                 foreach ($modelFiles as $modelFile) {
-                    $modelClass = $modelNamespace.pathinfo($modelFile, PATHINFO_FILENAME);
+                    $modelClass = $modelNamespace . pathinfo($modelFile, PATHINFO_FILENAME);
                     $class = new \ReflectionClass($modelClass);
                     if ($class->isTrait()) {
                         continue;
                     }
 
-                    $model = new $modelClass;
+                    $model = new $modelClass();
 
                     if ($model instanceof Model) {
                         $table = $model->getTable();
@@ -55,7 +55,6 @@ class Models implements OptionInterface
 
                 $models[$moduleName]['models'] = $moduleModels;
             }
-
 
             $tableNames = array_column(get_all_tables(), 'name');
 

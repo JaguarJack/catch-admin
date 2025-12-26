@@ -15,7 +15,7 @@ class SmsCodeRequest extends FormRequest
             'mobile' => [
                 'required',
                 function (string $attribute, mixed $value, \Closure $fail) {
-                    if (!preg_match('/^1\d{10}$/', $value)) {
+                    if (! preg_match('/^1\d{10}$/', $value)) {
                         $fail('手机格式不正确');
                     }
                 },

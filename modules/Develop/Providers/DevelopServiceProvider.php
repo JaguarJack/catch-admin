@@ -29,7 +29,7 @@ class DevelopServiceProvider extends CatchModuleServiceProvider
     public function boot()
     {
         $this->commands([
-            ModuleInitCommand::class
+            ModuleInitCommand::class,
         ]);
     }
 }

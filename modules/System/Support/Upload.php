@@ -36,6 +36,7 @@ class Upload
             $credentials['bucket'] = $config['bucket'];
             $credentials['endpoint'] = $config['end_point'] ?? '';
             $credentials['cname'] = (bool) ($config['is_cname'] ?? false);
+
             return $credentials;
         });
     }
@@ -57,12 +58,12 @@ class Upload
     public function qiniuToken(string $filename): array
     {
         $config = config('upload.qiniu');
-        $qiniu = new QiNiu($config['access_key'], $config['secret_key'], $config['bucket'].':'.$filename);
+        $qiniu = new QiNiu($config['access_key'], $config['secret_key'], $config['bucket'] . ':' . $filename);
 
         return [
             'token' => $qiniu->token(),
             'filename' => $filename,
-            'url' => $config['domain'].'/'.$filename,
+            'url' => $config['domain'] . '/' . $filename,
         ];
     }
 }

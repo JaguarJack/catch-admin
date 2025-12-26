@@ -5,9 +5,10 @@ namespace Modules\Common\Console;
 use Illuminate\Console\Command;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Modules\Common\Models\Area as AreaModel;
+
 use function Laravel\Prompts\progress;
 use function Laravel\Prompts\spin;
-use Modules\Common\Models\Area as AreaModel;
 
 class Area extends Command
 {
@@ -44,19 +45,19 @@ class Area extends Command
 
             $fp = $zip->getStream('region.json');
 
-            if (!is_resource($fp)) {
+            if (! is_resource($fp)) {
                 $this->error('获取地区原始数据失败');
                 exit;
             }
 
             $content = '';
-            while (!feof($fp)) {
+            while (! feof($fp)) {
                 $content .= fgets($fp);
             }
             sleep(1);
+
             return $content;
         }, '获取地区原始数据');
-
 
         $areas = json_decode($content, true);
 
@@ -73,7 +74,7 @@ class Area extends Command
 
     protected function createAreasTable(): void
     {
-        if (!Schema::hasTable('areas')) {
+        if (! Schema::hasTable('areas')) {
             Schema::create('areas', function (Blueprint $table) {
                 $table->integer('id');
 

@@ -5,8 +5,8 @@ namespace Modules\Common\Support\Upload;
 use Catch\Exceptions\FailedException;
 use Illuminate\Http\UploadedFile;
 use Modules\Common\Events\UploadedEvent;
-use Modules\Common\Support\Upload\Uses\LocalUpload;
 use Modules\Common\Support\Upload\Uses\ChunkUpload;
+use Modules\Common\Support\Upload\Uses\LocalUpload;
 
 class Uploader
 {

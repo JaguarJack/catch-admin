@@ -41,7 +41,8 @@ class Schema extends Creator
         public readonly string $charset,
         public readonly string $collection,
         public readonly string $comment
-    ) {}
+    ) {
+    }
 
     /**
      * create
@@ -78,7 +79,7 @@ class Schema extends Creator
     public function getFile(): string
     {
         // TODO: Implement getFile() method.
-        return CatchAdmin::getModuleMigrationPath($this->module).date('Y_m_d_his_').'create_'.$this->table.'.php';
+        return CatchAdmin::getModuleMigrationPath($this->module) . date('Y_m_d_his_') . 'create_' . $this->table . '.php';
     }
 
     /**
@@ -282,6 +283,6 @@ class Schema extends Creator
      */
     protected function getStub(): string
     {
-        return dirname(__DIR__).DIRECTORY_SEPARATOR.'stubs'.DIRECTORY_SEPARATOR.'migration.stub';
+        return dirname(__DIR__) . DIRECTORY_SEPARATOR . 'stubs' . DIRECTORY_SEPARATOR . 'migration.stub';
     }
 }

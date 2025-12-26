@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Modules\Develop\Support\Generate\Create;
 
 use Catch\CatchAdmin;
-use Nette\PhpGenerator\Dumper;
-use Nette\PhpGenerator\PhpFile;
 use CatchForm\Builder;
 use CatchForm\Form;
 use CatchForm\Table\Table;
+use Nette\PhpGenerator\Dumper;
+use Nette\PhpGenerator\PhpFile;
 
 class Dynamic extends Creator
 {
@@ -24,10 +24,10 @@ class Dynamic extends Creator
 
     public function getFile(): string
     {
-        CatchAdmin::makeDir(CatchAdmin::getModulePath($this->module).'Dynamics');
+        CatchAdmin::makeDir(CatchAdmin::getModulePath($this->module) . 'Dynamics');
 
         // TODO: Implement getFile() method.
-        return CatchAdmin::getModulePath($this->module).'Dynamics'.DIRECTORY_SEPARATOR.$this->controller.$this->ext;
+        return CatchAdmin::getModulePath($this->module) . 'Dynamics' . DIRECTORY_SEPARATOR . $this->controller . $this->ext;
     }
 
     public function getContent(): string|bool|PhpFile
@@ -52,7 +52,7 @@ class Dynamic extends Creator
         if ($this->needForm) {
             $class->addMethod('form')
                 ->setBody('return Form::make(function (Form $form) {
-'.$this->getFormStr().'
+' . $this->getFormStr() . '
 });')->addComment('动态表单')->setReturnType('mixed');
         } else {
             $class->addMethod('form')
@@ -100,8 +100,8 @@ class Dynamic extends Creator
 
         $body = trim($body, "\n");
 
-        $table = 'return Table::make(\''.$this->api.'\')->columns(function (Table $table){
-'.$body.'
+        $table = 'return Table::make(\'' . $this->api . '\')->columns(function (Table $table){
+' . $body . '
 })';
 
         if ($isTree) {
@@ -113,7 +113,7 @@ class Dynamic extends Creator
             $table .= '->hideOperation()';
         }
 
-        return $table.';';
+        return $table . ';';
     }
 
     protected function getFormStr(): string
@@ -135,7 +135,7 @@ class Dynamic extends Creator
                         }
                     }
 
-                    $body .= '->options('.$dumper->dump($structure['options']).')';
+                    $body .= '->options(' . $dumper->dump($structure['options']) . ')';
                 }
 
                 $body .= ";\n";
@@ -150,6 +150,6 @@ class Dynamic extends Creator
      */
     public function getDynamicNamespace(): string
     {
-        return CatchAdmin::getModuleNamespace($this->module).'Dynamics';
+        return CatchAdmin::getModuleNamespace($this->module) . 'Dynamics';
     }
 }

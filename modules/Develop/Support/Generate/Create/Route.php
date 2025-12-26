@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Modules\Develop\Support\Generate\Create;
 
 use Catch\CatchAdmin;
+use Catch\Exceptions\FailedException;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
-use Catch\Exceptions\FailedException;
 
 /**
  * Route
@@ -66,7 +66,6 @@ class Route extends Creator
             ->newLine()
             ->append("\t//next");
 
-
         if ($route->contains('//next')) {
             return $route->replace(
                 ['{module}', '//next'],
@@ -113,7 +112,7 @@ class Route extends Creator
      */
     public function getApiRoute(): string
     {
-        return lcfirst($this->module).'/'.$this->getApiString();
+        return lcfirst($this->module) . '/' . $this->getApiString();
     }
 
     /**
@@ -121,7 +120,7 @@ class Route extends Creator
      */
     protected function getUserController(): string
     {
-        return 'use '.CatchAdmin::getModuleControllerNamespace($this->module).$this->getControllerName();
+        return 'use ' . CatchAdmin::getModuleControllerNamespace($this->module) . $this->getControllerName();
     }
 
     /**

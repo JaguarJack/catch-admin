@@ -1,4 +1,5 @@
 <?php
+
 namespace Modules\System\Listeners;
 
 use Illuminate\Support\Facades\Cache;
@@ -14,6 +15,6 @@ class DynamicConfigureListener
         $config = $event->sandbox->make('config');
 
         $configure = new Configure();
-        $configure->loadToLaravelConfig($config, fn($key) => Cache::delete($key));
+        $configure->loadToLaravelConfig($config, fn ($key) => Cache::delete($key));
     }
 }

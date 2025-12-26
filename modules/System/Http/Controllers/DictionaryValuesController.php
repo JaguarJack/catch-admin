@@ -57,7 +57,7 @@ class DictionaryValuesController extends Controller
      * @bodyParam sort int 排序
      * @bodyParam status int 状态
      *
-     * @param DictionaryValueRequest $request
+     * @param  DictionaryValueRequest  $request
      * @return mixed
      */
     public function store(DictionaryValueRequest $request)
@@ -83,7 +83,7 @@ class DictionaryValuesController extends Controller
      * @responseField data.created_at string 创建时间
      * @responseField data.updated_at string 更新时间
      *
-     * @param $id
+     * @param  $id
      * @return \Illuminate\Database\Eloquent\Model|null
      */
     public function show($id)
@@ -103,8 +103,8 @@ class DictionaryValuesController extends Controller
      * @bodyParam sort int 排序
      * @bodyParam status int 状态
      *
-     * @param $id
-     * @param DictionaryValueRequest $request
+     * @param  $id
+     * @param  DictionaryValueRequest  $request
      * @return mixed
      */
     public function update($id, DictionaryValueRequest $request)
@@ -117,7 +117,7 @@ class DictionaryValuesController extends Controller
      *
      * @urlParam id int required 字典值ID
      *
-     * @param $id
+     * @param  $id
      * @return bool|null
      */
     public function destroy($id)
@@ -130,7 +130,7 @@ class DictionaryValuesController extends Controller
      *
      * @urlParam id int required 字典值ID
      *
-     * @param $id
+     * @param  $id
      * @return bool
      */
     public function enable($id)

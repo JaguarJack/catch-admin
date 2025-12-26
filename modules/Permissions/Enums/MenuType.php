@@ -30,7 +30,6 @@ enum MenuType: int implements Enum
         };
     }
 
-
     public function asset($value)
     {
         return $this->value() == $value;

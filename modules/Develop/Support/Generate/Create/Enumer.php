@@ -29,10 +29,10 @@ class Enumer extends Creator
     public function getFile(): string
     {
         $enmDir = CatchAdmin::makeDir(
-            CatchAdmin::getModulePath('Common').DIRECTORY_SEPARATOR.'Enums'
+            CatchAdmin::getModulePath('Common') . DIRECTORY_SEPARATOR . 'Enums'
         );
 
-        return $enmDir.DIRECTORY_SEPARATOR.$this->enumClass.'.php';
+        return $enmDir . DIRECTORY_SEPARATOR . $this->enumClass . '.php';
     }
 
     /**
@@ -48,9 +48,9 @@ class Enumer extends Creator
         $namespace->addUse(Enum::class);
 
         $enum = $namespace->addEnum($this->enumClass)->addImplement('Enum')
-            ->addComment('@title '.$this->title)
-            ->addComment('@description '.$this->description)
-            ->addComment('@class '.$this->enumClass);
+            ->addComment('@title ' . $this->title)
+            ->addComment('@description ' . $this->description)
+            ->addComment('@class ' . $this->enumClass);
 
         $names = $values = "\n";
         foreach ($this->values as $value) {
@@ -64,11 +64,11 @@ class Enumer extends Creator
 
         $enum->addMethod('name')
             ->setReturnType('string')
-            ->setBody('return match($this) { '.$names.'};');
+            ->setBody('return match($this) { ' . $names . '};');
 
         $enum->addMethod('value')
             ->setReturnType('string|int')
-            ->setBody('return match($this){'.$values.'};');
+            ->setBody('return match($this){' . $values . '};');
 
         $enum->addMethod('assert')
             ->setBody('return $this->value === $value;')

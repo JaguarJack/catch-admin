@@ -64,9 +64,9 @@ class Module
         CatchAdmin::getModuleProviderPath($this->module);
 
         File::put(
-            CatchAdmin::getModuleProviderPath($this->module).sprintf('%sServiceProvider.php', ucfirst($this->module)),
+            CatchAdmin::getModuleProviderPath($this->module) . sprintf('%sServiceProvider.php', ucfirst($this->module)),
             Str::of(
-                File::get(__DIR__.DIRECTORY_SEPARATOR.'stubs'.DIRECTORY_SEPARATOR.'provider.stub')
+                File::get(__DIR__ . DIRECTORY_SEPARATOR . 'stubs' . DIRECTORY_SEPARATOR . 'provider.stub')
             )->replace(['{Module}', '{module}'], [ucfirst($this->module), $this->module])
         );
     }
@@ -77,7 +77,7 @@ class Module
     protected function createRoute(): void
     {
         $content = Str::of(
-            File::get(__DIR__.DIRECTORY_SEPARATOR.'stubs'.DIRECTORY_SEPARATOR.'route.stub')
+            File::get(__DIR__ . DIRECTORY_SEPARATOR . 'stubs' . DIRECTORY_SEPARATOR . 'route.stub')
         )->replace(['{module}'], [lcfirst($this->module)]);
 
         File::put(
@@ -89,7 +89,7 @@ class Module
     protected function createInstaller(): void
     {
         $content = Str::of(
-            File::get(__DIR__.DIRECTORY_SEPARATOR.'stubs'.DIRECTORY_SEPARATOR.'installer.stub')
+            File::get(__DIR__ . DIRECTORY_SEPARATOR . 'stubs' . DIRECTORY_SEPARATOR . 'installer.stub')
         )->replace([
             '{Module}',
             '{name}',
@@ -102,7 +102,7 @@ class Module
             ucfirst($this->module), $this->keywords, $this->description, ucfirst($this->module)]);
 
         File::put(
-            CatchAdmin::getModulePath($this->module).'Installer.php',
+            CatchAdmin::getModulePath($this->module) . 'Installer.php',
             $content
         );
     }

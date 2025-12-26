@@ -26,7 +26,7 @@ trait DataRange
         $userIds = $this->getDepartmentUserIdsBy($roles, $currenUser);
 
         if ($userIds->isEmpty()) {
-             return $query;
+            return $query;
         }
 
         return $query->whereIn($this->aliasField('creator_id'), $userIds);

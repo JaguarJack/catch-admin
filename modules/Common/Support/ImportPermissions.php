@@ -19,12 +19,12 @@ class ImportPermissions
             }
 
             $id = Permissions::query()
-                                ->where('permission_name', $value['permission_name'])
-                                ->where('module', $value['module'])
-                                ->where('permission_mark', $value['permission_mark'])
-                                ->value('id');
+                ->where('permission_name', $value['permission_name'])
+                ->where('module', $value['module'])
+                ->where('permission_mark', $value['permission_mark'])
+                ->value('id');
 
-            if (!$id) {
+            if (! $id) {
                 $id = app(Permissions::class)->createBy($value);
             }
             if ($children) {

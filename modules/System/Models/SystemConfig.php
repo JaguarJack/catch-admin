@@ -26,7 +26,7 @@ class SystemConfig extends Model
     /**
      * 保存配置
      *
-     * @param array $data
+     * @param  array  $data
      * @return mixed
      */
     public function storeBy(array $data): mixed
@@ -55,14 +55,14 @@ class SystemConfig extends Model
     /**
      * 获取配置
      *
-     * @param string $prefix
-     * @param string $driver
+     * @param  string  $prefix
+     * @param  string  $driver
      * @return array
      */
     public static function getConfig(string $prefix, string $driver = ''): array
     {
         if ($driver) {
-            $prefix = $prefix.'.'.$driver;
+            $prefix = $prefix . '.' . $driver;
         }
 
         $config = [];

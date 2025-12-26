@@ -98,7 +98,7 @@ class Login
     }
 
     /**
-     * @param string $ip
+     * @param  string  $ip
      * @return string
      */
     public static function getLocation(string $ip): string

@@ -28,7 +28,7 @@ abstract class Upload
 
         // 如果是上传图片资源的的话保存
         // 如果是由其他方式上传的图片路径就直接返回
-        if (!$this->file instanceof UploadedFile) {
+        if (! $this->file instanceof UploadedFile) {
             return $this->file;
         }
 
@@ -55,13 +55,13 @@ abstract class Upload
     {
         $filename = $this->params['filename'] ?? '';
 
-        $randomString = date('Y').Str::random(10).time();
+        $randomString = date('Y') . Str::random(10) . time();
 
         if ($filename) {
-            $randomString = $filename.'_'.$randomString;
+            $randomString = $filename . '_' . $randomString;
         }
 
-        return md5($randomString).'.'.$ext;
+        return md5($randomString) . '.' . $ext;
     }
 
     /**
@@ -77,7 +77,7 @@ abstract class Upload
 
         $method = lcfirst($className);
 
-        if (!method_exists($this, $method)) {
+        if (! method_exists($this, $method)) {
             throw new FailedException(sprintf('Method %s in Class %s Not Found~', $method, $className));
         }
 
@@ -107,7 +107,7 @@ abstract class Upload
 
         $fileExt = $this->getUploadedFileExt();
 
-        if (!in_array($fileExt, $extensions)) {
+        if (! in_array($fileExt, $extensions)) {
             throw new FailedException(sprintf('不支持该上传文件类型(%s)类型', $fileExt));
         }
     }
@@ -122,7 +122,7 @@ abstract class Upload
         $size = $limitSize / (1024 * 1024);
 
         if ($this->getUploadedFileSize() > $limitSize) {
-            throw new FailedException('上传最大支持'.$size.'MB');
+            throw new FailedException('上传最大支持' . $size . 'MB');
         }
     }
 

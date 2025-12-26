@@ -13,6 +13,7 @@ use Modules\System\Support\Configure;
  * @group 系统设置
  *
  * @subgroup 系统设置
+ *
  * @subgroupDescription CatchAdmin 系统设置
  */
 class SettingController extends Controller

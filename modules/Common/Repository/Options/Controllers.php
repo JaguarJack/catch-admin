@@ -14,7 +14,7 @@ class Controllers implements OptionInterface
         $controllers = [];
 
         if ($module = request()->get('module')) {
-            $controllerFiles = File::glob(CatchAdmin::getModuleControllerPath($module).'*.php');
+            $controllerFiles = File::glob(CatchAdmin::getModuleControllerPath($module) . '*.php');
 
             foreach ($controllerFiles as $controllerFile) {
                 $controllers[] = [

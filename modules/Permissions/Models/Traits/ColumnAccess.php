@@ -1,4 +1,5 @@
 <?php
+
 namespace Modules\Permissions\Models\Traits;
 
 use Catch\Facade\Admin;
@@ -14,7 +15,7 @@ use Modules\User\Models\User;
 trait ColumnAccess
 {
     /**
-     * @param array $columns
+     * @param  array  $columns
      * @return array
      */
     public function readable(array $columns): array
@@ -23,7 +24,7 @@ trait ColumnAccess
     }
 
     /**
-     * @param array $columns
+     * @param  array  $columns
      * @return array
      */
     public function writable(array $columns): array
@@ -44,9 +45,10 @@ trait ColumnAccess
     /**
      * filter 过滤
      *
-     * @param array $columns
-     * @param bool $isReadable
+     * @param  array  $columns
+     * @param  bool  $isReadable
      * @return array
+     *
      * @throws AuthenticationException
      */
     protected function filter(array $columns, bool $isReadable = true): array
@@ -82,7 +84,7 @@ trait ColumnAccess
             $parseColumn = $this->parseColumn($column);
             // 获取字段的权限的角色集合
             $roles = $columnHasRoles[$parseColumn][$isReadable ? 'readable_roles' : 'writeable_roles'] ?? [];
-            if (!empty($roles)) {
+            if (! empty($roles)) {
                 // 如果当前用户没有角色，没有权限访问该字段
                 if (empty($currentUserHasRoles)) {
                     unset($columns[$k]);
@@ -100,7 +102,7 @@ trait ColumnAccess
     /**
      * 处理表字段栏目
      *
-     * @param array $columns
+     * @param  array  $columns
      * @return array
      */
     protected function dealWithColumns(array $columns): array
@@ -125,7 +127,7 @@ trait ColumnAccess
     }
 
     /**
-     * @param $tableName
+     * @param  $tableName
      * @return array
      */
     protected function combinateColumn($tableName): array
@@ -150,7 +152,7 @@ trait ColumnAccess
     /**
      * 解析原始 column
      *
-     * @param string $column
+     * @param  string  $column
      * @return string
      */
     protected function parseColumn(string $column): string
@@ -163,7 +165,6 @@ trait ColumnAccess
          * 连表别名的 column (例如: user.name as username)
          * 其他的请显性操作
          */
-
         $dot = '.';
         $as = ' as ';
 
@@ -172,16 +173,16 @@ trait ColumnAccess
         $isContainsAs = $column->contains($as);
 
         // 返回原始 column
-        if (!$isContainsAs && !$isContainsDot) {
+        if (! $isContainsAs && ! $isContainsDot) {
             return $column->toString();
         }
         // 只包含 .
-        if ($isContainsDot && !$isContainsAs) {
+        if ($isContainsDot && ! $isContainsAs) {
             return $column->explode('.')->last();
         }
 
         // 包含 as
-        if ($isContainsAs && !$isContainsDot) {
+        if ($isContainsAs && ! $isContainsDot) {
             return $column->explode($as)->first();
         }
 

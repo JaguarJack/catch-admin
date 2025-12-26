@@ -23,9 +23,9 @@ class FormComponent implements OptionInterface
             return $components;
         } else {
             // TODO: Implement get() method.
-            $stubDir = CatchAdmin::getModulePath('develop').
+            $stubDir = CatchAdmin::getModulePath('develop') .
 
-                'Support'.DIRECTORY_SEPARATOR.'Generate'.DIRECTORY_SEPARATOR.'stubs'.DIRECTORY_SEPARATOR.'vue'.DIRECTORY_SEPARATOR.'formItems';
+                'Support' . DIRECTORY_SEPARATOR . 'Generate' . DIRECTORY_SEPARATOR . 'stubs' . DIRECTORY_SEPARATOR . 'vue' . DIRECTORY_SEPARATOR . 'formItems';
 
             $stubs = [];
 

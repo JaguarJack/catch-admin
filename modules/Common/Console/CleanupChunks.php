@@ -30,6 +30,6 @@ class CleanupChunks extends Command
 
         $chunkUpload->cleanupExpiredChunks();
 
-        $this->info("清理完成!");
+        $this->info('清理完成!');
     }
 }

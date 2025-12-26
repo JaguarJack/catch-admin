@@ -19,7 +19,7 @@ class Request extends Creator
 
     public function getFile(): string
     {
-        return CatchAdmin::getModuleRequestPath($this->module).$this->getRequestName().$this->ext;
+        return CatchAdmin::getModuleRequestPath($this->module) . $this->getRequestName() . $this->ext;
     }
 
     /**
@@ -42,7 +42,7 @@ class Request extends Creator
 
         $class = $namespace->addClass($this->getRequestName())->setExtends('FormRequest')
             ->addComment('验证表单')
-            ->addComment('@class '.$this->getRequestName());
+            ->addComment('@class ' . $this->getRequestName());
 
         $class->addProperty('stopOnFirstFailure', true)->setProtected()->addComment('验证错误立即停止');
 

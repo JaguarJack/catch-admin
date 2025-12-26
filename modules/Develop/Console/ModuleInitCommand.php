@@ -13,8 +13,9 @@
 namespace Modules\Develop\Console;
 
 use Catch\CatchAdmin;
-use Modules\Develop\Support\Generate\Module;
 use Illuminate\Console\Command;
+use Modules\Develop\Support\Generate\Module;
+
 use function Laravel\Prompts\confirm;
 use function Laravel\Prompts\text;
 
@@ -35,7 +36,7 @@ class ModuleInitCommand extends Command
 
         $isContinue = true;
         if (CatchAdmin::isModulePathExist($name)) {
-           $isContinue =  confirm('模块目录已存在，是否继续，继续创建将会覆盖原文件');
+            $isContinue = confirm('模块目录已存在，是否继续，继续创建将会覆盖原文件');
         }
 
         if (! $isContinue) {

@@ -52,7 +52,7 @@ class PermissionsController extends Controller
      * @responseField data[].created_at string 创建时间
      * @responseField data[].updated_at string 更新时间
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return mixed
      */
     public function index(Request $request): mixed
@@ -85,7 +85,7 @@ class PermissionsController extends Controller
      * @bodyParam sort int 排序
      * @bodyParam active_menu string 当前激活的菜单(用于菜单类型激活高亮)
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return mixed
      */
     public function store(Request $request)
@@ -98,7 +98,7 @@ class PermissionsController extends Controller
      *
      * @urlParam id int required 权限ID
      *
-     * @param $id
+     * @param  $id
      * @return Model|null
      */
     public function show($id): ?Model
@@ -125,8 +125,8 @@ class PermissionsController extends Controller
      * @bodyParam sort int 排序
      * @bodyParam active_menu string 当前激活的菜单(用于菜单类型激活高亮)
      *
-     * @param $id
-     * @param Request $request
+     * @param  $id
+     * @param  Request  $request
      * @return mixed
      */
     public function update($id, Request $request): mixed
@@ -157,7 +157,7 @@ class PermissionsController extends Controller
      *
      * @urlParam id int required 权限ID
      *
-     * @param $id
+     * @param  $id
      * @return bool
      */
     public function enable($id): bool

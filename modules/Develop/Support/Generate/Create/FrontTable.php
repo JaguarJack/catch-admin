@@ -53,11 +53,11 @@ class FrontTable extends Creator
     {
         if ($this->isDynamic) {
             if ($this->isDialogForm) {
-                return str_replace([$this->api], [$this->apiString.'/dynamic/r'], File::get($this->getTableStub()));
+                return str_replace([$this->api], [$this->apiString . '/dynamic/r'], File::get($this->getTableStub()));
             } else {
                 return str_replace(
                     [$this->api, $this->createRoute],
-                    [$this->apiString.'/dynamic/r', '/'.$this->module.'/'.lcfirst($this->controller).'/create'],
+                    [$this->apiString . '/dynamic/r', '/' . $this->module . '/' . lcfirst($this->controller) . '/create'],
                     File::get($this->getTableStub())
                 );
             }
@@ -72,20 +72,20 @@ class FrontTable extends Creator
 
         $formDialog = $this->getCreateForm() ? $this->formDialog() : '';
 
-        $searchForm = $hasSearchForm ? 'const search = '.$this->getSearchContent() : '';
-        $columns = 'const columns = '.$this->getTableContent();
-        $api = 'const api = "'.$this->apiString.'"';
+        $searchForm = $hasSearchForm ? 'const search = ' . $this->getSearchContent() : '';
+        $columns = 'const columns = ' . $this->getTableContent();
+        $api = 'const api = "' . $this->apiString . '"';
         $operate = ! $this->getCreateForm() ? ':operation="false"' : '';
         // exportUrl="/user"
         //      importUrl="/user/import"
         $exportUrl = $importUrl = $exports = '';
         if (in_array('export', $this->operations)) {
-            $exportUrl = implode('/', $apiPathArr).'/export/'.$last;
+            $exportUrl = implode('/', $apiPathArr) . '/export/' . $last;
             $exportUrl = sprintf('exportUrl="%s"', $exportUrl);
             $exports = ':exports="true"';
         }
         if (in_array('import', $this->operations)) {
-            $importUrl = implode('/', $apiPathArr).'/import/'.$last;
+            $importUrl = implode('/', $apiPathArr) . '/import/' . $last;
             $importUrl = sprintf('importUrl="%s"', $importUrl);
         }
 
@@ -119,6 +119,7 @@ import { ref } from 'vue'
 {$searchForm}
 </script>
 TEPLATE;
+
         return preg_replace('/^\s*[\r\n]+/m', '', $str);
     }
 
@@ -127,9 +128,9 @@ TEPLATE;
      */
     public function getFile(): string
     {
-        $path = config('catch.views_path').lcfirst($this->module).DIRECTORY_SEPARATOR;
+        $path = config('catch.views_path') . lcfirst($this->module) . DIRECTORY_SEPARATOR;
 
-        return CatchAdmin::makeDir($path.Str::of($this->controller)->replace('Controller', '')->lcfirst()).DIRECTORY_SEPARATOR.'index.vue';
+        return CatchAdmin::makeDir($path . Str::of($this->controller)->replace('Controller', '')->lcfirst()) . DIRECTORY_SEPARATOR . 'index.vue';
     }
 
     /**
@@ -147,23 +148,23 @@ TEPLATE;
                 if ($structure['options'] ?? false) {
                     $structure['form_component'] = 'select';
                 }
-                $search = $search->append("\t{".PHP_EOL)->append("\t")
-                    ->append("\ttype: '{$structure['form_component']}'")->append(','.PHP_EOL)->append("\t")
-                    ->append("\tname: '{$structure['field']}'")->append(','.PHP_EOL)->append("\t")
-                    ->append("\tlabel: '{$structure['label']}'")->append(','.PHP_EOL)->append("\t")
+                $search = $search->append("\t{" . PHP_EOL)->append("\t")
+                    ->append("\ttype: '{$structure['form_component']}'")->append(',' . PHP_EOL)->append("\t")
+                    ->append("\tname: '{$structure['field']}'")->append(',' . PHP_EOL)->append("\t")
+                    ->append("\tlabel: '{$structure['label']}'")->append(',' . PHP_EOL)->append("\t")
                     ->when($structure['options'] ?? false, function ($content) use ($structure) {
-                        return $content->append("\toptions: {$this->parseOptions2JsObject($structure['options'])}")->append(','.PHP_EOL)->append("\t");
+                        return $content->append("\toptions: {$this->parseOptions2JsObject($structure['options'])}")->append(',' . PHP_EOL)->append("\t");
                     })
                     // 如果是远程 select
                     ->when($structure['form_component'] == 'remote-select', function ($content) use ($structure) {
                         return $content->append("\tprops: {")
-                            ->append("\t\ttable: '{$structure['remote_data_params']['table']}'")->append(','.PHP_EOL)->append("\t\t")
-                            ->append("\t\tvalue: '{$structure['remote_data_params']['value']}'")->append(','.PHP_EOL)->append("\t\t")
-                            ->append("\t\tlabel: '{$structure['remote_data_params']['label']}'")->append(','.PHP_EOL)->append("\t\t")
+                            ->append("\t\ttable: '{$structure['remote_data_params']['table']}'")->append(',' . PHP_EOL)->append("\t\t")
+                            ->append("\t\tvalue: '{$structure['remote_data_params']['value']}'")->append(',' . PHP_EOL)->append("\t\t")
+                            ->append("\t\tlabel: '{$structure['remote_data_params']['label']}'")->append(',' . PHP_EOL)->append("\t\t")
                             ->when($structure['remote_data_params']['pid'], function ($content) use ($structure) {
-                                return $content->append("\t\tpid: '{$structure['remote_data_params']['pid']}'")->append(','.PHP_EOL)->append("\t\t");
+                                return $content->append("\t\tpid: '{$structure['remote_data_params']['pid']}'")->append(',' . PHP_EOL)->append("\t\t");
                             })
-                            ->append("\t}")->append(','.PHP_EOL)->append("\t");
+                            ->append("\t}")->append(',' . PHP_EOL)->append("\t");
                     })
                     ->append('},')->append(PHP_EOL);
             }
@@ -203,24 +204,24 @@ TEPLATE;
 
             // 如果 label 为空，使用 field 作为 label
             $structure['label'] = $structure['label'] ?: $structure['field'];
-            $columns = $columns->append("\t{".PHP_EOL)->append("\t")
-                ->append("\tprop: '{$structure['field']}'")->append(','.PHP_EOL)->append("\t")
-                ->append("\tlabel: '{$structure['label']}'")->append(','.PHP_EOL)->append("\t")
+            $columns = $columns->append("\t{" . PHP_EOL)->append("\t")
+                ->append("\tprop: '{$structure['field']}'")->append(',' . PHP_EOL)->append("\t")
+                ->append("\tlabel: '{$structure['label']}'")->append(',' . PHP_EOL)->append("\t")
                 ->when(in_array($structure['field'], $switchFields), function ($content) {
-                    return $content->append("\tswitch: true")->append(','.PHP_EOL)->append("\t");
+                    return $content->append("\tswitch: true")->append(',' . PHP_EOL)->append("\t");
                 })
                 ->when(in_array($structure['form_component'], ['upload-oss', 'upload-image', 'upload-images']), function ($content) {
-                    return $content->append("\timage: true")->append(','.PHP_EOL)->append("\t");
+                    return $content->append("\timage: true")->append(',' . PHP_EOL)->append("\t");
                 })
                 ->when($structure['form_component'] == 'upload-images', function ($content) {
-                    return $content->append("\tpreview: true")->append(','.PHP_EOL)->append("\t");
+                    return $content->append("\tpreview: true")->append(',' . PHP_EOL)->append("\t");
                 })
                 ->append('},')->append(PHP_EOL);
         }
 
-        $columns = $columns->append("\t{".PHP_EOL)->append("\t")
-            ->append("\ttype: 'operate'")->append(','.PHP_EOL)->append("\t")
-            ->append("\tlabel: '操作'")->append(','.PHP_EOL)->append("\t")
+        $columns = $columns->append("\t{" . PHP_EOL)->append("\t")
+            ->append("\ttype: 'operate'")->append(',' . PHP_EOL)->append("\t")
+            ->append("\tlabel: '操作'")->append(',' . PHP_EOL)->append("\t")
             ->append('},')->append(PHP_EOL);
 
         return $columns->trim(',')->append(']')->toString();
@@ -237,7 +238,7 @@ TEPLATE;
             $stub = $this->isDynamic ? ($this->needForm ? 'tableDynamic.stub' : 'tableDynamicNoForm.stub') : 'table.stub';
         }
 
-        return dirname(__DIR__).DIRECTORY_SEPARATOR.'stubs'.DIRECTORY_SEPARATOR.'vue'.DIRECTORY_SEPARATOR.$stub;
+        return dirname(__DIR__) . DIRECTORY_SEPARATOR . 'stubs' . DIRECTORY_SEPARATOR . 'vue' . DIRECTORY_SEPARATOR . $stub;
     }
 
     /**

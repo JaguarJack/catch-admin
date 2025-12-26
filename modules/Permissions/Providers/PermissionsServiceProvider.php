@@ -3,13 +3,13 @@
 namespace Modules\Permissions\Providers;
 
 use Catch\Providers\CatchModuleServiceProvider;
-use Modules\Permissions\Middlewares\PermissionGate;
-use Modules\Permissions\Events\EnableModuleMenusEvent;
-use Modules\Permissions\Events\DisableModuleMenusEvent;
-use Modules\Permissions\Listeners\EnableModuleMenusListener;
-use Modules\Permissions\Listeners\DisableModuleMenusListener;
 use Modules\Permissions\Events\DeleteModuleMenusEvent;
+use Modules\Permissions\Events\DisableModuleMenusEvent;
+use Modules\Permissions\Events\EnableModuleMenusEvent;
 use Modules\Permissions\Listeners\DeleteModuleMenusListener;
+use Modules\Permissions\Listeners\DisableModuleMenusListener;
+use Modules\Permissions\Listeners\EnableModuleMenusListener;
+use Modules\Permissions\Middlewares\PermissionGate;
 
 class PermissionsServiceProvider extends CatchModuleServiceProvider
 {

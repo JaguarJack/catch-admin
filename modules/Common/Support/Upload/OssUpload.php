@@ -24,7 +24,7 @@ class OssUpload
 
         $this->accessKeyId = config('common.upload.oss.access_id');
 
-        $this->dir = date('Y-m-d').'/';
+        $this->dir = date('Y-m-d') . '/';
 
         $this->endpoint = config('common.upload.oss.endpoint');
 
@@ -53,7 +53,7 @@ class OssUpload
 
             'dir' => $this->dir,
 
-            'url' => $this->endpoint.$this->dir,
+            'url' => $this->endpoint . $this->dir,
         ];
     }
 

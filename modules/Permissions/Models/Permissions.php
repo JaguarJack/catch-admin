@@ -55,7 +55,7 @@ class Permissions extends Model
     ];
 
     public $appends = [
-        'remote_component'
+        'remote_component',
     ];
 
     protected $hidden = ['pivot'];
@@ -167,7 +167,7 @@ class Permissions extends Model
                     return $value;
                 }
 
-                return pathinfo($value, PATHINFO_EXTENSION) == 'vue' ? $value : $value.'.vue';
+                return pathinfo($value, PATHINFO_EXTENSION) == 'vue' ? $value : $value . '.vue';
             }
         );
     }
@@ -178,15 +178,16 @@ class Permissions extends Model
     public function remoteComponent(): Attribute
     {
         return Attribute::make(
-            get: fn($value) => Str::of($this->component)->startsWith(['api', '/api', 'http', 'https']) ? url($this->component) : ''
+            get: fn ($value) => Str::of($this->component)->startsWith(['api', '/api', 'http', 'https']) ? url($this->component) : ''
         );
     }
 
     /**
      * 保存菜单
      *
-     * @param array $data
+     * @param  array  $data
      * @return mixed
+     *
      * @throws \Throwable
      */
     public function storeBy(array $data): mixed
@@ -238,7 +239,7 @@ class Permissions extends Model
                     throw new FailedException('模块已存在目录类型菜单，模块只允许创建一个目录类型菜单');
                 }
 
-                $data['route'] = '/'.trim($data['route'], '/');
+                $data['route'] = '/' . trim($data['route'], '/');
             }
 
             if (isset($data['component'])) {
@@ -257,7 +258,7 @@ class Permissions extends Model
     protected function addAction($model, mixed $parent): mixed
     {
         $model->setAttribute('module', $parent->module);
-        $model->setAttribute('permission_mark', $parent->permission_mark.'@'.$model->permission_mark);
+        $model->setAttribute('permission_mark', $parent->permission_mark . '@' . $model->permission_mark);
         $model->setAttribute('route', '');
         $model->setAttribute('icon', '');
         $model->setAttribute('component', '');
@@ -284,7 +285,7 @@ class Permissions extends Model
         if ($model->isAction()) {
             /* @var Permissions $parentMenu */
             $parentMenu = $this->firstBy($model->parent_id, 'id');
-            $data['permission_mark'] = $parentMenu->permission_mark.'@'.$data['permission_mark'];
+            $data['permission_mark'] = $parentMenu->permission_mark . '@' . $data['permission_mark'];
         }
 
         if (isset($data['component'])) {

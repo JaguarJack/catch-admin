@@ -24,7 +24,7 @@ class PermissionGate
         $user = Admin::auth();
 
         if (! $user->can()) {
-            throw new PermissionForbidden;
+            throw new PermissionForbidden();
         }
 
         return $next($request);

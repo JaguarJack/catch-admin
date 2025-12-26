@@ -14,11 +14,11 @@ class Factory
      */
     public function make(string $optionName): OptionInterface
     {
-        $className = __NAMESPACE__.'\\'.Str::of($optionName)->ucfirst()->toString();
+        $className = __NAMESPACE__ . '\\' . Str::of($optionName)->ucfirst()->toString();
 
         $class = new $className();
 
-        if (!$class instanceof OptionInterface) {
+        if (! $class instanceof OptionInterface) {
             throw new Exception('option must be implement [OptionInterface]');
         }
 

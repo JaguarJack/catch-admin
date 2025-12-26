@@ -19,13 +19,14 @@ class Import extends Creator
         protected string $module,
         protected string $model,
         protected array $structures
-    ) {}
+    ) {
+    }
 
     public function getFile(): string
     {
-        CatchAdmin::makeDir(CatchAdmin::getModulePath($this->module).DIRECTORY_SEPARATOR.'Excel'.DIRECTORY_SEPARATOR.'Import');
+        CatchAdmin::makeDir(CatchAdmin::getModulePath($this->module) . DIRECTORY_SEPARATOR . 'Excel' . DIRECTORY_SEPARATOR . 'Import');
 
-        return CatchAdmin::getModulePath($this->module).$this->getImportName().$this->ext;
+        return CatchAdmin::getModulePath($this->module) . $this->getImportName() . $this->ext;
     }
 
     /**
@@ -33,7 +34,7 @@ class Import extends Creator
      */
     public function getContent(): string|bool|PhpFile
     {
-        $file = new PhpFile;
+        $file = new PhpFile();
         $file->setStrictTypes();
 
         $fields = [];
@@ -53,14 +54,14 @@ class Import extends Creator
         $class = $namespace->addClass(class_basename($this->getImportName()))->setExtends('Import')
             ->addComment('导入数据')
             ->addComment("\n")
-            ->addComment('@class '.$this->getImportName());
+            ->addComment('@class ' . $this->getImportName());
 
         $functionLike = $class->addMethod('collection')
             ->setReturnType('void')
             ->addBody('$rows->each(function ($row) {')
-            ->addBody('$model = new '.$modelBaseName.';');
+            ->addBody('$model = new ' . $modelBaseName . ';');
         foreach ($fields as $key => $field) {
-            $functionLike = $functionLike->addBody('$model->'.$field.' = $row['.$key.'];');
+            $functionLike = $functionLike->addBody('$model->' . $field . ' = $row[' . $key . '];');
         }
         $functionLike->addBody('$model->save();')
             ->addBody('});')
@@ -88,7 +89,7 @@ class Import extends Creator
      */
     public function getImportName(): ?string
     {
-        return Str::of('Excel'.DIRECTORY_SEPARATOR.'Import'.DIRECTORY_SEPARATOR)->append(
+        return Str::of('Excel' . DIRECTORY_SEPARATOR . 'Import' . DIRECTORY_SEPARATOR)->append(
             Str::of(class_basename($this->model))->remove('Model')->append('Import')->ucfirst()->toString()
         )->toString();
     }
@@ -98,7 +99,7 @@ class Import extends Creator
      */
     public function getImportClass(): string
     {
-        return $this->getNamespace().'\\'.class_basename($this->getImportName());
+        return $this->getNamespace() . '\\' . class_basename($this->getImportName());
     }
 
     /**
@@ -108,7 +109,7 @@ class Import extends Creator
      */
     public function createExportTemplateFile(): void
     {
-        $importFile = new class extends \Catch\Support\Excel\Export
+        $importFile = new class() extends \Catch\Support\Excel\Export
         {
             public function array(): array
             {
@@ -119,7 +120,7 @@ class Import extends Creator
 
         $importFile->setHeader(array_unique($this->labels))
             ->setPath('importTemplates')
-            ->setFilename(class_basename($this->model).'导入模板.xlsx')
+            ->setFilename(class_basename($this->model) . '导入模板.xlsx')
             ->export('static');
     }
 }

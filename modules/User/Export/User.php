@@ -3,6 +3,7 @@
 namespace Modules\User\Export;
 
 use Catch\Support\Excel\Export;
+
 class User extends Export
 {
     protected array $header = [

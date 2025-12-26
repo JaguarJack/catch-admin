@@ -3,7 +3,6 @@
 namespace Modules\User\Models\Traits;
 
 use Catch\CatchAdmin;
-use Catch\Support\Module\ModuleRepository;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Route;
@@ -20,7 +19,7 @@ trait UserRelations
      */
     public function initializeUserRelations(): void
     {
-       $this->with = ['roles', 'jobs'];
+        $this->with = ['roles', 'jobs'];
     }
 
     /**
@@ -91,7 +90,7 @@ trait UserRelations
             if ($permission->isAction()) {
                 [$controller, $action] = explode('@', $permission->permission_mark);
 
-                $actions->add(CatchAdmin::getModuleControllerNamespace($permission->module).ucfirst($controller).'Controller@'.$action);
+                $actions->add(CatchAdmin::getModuleControllerNamespace($permission->module) . ucfirst($controller) . 'Controller@' . $action);
             }
         });
 
@@ -101,7 +100,7 @@ trait UserRelations
             if (! CatchAdmin::isModulePathExist($module)) {
                 // todo
             } else {
-                $permission = CatchAdmin::getModuleControllerNamespace($module).ucfirst($controller).'Controller@'.$action;
+                $permission = CatchAdmin::getModuleControllerNamespace($module) . ucfirst($controller) . 'Controller@' . $action;
             }
         }
 

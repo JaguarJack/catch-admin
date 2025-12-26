@@ -16,6 +16,7 @@ use Modules\Permissions\Models\Permissions;
  * @group 开发模块
  *
  * @subgroup 模块管理
+ *
  * @subgroupDescription CatchAdmin 后台模块管理
  */
 class ModuleController extends CatchController
@@ -86,7 +87,6 @@ class ModuleController extends CatchController
      * @bodyParam path string required 模块目录
      * @bodyParam keywords string 模块关键字
      * @bodyParam description string 模块描述
-     *
      */
     public function update($name, Request $request): bool|int
     {
@@ -171,6 +171,6 @@ class ModuleController extends CatchController
             'root' => storage_path('app'),
         ])->put($file->getClientOriginalName(), $file->getContent());
 
-        return storage_path('app').DIRECTORY_SEPARATOR.$file->getClientOriginalName();
+        return storage_path('app') . DIRECTORY_SEPARATOR . $file->getClientOriginalName();
     }
 }

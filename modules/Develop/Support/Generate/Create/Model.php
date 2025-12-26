@@ -53,7 +53,7 @@ class Model extends Creator
         protected readonly bool $isPaginate,
         protected readonly array $relations = []
     ) {
-        $model = new class extends EloquentModel
+        $model = new class() extends EloquentModel
         {
             use SoftDeletes;
         };
@@ -70,7 +70,7 @@ class Model extends Creator
     public function getFile(): string
     {
         // TODO: Implement getFile() method.
-        return CatchAdmin::getModuleModelPath($this->module).$this->getModelName().$this->ext;
+        return CatchAdmin::getModuleModelPath($this->module) . $this->getModelName() . $this->ext;
     }
 
     /**
@@ -78,7 +78,7 @@ class Model extends Creator
      */
     public function getContent(): string|bool|PhpFile
     {
-        $file = new PhpFile;
+        $file = new PhpFile();
         $file->setStrictTypes();
 
         $namespace = $file->addNamespace($this->getModelNamespace());
@@ -110,7 +110,7 @@ class Model extends Creator
         // 添加属性
         foreach ($tableColumns as $column) {
             $phpType = $this->parseMysqlTypeToPhpType($column['type']);
-            $modelClass->addComment('@property '.($column['nullable'] ? $phpType.'|null' : $phpType).' $'.$column['name'].' '.$column['comment']);
+            $modelClass->addComment('@property ' . ($column['nullable'] ? $phpType . '|null' : $phpType) . ' $' . $column['name'] . ' ' . $column['comment']);
         }
 
         // 添加表名
@@ -161,10 +161,10 @@ class Model extends Creator
                 $modelClass->addProperty('asTree', true)->setType('bool')->setProtected()->addComment('树形展示数据');
             }
         } else {
-            $dumper = new Dumper;
-            $body = 'parent::__construct();'.PHP_EOL;
+            $dumper = new Dumper();
+            $body = 'parent::__construct();' . PHP_EOL;
             if (count($this->getSearchable())) {
-                $body .= '$this->searchable = '.$dumper->dump($this->getSearchable()).';'.PHP_EOL;
+                $body .= '$this->searchable = ' . $dumper->dump($this->getSearchable()) . ';' . PHP_EOL;
             }
             $body .= $asTree ? '$this->asTree = true;' : '';
             // 添加 construct 方法
@@ -254,8 +254,8 @@ class Model extends Creator
 
                 $modelClass->addMethod($relationModel['relation'])
                     ->setReturnType($relationClassName)
-                    ->addBody('return $this->'.$relationModel['relation_method'].'(...?:);', [$relationParams])
-                    ->addComment('@return '.$relationClassName);
+                    ->addBody('return $this->' . $relationModel['relation_method'] . '(...?:);', [$relationParams])
+                    ->addComment('@return ' . $relationClassName);
             }
         }
 
@@ -271,8 +271,8 @@ class Model extends Creator
                     ->setReturnType('Attribute')
                     ->addComment("{$enumField['field']} 字段转换器 \n")
                     ->addComment('@return Attribute')
-                    ->addBody('$text = ?;'."\n", [$enumField['options']])
-                    ->addBody('return Attribute::make(get: fn ($value) => $text[$this->'.$enumField['field'].'] ?? \'\');');
+                    ->addBody('$text = ?;' . "\n", [$enumField['options']])
+                    ->addBody('return Attribute::make(get: fn ($value) => $text[$this->' . $enumField['field'] . '] ?? \'\');');
             }
         }
 
@@ -418,7 +418,7 @@ class Model extends Creator
         if (class_exists($modelClass)) {
             $namespace->addUse($modelClass);
 
-            return new Literal(class_basename($modelClass).'::class');
+            return new Literal(class_basename($modelClass) . '::class');
         }
 
         return $modelClass;

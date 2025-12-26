@@ -1,4 +1,5 @@
 <?php
+
 namespace Modules\System\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
@@ -16,7 +17,7 @@ class DictionaryValueRequest extends FormRequest
                 Rule::unique('system_dictionary_values')
                     ->where('dic_id', $this->get('dic_id'))
                     ->where('deleted_at', 0)
-                    ->ignore($this->get('id'))
+                    ->ignore($this->get('id')),
             ],
             'key' => [
                 'required',
@@ -24,14 +25,14 @@ class DictionaryValueRequest extends FormRequest
                 Rule::unique('system_dictionary_values')
                     ->where('dic_id', $this->get('dic_id'))
                     ->where('deleted_at', 0)
-                    ->ignore($this->get('id'))
+                    ->ignore($this->get('id')),
             ],
             'value' => [
                 'required',
                 Rule::unique('system_dictionary_values')
                     ->where('dic_id', $this->get('dic_id'))
                     ->where('deleted_at', 0)
-                    ->ignore($this->get('id'))
+                    ->ignore($this->get('id')),
             ],
         ];
     }

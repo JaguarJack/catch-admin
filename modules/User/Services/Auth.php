@@ -22,7 +22,7 @@ class Auth
             }
 
             $token = $user->createToken('token', expiresAt: config('sanctum.expiration') ? now()->addMinutes(config('sanctum.expiration')) : null)
-                          ->plainTextToken;
+                ->plainTextToken;
 
             // 登录成功事件
             Event::dispatch(new Login($user, $token));

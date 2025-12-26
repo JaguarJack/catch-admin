@@ -28,7 +28,8 @@ class UserController extends Controller
 {
     public function __construct(
         protected readonly User $user
-    ) {}
+    ) {
+    }
 
     /**
      * 用户列表

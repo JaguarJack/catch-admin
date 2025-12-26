@@ -14,6 +14,7 @@ class Password implements LoginInterface
     /**
      * @param  array{account: string, password: string, captcha_key: string, captcha: string}  $params
      * @return ?User
+     *
      * @throws BindingResolutionException
      */
     public function auth(array $params): ?User
@@ -21,7 +22,7 @@ class Password implements LoginInterface
         $isUseCaptcha = config('setting.login.use_captcha');
         if ($isUseCaptcha) {
             $validator = validator()->make(['captcha' => $params['captcha']], [
-                'captcha' => 'required|captcha_api:'.$params['captcha_key'].',captcha',
+                'captcha' => 'required|captcha_api:' . $params['captcha_key'] . ',captcha',
             ]);
 
             if ($validator->fails()) {
@@ -43,7 +44,7 @@ class Password implements LoginInterface
             return $user;
         }
 
-        throw new FailedException('登录失败！请检查邮箱或者密码, 剩余尝试登录次数：'.$leftAttempts);
+        throw new FailedException('登录失败！请检查邮箱或者密码, 剩余尝试登录次数：' . $leftAttempts);
     }
 
     /**
@@ -70,7 +71,7 @@ class Password implements LoginInterface
 
     protected function limitKey(): string
     {
-        return 'admin:login:'.Request::host().':'.Request::ip();
+        return 'admin:login:' . Request::host() . ':' . Request::ip();
     }
 
     protected function maxAttempts($maxLimit = 5): int

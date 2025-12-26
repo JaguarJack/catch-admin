@@ -54,7 +54,7 @@ abstract class Creator
         }
 
         if ($content instanceof PhpFile) {
-            $printer = new PsrPrinter;
+            $printer = new PsrPrinter();
             $printer->setTypeResolving(false);
             $content = $printer->printFile($content);
         }

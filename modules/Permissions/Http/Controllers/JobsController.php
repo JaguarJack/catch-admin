@@ -12,6 +12,7 @@ use Modules\Permissions\Models\Jobs;
  * @group 权限模块
  *
  * @subgroup 岗位管理
+ *
  * @subgroupDescription CatchAdmin 后台岗位管理
  */
 class JobsController extends Controller
@@ -56,7 +57,7 @@ class JobsController extends Controller
      * @bodyParam description string 岗位描述
      * @bodyParam status int 状态
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return mixed
      */
     public function store(Request $request)
@@ -69,7 +70,7 @@ class JobsController extends Controller
      *
      * @urlParam id int required 岗位ID
      *
-     * @param $id
+     * @param  $id
      * @return \Illuminate\Database\Eloquent\Model|null
      */
     public function show($id)
@@ -86,8 +87,8 @@ class JobsController extends Controller
      * @bodyParam description string 岗位描述
      * @bodyParam status int 状态
      *
-     * @param $id
-     * @param Request $request
+     * @param  $id
+     * @param  Request  $request
      * @return mixed
      */
     public function update($id, Request $request)
@@ -100,7 +101,7 @@ class JobsController extends Controller
      *
      * @urlParam id int required 岗位ID
      *
-     * @param $id
+     * @param  $id
      * @return bool|null
      */
     public function destroy($id)
@@ -113,7 +114,7 @@ class JobsController extends Controller
      *
      * @urlParam id int required 岗位ID
      *
-     * @param $id
+     * @param  $id
      * @return bool
      */
     public function enable($id)

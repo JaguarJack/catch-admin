@@ -42,9 +42,11 @@ class TableData implements OptionInterface
         $columns = Schema::getColumnListing($tableName);
 
         if (in_array('deleted_at', $columns)) {
-            $model = new class extends CatchModel {};
+            $model = new class() extends CatchModel
+            {
+            };
         } else {
-            $model = new class extends Model
+            $model = new class() extends Model
             {
                 use BaseOperate;
                 use DateformatTrait;

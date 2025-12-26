@@ -19,7 +19,8 @@ class SchemaController extends CatchController
 {
     public function __construct(
         protected Schemas $schemas
-    ) {}
+    ) {
+    }
 
     /**
      * 数据表列表

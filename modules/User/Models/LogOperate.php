@@ -12,7 +12,6 @@ use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -67,7 +66,7 @@ class LogOperate extends Model
         $timeTaken = intval(microtime(true) * 1000 - $requestStartAt);
         $this->storeBy([
             'module' => $module,
-            'action' => $controller.'@'.$action,
+            'action' => $controller . '@' . $action,
             'creator_id' => $user->id,
             'http_method' => $request->method(),
             'http_code' => $response->getStatusCode(),
@@ -82,7 +81,7 @@ class LogOperate extends Model
     protected function timeTaken(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => $value > 1000 ? intval($value / 1000).'s' : $value.'ms',
+            get: fn ($value) => $value > 1000 ? intval($value / 1000) . 's' : $value . 'ms',
         );
     }
 }

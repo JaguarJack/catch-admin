@@ -41,7 +41,7 @@ class LocalUpload extends Upload
      */
     protected function isPrivate(): bool
     {
-        return config('filesystems.disks.'.$this->getDisk().'.visibility') == 'private';
+        return config('filesystems.disks.' . $this->getDisk() . '.visibility') == 'private';
     }
 
     /**
@@ -51,7 +51,7 @@ class LocalUpload extends Upload
     {
         $this->checkSize();
 
-        $filename = date('Y-m-d').'/'.$this->getPath().'/'.$this->generateName($this->getUploadedFileExt());
+        $filename = date('Y-m-d') . '/' . $this->getPath() . '/' . $this->generateName($this->getUploadedFileExt());
 
         Storage::disk($this->getDisk())->put($filename, $this->file->getContent());
 

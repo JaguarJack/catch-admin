@@ -10,6 +10,7 @@ use Modules\Common\Repository\Options\Factory;
  * @group 公共模块
  *
  * @subgroup 选项管理
+ *
  * @subgroupDescription CatchAdmin 后台选项管理
  */
 class OptionController

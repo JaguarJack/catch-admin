@@ -61,7 +61,7 @@ class FrontForm extends Creator
     public function getContent(): string
     {
         if ($this->isDynamic) {
-            return str_replace([$this->api], [$this->apiString.'/dynamic/r'], File::get($this->getFormStub()));
+            return str_replace([$this->api], [$this->apiString . '/dynamic/r'], File::get($this->getFormStub()));
         }
 
         // TODO: Implement getContent() method.
@@ -73,13 +73,13 @@ class FrontForm extends Creator
      */
     public function getFile(): string
     {
-        $path = config('catch.views_path').lcfirst($this->module).DIRECTORY_SEPARATOR;
+        $path = config('catch.views_path') . lcfirst($this->module) . DIRECTORY_SEPARATOR;
 
         if ($this->isDialogForm) {
             // TODO: Implement getFile() method.
-            return CatchAdmin::makeDir($path.Str::of($this->controller)->replace('Controller', '')->lcfirst().DIRECTORY_SEPARATOR.'form').DIRECTORY_SEPARATOR.'create.vue';
+            return CatchAdmin::makeDir($path . Str::of($this->controller)->replace('Controller', '')->lcfirst() . DIRECTORY_SEPARATOR . 'form') . DIRECTORY_SEPARATOR . 'create.vue';
         } else {
-            return CatchAdmin::makeDir($path.Str::of($this->controller)->replace('Controller', '')->lcfirst()).DIRECTORY_SEPARATOR.'create.vue';
+            return CatchAdmin::makeDir($path . Str::of($this->controller)->replace('Controller', '')->lcfirst()) . DIRECTORY_SEPARATOR . 'create.vue';
         }
     }
 
@@ -142,8 +142,6 @@ class FrontForm extends Creator
             }
         }
 
-
-
         return $form->trim(PHP_EOL)->toString();
     }
 
@@ -200,7 +198,7 @@ class FrontForm extends Creator
             // 删除第一行
             foreach (File::lines($stub) as $k => $line) {
                 if ($k) {
-                    $newContent .= $line.PHP_EOL;
+                    $newContent .= $line . PHP_EOL;
                 }
             }
             $components[File::name($stub)] = $newContent;
@@ -214,11 +212,11 @@ class FrontForm extends Creator
      */
     protected function getFormItemStub(): string
     {
-        return dirname(__DIR__).DIRECTORY_SEPARATOR.'stubs'
+        return dirname(__DIR__) . DIRECTORY_SEPARATOR . 'stubs'
 
-            .DIRECTORY_SEPARATOR.'vue'.DIRECTORY_SEPARATOR
+            . DIRECTORY_SEPARATOR . 'vue' . DIRECTORY_SEPARATOR
 
-            .'formItems'.DIRECTORY_SEPARATOR.'*.stub';
+            . 'formItems' . DIRECTORY_SEPARATOR . '*.stub';
     }
 
     /**
@@ -227,14 +225,14 @@ class FrontForm extends Creator
     public function getFormStub(): string
     {
         if ($this->isDynamic && ! $this->isDialogForm) {
-            return dirname(__DIR__).DIRECTORY_SEPARATOR.'stubs'
+            return dirname(__DIR__) . DIRECTORY_SEPARATOR . 'stubs'
 
-                .DIRECTORY_SEPARATOR.'vue'.DIRECTORY_SEPARATOR.'formPage.stub';
+                . DIRECTORY_SEPARATOR . 'vue' . DIRECTORY_SEPARATOR . 'formPage.stub';
         }
 
-        return dirname(__DIR__).DIRECTORY_SEPARATOR.'stubs'
+        return dirname(__DIR__) . DIRECTORY_SEPARATOR . 'stubs'
 
-            .DIRECTORY_SEPARATOR.'vue'.DIRECTORY_SEPARATOR.($this->isDynamic ? 'formDynamic.stub' : 'form.stub');
+            . DIRECTORY_SEPARATOR . 'vue' . DIRECTORY_SEPARATOR . ($this->isDynamic ? 'formDynamic.stub' : 'form.stub');
     }
 
     /**

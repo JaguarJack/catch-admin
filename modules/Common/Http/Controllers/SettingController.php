@@ -4,11 +4,11 @@ namespace Modules\Common\Http\Controllers;
 
 use Exception;
 
-
 /**
  * @group 公共模块
  *
  * @subgroup 功能开启
+ *
  * @subgroupDescription CatchAdmin 是否开启
  */
 class SettingController

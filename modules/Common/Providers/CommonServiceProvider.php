@@ -10,7 +10,7 @@ class CommonServiceProvider extends CatchModuleServiceProvider
 {
     protected array $commands = [
         Area::class,
-        CleanupChunks::class
+        CleanupChunks::class,
     ];
 
     /**

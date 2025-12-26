@@ -10,7 +10,7 @@ class Factory
     {
         $driver = (new static())->getLoginDriver($params);
 
-        return new (__NAMESPACE__.'\\'.ucfirst($driver));
+        return new (__NAMESPACE__ . '\\' . ucfirst($driver));
     }
 
     protected function getLoginDriver($params): string

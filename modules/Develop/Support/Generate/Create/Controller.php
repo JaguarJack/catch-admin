@@ -20,7 +20,8 @@ class Controller extends Creator
         public readonly bool $dynamic = false,
         public readonly array $structures = [],
         public readonly array $operations = [],
-    ) {}
+    ) {
+    }
 
     /**
      * get file
@@ -28,7 +29,7 @@ class Controller extends Creator
     public function getFile(): string
     {
         // TODO: Implement getFile() method.
-        return CatchAdmin::getModuleControllerPath($this->module).$this->getControllerName().$this->ext;
+        return CatchAdmin::getModuleControllerPath($this->module) . $this->getControllerName() . $this->ext;
     }
 
     /**
@@ -36,7 +37,7 @@ class Controller extends Creator
      */
     public function getContent(): string|bool|PhpFile
     {
-        $file = new PhpFile;
+        $file = new PhpFile();
         $file->setStrictTypes();
 
         $request = $this->getRequest();
@@ -54,37 +55,37 @@ class Controller extends Creator
 
         $controller = $namespace->addClass($this->getControllerName())
             ->setExtends('Controller')
-            ->addComment('@class '.$this->getControllerName());
+            ->addComment('@class ' . $this->getControllerName());
 
         $controller->addMethod('__construct')
-            ->addComment('@param '.$this->model.' $model')
+            ->addComment('@param ' . $this->model . ' $model')
             ->addPromotedParameter('model')->setType($this->model)
             ->setProtected()->setReadOnly();
 
         $controller->addMethod('index')->setBody('return $this->model->getList();')->setReturnType('mixed')
-            ->addComment('列表'.PHP_EOL)
+            ->addComment('列表' . PHP_EOL)
             ->addComment('@return mixed');
 
         if ($this->needForm) {
             $controller->addMethod('store')
-                ->addComment('保存数据'.PHP_EOL)
-                ->addComment('@param '.$requestBaseName.' $request')
+                ->addComment('保存数据' . PHP_EOL)
+                ->addComment('@param ' . $requestBaseName . ' $request')
                 ->addComment('@return mixed')
                 ->setBody('return $this->model->storeBy($request->all());')->setReturnType('mixed')
                 ->addParameter('request')
                 ->setType($requestBaseName);
 
             $controller->addMethod('show')
-                ->addComment('展示数据'.PHP_EOL)
+                ->addComment('展示数据' . PHP_EOL)
                 ->addComment('@param mixed $id')
                 ->addComment('@return mixed')
                 ->setBody('return $this->model->firstBy($id, columns: $this->model->getForm());')->setReturnType('mixed')
                 ->addParameter('id')->setType('mixed');
 
             $updateMethod = $controller->addMethod('update')
-                ->addComment('更新数据'.PHP_EOL)
+                ->addComment('更新数据' . PHP_EOL)
                 ->addComment('@param mixed $id')
-                ->addComment('@param '.$requestBaseName.' $request')
+                ->addComment('@param ' . $requestBaseName . ' $request')
                 ->addComment('@return mixed')
                 ->setBody('return $this->model->updateBy($id, $request->all());')->setReturnType('mixed');
             $updateMethod->addParameter('id')->setType('mixed');
@@ -92,7 +93,7 @@ class Controller extends Creator
         }
 
         $controller->addMethod('destroy')
-            ->addComment('删除数据'.PHP_EOL)
+            ->addComment('删除数据' . PHP_EOL)
             ->addComment('@param mixed $id')
             ->addComment('@return mixed')
             ->setBody('return $this->model->deleteBy($id);')->setReturnType('mixed')
@@ -115,9 +116,9 @@ class Controller extends Creator
                 $exportClass = $createExport->getExportClass();
                 $namespace->addUse($exportClass);
                 $importMethod = $controller->addMethod('export')
-                    ->addComment('导入'.PHP_EOL)
+                    ->addComment('导入' . PHP_EOL)
                     ->addComment('@param Request $request')
-                    ->addComment('@param '.class_basename($exportClass).' $export')
+                    ->addComment('@param ' . class_basename($exportClass) . ' $export')
                     ->addComment('@return mixed')
                     ->addBody('// 导出')
                     ->addBody('return $export->download();')
@@ -138,9 +139,9 @@ class Controller extends Creator
                 $importClass = $createImport->getImportClass();
                 $namespace->addUse($importClass);
                 $importMethod = $controller->addMethod('import')
-                    ->addComment('导入'.PHP_EOL)
+                    ->addComment('导入' . PHP_EOL)
                     ->addComment('@param Request $request')
-                    ->addComment('@param '.class_basename($importClass).' $export')
+                    ->addComment('@param ' . class_basename($importClass) . ' $export')
                     ->addComment('@return mixed')
                     ->addBody('// 导入')
                     ->addBody('return $import->import($request->file(\'file\'));')
@@ -156,18 +157,18 @@ class Controller extends Creator
         if (count($switchFields)) {
             if (count($switchFields) === 1 && $switchFields[0] === 'status') {
                 $controller->addMethod('enable')
-                    ->addComment('状态切换'.PHP_EOL)
+                    ->addComment('状态切换' . PHP_EOL)
                     ->addComment('@param mixed $id')
                     ->addComment('@return mixed')
                     ->setBody('return $this->model->toggleBy($id);')->setReturnType('mixed')
                     ->addParameter('id')->setType('mixed');
             } else {
                 $method = $controller->addMethod('enable')
-                    ->addComment('字段切换'.PHP_EOL)
+                    ->addComment('字段切换' . PHP_EOL)
                     ->addComment('@param mixed $id')
                     ->addComment('@param Request $request')
                     ->addComment('@return mixed')
-                    ->addBody('$field = $request->get(\'field\');'."\n")
+                    ->addBody('$field = $request->get(\'field\');' . "\n")
                     ->addBody('return $this->model->toggleBy($id, $field);')->setReturnType('mixed');
 
                 $method->addParameter('id')->setType('mixed');
@@ -202,12 +203,12 @@ class Controller extends Creator
 
     protected function getModel(): string
     {
-        return CatchAdmin::getModuleModelNamespace($this->module).$this->model;
+        return CatchAdmin::getModuleModelNamespace($this->module) . $this->model;
     }
 
     protected function getRequest(): string
     {
-        return $this->request ? CatchAdmin::getModuleRequestNamespace($this->module).$this->request : 'Illuminate\Http\Request';
+        return $this->request ? CatchAdmin::getModuleRequestNamespace($this->module) . $this->request : 'Illuminate\Http\Request';
     }
 
     /**
@@ -220,6 +221,6 @@ class Controller extends Creator
 
     protected function getDynamicNamespace(): string
     {
-        return CatchAdmin::getModuleNamespace($this->module).'Dynamics\\'.$this->controller;
+        return CatchAdmin::getModuleNamespace($this->module) . 'Dynamics\\' . $this->controller;
     }
 }

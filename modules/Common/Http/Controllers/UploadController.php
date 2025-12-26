@@ -3,9 +3,9 @@
 namespace Modules\Common\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Modules\Common\Events\UploadedEvent;
 use Modules\Common\Support\Upload\Uploader;
 use Modules\System\Support\Upload;
-use Modules\Common\Events\UploadedEvent;
 
 /**
  * @group 公共模块
@@ -79,7 +79,7 @@ class UploadController
     {
         $params = $request->only([
             'file_name', 'file_hash', 'chunk_index', 'chunk_hash',
-            'total_chunks', 'chunk_size', 'total_size', 'disk', 'path'
+            'total_chunks', 'chunk_size', 'total_size', 'disk', 'path',
         ]);
         $params['action'] = 'chunk';
 
@@ -109,7 +109,7 @@ class UploadController
     public function merge(Request $request, Uploader $uploader): array
     {
         $params = $request->only([
-            'file_name', 'file_hash', 'total_chunks', 'total_size', 'disk', 'path'
+            'file_name', 'file_hash', 'total_chunks', 'total_size', 'disk', 'path',
         ]);
         $params['action'] = 'merge';
 
@@ -155,8 +155,8 @@ class UploadController
      */
     public function token(Request $request): array
     {
-        $upload = new Upload;
-        $method = $request->get('driver').'Token';
+        $upload = new Upload();
+        $method = $request->get('driver') . 'Token';
 
         return $upload->{$method}($request->get('filename'));
     }

@@ -28,10 +28,12 @@ class Menu
 
     public function __construct(
         public readonly array $gen
-    ) {}
+    ) {
+    }
 
     /**
      * 菜单生成
+     *
      * @throws \Throwable
      */
     public function generate(): mixed
@@ -52,7 +54,7 @@ class Menu
                         'module' => $module,
                         'parent_id' => 0,
                         'permission_name' => $this->gen['module'] . '模块',
-                        'route' => '/'. $module,
+                        'route' => '/' . $module,
                         'sort' => 1,
                         'type' => MenuType::Top->value,
                     ]);
@@ -68,7 +70,7 @@ class Menu
                         throw new MenuCreateFailException('文件创建成功，但是由于存在下有相同菜单，创建菜单失败，请手动添加');
                     }
                     $id = app(Permissions::class)->storeBy([
-                        'component' => '/'.$module.'/'.$controller.'/index.vue',
+                        'component' => '/' . $module . '/' . $controller . '/index.vue',
                         'hidden' => 1,
                         'keepalive' => 1,
                         'module' => $module,
@@ -108,14 +110,14 @@ class Menu
     protected function addCreateFormMenu($controller, $topMenuId): void
     {
         app(Permissions::class)->storeBy([
-            'component' => '/'.$this->gen['module'].'/'.$controller.'/create.vue',
+            'component' => '/' . $this->gen['module'] . '/' . $controller . '/create.vue',
             'hidden' => 2,
             'keepalive' => 2,
             'module' => $this->gen['module'],
             'parent_id' => $topMenuId,
-            'permission_name' => '创建'.$this->gen['menu'],
-            'permission_mark' => $controller.'_'.'create',
-            'route' => $controller.'/create:id?',
+            'permission_name' => '创建' . $this->gen['menu'],
+            'permission_mark' => $controller . '_' . 'create',
+            'route' => $controller . '/create:id?',
             'sort' => 1,
             'type' => MenuType::Menu->value,
         ]);
