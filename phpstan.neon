@@ -8,7 +8,8 @@ parameters:
         - modules/
     # Level 10 is the highest level
     level: 5
-
+    parallel:
+        maximumNumberOfProcesses: 1
     ignoreErrors:
         # 忽略PHPDoc格式错误
         - '#PHPDoc tag @property has invalid value#'
