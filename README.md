@@ -1,7 +1,6 @@
 ## 介绍
 ### 这是 catchadmin V5 版本
-`CatchAdmin`是一款基于[Laravel](https://laravel.com)和[Element Plus](https://element-plus.org)二次开发而成后台管理系统。`Laravel` 社区也有许多非常优秀的后台管理系统，例如 `Nova`, 官方出品，当然是收费的，免费的有基于 `Livewire` 的 `Filament`，还有不得不说的 `Laravel Admin`。`CatchAdmin` 还是采用传统的前后端分离策略，`Laravel` 框架仅仅作为 `Api` 输出。将管理系统模块之间的耦合降到了最低限度。每个模块之间都有独立的控制器，路由，模型，数据表。在开发上尽可能将模块之间的影响降到最低，降低了开发上的难度。基于 `CatchAdmin `可以开发 `CMS`，`CRM`，`OA` 等 等系统。也封装了很多实用的工具，提升开发体验。
-
+`CatchAdmin`是一款基于[Laravel 12.x](https://laravel.com)和[Element Plus](https://element-plus.org)二次开发而成的 PHP 开源后台管理系统。`Laravel` 社区也有许多非常优秀的后台管理系统，例如 `Nova`, 官方出品，当然是收费的，免费的有基于 `Livewire` 的 `Filament`，还有不得不说的 `Laravel Admin`。它采用前后端分离架构，CatchAdmin 集成了 Token 鉴权、权限管理、动态路由、动态表格、分页封装、资源权限、上传下载、代码生成器支持一键导出导入，数据回收站，附件管理的一款模块化框架。`Laravel` 框架仅仅作为 `Api` 输出。将管理系统模块之间的耦合降到了最低限度。每个模块之间都有独立的控制器，路由，模型，数据表。在开发上尽可能将模块之间的影响降到最低，降低了开发上的难度。基于 `CatchAdmin `可以开发 `CMS`，`CRM`，`OA` 等 等系统。也封装了很多实用的工具，提升开发体验。
 ## 参与 Gitee 年度最佳 WEB 项目活动
 我正在参加 Gitee 2025 最受欢迎的开源软件投票活动，[**快来给我投票吧！**](https://gitee.com/activity/2025opensource?ident=IRBNBA) :joy: 
 
@@ -13,12 +12,12 @@
 
 [中文](./README.md)|[英文](./README-en.md)
 ## 其他版本
-- [tp8 新版本](https://gitee.com/catchamin/catchadmin-tp)
-- [webman 高性能版本](https://gitee.com/catchamin/catchadmin-webman)
+- [tp8 独立版本](https://gitee.com/catchamin/catchadmin-tp)
+- [webman 独立高性能版本](https://gitee.com/catchamin/catchadmin-webman)
 
 ## 新功能
-- [动态表单](https://catchadmin.com/docs/3.0/front/catch-form)
-- [动态表格](https://catchadmin.com/docs/3.0/front/catch-table)
+- [动态表单](https://doc.catchadmin.com/docs/5.0/front/catch-form)
+- [动态表格](https://doc.catchadmin.com/docs/5.0/front/catch-table)
 
 ## 专业版
 [专业版本官方地址](https://license.catchadmin.com)
@@ -30,22 +29,26 @@
 我深信，付费后台管理系统将为您带来更多的价值和便利，帮助您提升工作效率
 
 ## 功能
-- [x] 用户管理 后台用户管理
-- [x] 部门管理 配置公司的部门结构，支持树形结构
-- [x] 岗位管理 配置后台用户的职务
-- [x] 菜单管理 配置系统菜单，按钮等等
-- [x] 角色管理 配置用户担当的角色，分配权限
-- [x] 操作日志 后台用户操作记录
-- [x] 登录日志 后台系统用户的登录记录
-- [x] 代码生成 生成 API 端的 CURD 操作
-- [x] Schema 管理 生成表结构 
-- [x] 模块管理 系统模块管理
+- ☑️**用户管理** 完成用户添加、修改、删除配置，支持不同用户登录后台看到不同的首页
+- ☑️**部门管理** 部门组织机构（公司、部门、小组），树结构展现
+- ☑️**岗位管理** 可以给用户配置所担任职务
+- ☑️**角色管理** 树结构设计，支持角色菜单和按钮权限分配，支持角色数据权限分配、强大的角色管理体系
+- ☑️**菜单管理** 配置系统菜单和按钮等
+- ☑️**字典管理** 对系统中经常使用并且固定的数据可以重复使用和维护
+- ☑️**系统配置** 系统的一些常用设置管理
+- ☑️**操作日志** 用户对系统的一些正常操作的查询
+- ☑️**登录日志** 用户登录系统的记录查询
+- ☑️**文件上传** 支持`本地`、`七牛云`、`阿里云`、`腾讯云`
+- ☑️**附件管理** 管理当前系统上传的文件及图片等信息
+- ☑️**数据表维护** 对系统的数据表可以进行清理碎片和优化，并且管理所有数据的回收和销毁
+- ☑️**代码生成** 前后端代码的生成（php、vue、 数据库迁移），支持一键生成到模块
+- ☑️**支持 Vue 即时渲染** 支持前端 Vue 即时渲染 无需编译
+- ☑️**支持插件系统** [CatchAdmin 插件](https://doc.catchadmin.com/docs/5.0/plugin/quickstart)即 Composer 包，无需再学一次插件开发，完全绑定 composer 生态
 
 
 ## 讨论
 - 可以提 `ISSUE`，请按照 `issue` 模板提问
-- 加入 Q 群 `302266230` 暗号 `catchadmin`。
-- 加微信入群，新建🆕
+- 添加微信好友，加微信入群，备注 `catchadmin`
 
 <img src="wechat.png" width="200"/>
 
@@ -55,13 +58,13 @@
 - [文档地址](https://catchadmin.com/docs/3.0/intro)
 ## 预览
 
-![zRrjNd.png](https://i.imgtg.com/2023/02/16/dASpg.png)
-![zRsAEQ.png](https://i.imgtg.com/2023/02/16/dAsKK.png)
-![zRsUv6.png](https://i.imgtg.com/2023/02/16/dA0fB.png)
-![zRsV4s.png](https://i.imgtg.com/2023/02/16/dAd5s.png)
+![CatchAdmin 登录](https://image.catchadmin.com/202512151142046.png)
+![CatchAdmin 首页](https://image.catchadmin.com/202512150841525.png)
+![CatchAdmin 权限](https://image.catchadmin.com/202512151143109.png)
+![CatchAdmin 布局](https://image.catchadmin.com/202512151144233.png)
 
 ## 体验地址
-[demo 地址](https://v3.catchadmin.com)
+[demo 地址](https://pro.catchadmin.com)
 - 账户: `catch@admin.com`
 - 密码: `catchadmin`
 
@@ -72,20 +75,13 @@
 
 ## 规范
 ### PHP
-使用 fixer 进行代码检查, 具体请查看根目录下 `.php-cs-fixer.dist.php` 文件的规范，还需要进行以下两步骤
+使用 Laravel pint 规范代码格式
 ```shell
-mkdir path
+composer format                                                                                      
 ```
+使用 PHPstan 做静态检查
 ```shell
-composer require --working-dir=path friendsofphp/php-cs-fixer                                                                                      
-```
-安装完成之后可以使用
-```shell
-composer cs
-```
-进行代码格式化，这个命令会直接修改文件完成修正，如果只需要查看格式是否正确,那么使用
-```shell
-composer cs-diff
+composer analyse
 ```
 
 ## 感谢🙏
