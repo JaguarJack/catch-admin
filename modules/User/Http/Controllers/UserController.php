@@ -28,8 +28,7 @@ class UserController extends Controller
 {
     public function __construct(
         protected readonly User $user
-    ) {
-    }
+    ) {}
 
     /**
      * 用户列表
@@ -120,13 +119,11 @@ class UserController extends Controller
         /* @var User $user */
         $user = $this->user->firstBy($id)->makeHidden('password');
 
-        if (app(ModuleRepository::class)->enabled('permissions')) {
-            $user->setRelations([
-                'roles' => $user->roles->pluck('id'),
+        $user->setRelations([
+            'roles' => $user->roles->pluck('id'),
 
-                'jobs' => $user->jobs->pluck('id'),
-            ]);
-        }
+            'jobs' => $user->jobs->pluck('id'),
+        ]);
 
         return $user;
     }
