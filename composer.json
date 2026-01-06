@@ -1,6 +1,6 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "catchadmin/management",
+    "name": "catch/admin",
     "type": "project",
     "description": "The CatchAdmin Background management",
     "keywords": [
@@ -23,7 +23,7 @@
         "php": "^8.2",
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1",
-        "catchadmin/core": "^v1.0.6",
+        "catchadmin/core": "^v1.0.7",
         "catchadmin/plugin": "^v1.0.9"
     },
     "require-dev": {
