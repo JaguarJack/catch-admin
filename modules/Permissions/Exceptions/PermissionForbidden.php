@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class PermissionForbidden extends CatchException
 {
-    protected $message = 'permission forbidden';
+    protected $message = '暂无权限操作';
 
     protected $code = Code::PERMISSION_FORBIDDEN;
 

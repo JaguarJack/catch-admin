@@ -12,7 +12,7 @@ use Modules\Permissions\Models\Roles;
 
 trait UserRelations
 {
-    protected bool $isPermissionModuleEnabled = false;
+    protected bool $isPermissionModuleEnabled = true;
 
     /**
      * init traits
@@ -74,9 +74,9 @@ trait UserRelations
      */
     public function can(?string $permission = null): bool
     {
-        if (! $this->isPermissionModuleEnabled) {
-            return true;
-        }
+        // if (! $this->isPermissionModuleEnabled) {
+        //    return true;
+        // }
 
         if ($this->isSuperAdmin()) {
             return true;
