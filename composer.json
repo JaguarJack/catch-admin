@@ -1,6 +1,6 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "catch/admin",
+    "name": "catchadmin/catchadmin",
     "type": "project",
     "description": "The CatchAdmin Background management",
     "keywords": [
