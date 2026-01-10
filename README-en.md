@@ -1,97 +1,138 @@
+<br />
+<div align="center">
+    <img src="https://image.catchadmin.com/202601101626397.png" alt="logo" />
+    <h1 style="font-size:36px;font-weight:600;margin:0 0 6px 0;
+  background:linear-gradient(
+    120deg,
+    #42a5f5 0%,
+    #6a8dff 25%,
+    #42a5f5 50%,
+    #5c6bc0 75%,
+    #42a5f5 100%
+  );
+  color:transparent;
+  background-clip:text;
+  -webkit-background-clip:text;
+">CatchAdmin</h1>
+    <p style="font-size:17px;color:#6a8bad;margin-bottom:10px;">
+        Build a full-featured admin system with a powerful built-in permission system in just 5 minutes
+    </p>
+    <a href="https://catchadmin.com" target="_blank">Official Site</a> |
+    <a href="https://v5.catchadmin.com" target="_blank">Live Demo</a> |
+    <a href="https://catchadmin.vip/forum" target="_blank">Community</a> |
+    <a href="https://catchadmin.vip/plugins" target="_blank">Plugins</a> |
+    <a href="https://doc.catchadmin.com/" target="_blank">Documentation</a> |
+    <a href="https://gitee.com/catchadmin/catchAdmin" target="_blank">Gitee</a> |
+    <a href="https://github.com/JaguarJack/catch-admin" target="_blank">GitHub</a>
+</div>
+<br />
+<p align="center">
+    <a href="https://php.net/" target="_blank">
+        <img src="https://img.shields.io/badge/PHP-8.2-777bb4?style=for-the-badge&logo=php&logoColor=white" alt="PHP">
+    </a>
+    <a href="https://laravel.com/" target="_blank">
+        <img src="https://img.shields.io/badge/Laravel-12-red?style=for-the-badge&logo=laravel&logoColor=white" alt="Laravel">
+    </a>
+    <a href="https://vuejs.org/" target="_blank">
+        <img src="https://img.shields.io/badge/Vue-3.x-42b883?style=for-the-badge&logo=vuedotjs&logoColor=white" alt="Vue">
+    </a>
+    <a href="https://element-plus.org/" target="_blank">
+      <img src="https://img.shields.io/badge/Element%20Plus-UI-409EFF?style=for-the-badge&logo=element&logoColor=white" alt="Element Plus">
+    </a>
+    <a href="https://vitejs.dev/" target="_blank">
+        <img src="https://img.shields.io/badge/Vite-7.x-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="Vite">
+    </a>
+    <a href="https://httpd.apache.org/" target="_blank">
+      <img src="https://img.shields.io/badge/Apache-2.0-D22128?style=for-the-badge&logo=apache&logoColor=white" alt="Apache">
+    </a>
+</p>
+
 ## Introduction
-### This is CatchAdmin V5
-`CatchAdmin` is a PHP open-source backend management system built upon [Laravel 12.x](https://laravel.com) and [Element Plus](https://element-plus.org). The Laravel community has many excellent backend management systems, such as the officially produced `Nova` (which is paid), free options like `Filament` based on `Livewire`, and the notable `Laravel Admin`. CatchAdmin adopts a frontend-backend separation architecture and integrates Token authentication, permission management, dynamic routing, dynamic tables, pagination encapsulation, resource permissions, upload/download functionality, a code generator with one-click export/import, data recycle bin, and attachment management—all in a modular framework. The `Laravel` framework serves solely as an `API` output layer. It minimizes coupling between management system modules to the greatest extent possible. Each module has independent controllers, routes, models, and data tables, significantly reducing development complexity and the impact modules have on each other. Based on `CatchAdmin`, you can develop systems like `CMS`, `CRM`, `OA`, etc. It also encapsulates many practical tools to enhance the development experience.
 
-## Participating in Gitee's Annual Best WEB Project Event
-I am participating in Gitee's 2025 Most Popular Open-Source Software voting event. [**Come vote for me!**](https://gitee.com/activity/2025opensource?ident=IRBNBA) :joy:
+`CatchAdmin` is an open-source PHP admin system built on top of [Laravel 12.x](https://laravel.com) and [Vue 3](https://vuejs.org/), using a fully decoupled frontend-backend architecture. It is designed for enterprise-level backend scenarios and provides a modular, extensible framework with rich features out of the box.
 
-## Frontend Project
-[catchadmin-vue](https://gitee.com/catchadmin/catch-admin-vue)
+The system includes Token-based authentication, permission management (menu, button, and data-level permissions), dynamic routing, dynamic tables, pagination abstraction, resource authorization, upload/download support, a code generator (with one-click import/export), recycle bin, attachment management, and more—covering common needs from security and access control to high-efficiency development.
 
-## Laravel Tutorials
-[Free Laravel Tutorials](https://laravel-study.catchadmin.com)
+From an architectural perspective, `Laravel` is used strictly as an `API` service layer, minimizing coupling between business modules. Each module is fully independent, with its own controllers, routes, models, and database tables, enabling modular development, on-demand loading, and independent evolution. This significantly reduces development complexity while improving maintainability and iteration speed. In addition, many common utilities are encapsulated (such as unified responses, exception handling, pagination, and resource wrappers), allowing developers to focus more on business logic.
 
-[Chinese](./README.md)|[English](./README-en.md)
+Based on `CatchAdmin`, you can quickly build systems such as `CMS`, `CRM`, and `OA`, and continuously extend business modules on top of a stable infrastructure to meet the needs of teams of different sizes.
 
-## Other Versions
-- [ThinkPHP 8 Independent Version](https://gitee.com/catchamin/catchadmin-tp)
-- [Webman Independent High-Performance Version](https://gitee.com/catchamin/catchadmin-webman)
-
-## New Features
-- [Dynamic Forms](https://doc.catchadmin.com/docs/5.0/front/catch-form)
-- [Dynamic Tables](https://doc.catchadmin.com/docs/5.0/front/catch-table)
-
-## Professional Edition
-[Professional Edition Official Website](https://license.catchadmin.com)
-
-First of all, thank you for your ongoing support and use of the `CatchAdmin` open-source project. As an open-source developer, I have always been committed to creating a powerful and easy-to-use backend management system to help you streamline business processes and improve work efficiency. However, due to certain reasons, I've had to make some adjustments. To continue developing and maintaining this project, I will be launching a paid backend management system to ensure I can continue providing you with high-quality service and support.
-
-The Professional Edition will not introduce breaking changes to the open-source version, so transitioning from the open-source to the professional version will not involve any developmental overhead. However, the Professional Edition will offer new components to enhance your workflow.
-
-I am confident that the paid backend management system will bring you more value and convenience, helping to boost your work efficiency.
+[Chinese](./README.md) | [English](./README-en.md)
 
 ## Features
-- ☑️ **User Management**: Complete user addition, modification, deletion, and configuration. Supports different users seeing different homepages upon login.
-- ☑️ **Department Management**: Department organizational structure (company, department, group) presented in a tree structure.
-- ☑️ **Position Management**: Configure positions for users.
-- ☑️ **Role Management**: Tree-structured design, supports menu and button permission assignment for roles, supports data permission assignment for roles, and a robust role management system.
-- ☑️ **Menu Management**: Configure system menus, buttons, etc.
-- ☑️ **Dictionary Management**: Manage and reuse frequently used, fixed data within the system.
-- ☑️ **System Configuration**: Manage common system settings.
-- ☑️ **Operation Logs**: Query users' normal operations within the system.
-- ☑️ **Login Logs**: Query records of user logins to the system.
-- ☑️ **File Upload**: Supports `Local`, `Qiniu Cloud`, `Alibaba Cloud`, `Tencent Cloud`.
-- ☑️ **Attachment Management**: Manage files and images uploaded by the current system.
-- ☑️ **Data Table Maintenance**: Perform defragmentation and optimization on system data tables, and manage data recycling and destruction.
-- ☑️ **Code Generator**: Generate frontend and backend code (PHP, Vue, database migrations). Supports one-click generation into modules.
-- ☑️ **Supports Vue Instant Rendering**: Supports frontend Vue instant rendering without compilation.
-- ☑️ **Supports Plugin System**: [CatchAdmin Plugins](https://doc.catchadmin.com/docs/5.0/plugin/quickstart) are Composer packages. No need to relearn plugin development; fully integrated with the Composer ecosystem.
 
-## Discussion
-- You can raise an `ISSUE`. Please follow the issue template when asking questions.
-- Add WeChat as a friend for group entry. Note `catchadmin` when adding.
+- ☑️ **User Management**: Create, edit, delete, disable users, reset passwords, and manage profiles; different users can see different dashboards and features
+- ☑️ **Department Management**: Multi-level organization structure (company/department/team) with tree-based management and personnel assignment
+- ☑️ **Position Management**: Unified management of positions (roles/jobs), supporting primary and multiple positions per user
+- ☑️ **Role Management**: Tree-based role system supporting menu permissions, button-level permissions, and data access control
+- ☑️ **Menu Management**: Visual configuration of menus, routes, and buttons with sorting, hierarchy, and visibility control
+- ☑️ **Dictionary Management**: Centralized management of enums, statuses, and common constants with grouping and enable/disable support
+- ☑️ **System Configuration**: Centralized configuration of system parameters with dynamic loading and fast effect
+- ☑️ **Operation Logs**: Records key user operations with multi-dimensional querying for auditing and troubleshooting
+- ☑️ **Login Logs**: Tracks login history (time/IP/device, depending on implementation) for security analysis
+- ☑️ **File Upload**: Unified upload mechanism supporting `Local`, `Qiniu`, `Aliyun OSS`, and `Tencent COS`
+- ☑️ **Attachment Management**: Centralized management of uploaded files and images with search, preview, and cleanup
+- ☑️ **Database Maintenance**: Table optimization, fragment cleanup, and data recycle/destroy management
+- ☑️ **Code Generator**: One-click generation of backend (`PHP`), frontend (`Vue`), and database migration code
+- ☑️ **Vue Instant Rendering**: Supports instant Vue rendering without build steps, accelerating development and debugging
+- ☑️ **Plugin System**: Plugins are Composer packages, deeply integrated with the Composer ecosystem for modular extension
+    - Docs: [CatchAdmin Plugin Quick Start](https://doc.catchadmin.com/docs/5.0/plugin/quickstart)
 
-<img src="wechat.png" width="200"/>
+## Frontend Project
 
-## Project Links
-- [GitHub catchadmin](https://github.com/jaguarjack/catch-admin)
+[catchadmin-vue](https://gitee.com/catchadmin/catch-admin-vue)
 
-## Documentation
-- [Documentation](https://catchadmin.com/docs/3.0/intro)
+## Live Demo
 
-## Preview
+[Demo Site](https://v5.catchadmin.com)
 
-![CatchAdmin Login](https://image.catchadmin.com/202512151142046.png)
-![CatchAdmin Homepage](https://image.catchadmin.com/202512150841525.png)
-![CatchAdmin Permissions](https://image.catchadmin.com/202512151143109.png)
-![CatchAdmin Layout](https://image.catchadmin.com/202512151144233.png)
-
-## Demo
-[Demo Link](https://pro.catchadmin.com)
 - Account: `catch@admin.com`
 - Password: `catchadmin`
 
-## Video Tutorials (😂 Remember to like, share, and subscribe!)
-- [CatchAdmin Installation](https://www.bilibili.com/video/BV1eY411v71J/)
-- [CatchAdmin Development: Module Creation](https://www.bilibili.com/video/BV1jP41127aW/)
-- [CatchAdmin: Rapid Development](https://www.bilibili.com/video/BV1Qh4y1J7eB/)
+## Discussion
 
-## Standards
+- You can submit issues following the issue template
+- Join the community via WeChat (add and note `catchadmin`)
+
+<img src="https://image.catchadmin.com/202601101601922.png" width="200"/>
+
+## Preview
+
+|                                |                                |
+|--------------------------------|--------------------------------|
+| ![Login](https://image.catchadmin.com/202512151142046.png) | ![Dashboard](https://image.catchadmin.com/202512150841525.png) |
+| ![Permissions](https://image.catchadmin.com/202512151143109.png) | ![Layout](https://image.catchadmin.com/202512151144233.png) |
+| ![Upload](https://image.catchadmin.com/202601101535082.png) | ![Code Generator](https://image.catchadmin.com/202601101536072.png) |
+| ![Menu](https://image.catchadmin.com/202601101537583.png) | ![Template](https://image.catchadmin.com/202601101538807.png) |
+
+## Video Tutorials
+
+- [CatchAdmin Installation](https://www.bilibili.com/video/BV1eY411v71J/)
+- [CatchAdmin – Module Creation](https://www.bilibili.com/video/BV1jP41127aW/)
+- [CatchAdmin – Rapid Development](https://www.bilibili.com/video/BV1Qh4y1J7eB/)
+
+## Related Resources
+
+- [Laravel Chinese Documentation](https://laravel-docs.catchadmin.com/)
+- [Laravel Free Beginner Tutorial](https://laravel-study.catchadmin.com)
+- [Laravel Livewire Chinese Documentation](https://laravel-livewire.catchadmin.com/)
+
+## Code Standards
+
 ### PHP
-Uses Laravel Pint for code formatting.
+
+Format code using Laravel Pint:
+
 ```shell
 composer format
 ```
-Uses PHPStan for static analysis.
+
+Static analysis using PHPStan
 ```shell
 composer analyse
 ```
-
 ## Acknowledgements 🙏
-> Listed in no particular order.
-
 - [Laravel](https://laravel.com)
 - [Vue](https://cn.vuejs.org/)
 - [ElementPlus](https://element-plus.org)
 - [VitePress](https://vitepress.dev/zh/)
-- [JetBrains](https://www.jetbrains.com/)
