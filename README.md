@@ -88,8 +88,14 @@ php artisan catch:install
 
 ## 体验地址
 [demo 地址](https://v5.catchadmin.com)
+
+[超管账户]
 - 账户: `catch@admin.com`
 - 密码: `catchadmin`
+
+[测试账户]
+- 账户: `test@admin.com`
+- 密码: `Testadmin1`
 
 ## 讨论
 - 可以提 `ISSUE`，请按照 `issue` 模板提问
