@@ -54,6 +54,16 @@
 
 [中文](./README.md)|[英文](./README-en.md)
 
+## 快速开始
+极速安装项目，五分钟即可构建
+```shell
+composer create catchadmin/catchadmin
+
+cd catchadmin
+
+php artisan catch:install
+```
+
 ## 功能
 
 - ☑️ **用户管理**：支持用户新增/编辑/删除/禁用、密码重置与基础信息维护；不同用户登录后台可呈现不同首页与可见功能模块
