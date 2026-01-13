@@ -4,11 +4,16 @@ namespace Modules\System\Providers;
 
 use Catch\Providers\CatchModuleServiceProvider;
 use Modules\Common\Events\UploadedEvent;
+use Modules\System\Console\SystemConfigCache;
 use Modules\System\Listeners\UploadedListener;
 use Modules\System\Support\Configure;
 
 class SystemServiceProvider extends CatchModuleServiceProvider
 {
+    protected array $commands = [
+        SystemConfigCache::class, // 系统配置缓存
+    ];
+
     protected array $events = [
         // 上传成功事件监听
         UploadedEvent::class => UploadedListener::class,
@@ -17,7 +22,7 @@ class SystemServiceProvider extends CatchModuleServiceProvider
     public function boot(): void
     {
         // 加载动态配置到 Laravel 系统的 Config 中
-        (new Configure())->loadToLaravelConfig($this->app->make('config'));
+        (new Configure)->loadToLaravelConfig($this->app->make('config'));
     }
 
     /**
