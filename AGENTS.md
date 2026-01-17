@@ -221,6 +221,39 @@ fix(auth): fix token expiration issue
 docs(readme): update installation guide
 ```
 
+## Skill
+
+### Task Identification & Skill Selection
+
+* When the user provides a **table schema / migration fields / requests a full module generation**: prioritize using the `curd` Skill (automatically chaining 9 sub-skills).
+* When the user only wants a **single layer** (migration / model / controller / routes / frontend page): use the corresponding single skill.
+* When only **modifying existing functionality**: prioritize reading the existing module files and making minimal changes; do not regenerate directly.
+
+### Pre-check (Before Execution)
+
+* **Whether the module exists**: if it doesn’t, ask first whether to create a new module (follow “Ask first”).
+* **Whether target files already exist**: if they do, ask first whether to overwrite or do an incremental update.
+* **Route/permission prefix conflicts**: check whether `modules/{Module}/routes/route.php` already contains the same resource prefix.
+* **Dependency/config changes**: if it involves adding new dependencies or modifying `config/`, ask first.
+
+### Naming Inference & Overrides
+
+* By default, infer `{Model}` / `{Module}` / `{resources}` from `table`; if the user explicitly specifies them, follow the user’s values.
+* `{resources}` uses **plural kebab-case**; `{resource}` uses **singular kebab-case**.
+* `{module}` uses **snake_case**; `{Module}` uses **PascalCase**.
+
+### Consistency Validation (After Generation)
+
+* Migrations must include CatchAdmin standard fields: `creator_id / created_at / updated_at / deleted_at` and indexes.
+* Model/Request fields must match the migration to avoid field name/type mismatches.
+* The API prefix in Routes must stay consistent with the frontend `catch-table` `api`.
+* Frontend permission prefix should match backend module/model naming (e.g., `{module}.{model}`).
+
+### Exception Handling
+
+* If information is missing or conflicting, you must clarify first and provide 1–2 options.
+* If the task requires modifying restricted areas (`app/`, `vendor/`), refuse directly and explain alternative solutions.
+
 ---
 
 ## Boundaries
