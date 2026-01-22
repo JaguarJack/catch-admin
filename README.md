@@ -1,6 +1,6 @@
 <br />
 <div align="center">
-    <img src="https://image.catchadmin.com/202601101626397.png" alt="logo" />
+    <img src="https://image.catchadmin.com/202601101626397.png" alt="logo" width="300"/>
     <h1 style="font-size:36px;font-weight:600;margin:0 0 6px 0;
   background:linear-gradient(
     120deg,
@@ -14,7 +14,7 @@
   background-clip:text;
   -webkit-background-clip:text;
 ">CatchAdmin</h1>
-    <p style="font-size: 17px;color: #6a8bad;margin-bottom: 10px;">五分钟快速搭建内置强大权限系统的功能完备的后台管理系统</p>
+    <p style="font-size: 17px;color: #6a8bad;margin-bottom: 10px;">五分钟快速搭建内置强大权限系统的功能完备的 PHP 后台管理系统</p>
     <a href="https://catchadmin.com" target="_blank">官网</a> |
     <a href="https://v5.catchadmin.com" target="_blank">演示</a> |
     <a href="https://catchadmin.vip/forum" target="_blank">社区</a> |
@@ -55,7 +55,7 @@
 [中文](./README.md)|[英文](./README-en.md)
 
 ## 快速开始
-极速安装项目，五分钟即可构建
+极速安装项目，五分钟即可构建内置强大权限系统的功能完备的 PHP 后台管理系统
 ```shell
 composer create catchadmin/catchadmin
 
@@ -84,6 +84,7 @@ php artisan catch:install
     - 文档：[CatchAdmin 插件快速开始](https://doc.catchadmin.com/docs/5.0/plugin/quickstart)
 
 ## 前端项目
+由于是完全分离的项目，所有 CatchAdmin 有专门的前端项目仓库，如下
 [catchadmin-vue](https://gitee.com/catchadmin/catch-admin-vue)
 
 ## 体验地址
@@ -101,18 +102,18 @@ php artisan catch:install
 - 可以提 `ISSUE`，请按照 `issue` 模板提问
 - 添加微信好友，加微信入群，备注 `catchadmin`
 
-<img src="https://image.catchadmin.com/202601101601922.png" width="200"/>
+<img src="./resources/screenshoots/wechat.png" width="200"/>
 
 ## 版权信息
 `CatchAdmin` 遵循 Apache2.0 开源协议发布，提供无需授权的免费使用。商业使用需要保留版权信息即可
 
 ## 项目预览
-|                                                                      |                                                                |
-|----------------------------------------------------------------------|----------------------------------------------------------------|
-| ![登录](https://image.catchadmin.com/202512151142046.png)              | ![控制台](https://image.catchadmin.com/202512150841525.png)       |
-| ![权限](https://image.catchadmin.com/202512151143109.png)              | ![布局](https://image.catchadmin.com/202512151144233.png)        |
-| ![上传](https://image.catchadmin.com/202601101535082.png)              | ![代码生成](https://image.catchadmin.com/202601101536072.png)      |
-| ![菜单](https://image.catchadmin.com/202601101537583.png)              | ![模板](https://image.catchadmin.com/202601101538807.png)        |
+|                                                |                                                     |
+|------------------------------------------------|-----------------------------------------------------|
+| ![登录](./resources/screenshoots/login.png)      | ![控制台](./resources/screenshoots/dashboard.png)      |
+| ![权限](./resources/screenshoots/permission.png) | ![布局](./resources/screenshoots/layouts.png)         |
+| ![上传](./resources/screenshoots/upload.png)     | ![代码生成](./resources/screenshoots/code_generate.png) |
+| ![菜单](./resources/screenshoots/menu.png)       | ![模板](./resources/screenshoots/template.png)        |
 
 
 ## 视频教程

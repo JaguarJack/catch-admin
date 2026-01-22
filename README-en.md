@@ -1,6 +1,6 @@
 <br />
 <div align="center">
-    <img src="https://image.catchadmin.com/202601101626397.png" alt="logo" />
+    <img src="https://image.catchadmin.com/202601101626397.png" alt="logo" width="300"/>
     <h1 style="font-size:36px;font-weight:600;margin:0 0 6px 0;
   background:linear-gradient(
     120deg,
@@ -94,16 +94,15 @@ Based on `CatchAdmin`, you can quickly build systems such as `CMS`, `CRM`, and `
 - You can submit issues following the issue template
 - Join the community via WeChat (add and note `catchadmin`)
 
-<img src="https://image.catchadmin.com/202601101601922.png" width="200"/>
-
+<img src="./resources/screenshoots/wechat.png" width="200"/>
 ## Preview
 
-|                                |                                |
-|--------------------------------|--------------------------------|
-| ![Login](https://image.catchadmin.com/202512151142046.png) | ![Dashboard](https://image.catchadmin.com/202512150841525.png) |
-| ![Permissions](https://image.catchadmin.com/202512151143109.png) | ![Layout](https://image.catchadmin.com/202512151144233.png) |
-| ![Upload](https://image.catchadmin.com/202601101535082.png) | ![Code Generator](https://image.catchadmin.com/202601101536072.png) |
-| ![Menu](https://image.catchadmin.com/202601101537583.png) | ![Template](https://image.catchadmin.com/202601101538807.png) |
+|                                                |                                                     |
+|------------------------------------------------|-----------------------------------------------------|
+| ![Login](./resources/screenshoots/login.png)      | ![Dashboard](./resources/screenshoots/dashboard.png)      |
+| ![Permissions](./resources/screenshoots/permission.png) | ![Layout](./resources/screenshoots/layouts.png)         |
+| ![Upload](./resources/screenshoots/upload.png)     | ![Code Generator](./resources/screenshoots/code_generate.png) |
+| ![Menu](./resources/screenshoots/menu.png)       | ![Template](./resources/screenshoots/template.png)        |
 
 ## Video Tutorials
 
