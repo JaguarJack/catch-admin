@@ -177,7 +177,7 @@ class FrontForm extends Creator
                 if (is_null($default)) {
                     $default = 0;
                 }
-                $defaultValue = $defaultValue->append("formData.{$structure['field']} = {$default}")->append(PHP_EOL);
+                $defaultValue = $defaultValue->append("formData.value.{$structure['field']} = {$default}")->append(PHP_EOL);
             }
         }
 
