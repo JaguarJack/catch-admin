@@ -15,7 +15,7 @@ class Modules implements OptionInterface
             $modules[] = [
                 'label' => pathinfo($dir, PATHINFO_BASENAME) . ' 模块',
 
-                'value' => pathinfo($dir, PATHINFO_BASENAME),
+                'value' => lcfirst(pathinfo($dir, PATHINFO_BASENAME)),
             ];
         }
 
