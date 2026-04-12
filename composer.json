@@ -20,20 +20,21 @@
         "source": "https://gitee.com/catchadmin/catchAdmin"
     },
     "require": {
-        "php": "^8.2",
-        "laravel/framework": "^12.0",
-        "laravel/tinker": "^2.10.1",
-        "catchadmin/core": "^v1.1.0",
-        "catchadmin/plugin": "^v1.0.9"
+        "php": "^8.3",
+        "laravel/framework": "^13.0",
+        "laravel/tinker": "^3.0",
+        "catchadmin/core": "^1.2.0",
+        "catchadmin/plugin": "^1.2.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
-        "laravel/pail": "^1.2.2",
-        "laravel/pint": "^1.24",
-        "laravel/sail": "^1.41",
+        "laravel/pail": "^1.2.5",
+        "laravel/pint": "^1.27",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.6",
-        "phpunit/phpunit": "^11.5.3",
+        "phpunit/phpunit": "^12.5.12",
+        "pestphp/pest": "^v4.4.2",
+        "laravel/sail": "^1.41",
         "larastan/larastan": "^3.6"
     },
     "autoload": {
@@ -108,7 +109,7 @@
             "php-http/discovery": true
         },
         "platform": {
-            "php": "8.2"
+            "php": "8.3"
         }
     },
     "minimum-stability": "stable",
