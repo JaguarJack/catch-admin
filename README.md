@@ -64,6 +64,14 @@ cd catchadmin
 php artisan catch:install
 ```
 
+## 🤖 使用 AI 开发
+
+现在 `CatchAdmin` 全面支持 AI 相关生态，提供一流的 AGENTS prompt, mcp, skills, 全面释放你的双手。
+
+- ☑️ **Skills 扩展**：支持模块化封装 AI 技能（Skills），将常用业务逻辑（如代码生成、权限查询、用户检索）标准化为可复用的 AI 能力单元，助力快速构建智能助手。
+- ☑️ **AGENTS.md 标准**：兼容 AGENTS.md 协议规范，便于 AI 编码助手（如 Cursor、Copilot Workspace）自动理解项目结构、模块分工与开发约定，实现上下文感知的智能代码补全与模块生成。
+- ☑️ **实时文档获取（Context7 MCP）**：项目文档已接入 Context7 提供的 MCP 服务，开发者可通过 `Context7/mcp` 客户端**实时拉取 CatchAdmin 最新技术文档、API 说明与最佳实践**，无需手动查阅，即可在 IDE 或 AI 对话中即时获取精准上下文，加速开发决策。
+
 ## 功能
 
 - ☑️ **用户管理**：支持用户新增/编辑/删除/禁用、密码重置与基础信息维护；不同用户登录后台可呈现不同首页与可见功能模块
