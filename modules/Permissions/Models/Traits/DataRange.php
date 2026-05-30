@@ -68,8 +68,10 @@ trait DataRange
 
                 $departmentModel = new Departments();
 
-                $departmentIds = $departmentModel->findFollowDepartments($departmentsId);
-
+                $departmentIds = array_merge(
+                    $departmentsId,
+                    $departmentModel->findFollowDepartments($departmentsId)
+                );
                 $userIds = $userIds->merge($this->getUserIdsByDepartmentId($departmentIds))->push($currentUser->id);
             }
         }
