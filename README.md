@@ -153,4 +153,11 @@ composer analyse
 - [ElementPlus](https://element-plus.org)
 - [VitePress](https://vitepress.dev/zh/)
 
+## 赞助商
+![pasted-image.png · 2582](https://cloudflarecnimg.scdn.io/i/6a646f0916c45_1784966921.webp)
 
+`IPWO`全球住宅代理 IP ，为开发者构建企业后台系统、管理平台及全球化应用提供网络环境支持。
+
+通过不同地区的真实住宅 IP 资源，可用于多地区访问测试、用户体验验证以及海外业务场景下的应用调试。
+
+[IPWO访问入口](https://www.ipwo.net/?ref=JaguarJack) 支持0元测试，本项目专属优惠码`0108`。
