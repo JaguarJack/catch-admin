@@ -24,7 +24,8 @@
         "laravel/framework": "^13.0",
         "laravel/tinker": "^3.0",
         "catchadmin/core": "^1.3.2",
-        "catchadmin/plugin": "^1.2.0"
+        "catchadmin/plugin": "^1.2.0",
+        "overtrue/easy-sms": "^3.2"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
