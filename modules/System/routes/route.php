@@ -37,5 +37,12 @@ Route::prefix('system')->group(function () {
     // 设置
     Route::post('setting', [SettingController::class, 'store'])->name('system.setting.store');
     Route::get('setting', [SettingController::class, 'show'])->name('system.setting.show');
+    // 短信配置
+    Route::post('sms/config', [SmsConfigController::class, 'store']);
+    Route::get('sms/config/{driver?}', [SmsConfigController::class, 'show']);
+    // 短信模板
+    Route::apiResource('sms/template', SystemSmsTemplateController::class);
+    Route::apiResource('system/sms/code', SystemSmsCodeController::class)->only(['index', 'destroy']);
     // next
+
 });
