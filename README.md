@@ -153,4 +153,9 @@ composer analyse
 - [ElementPlus](https://element-plus.org)
 - [VitePress](https://vitepress.dev/zh/)
 
+## 赞助商
+![pasted-image.png · 2582](https://cloudflarecnimg.scdn.io/i/6a646f0916c45_1784966921.webp)
 
+面向企业应用与后台系统开发场景，[IPWO](https://www.ipwo.net/?ref=JaguarJack) 提供全球住宅代理服务。
+
+支持开发者进行多地区网络环境测试、海外服务访问与业务场景验证，为全球化应用探索提供更多选择。提供免费测试，9折优惠码“0108”
