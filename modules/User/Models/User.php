@@ -59,6 +59,13 @@ class User extends Model implements AuthenticatableContract
     ];
 
     /**
+     * 敏感字段不参与序列化，避免接口回显密码 hash
+     *
+     * @var array|string[]
+     */
+    protected $hidden = ['password', 'remember_token'];
+
+    /**
      * @var array|string[]
      */
     public array $searchable = [
