@@ -72,6 +72,10 @@ class ChunkUpload extends Upload
         $this->validateChunkRequest();
 
         $fileName = $this->getParam('file_name');
+
+        // 按原始文件名校验扩展名白名单
+        $this->checkExtension($this->getFileExtension((string) $fileName));
+
         $fileHash = $this->getParam('file_hash');
         $chunkIndex = (int) $this->getParam('chunk_index');
         $chunkHash = $this->getParam('chunk_hash');
@@ -120,6 +124,9 @@ class ChunkUpload extends Upload
         if (! $fileName || ! $fileHash || ! $totalChunks) {
             throw new FailedException('合并参数不完整');
         }
+
+        // 按原始文件名校验扩展名白名单，防止合并出可执行文件
+        $this->checkExtension($this->getFileExtension($fileName));
 
         // 检查所有分片是否都已上传
         if (! $this->allChunksUploaded($fileHash, $totalChunks)) {
@@ -580,7 +587,7 @@ class ChunkUpload extends Upload
     protected function getFileMimeType(string $fileName): string
     {
         $ext = $this->getFileExtension($fileName);
-        $imageExts = config('common.upload.image.ext', ['jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp', 'svg']);
+        $imageExts = $this->configuredExtensions('image');
 
         return in_array($ext, $imageExts) ? 'image' : 'file';
     }

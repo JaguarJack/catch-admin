@@ -15,6 +15,11 @@ class Uploader
     protected int $categoryId = 0;
 
     /**
+     * 上传类型 image|all
+     */
+    protected string $type = 'all';
+
+    /**
      * path
      */
     protected string $path = '';
@@ -25,7 +30,7 @@ class Uploader
     public function upload(UploadedFile $file): array
     {
         try {
-            $uploadInfo = $this->getDriver()->setUploadedFile($file)->upload();
+            $uploadInfo = $this->getDriver()->setUploadedFile($file)->setType($this->type)->upload();
             // 附件分类ID
             $uploadInfo['category_id'] = $this->categoryId;
             UploadedEvent::dispatch($uploadInfo);
@@ -70,6 +75,18 @@ class Uploader
     public function withCategoryId(mixed $categoryId): static
     {
         $this->categoryId = intval($categoryId);
+
+        return $this;
+    }
+
+    /**
+     * 设置上传类型，用于限制扩展名白名单范围
+     *
+     * @return $this
+     */
+    public function withType(string $type): static
+    {
+        $this->type = $type;
 
         return $this;
     }

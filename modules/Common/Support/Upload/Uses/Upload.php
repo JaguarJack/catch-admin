@@ -9,11 +9,29 @@ use Illuminate\Support\Str;
 abstract class Upload
 {
     /**
+     * 默认允许上传的扩展名，后台「上传设置」未配置时生效
+     */
+    protected const DEFAULT_EXTENSIONS = [
+        'image' => ['jpeg', 'jpg', 'gif', 'png', 'svg', 'ico', 'doc', 'psd', 'bmp', 'tiff', 'webp', 'tif', 'pjpeg'],
+        'file' => ['docx', 'pdf', 'txt', 'html', 'zip', 'tar', 'doc', 'css', 'csv', 'ppt', 'xlsx', 'xls', 'xml'],
+    ];
+
+    /**
+     * 脚本类扩展名，无论后台白名单如何配置都禁止上传
+     */
+    protected const DANGEROUS_EXTENSIONS = ['php', 'phtml', 'phar', 'php3', 'php4', 'php5', 'php7', 'php8', 'pht', 'phps'];
+
+    /**
      * uploadFile object
      */
     protected mixed $file;
 
     protected array $params;
+
+    /**
+     * 上传类型 image|all
+     */
+    protected string $type = 'all';
 
     abstract public function upload();
 
@@ -103,13 +121,89 @@ abstract class Upload
      */
     protected function checkExt(): void
     {
-        $extensions = config(sprintf('common.upload.%s.ext', $this->getUploadedFileMimeType()));
+        $this->checkExtension($this->getUploadedFileExt());
+    }
 
-        $fileExt = $this->getUploadedFileExt();
+    /**
+     * 校验扩展名白名单
+     */
+    protected function checkExtension(mixed $extension): void
+    {
+        $extension = $this->normalizeExtension($extension);
 
-        if (! in_array($fileExt, $extensions)) {
-            throw new FailedException(sprintf('不支持该上传文件类型(%s)类型', $fileExt));
+        if (! $this->isAllowedExtension($extension)) {
+            throw new FailedException(sprintf('不支持该上传文件类型(%s)类型', $extension ?: '未知'));
         }
+    }
+
+    /**
+     * 是否允许上传
+     */
+    protected function isAllowedExtension(string $extension): bool
+    {
+        if ($extension === '' || in_array($extension, self::DANGEROUS_EXTENSIONS, true)) {
+            return false;
+        }
+
+        return in_array($extension, $this->allowedExtensions(), true);
+    }
+
+    /**
+     * 当前上传类型允许的扩展名
+     *
+     * image 仅允许图片；all（通用文件、分片上传）允许图片与文件
+     *
+     * @return string[]
+     */
+    protected function allowedExtensions(): array
+    {
+        $types = $this->type === 'image' ? ['image'] : ['image', 'file'];
+
+        $extensions = [];
+
+        foreach ($types as $type) {
+            $extensions = array_merge($extensions, $this->configuredExtensions($type));
+        }
+
+        return array_values(array_unique($extensions));
+    }
+
+    /**
+     * 后台「上传设置」配置的扩展名，未配置时使用默认值
+     *
+     * @return string[]
+     */
+    protected function configuredExtensions(string $type): array
+    {
+        $configured = config(sprintf('upload.%s_exts', $type));
+
+        if (is_string($configured)) {
+            $configured = json_decode($configured, true) ?? explode(',', $configured);
+        }
+
+        $extensions = [];
+
+        foreach ((array) $configured as $extension) {
+            $extension = $this->normalizeExtension($extension);
+
+            if ($extension !== '') {
+                $extensions[] = $extension;
+            }
+        }
+
+        return $extensions ?: (self::DEFAULT_EXTENSIONS[$type] ?? []);
+    }
+
+    /**
+     * 扩展名归一化
+     */
+    protected function normalizeExtension(mixed $extension): string
+    {
+        if (is_array($extension)) {
+            $extension = reset($extension);
+        }
+
+        return strtolower(ltrim(trim((string) $extension), '.'));
     }
 
     /**
@@ -117,12 +211,14 @@ abstract class Upload
      */
     protected function checkSize(): void
     {
-        $limitSize = config('common.upload.max_size', 5 * 1024 * 1024);
+        $limitSize = (int) config('upload.limit_size', 0) * 1024 * 1024;
 
-        $size = $limitSize / (1024 * 1024);
+        if ($limitSize <= 0) {
+            $limitSize = 5 * 1024 * 1024;
+        }
 
         if ($this->getUploadedFileSize() > $limitSize) {
-            throw new FailedException('上传最大支持' . $size . 'MB');
+            throw new FailedException('上传最大支持' . ($limitSize / (1024 * 1024)) . 'MB');
         }
     }
 
@@ -135,7 +231,9 @@ abstract class Upload
             return $this->file->getClientMimeType();
         }
 
-        return in_array($this->getUploadedFileExt(), config('common.upload.image.ext')) ? 'image' : 'file';
+        $extension = $this->normalizeExtension($this->getUploadedFileExt());
+
+        return in_array($extension, $this->configuredExtensions('image'), true) ? 'image' : 'file';
     }
 
     /**
@@ -186,6 +284,20 @@ abstract class Upload
     public function __set($name, $value)
     {
         $this->{$name} = $value;
+    }
+
+    /**
+     * 设置上传类型
+     *
+     * image 仅允许图片，其他值按通用上传处理
+     *
+     * @return $this
+     */
+    public function setType(string $type): static
+    {
+        $this->type = $type === 'image' ? 'image' : 'all';
+
+        return $this;
     }
 
     /**

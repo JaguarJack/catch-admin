@@ -16,6 +16,9 @@ class LocalUpload extends Upload
      */
     public function upload(): array
     {
+        // 扩展名白名单与大小限制统一在入口校验
+        $this->dealBeforeUpload();
+
         $info = $this->addUrl($this->getUploadPath());
         $info['driver'] = 'local';
 
@@ -49,8 +52,6 @@ class LocalUpload extends Upload
      */
     protected function localUpload(): string
     {
-        $this->checkSize();
-
         $filename = date('Y-m-d') . '/' . $this->getPath() . '/' . $this->generateName($this->getUploadedFileExt());
 
         Storage::disk($this->getDisk())->put($filename, $this->file->getContent());

@@ -53,6 +53,7 @@ class UploadController
     public function image(Request $request, Uploader $uploader): array
     {
         return $uploader->withCategoryId($request->get('category_id', 0))
+            ->withType('image')
             ->upload($request->file('image'));
     }
 
