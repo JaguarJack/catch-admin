@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Support\Facades\Route;
 use Modules\System\Http\Controllers\AsyncTaskController;
 use Modules\System\Http\Controllers\ConnectorLogController;
@@ -8,6 +10,7 @@ use Modules\System\Http\Controllers\CronTasksLogController;
 use Modules\System\Http\Controllers\DictionaryController;
 use Modules\System\Http\Controllers\DictionaryValuesController;
 use Modules\System\Http\Controllers\DomainConfigController;
+use Modules\System\Http\Controllers\McpTokensController;
 use Modules\System\Http\Controllers\PersonalAccessTokensController;
 use Modules\System\Http\Controllers\RouteController;
 use Modules\System\Http\Controllers\SchemaController;
@@ -43,6 +46,11 @@ Route::prefix('system')->group(function () {
     // 短信模板
     Route::apiResource('sms/template', SystemSmsTemplateController::class);
     Route::apiResource('system/sms/code', SystemSmsCodeController::class)->only(['index', 'destroy']);
+    Route::apiResource('mcp/tokens', McpTokensController::class)
+        ->only(['index', 'store', 'destroy'])
+        ->parameters(['tokens' => 'id'])
+        ->where(['id' => '[0-9]+']);
+    Route::post('mcp/tokens/{id}/rotate', [McpTokensController::class, 'rotate'])->whereNumber('id');
     // next
 
 });
