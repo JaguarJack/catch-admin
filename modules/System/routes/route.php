@@ -51,6 +51,7 @@ Route::prefix('system')->group(function () {
         ->parameters(['tokens' => 'id'])
         ->where(['id' => '[0-9]+']);
     Route::post('mcp/tokens/{id}/rotate', [McpTokensController::class, 'rotate'])->whereNumber('id');
+    Route::get('mcp/tokens/{id}/usage-logs', [McpTokensController::class, 'usageLogs'])->whereNumber('id');
     // next
 
 });

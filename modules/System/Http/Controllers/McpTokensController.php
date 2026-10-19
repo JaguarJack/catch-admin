@@ -5,8 +5,12 @@ declare(strict_types=1);
 namespace Modules\System\Http\Controllers;
 
 use Catch\Base\CatchController;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Modules\Permissions\Exceptions\PermissionForbidden;
+use Modules\System\Http\Requests\McpTokenLogRequest;
 use Modules\System\Http\Requests\McpTokenRequest;
 use Modules\System\Models\McpToken;
+use Modules\System\Models\McpTokenLog;
 use Modules\User\Models\User;
 
 class McpTokensController extends CatchController
@@ -40,5 +44,21 @@ class McpTokensController extends CatchController
     {
         return $this->model->rotate($id)
             + ['endpoint' => route('mcp.admin')];
+    }
+
+    public function usageLogs(McpTokenLogRequest $request, int $id): LengthAwarePaginator
+    {
+        if (! $this->getLoginUser()->can('system@mcpTokens@usageLogs')) {
+            throw new PermissionForbidden();
+        }
+
+        $data = $request->validated();
+
+        return McpTokenLog::query()->with([
+            'token' => fn ($query) => $query->select(['id', 'name', 'user_id'])->with([
+                'user' => fn ($query) => $query->withTrashed()->without(['roles', 'jobs'])->select(['id', 'username']),
+            ]),
+        ])->where('token_id', $id)->orderByDesc('id')
+            ->paginate((int) ($data['limit'] ?? 10), ['*'], 'page', (int) ($data['page'] ?? 1));
     }
 }
