@@ -97,7 +97,10 @@ class UserController extends Controller
      */
     public function store(UserRequest $request)
     {
-        return $this->user->storeBy($request->all());
+        return $this->user->storeBy($request->only([
+            'username', 'email', 'mobile', 'avatar', 'password',
+            'status', 'department_id', 'roles', 'jobs',
+        ]));
     }
 
     /**
@@ -145,7 +148,10 @@ class UserController extends Controller
      */
     public function update($id, UserRequest $request): mixed
     {
-        return $this->user->updateBy($id, $request->all());
+        return $this->user->updateBy($id, $request->only([
+            'username', 'email', 'mobile', 'avatar', 'password',
+            'status', 'department_id', 'roles', 'jobs',
+        ]));
     }
 
     /**
