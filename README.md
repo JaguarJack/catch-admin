@@ -26,10 +26,10 @@
 <br />
 <p align="center">
     <a href="https://php.net/" target="_blank">
-        <img src="https://img.shields.io/badge/PHP-8.2-777bb4?style=for-the-badge&logo=php&logoColor=white" alt="PHP">
+        <img src="https://img.shields.io/badge/PHP-8.3-777bb4?style=for-the-badge&logo=php&logoColor=white" alt="PHP">
     </a>
     <a href="https://laravel.com/" target="_blank">
-        <img src="https://img.shields.io/badge/Laravel-12-red?style=for-the-badge&logo=laravel&logoColor=white" alt="laravel">
+        <img src="https://img.shields.io/badge/Laravel-13-red?style=for-the-badge&logo=laravel&logoColor=white" alt="laravel">
     </a>
     <a href="https://vuejs.org/" target="_blank">
         <img src="https://img.shields.io/badge/Vue-3.x-42b883?style=for-the-badge&logo=vuedotjs&logoColor=white" alt="vue">
@@ -38,7 +38,7 @@
       <img src="https://img.shields.io/badge/Element%20Plus-UI-409EFF?style=for-the-badge&logo=element&logoColor=white" alt="Element Plus">
     </a>
     <a href="https://vitejs.dev/" target="_blank">
-        <img src="https://img.shields.io/badge/Vite-7.x-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="Vite">
+        <img src="https://img.shields.io/badge/Vite-8.x-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="Vite">
     </a>
     <a href="https://httpd.apache.org/" target="_blank">
       <img src="https://img.shields.io/badge/Apache-2.0-D22128?style=for-the-badge&logo=apache&logoColor=white" alt="Apache 2.0">
@@ -46,54 +46,170 @@
 </p>
 
 ## 介绍
-`CatchAdmin` 是一款基于 [Laravel 12.x](https://laravel.com) 与 [Vue3](https://vuejs.org/) 二次开发的 PHP 开源后台管理系统，采用前后端分离架构，面向企业级后台场景提供开箱即用的基础能力与可扩展的模块化框架。系统内置 Token 鉴权、权限管理（菜单/按钮/数据权限）、动态路由、动态表格、分页封装、资源权限控制、上传/下载、代码生成器（支持一键导入/导出）、数据回收站、附件管理等功能，覆盖后台系统从安全、权限到效率开发的常见需求。
 
-在架构设计上，`Laravel` 仅作为 `API` 服务层对外输出，尽可能弱化业务模块之间的耦合关系。每个模块均具备独立的控制器、路由、模型与数据表结构，支持按模块拆分、按需加载与独立演进，从而降低开发复杂度，提高可维护性与迭代效率。同时，项目封装了大量通用能力与开发工具（如统一响应、异常处理、分页与资源封装等），让业务开发更聚焦、更高效。
+CatchAdmin 是基于 **Laravel 13 与 Vue 3** 的 PHP 开源后台管理系统，采用前后端分离与模块化架构。
 
-基于 `CatchAdmin`，你可以快速搭建 `CMS`、`CRM`、`OA` 等各类管理系统，并在稳定的基础设施之上持续扩展业务模块，满足不同规模团队的开发与交付需求。
+项目提供用户与权限管理、系统配置、文件上传、附件管理、代码生成、导入导出和插件扩展等基础能力，可用于搭建 CMS、CRM、OA 等管理系统。
 
-[中文](./README.md)|[英文](./README-en.md)
+后台业务后端位于 `modules/`，前端页面位于 `web/src/views/`。每个模块独立组织控制器、模型、路由与数据库迁移，通用框架能力由 `catchadmin/core` 提供。
+
+[中文](./README.md) | [英文](./README-en.md)
+
+## 技术栈
+
+| 分类 | 技术 |
+| --- | --- |
+| 后端 | PHP 8.3+、Laravel 13、Laravel Sanctum |
+| 前端 | Vue 3.5、TypeScript 6、Vue Router 5、Pinia 3 |
+| UI | Element Plus 2.13、TailwindCSS 4 |
+| 构建 | Vite 8、Yarn |
+| AI 接入 | Laravel MCP、Laravel Boost、CatchAdmin Skills |
+
+前端由独立仓库维护，具体依赖版本以其 `package.json` 和 `yarn.lock` 为准。
+
+## 核心功能
+
+- **用户管理**：用户维护、启停、密码重置、个人中心、导入导出。
+- **权限管理**：角色、部门、岗位、菜单与按钮权限，支持动态菜单和路由。
+- **系统管理**：字典、系统配置、登录日志、操作日志、短信配置与模板。
+- **文件管理**：本地上传、分片上传、云存储直传、附件及分类管理。
+- **开发工具**：模块管理、表结构管理、数据库迁移和前后端 CRUD 代码生成。
+- **插件扩展**：基于 Composer 管理插件，支持远程 Vue 组件运行时加载。
+- **MCP 接入**：独立令牌管理、后台用户身份关联和工具调用记录。
+
+项目提供数据范围与列权限扩展能力，业务模型可按需接入。
+
+## 项目结构
+
+```text
+├─ app/                      # Laravel 应用代码
+├─ bootstrap/                # 应用启动配置
+├─ config/                   # 项目配置
+├─ database/                 # 根级迁移、工厂与种子
+├─ modules/                  # 后台业务模块
+│  ├─ Common/                # 上传、地区、多语言和公共接口
+│  ├─ Develop/               # 模块、表结构和代码生成
+│  ├─ Permissions/           # 角色、部门、岗位和权限
+│  ├─ System/                # 字典、配置、附件、短信和 MCP
+│  └─ User/                  # 用户、登录、个人中心和日志
+├─ public/admin/             # 后台前端构建产物
+├─ routes/                   # 应用路由与 MCP 入口
+├─ tests/                    # 自动化测试
+└─ web/                      # 独立前端仓库
+   └─ src/
+      ├─ views/              # 业务页面
+      ├─ components/         # 通用组件与 catch-table
+      ├─ composables/curd/   # CRUD 数据操作
+      ├─ support/            # HTTP、缓存和辅助函数
+      ├─ router/             # 路由与登录守卫
+      └─ stores/             # 状态管理
+```
 
 ## 快速开始
-极速安装项目，五分钟即可构建内置强大权限系统的功能完备的 PHP 后台管理系统
+
+### 环境准备
+
+- PHP 8.3+ 及所需扩展
+- Composer、Git
+- Node.js 22.12+、Yarn
+- MySQL 或 PostgreSQL
+
+### 安装
+
 ```shell
-composer create catchadmin/catchadmin
-
+composer create-project catchadmin/catchadmin catchadmin
 cd catchadmin
-
 php artisan catch:install
 ```
 
-## 🤖 使用 AI 开发
+按提示填写应用地址和数据库配置。首次安装会创建环境配置、执行数据库迁移和基础数据初始化、创建存储链接，并下载前端项目、安装依赖和初始化插件管理。
 
-现在 `CatchAdmin` 全面支持 AI 相关生态，提供一流的 AGENTS prompt, mcp, skills, 全面释放你的双手。
+当前安装器在 `.env` 已存在时直接展示安装信息；已有项目应根据实际状态补全配置和迁移。
 
-- ☑️ **Skills 扩展**：支持模块化封装 AI 技能（Skills），将常用业务逻辑（如代码生成、权限查询、用户检索）标准化为可复用的 AI 能力单元，助力快速构建智能助手。
-- ☑️ **AGENTS.md 标准**：兼容 AGENTS.md 协议规范，便于 AI 编码助手（如 Cursor、Copilot Workspace）自动理解项目结构、模块分工与开发约定，实现上下文感知的智能代码补全与模块生成。
-- ☑️ **实时文档获取（Context7 MCP）**：项目文档已接入 Context7 提供的 MCP 服务，开发者可通过 `Context7/mcp` 客户端**实时拉取 CatchAdmin 最新技术文档、API 说明与最佳实践**，无需手动查阅，即可在 IDE 或 AI 对话中即时获取精准上下文，加速开发决策。
+### 本地开发
 
-## 功能
+完成安装后，在项目根目录运行：
 
-- ☑️ **用户管理**：支持用户新增/编辑/删除/禁用、密码重置与基础信息维护；不同用户登录后台可呈现不同首页与可见功能模块
-- ☑️ **部门管理**：支持公司/部门/小组多级组织架构配置与维护，树形结构展示，支持层级调整与人员归属管理
-- ☑️ **岗位管理**：岗位（职务）统一维护与分配，支持主岗位/多岗位配置，为权限控制与业务流程提供身份基础
-- ☑️ **角色管理**：树结构角色体系，支持角色菜单权限、按钮级权限分配与数据权限配置，满足精细化授权需求
-- ☑️ **菜单管理**：可视化配置系统菜单、路由与按钮资源，支持排序/层级/隐藏等管理，实现前后端一致的权限控制
-- ☑️ **字典管理**：集中维护枚举/状态/类型等基础数据，支持分组与启用禁用，便于统一复用并减少硬编码
-- ☑️ **系统配置**：系统常用参数集中管理，支持分类维护与动态读取，配置调整可快速生效，降低运维与二开成本
-- ☑️ **操作日志**：记录关键操作与变更轨迹，支持按用户/模块/时间多维检索，便于审计追溯与问题定位
-- ☑️ **登录日志**：记录登录历史与访问信息（如时间/IP/设备等，按实现为准），支持查询统计与异常排查
-- ☑️ **文件上传**：统一上传能力，支持 `本地`、`七牛云`、`阿里云`、`腾讯云` 等存储方式，按配置灵活切换
-- ☑️ **附件管理**：对系统上传的文件/图片等资源集中管理，支持检索、预览与清理维护，避免资源冗余
-- ☑️ **数据表维护**：支持数据表碎片清理与优化，并提供数据回收与销毁管理能力，保障系统长期稳定运行
-- ☑️ **代码生成**：一键生成前后端代码（`php`、`vue`）及数据库迁移文件，支持直接生成到模块，显著提升开发效率
-- ☑️ **支持 Vue 即时渲染**：支持前端 Vue 即时渲染，无需编译即可生效，加快开发调试与迭代速度
-- ☑️ **支持插件系统**：插件即 Composer 包，深度融入 Composer 生态，支持模块化扩展与快速集成
-    - 文档：[CatchAdmin 插件快速开始](https://doc.catchadmin.com/docs/5.0/plugin/quickstart)
+```shell
+composer run dev
+```
+
+该命令同时启动前后端开发服务，默认地址为：
+
+| 服务 | 地址 |
+| --- | --- |
+| Laravel | `http://127.0.0.1:8000` |
+| Vite | `http://127.0.0.1:10086` |
+
+前端也可单独启动：
+
+```shell
+cd web
+yarn dev
+```
+
+### API 地址配置
+
+后台 API 前缀由 `config/catch.php` 的 `route.prefix` 配置，核心包发布的默认值为 `api`。前端 `web/.env` 中的地址需与之对应：
+
+```dotenv
+VITE_BASE_URL=http://127.0.0.1:8000/api/
+```
+
+使用 `admin-api` 前缀时，对应设置为：
+
+```dotenv
+VITE_BASE_URL=http://127.0.0.1:8000/admin-api/
+```
+
+运行时配置 `static/config.js` 中的 `admin_config.BASE_URL` 设置有效值后，优先于环境变量。前端请求封装自动携带 `Request-from: Dashboard`，登录后附加 Bearer Token。
+
+### 前端构建
+
+```shell
+cd web
+yarn build
+```
+
+构建会先执行 TypeScript 检查，再输出到项目根目录的 `public/admin/`。
+
+部署时为 `public/admin/` 配置前端静态站点，将 API 请求转发到 Laravel 的 `public/` 入口，并同步设置前端 API 地址。
 
 ## 前端项目
-由于是完全分离的项目，所有 CatchAdmin 有专门的前端项目仓库，如下
-[catchadmin-vue](https://gitee.com/catchadmin/catch-admin-vue)
+
+前端仓库：[catchadmin-vue](https://gitee.com/catchadmin/catch-admin-vue)，使用 `v5` 分支。
+
+安装器将前端下载到项目根目录 `web/`。该目录在后端仓库的 `.gitignore` 中，前端改动在独立仓库中管理。
+
+## 使用 AI 开发
+
+- **[AGENTS.md](./AGENTS.md)**：为编码助手提供目录说明、开发约定和工作流程。
+- **CatchAdmin Skills**：覆盖安装、模块开发、CRUD 生成、导入导出和上传等工作流。
+- **Context7**：查询 CatchAdmin 等框架文档。
+- **Laravel Boost**：获取 Laravel 文档及项目上下文。
+
+发布 CatchAdmin Skills：
+
+```shell
+php artisan catch:publish:skills
+```
+
+### 业务 MCP
+
+项目通过 [routes/ai.php](./routes/ai.php) 注册 `/ai/mcp`，当前提供两个只读工具：
+
+| 工具 | 功能 |
+| --- | --- |
+| `current-user` | 查询令牌关联的后台用户 |
+| `dictionary-list` | 按关联用户权限查询字典 |
+
+在后台 MCP Token 管理页面创建独立令牌，配置 MCP 客户端的服务地址，并携带请求头：
+
+```http
+Authorization: Bearer <token>
+```
+
+令牌支持过期、轮换、撤销和调用记录。字典查询工具的可用性由关联用户的权限决定。
 
 ## 体验地址
 [demo 地址](https://v5.catchadmin.com)
@@ -134,15 +250,24 @@ php artisan catch:install
 - [Laravel 免费入门教程](https://laravel-study.catchadmin.com)
 - [Laravel Livewire 中文文档](https://laravel-livewire.catchadmin.com/)
 
-## 规范
-### PHP
-使用 Laravel pint 规范代码格式
+## 开发检查
+
+格式化 PHP：
+
 ```shell
-composer format                                                                                      
+composer format
 ```
-使用 PHPstan 做静态检查
+
+执行静态分析：
+
 ```shell
 composer analyse
+```
+
+运行后端测试：
+
+```shell
+composer test
 ```
 
 ## 感谢🙏
