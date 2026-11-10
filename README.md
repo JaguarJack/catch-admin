@@ -194,6 +194,8 @@ yarn build
 php artisan catch:publish:skills
 ```
 
+> **AI 开发配套**：使用 AI 编程工具开发 CatchAdmin 时，可通过 [Right Code](https://rightapi.io/register?aff=f69ba2ee) 获取 AI API 服务。通过此邀请链接注册，充值可额外获得 5% 按量额度。
+
 ### 业务 MCP
 
 项目通过 [routes/ai.php](./routes/ai.php) 注册 `/ai/mcp`，当前提供两个只读工具：
