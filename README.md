@@ -183,6 +183,8 @@ yarn build
 
 ## 使用 AI 开发
 
+> **AI 开发配套**：使用 AI 编程工具开发 CatchAdmin 时，可通过 [Right Code](https://rightapi.io/register?aff=f69ba2ee) 获取 AI API 服务。通过此邀请链接注册，充值可额外获得 5% 按量额度。
+
 - **[AGENTS.md](./AGENTS.md)**：为编码助手提供目录说明、开发约定和工作流程。
 - **CatchAdmin Skills**：覆盖安装、模块开发、CRUD 生成、导入导出和上传等工作流。
 - **Context7**：查询 CatchAdmin 等框架文档。
@@ -193,8 +195,6 @@ yarn build
 ```shell
 php artisan catch:publish:skills
 ```
-
-> **AI 开发配套**：使用 AI 编程工具开发 CatchAdmin 时，可通过 [Right Code](https://rightapi.io/register?aff=f69ba2ee) 获取 AI API 服务。通过此邀请链接注册，充值可额外获得 5% 按量额度。
 
 ### 业务 MCP
 
